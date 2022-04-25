@@ -2,6 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/staff/salary-of-teacher": "pages/staff/salary-of-teacher.js",
-  "/auth/signin": "pages/auth/signin.js"
+  "/": "pages/index.js",
+  "/course/create-course-online": "pages/course/create-course-online.js"
 }

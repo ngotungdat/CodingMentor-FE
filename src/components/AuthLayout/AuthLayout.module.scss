@@ -1,4 +1,4 @@
-$primary-color: #50684b;
+$primary-color: #DE3551;
 
 .wrapper {
 	display: flex;
@@ -71,6 +71,7 @@ $primary-color: #50684b;
 			padding-left: 5px;
 			padding-right: 5px;
 		}
+
 		.time {
 			font-size: 52px;
 			background: white;
@@ -135,6 +136,7 @@ $primary-color: #50684b;
 	.wrapper {
 		flex-direction: column-reverse;
 	}
+
 	.content {
 		width: 100%;
 		padding: 0;
@@ -151,6 +153,7 @@ $primary-color: #50684b;
 		padding-left: 50px;
 		padding-right: 50px;
 		z-index: 9999;
+
 		&__left {
 			margin: 0 auto;
 			flex: 1;

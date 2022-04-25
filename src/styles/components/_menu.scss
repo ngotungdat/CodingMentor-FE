@@ -71,6 +71,7 @@
 
 				li {
 					position: relative;
+
 					b:nth-child(1) {
 						width: 80%;
 						height: 16px;
@@ -101,6 +102,7 @@
 						position: absolute;
 						bottom: -1rem;
 						right: 0;
+
 						&::before {
 							content: '';
 							position: absolute;
@@ -281,11 +283,13 @@
 
 			.box-title {
 				position: relative;
+
 				.title {
 					font-weight: 500;
 					font-size: 15px;
 					color: #464646;
 				}
+
 				.des {
 					font-size: 13px;
 					opacity: 0.7;
@@ -293,6 +297,7 @@
 					margin-bottom: 0;
 					width: 70%;
 				}
+
 				.icon {
 					position: absolute;
 					top: 0;
@@ -361,7 +366,7 @@
 			padding-right: 5px;
 			padding-bottom: 15px;
 
-			& > ul.ant-menu {
+			&>ul.ant-menu {
 				height: 75vh;
 				overflow-y: scroll;
 				overflow-x: hidden;
@@ -413,12 +418,14 @@
 		.ant-menu-inline {
 			background: transparent;
 		}
+
 		.ant-menu-submenu {
 			color: #504f56;
 
 			.ant-menu-submenu-title {
 				&:hover {
 					color: $primary-color;
+
 					svg,
 					.ant-menu-submenu-arrow {
 						color: $primary-color;
@@ -426,13 +433,16 @@
 				}
 			}
 		}
+
 		.ant-menu-item-group-list {
 			width: 100%;
 		}
+
 		.ant-menu-submenu-title {
 			display: flex;
 			align-items: center;
 		}
+
 		.ant-menu-item-group {
 			margin-bottom: 15px;
 			width: 100%;
@@ -466,6 +476,7 @@
 
 			a {
 				text-decoration: none;
+
 				&:hover {
 					text-decoration: none;
 					color: $primary-color;
@@ -483,7 +494,7 @@
 				color: $primary-color;
 
 				&:after {
-					border-right: 3px solid $primary-color;
+					border-right: none;
 				}
 
 				span {
@@ -503,6 +514,7 @@
 			&:hover {
 				color: $primary-color;
 				transition: 0.3s;
+
 				span {
 					color: $primary-color;
 					transition: 0.3s;
@@ -523,7 +535,7 @@
 	}
 }
 
-.ant-menu-submenu-popup > .ant-menu {
+.ant-menu-submenu-popup>.ant-menu {
 	@include min-media(800px) {
 		border-radius: 1rem;
 	}

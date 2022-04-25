@@ -1,5 +1,7 @@
 import { Switch, Tooltip } from 'antd'
+import Link from 'next/link'
 import React, { Fragment, useEffect, useState } from 'react'
+import { Eye } from 'react-feather'
 import { areaApi, branchApi } from '~/apiBase'
 import SortBox from '~/components/Elements/SortBox'
 import CenterForm from '~/components/Global/Option/CenterForm'
@@ -79,7 +81,7 @@ const Center = () => {
 
 	//GET DATA AREA
 	const getAllArea = () => {
-		;(async () => {
+		; (async () => {
 			try {
 				const res = await areaApi.getAll({ pageIndex: 1, pageSize: 9999 })
 				res.status == 200 && setDataArea(res.data.data)
@@ -251,6 +253,18 @@ const Center = () => {
 			width: 100,
 			render: (text: string, data: any, index: number) => (
 				<>
+					<Link
+						href={{
+							pathname: '/option/center/rooms-detail/[slug]',
+							query: { slug: `${data.ID}` }
+						}}
+					>
+						<Tooltip title="Dữ liệu phòng">
+							<button className="btn btn-icon">
+								<Eye />
+							</button>
+						</Tooltip>
+					</Link>
 					<Tooltip title="Cập nhật trung tâm">
 						<CenterForm
 							dataArea={dataArea}

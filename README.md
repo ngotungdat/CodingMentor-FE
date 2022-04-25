@@ -84,7 +84,7 @@ showNoti('danger', 'Thất bại')
 
 #### Liên hệ
 
-- Mọi vấn đề liên hệ: https://t.me/ngotungdat
+- Mọi vấn đề liên hệ: https://t.me/tungdat
 
 #### Keyword
 

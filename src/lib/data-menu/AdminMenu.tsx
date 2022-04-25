@@ -42,8 +42,13 @@ export const AdminParentMenu = [
 		Icon: <FontAwesomeIcon icon={faHome as IconProp} size="lg" />
 	},
 	{
+		TabName: 'tab-course-list',
+		Title: 'Quản lý khóa học',
+		Icon: <FontAwesomeIcon icon={faBookOpen as IconProp} size="lg" />
+	},
+	{
 		TabName: 'tab-course',
-		Title: 'Khóa học',
+		Title: 'Khóa học Video',
 		Icon: <FontAwesomeIcon icon={faBookOpen as IconProp} size="lg" />
 	},
 	{
@@ -97,28 +102,78 @@ export const AdminChildMenu = [
 				Route: '/newsfeed',
 				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCubes as IconProp} size="lg" />,
 				Text: 'Tin tức'
+			},
+			{
+				ItemType: 'single',
+				Key: '/feedback',
+				Route: '/feedback',
+				Text: 'Phản hồi',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faComments as IconProp} size="lg" />
 			}
+		]
+	},
+	{
+		MenuName: 'tab-course-list',
+		MenuTitle: 'Quản lý khóa học',
+		MenuKey: '/course-list',
+		MenuItem: [
+			{
+				ItemType: 'sub-menu',
+				Key: 'sub-list-course',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCogs as IconProp} size="lg" />,
+				TitleSub: 'Khóa học',
+				SubMenuList: [
+					{
+						TypeItem: 'single',
+						Key: '/course/create-course',
+						Icon: '',
+						Route: '/course/create-course',
+						Text: 'Tạo khóa Offline'
+					},
+					{
+						TypeItem: 'single',
+						Key: '/course/create-course-online',
+						Icon: '',
+						Route: '/course/create-course-online',
+						Text: 'Tạo khóa Online'
+					},
+					{
+						TypeItem: 'single',
+						Key: '/course/create-self-course',
+						Icon: '',
+						Route: '/course/create-self-course',
+						Text: 'Tạo khóa 1-1'
+					},
+					{
+						TypeItem: 'single',
+						Key: '/course/course-list',
+						Icon: '',
+						Route: '/course/course-list',
+						Text: 'Dữ kiệu khóa học'
+					},
+				]
+			},
 			// {
-			// 	ItemType: 'single',
-			// 	Key: '/feedback',
-			// 	Route: '/feedback',
-			// 	Text: 'Phản hồi',
-			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faComments as IconProp} size="lg" />
-			// }
+			// 	TypeItem: 'single',
+			// 	Key: '/course/schedule-study',
+			// 	Route: '/course/schedule-study',
+			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarDays as IconProp} size="lg" />,
+			// 	Text: 'Kiểm tra lịch'
+			// },
+			{
+				TypeItem: 'single',
+				Key: '/course/register-course',
+				Route: '/course/register-course',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarDays as IconProp} size="lg" />,
+				Text: 'Đăng ký học'
+			}
 		]
 	},
 	{
 		MenuName: 'tab-course',
-		MenuTitle: 'Khóa học',
+		MenuTitle: 'Khóa học Video',
 		MenuKey: '/course',
 		MenuItem: [
-			{
-				TypeItem: 'single',
-				Key: '/course/calendar',
-				Route: '/course/calendar',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarDays as IconProp} size="lg" />,
-				Text: 'Quản lý lịch dạy'
-			},
 			{
 				TypeItem: 'single',
 				Key: '/video-course',
@@ -151,7 +206,7 @@ export const AdminChildMenu = [
 						Key: '/config-type-video-course',
 						Icon: '',
 						Route: '/config-type-video-course',
-						Text: 'Loại video'
+						Text: 'Danh mục khóa học'
 					},
 					{
 						TypeItem: 'single',
@@ -191,13 +246,13 @@ export const AdminChildMenu = [
 		MenuTitle: 'Khách hàng',
 		MenuKey: '/customer',
 		MenuItem: [
-			// {
-			// 	ItemType: 'single',
-			// 	Key: '/customer/service/service-info-student',
-			// 	Route: '/customer/service/service-info-student',
-			// 	Text: 'Thêm lịch hẹn test',
-			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarPlus as IconProp} size="lg" />
-			// },
+			{
+				ItemType: 'single',
+				Key: '/customer/service/service-info-student',
+				Route: '/customer/service/service-info-student',
+				Text: 'Thêm lịch hẹn test',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarPlus as IconProp} size="lg" />
+			},
 			{
 				ItemType: 'single',
 				Key: '/customer/student/student-advisory',
@@ -205,13 +260,13 @@ export const AdminChildMenu = [
 				Text: 'Khách hàng',
 				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUser as IconProp} size="lg" />
 			},
-			// {
-			// 	ItemType: 'single',
-			// 	Key: '/customer/service/service-appointment-test',
-			// 	Route: '/customer/service/service-appointment-test',
-			// 	Text: 'Khách hẹn test',
-			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserClock as IconProp} size="lg" />
-			// },
+			{
+				ItemType: 'single',
+				Key: '/customer/service/service-appointment-test',
+				Route: '/customer/service/service-appointment-test',
+				Text: 'Khách hẹn test',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserClock as IconProp} size="lg" />
+			},
 			{
 				ItemType: 'single',
 				Key: '/customer/student/student-list',
@@ -226,13 +281,13 @@ export const AdminChildMenu = [
 		MenuTitle: 'Quản lí nhân viên',
 		MenuKey: '/staff',
 		MenuItem: [
-			// {
-			// 	ItemType: 'single',
-			// 	Key: '/staff/saler-list',
-			// 	Route: '/staff/saler-list',
-			// 	Text: 'Danh sách tư vấn viên',
-			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUsers as IconProp} size="lg" />
-			// },
+			{
+				ItemType: 'single',
+				Key: '/staff/saler-list',
+				Route: '/staff/saler-list',
+				Text: 'Danh sách tư vấn viên',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUsers as IconProp} size="lg" />
+			},
 			{
 				ItemType: 'single',
 				Key: '/staff/teacher-list',
@@ -246,50 +301,50 @@ export const AdminChildMenu = [
 				Route: '/staff/teacher-salary',
 				Text: 'Bảng lương giáo viên',
 				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCircleDollarToSlot as IconProp} size="lg" />
+			},
+			{
+				ItemType: 'sub-menu',
+				Key: 'sub-list-staff-child-3',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCircleDollarToSlot as IconProp} size="lg" />,
+				TitleSub: 'Tư vấn viên',
+				SubMenuList: [
+					{
+						ItemType: 'single',
+						Key: '/staff/sales-campaign',
+						Route: '/staff/sales-campaign',
+						Text: 'Chiến dịch kinh doanh',
+						Icon: ''
+					},
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/staff/sales-salary',
+					// 	Route: '/staff/sales-salary',
+					// 	Text: 'Duyệt lương',
+					// 	Icon: ''
+					// },
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/staff/sales-salary-history',
+					// 	Route: '/staff/sales-salary-history',
+					// 	Text: 'Lịch sử duyệt',
+					// 	Icon: ''
+					// },
+					{
+						ItemType: 'single',
+						Key: '/staff/saler-list',
+						Route: '/staff/saler-list',
+						Text: 'Danh sách tư vấn viên',
+						Icon: ''
+					},
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/staff/saler-revenue',
+					// 	Route: '/staff/saler-revenue',
+					// 	Text: 'Doanh thu tư vấn viên',
+					// 	Icon: ''
+					// }
+				]
 			}
-			// {
-			// 	ItemType: 'sub-menu',
-			// 	Key: 'sub-list-staff-child-3',
-			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faHeadphones} size="lg" />,
-			// 	TitleSub: 'Tư vấn viên',
-			// 	SubMenuList: [
-			// 		{
-			// 			ItemType: 'single',
-			// 			Key: '/staff/sales-campaign',
-			// 			Route: '/staff/sales-campaign',
-			// 			Text: 'Chiến dịch kinh doanh',
-			// 			Icon: ''
-			// 		},
-			// 		{
-			// 			ItemType: 'single',
-			// 			Key: '/staff/sales-salary',
-			// 			Route: '/staff/sales-salary',
-			// 			Text: 'Duyệt lương',
-			// 			Icon: ''
-			// 		},
-			// 		{
-			// 			ItemType: 'single',
-			// 			Key: '/staff/sales-salary-history',
-			// 			Route: '/staff/sales-salary-history',
-			// 			Text: 'Lịch sử duyệt',
-			// 			Icon: ''
-			// 		},
-			// 		{
-			// 			ItemType: 'single',
-			// 			Key: '/staff/saler-list',
-			// 			Route: '/staff/saler-list',
-			// 			Text: 'Danh sách tư vấn viên',
-			// 			Icon: ''
-			// 		},
-			// 		{
-			// 			ItemType: 'single',
-			// 			Key: '/staff/saler-revenue',
-			// 			Route: '/staff/saler-revenue',
-			// 			Text: 'Doanh thu tư vấn viên',
-			// 			Icon: ''
-			// 		}
-			// 	]
-			// }
 		]
 	},
 	{
@@ -445,13 +500,13 @@ export const AdminChildMenu = [
 						Text: 'Phương thức thanh toán',
 						Icon: ''
 					},
-					// {
-					// 	ItemType: 'single',
-					// 	Key: '/option/currency-config',
-					// 	Route: '/option/currency-config',
-					// 	Text: 'Cấu hình tiền tệ',
-					// 	Icon: ''
-					// },
+					{
+						ItemType: 'single',
+						Key: '/option/currency-config',
+						Route: '/option/currency-config',
+						Text: 'Cấu hình tiền tệ',
+						Icon: ''
+					},
 					{
 						ItemType: 'single',
 						Key: '/option/customer-supplier',
@@ -481,13 +536,13 @@ export const AdminChildMenu = [
 						Text: 'Tình trạng tư vấn khách hàng',
 						Icon: ''
 					},
-					// {
-					// 	ItemType: 'single',
-					// 	Key: '/option/feedback',
-					// 	Route: '/option/feedback',
-					// 	Text: 'Loại phản hồi',
-					// 	Icon: ''
-					// },
+					{
+						ItemType: 'single',
+						Key: '/option/feedback',
+						Route: '/option/feedback',
+						Text: 'Loại phản hồi',
+						Icon: ''
+					},
 					{
 						ItemType: 'single',
 						Key: '/option/purpose',
@@ -502,13 +557,13 @@ export const AdminChildMenu = [
 						Text: 'Cấu hình lương',
 						Icon: ''
 					},
-					// {
-					// 	ItemType: 'single',
-					// 	Key: '/option/notification',
-					// 	Route: '/option/notification',
-					// 	Text: 'Tạo thông báo',
-					// 	Icon: ''
-					// },
+					{
+						ItemType: 'single',
+						Key: '/option/notification',
+						Route: '/option/notification',
+						Text: 'Tạo thông báo',
+						Icon: ''
+					},
 					{
 						ItemType: 'single',
 						Key: '/option/idiom',
@@ -516,13 +571,13 @@ export const AdminChildMenu = [
 						Text: 'Thành ngữ',
 						Icon: ''
 					},
-					// {
-					// 	ItemType: 'single',
-					// 	Key: '/option/contract',
-					// 	Route: '/option/contract',
-					// 	Text: 'Hợp đồng',
-					// 	Icon: ''
-					// },
+					{
+						ItemType: 'single',
+						Key: '/option/contract',
+						Route: '/option/contract',
+						Text: 'Hợp đồng',
+						Icon: ''
+					},
 					{
 						ItemType: 'single',
 						Key: '/option/term-of-service',

@@ -24,15 +24,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/document-list": [
+    "/auth/signin": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/document-list.js"
+      "static/chunks/pages/auth/signin.js"
     ],
-    "/question-bank/exam-list/exam-detail/[slug]": [
+    "/staff/salary-of-teacher": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/question-bank/exam-list/exam-detail/[slug].js"
+      "static/chunks/pages/staff/salary-of-teacher.js"
     ]
   },
   "ampFirstPages": []

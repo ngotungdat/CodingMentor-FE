@@ -4,17 +4,5 @@
     "files": [
       "static/chunks/0.js"
     ]
-  },
-  "..\\components\\Elements\\EditorSimple\\index.tsx -> ./Editor": {
-    "id": "./src/components/Elements/EditorSimple/Editor.tsx",
-    "files": [
-      "static/chunks/1.js"
-    ]
-  },
-  "..\\components\\Elements\\Editor\\index.tsx -> ./Editor": {
-    "id": "./src/components/Elements/Editor/Editor.tsx",
-    "files": [
-      "static/chunks/2.js"
-    ]
   }
 }

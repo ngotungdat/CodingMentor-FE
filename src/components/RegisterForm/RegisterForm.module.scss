@@ -1,4 +1,4 @@
-$primary-color: #50684b;
+$primary-color: #DE3551;
 
 .container {
 	display: block;
@@ -8,6 +8,7 @@ $primary-color: #50684b;
 	justify-content: center;
 	align-items: center;
 }
+
 .fcontrol {
 	display: block;
 	position: relative;
@@ -95,6 +96,7 @@ $primary-color: #50684b;
 	}
 
 	input[type='number'] {
+
 		&::-webkit-outer-spin-button,
 		&::-webkit-inner-spin-button {
 			-webkit-appearance: none;
@@ -298,6 +300,7 @@ $primary-color: #50684b;
 				transform-origin: 0% 0%;
 			}
 		}
+
 		// Time to add some life to it
 
 		&:hover {
@@ -321,7 +324,7 @@ $primary-color: #50684b;
 		// Let's add some effects after the checkbox is checked
 
 		&:checked {
-			+ label {
+			+label {
 				span {
 					border: 1px solid $primary-color;
 					background-color: $primary-color;
@@ -341,6 +344,7 @@ $primary-color: #50684b;
 				}
 
 				&:hover {
+
 					// copy the states for onMouseOver to avoid flickering
 					span {
 						background-color: $primary-color;
@@ -482,9 +486,11 @@ $primary-color: #50684b;
 	.wrapBox {
 		width: 100%;
 	}
+
 	.loginForm {
 		padding: 20px 30px;
 	}
+
 	.loginFormImg {
 		display: none;
 	}
@@ -530,18 +536,22 @@ $primary-color: #50684b;
 	-webkit-animation: loading 1.2s linear infinite;
 	z-index: 10;
 }
+
 @keyframes loading {
 	0% {
 		transform: rotate(0deg);
 	}
+
 	100% {
 		transform: rotate(360deg);
 	}
 }
+
 @-webkit-keyframes loading {
 	0% {
 		-webkit-transform: rotate(0deg);
 	}
+
 	100% {
 		-webkit-transform: rotate(360deg);
 	}

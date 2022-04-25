@@ -341,7 +341,7 @@ function NewsFeedItem(props) {
 							<ThumbsUp color="#0571e5" /> {item.LikeCount}
 						</p>
 					)}
-					{/* {(commentList.length > 0 || item.CommentCount > 0) && (
+					{(commentList.length > 0 || item.CommentCount > 0) && (
 						<p
 							className="total-comments"
 							onClick={() => {
@@ -351,16 +351,16 @@ function NewsFeedItem(props) {
 						>
 							{commentList.length || item.CommentCount} Bình luận
 						</p>
-					)} */}
+					)}
 				</div>
 				<div className="newsfeed-action">
-					<div className="action w-100">
+					<div className="action">
 						<button className={isUserLiked ? 'btn btn-light active' : 'btn btn-light'} onClick={() => checkHandleUserLikeNewsFeed(item.ID)}>
 							<ThumbsUp />
 							<span className="ml-2">Thích</span>
 						</button>
 					</div>
-					{/* <div className="action">
+					<div className="action">
 						<button
 							className="btn btn-light"
 							onClick={() => {
@@ -371,9 +371,9 @@ function NewsFeedItem(props) {
 							<MessageCircle />
 							<span>Bình luận</span>
 						</button>
-					</div> */}
+					</div>
 				</div>
-				{/* <div className={showComments ? 'newsfeed-comments' : 'hide'}>
+				<div className={showComments ? 'newsfeed-comments' : 'hide'}>
 					<CommentForm isLoading={isLoading} userComment={userComment} handleComment={checkHandleComment} newsFeedID={item.ID} />
 					{commentList.length > 0 && (
 						<ul className="list-comments">
@@ -393,7 +393,7 @@ function NewsFeedItem(props) {
 							<Spin />
 						</div>
 					)}
-				</div> */}
+				</div>
 			</div>
 		</li>
 	)

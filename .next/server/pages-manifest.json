@@ -3,5 +3,5 @@
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
   "/": "pages/index.js",
-  "/course/create-course-online": "pages/course/create-course-online.js"
+  "/newsfeed": "pages/newsfeed.js"
 }

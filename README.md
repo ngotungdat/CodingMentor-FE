@@ -7,7 +7,7 @@
 Clone source code:
 
 ```sh
-git clone https://github.com/chaudev/IELTS-Nguyen-Huyen.git
+git clone https://github.com/ngotungdat/CodingMentor-FE.git
 ```
 
 Cài đặt thư viện hỗ trợ:
@@ -88,4 +88,4 @@ showNoti('danger', 'Thất bại')
 
 #### Keyword
 
-- lms, monamedia, nguyenhuyen, ielts, elms
+- lms, monamedia, codingmentor, elms

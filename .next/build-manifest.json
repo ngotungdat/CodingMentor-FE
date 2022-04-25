@@ -29,10 +29,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/course/create-course-online": [
+    "/newsfeed": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/course/create-course-online.js"
+      "static/chunks/pages/newsfeed.js"
     ]
   },
   "ampFirstPages": []

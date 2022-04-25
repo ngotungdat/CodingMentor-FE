@@ -1,4 +1,4 @@
-$primary-color: #50684b;
+$primary-color: #DE3551;
 
 .container {
 	width: 100%;
@@ -6,6 +6,7 @@ $primary-color: #50684b;
 	justify-content: center;
 	align-items: center;
 }
+
 .fcontrol {
 	display: block;
 	position: relative;
@@ -36,6 +37,7 @@ $primary-color: #50684b;
 	@media screen and (max-width: 1000px) {
 		width: 100%;
 	}
+
 	@media screen and (max-width: 600px) {
 		padding: 0 5px;
 	}
@@ -58,7 +60,7 @@ $primary-color: #50684b;
 	}
 
 	img {
-		width: 77%;
+		width: 70%;
 		margin: auto;
 	}
 }
@@ -236,7 +238,7 @@ $primary-color: #50684b;
 	margin-top: -20px;
 
 	img {
-		width: 300px;
+		width: 220px;
 	}
 
 	@media screen and (max-width: 600px) {
@@ -302,6 +304,7 @@ $primary-color: #50684b;
 				transform-origin: 0% 0%;
 			}
 		}
+
 		// Time to add some life to it
 
 		&:hover {
@@ -325,7 +328,7 @@ $primary-color: #50684b;
 		// Let's add some effects after the checkbox is checked
 
 		&:checked {
-			+ label {
+			+label {
 				span {
 					border: 1px solid $primary-color;
 					background-color: $primary-color;
@@ -345,6 +348,7 @@ $primary-color: #50684b;
 				}
 
 				&:hover {
+
 					// copy the states for onMouseOver to avoid flickering
 					span {
 						background-color: $primary-color;

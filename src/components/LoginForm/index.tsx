@@ -38,12 +38,12 @@ function index(props: any) {
 	// RENDER
 	return (
 		<>
-			<div className={styles.container} style={{ marginTop: 100 }}>
+			<div className={styles.container} style={{ marginTop: 0 }}>
 				<div className={styles.wrapBox}>
 					<div className={styles.wrapForm}>
 						<form onSubmit={handleSubmit(_Submit)} className={styles.loginForm}>
 							<div className={styles.loginFormImg}>
-								<img src="/images/logo.jpg" alt="" />
+								<img src="/images/logo-final.png" alt="" />
 							</div>
 							<h6 className={styles.title}>Đăng nhập</h6>
 							<input name="csrfToken" type="hidden" defaultValue={props?.csrfToken} />

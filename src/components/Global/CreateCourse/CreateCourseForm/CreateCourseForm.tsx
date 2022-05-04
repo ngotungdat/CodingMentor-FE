@@ -108,12 +108,23 @@ const CreateCourseForm = (props) => {
 				<div className="wrap-form">
 					<Form layout="vertical" onFinish={form.handleSubmit(createCourseSwitchFunc)}>
 						<div className="row">
-							<div className="col-md-12 col-12">
+							<div className="col-md-6 col-12">
 								<SelectField
 									form={form}
 									name="BranchID"
 									label="Trung Tâm"
 									placeholder="Chọn trung tâm"
+									optionList={optionListForForm.branchList}
+									isLoading={isLoading.type === 'FETCH_DATA' && isLoading.status}
+									onChangeSelect={checkHandleFetchUserInformation}
+								/>
+							</div>
+							<div className="col-md-6 col-12">
+								<SelectField
+									form={form}
+									name="BranchID"
+									label="Giáo viên"
+									placeholder="Chọn giáo viên"
 									optionList={optionListForForm.branchList}
 									isLoading={isLoading.type === 'FETCH_DATA' && isLoading.status}
 									onChangeSelect={checkHandleFetchUserInformation}

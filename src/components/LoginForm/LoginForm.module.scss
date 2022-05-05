@@ -1,491 +1,508 @@
 $primary-color: #DE3551;
 
 .container {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    width: 100%;
+    overflow-y: scroll;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
 }
 
 .fcontrol {
-	display: block;
-	position: relative;
-	width: auto;
+    display: block;
+    position: relative;
+    width: auto;
+    margin-top: 24px;
+    font-size: 16px;
 }
 
 .wrapBox {
-	max-width: 90%;
-	width: 550px;
-	height: auto;
-	margin: 0 auto;
-	display: -webkit-flex;
-	display: -moz-box;
-	display: flex;
+    max-width: 90%;
 
-	margin-top: -20px;
+    height: auto;
+    margin: 0 160px;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+
+    margin-top: -20px;
 }
 
 .wrapForm {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-	padding: 20px 10px;
-	background: white;
-	border-radius: 0.575rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px 0;
+    background: white;
+    border-radius: 0.575rem;
 
-	@media screen and (max-width: 1000px) {
-		width: 100%;
-	}
+    @media screen and (max-width: 1000px) {
+        width: 100%;
+    }
 
-	@media screen and (max-width: 600px) {
-		padding: 0 5px;
-	}
+    @media screen and (max-width: 600px) {
+        padding: 0 5px;
+    }
 }
 
 .imgLogin {
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: 50% 80%;
-	width: 50%;
-	text-align: center;
-	border-top-left-radius: 10px;
-	border-bottom-left-radius: 10px;
-	padding: 3rem;
-	display: flex;
-	align-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 80%;
+    width: 50%;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 3rem;
+    display: flex;
+    align-items: center;
 
-	@media screen and (max-width: 1000px) {
-		display: none;
-	}
+    @media screen and (max-width: 1000px) {
+        display: none;
+    }
 
-	img {
-		width: 70%;
-		margin: auto;
-	}
+    img {
+        width: 70%;
+        margin: auto;
+    }
 }
 
 .wrapIcon {
-	width: 100%;
-	text-align: center;
+    width: 100%;
+    text-align: center;
 
-	svg {
-		width: 3rem !important;
-		height: 3rem;
-		margin-bottom: 1rem;
-		opacity: 0.5;
-	}
+    svg {
+        width: 3rem !important;
+        height: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
 }
 
 .loginForm {
-	width: 100%;
-	height: auto;
-	padding: 20px 50px;
-	background: white;
+    width: 100%;
+    height: auto;
+    padding: 20px 0;
+    background: white;
 
-	.title {
-		font-size: 25px;
-		color: $primary-color;
-		text-align: center;
-	}
+    .title {
+        font-size: 24px;
+        color: $primary-color;
+        font-weight: 600;
+        margin-bottom: 48px !important;
+    }
 
-	/* Change Autocomplete styles in Chrome*/
-	input:-webkit-autofill,
-	input:-webkit-autofill:hover,
-	input:-webkit-autofill:focus,
-	textarea:-webkit-autofill,
-	textarea:-webkit-autofill:hover,
-	textarea:-webkit-autofill:focus,
-	select:-webkit-autofill,
-	select:-webkit-autofill:hover,
-	select:-webkit-autofill:focus {
-		-webkit-text-fill-color: inherit;
-		-webkit-box-shadow: 0 0 0px 1000px white inset;
-		transition: background-color 5000s ease-in-out 0s;
-	}
+    /* Change Autocomplete styles in Chrome*/
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus,
+    select:-webkit-autofill,
+    select:-webkit-autofill:hover,
+    select:-webkit-autofill:focus {
+        -webkit-text-fill-color: inherit;
+        -webkit-box-shadow: 0 0 0px 1000px white inset;
+        transition: background-color 5000s ease-in-out 0s;
+    }
 
-	input {
-		position: relative;
-		display: block;
-		box-sizing: border-box;
-		width: 100%;
-		border-radius: 0;
-		border: none;
-		border-bottom: 1px solid #0000002e;
-		padding: 10px 15px;
-		padding-left: 0;
-		margin-bottom: 10px;
-		font-size: 14px;
+    input {
+        position: relative;
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid #0000002e;
+        padding: 10px 15px;
+        padding-left: 0;
+        margin-bottom: 10px;
+        font-size: 14px;
+        background-color: #F0F0F0;
+        border-radius: 8px;
 
-		&:focus {
-			outline: 0;
-			border-bottom: 1px solid #dd4768;
-			transition: 0.3s;
-		}
+        &:focus {
+            outline: 0;
+            border-bottom: 1px solid #dd4768;
+            transition: 0.3s;
+        }
 
-		&::-webkit-input-placeholder {
-			/* Edge */
-			opacity: 0.5;
-		}
+        &::-webkit-input-placeholder {
+            /* Edge */
+            opacity: 0.5;
+        }
 
-		&:-ms-input-placeholder {
-			/* Internet Explorer 10-11 */
-			opacity: 0.5;
-		}
+        &:-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            opacity: 0.5;
+        }
 
-		&::placeholder {
-			opacity: 0.5;
-		}
-	}
+        &::placeholder {
+            opacity: 0.5;
+        }
+    }
 
-	label {
-		line-height: 2;
-		text-align: left;
-		display: block;
-		margin-top: 20px;
-		color: #424242;
-		font-size: 14px;
-		font-weight: 700;
-	}
+    label {
+        line-height: 2;
+        display: block;
+        color: #333;
+        font-size: 14px;
+        font-weight: 700;
+    }
 
-	button[type='submit'],
-	input[type='submit'] {
-		cursor: pointer;
-		background: $primary-color;
-		color: white;
-		text-transform: uppercase;
-		border: none;
-		border-radius: 999px;
-		margin-top: 40px;
-		padding: 15px;
-		font-size: 16px;
-		font-weight: 500;
-		letter-spacing: 3px;
-		transition: 0.3s;
-	}
+    button[type='submit'],
+    input[type='submit'] {
+        cursor: pointer;
+        background: $primary-color;
+        color: white;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 8px;
+        padding: 15px;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 3px;
+        transition: 0.3s;
+    }
 
-	button[type='submit']:hover,
-	input[type='submit']:hover {
-		background: $primary-color;
-		box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-		transition: 0.3s;
-	}
+    button[type='submit']:hover,
+    input[type='submit']:hover {
+        background: $primary-color;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+        transition: 0.3s;
+    }
 
-	button[type='submit']:active,
-	input[type='button']:active,
-	input[type='submit']:active {
-		transition: 0.3s all;
-		transform: translateY(3px);
-		border: 1px solid transparent;
-		opacity: 0.8;
-	}
+    button[type='submit']:active,
+    input[type='button']:active,
+    input[type='submit']:active {
+        transition: 0.3s all;
+        transform: translateY(3px);
+        border: 1px solid transparent;
+        opacity: 0.8;
+    }
 
-	input:disabled {
-		opacity: 0.4;
-	}
+    input:disabled {
+        opacity: 0.4;
+    }
 
-	input[type='button']:hover {
-		transition: 0.3s all;
-	}
+    input[type='button']:hover {
+        transition: 0.3s all;
+    }
 
-	button[type='submit'],
-	input[type='button'],
-	input[type='submit'] {
-		-webkit-appearance: none;
-	}
+    button[type='submit'],
+    input[type='button'],
+    input[type='submit'] {
+        -webkit-appearance: none;
+    }
 
-	button[type='button'] {
-		display: block;
-		appearance: none;
-		background: #333;
-		color: white;
-		border: none;
-		text-transform: uppercase;
-		padding: 10px 20px;
-		border-radius: 4px;
-	}
+    button[type='button'] {
+        display: block;
+        appearance: none;
+        background: #333;
+        color: white;
+        border: none;
+        text-transform: uppercase;
+        padding: 10px 20px;
+        border-radius: 4px;
+    }
 
-	hr {
-		margin-top: 30px;
-	}
+    hr {
+        margin-top: 30px;
+    }
 
-	button {
-		display: block;
-		appearance: none;
-		margin-top: 40px;
-		border: 1px solid #333;
-		margin-bottom: 20px;
-		text-transform: uppercase;
-		padding: 10px 20px;
-		border-radius: 4px;
-	}
+    button {
+        display: block;
+        appearance: none;
+        margin-top: 40px;
+        border: 1px solid #333;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        padding: 10px 20px;
+        border-radius: 4px;
+    }
 }
 
 .App {
-	max-width: 600px;
-	margin: 0 auto;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .form {
-	background: #0e101c;
-	max-width: 400px;
-	margin: 0 auto;
+    background: #0e101c;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .loginFormImg {
-	text-align: center;
-	margin-bottom: 20px;
-	margin-top: -20px;
+    margin-bottom: 48px;
+    margin-top: 120px;
 
-	img {
-		width: 220px;
-	}
+    img {
+        width: 320px;
+    }
 
-	@media screen and (max-width: 600px) {
-		width: 140px;
-	}
+    @media screen and (max-width: 600px) {
+        width: 140px;
+    }
 }
 
 .checkbox {
-	display: inline-block;
-	vertical-align: middle;
-	width: 50%;
+    display: flex !important;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 24px;
 
-	label {
-		display: inline-block; // to make it easier to click
-		color: #424242;
-		cursor: pointer;
-		position: relative; // important
-		margin-top: 0;
+    label {
+        display: inline-block; // to make it easier to click
+        color: #424242;
+        cursor: pointer;
+        position: relative; // important
+        margin: 0 !important;
+        width: auto !important;
 
-		// Now we'll create the checkbox object
+        span {
+            display: inline-block;
+            position: relative;
+            background-color: transparent;
+            width: 20px;
+            height: 20px;
 
-		span {
-			display: inline-block;
-			position: relative;
-			background-color: transparent;
-			width: 20px;
-			height: 20px;
+            transform-origin: center;
+            border: 1px solid #d1d1d1;
 
-			transform-origin: center;
-			border: 1px solid #d1d1d1;
+            vertical-align: -6px;
+            margin-right: 10px;
+            transition: background-color 150ms 200ms, transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89); // custom ease effect for bouncy animation
 
-			vertical-align: -6px;
-			margin-right: 10px;
-			transition: background-color 150ms 200ms, transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89); // custom ease effect for bouncy animation
+            // Now we'll create the "tick" using pseudo elements - those will be basically two lines that will be rotated to form the "tick"
 
-			// Now we'll create the "tick" using pseudo elements - those will be basically two lines that will be rotated to form the "tick"
+            &:before {
+                content: '';
+                width: 0px;
+                height: 2px;
+                border-radius: 2px; // so that the tick has nice rounded look
+                background: #fff;
+                position: absolute;
+                transform: rotate(45deg);
+                top: 8px;
+                left: 6px;
+                transition: width 50ms ease 50ms;
+                transform-origin: 0% 0%;
+            }
 
-			&:before {
-				content: '';
-				width: 0px;
-				height: 2px;
-				border-radius: 2px; // so that the tick has nice rounded look
-				background: #fff;
-				position: absolute;
-				transform: rotate(45deg);
-				top: 8px;
-				left: 6px;
-				transition: width 50ms ease 50ms;
-				transform-origin: 0% 0%;
-			}
+            &:after {
+                content: '';
+                width: 0;
+                height: 2px;
+                border-radius: 2px; // so that the tick has nice rounded look
+                background: #fff;
+                position: absolute;
+                transform: rotate(305deg);
+                top: 12px;
+                left: 7px;
+                transition: width 50ms ease;
+                transform-origin: 0% 0%;
+            }
+        }
 
-			&:after {
-				content: '';
-				width: 0;
-				height: 2px;
-				border-radius: 2px; // so that the tick has nice rounded look
-				background: #fff;
-				position: absolute;
-				transform: rotate(305deg);
-				top: 12px;
-				left: 7px;
-				transition: width 50ms ease;
-				transform-origin: 0% 0%;
-			}
-		}
+        &:hover {
+            span {
+                &:before {
+                    width: 5px;
+                    transition: width 100ms ease;
+                }
 
-		// Time to add some life to it
+                &:after {
+                    width: 10px;
+                    transition: width 150ms ease 100ms;
+                }
+            }
+        }
+    }
 
-		&:hover {
-			span {
-				&:before {
-					width: 5px;
-					transition: width 100ms ease;
-				}
+    input[type='checkbox'] {
+        width: 16px !important;
+        height: 16px !important;
+        margin: 0 18px 0 0;
 
-				&:after {
-					width: 10px;
-					transition: width 150ms ease 100ms;
-				}
-			}
-		}
-	}
+        // Let's add some effects after the checkbox is checked
+        &:checked {
+            +label {
+                span {
+                    border: 1px solid $primary-color;
+                    background-color: $primary-color;
+                    transform: scale(1.1); // enlarge the box
 
-	input[type='checkbox'] {
-		display: none; // hide the system checkbox
+                    &:after {
+                        width: 10px;
+                        background: white;
+                        transition: width 150ms ease 100ms; // enlarge the tick
+                    }
 
-		// Let's add some effects after the checkbox is checked
+                    &:before {
+                        width: 5px;
+                        background: white;
+                        transition: width 150ms ease 100ms; // enlarge the tick
+                    }
+                }
 
-		&:checked {
-			+label {
-				span {
-					border: 1px solid $primary-color;
-					background-color: $primary-color;
-					transform: scale(1.1); // enlarge the box
+                &:hover {
 
-					&:after {
-						width: 10px;
-						background: white;
-						transition: width 150ms ease 100ms; // enlarge the tick
-					}
+                    // copy the states for onMouseOver to avoid flickering
+                    span {
+                        background-color: $primary-color;
+                        transform: scale(1.1); // enlarge the box
 
-					&:before {
-						width: 5px;
-						background: white;
-						transition: width 150ms ease 100ms; // enlarge the tick
-					}
-				}
+                        &:after {
+                            width: 10px;
+                            background: white;
+                            transition: width 150ms ease 100ms; // enlarge the tick
+                        }
 
-				&:hover {
+                        &:before {
+                            width: 5px;
+                            background: white;
+                            transition: width 150ms ease 100ms; // enlarge the tick
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
-					// copy the states for onMouseOver to avoid flickering
-					span {
-						background-color: $primary-color;
-						transform: scale(1.1); // enlarge the box
+.inputIcon {
+    position: relative;
 
-						&:after {
-							width: 10px;
-							background: white;
-							transition: width 150ms ease 100ms; // enlarge the tick
-						}
+    input {
+        padding-left: 50px;
+    }
 
-						&:before {
-							width: 5px;
-							background: white;
-							transition: width 150ms ease 100ms; // enlarge the tick
-						}
-					}
-				}
-			}
-		}
-	}
+    .icon {
+        position: absolute;
+        top: 3px;
+        left: 5px;
+        width: 36px;
+        height: 36px;
+    }
 }
 
 .forgetPass {
-	display: inline-block;
-	vertical-align: middle;
-	text-align: right;
-	width: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: right;
+    width: 50%;
 
-	a {
-		color: $primary-color !important;
-		font-size: 14px;
-		font-weight: 500;
-		cursor: pointer;
-	}
+    a {
+        color: $primary-color !important;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+    }
 }
 
 .boxSignup {
-	margin-top: 30px;
-	padding: 20px 0;
-	padding-bottom: 0;
-	border-top: 1px solid #d1d1d1;
-	color: #29292987;
-	font-size: 15px;
-	text-align: center;
+    margin-top: 30px;
+    padding: 20px 0;
+    padding-bottom: 0;
+    // border-top: 1px solid #d1d1d1;
+    // color: #29292987;
+    font-size: 15px;
+    text-align: center;
+    font-weight: 500;
+    color: $primary-color;
 
-	a {
-		color: $primary-color;
-		font-weight: bold;
-		text-decoration: underline;
-		cursor: pointer;
-	}
+    a {
+        // text-decoration: underline;
+        cursor: pointer;
+    }
 }
 
 .boxDemo {
-	margin-top: 20px;
-	padding-top: 20px;
-	padding-bottom: 0;
-	border-top: 1px solid #d1d1d1;
-	color: #29292987;
-	font-size: 15px;
-	text-align: left;
+    margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 0;
+    border-top: 1px solid #d1d1d1;
+    color: #29292987;
+    font-size: 15px;
+    text-align: left;
 }
 
 .boxSocial {
-	width: 100%;
-	margin-top: 20px;
+    width: 100%;
+    margin-top: 20px;
 
-	ul {
-		text-align: center;
-		padding-left: 0;
+    ul {
+        text-align: center;
+        padding-left: 0;
 
-		li {
-			position: relative;
-			display: inline-block;
-			margin: 0 8px;
-			width: 40px;
-			height: 40px;
+        li {
+            position: relative;
+            display: inline-block;
+            margin: 0 8px;
+            width: 40px;
+            height: 40px;
 
-			a {
-				width: 100%;
-				height: 100%;
-				display: inline-block;
-				background: white;
-				border-radius: 50%;
-				box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+            a {
+                width: 100%;
+                height: 100%;
+                display: inline-block;
+                background: white;
+                border-radius: 50%;
+                box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 
-				&:hover {
-					background: #dd47680a;
-				}
-			}
+                &:hover {
+                    background: #dd47680a;
+                }
+            }
 
-			img {
-				width: 20px;
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-			}
-		}
-	}
+            img {
+                width: 20px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
 }
 
 .noteLogin {
-	position: relative;
-	margin-top: 20px;
-	z-index: 10;
+    position: relative;
+    margin-top: 20px;
+    z-index: 10;
 
-	&:after {
-		content: '';
-		position: absolute;
-		width: 100%;
-		height: 1px;
-		background: #00000057;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		z-index: 0;
-	}
+    &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background: #00000057;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+    }
 
-	p {
-		position: relative;
-		z-index: 10;
-		width: 60%;
-		padding: 3px 10px;
-		background: #ffffff;
-		font-size: 15px;
-		opacity: 1;
-		text-align: center;
-		margin: auto;
-		margin-top: 0px;
-		color: #00000061;
-	}
+    p {
+        position: relative;
+        z-index: 10;
+        width: 60%;
+        padding: 3px 10px;
+        background: #ffffff;
+        font-size: 15px;
+        opacity: 1;
+        text-align: center;
+        margin: auto;
+        margin-top: 0px;
+        color: #00000061;
+    }
 }
 
 @media screen and (max-width: 1600px) {
-	.loginForm {
-		padding: 20px 30px;
-	}
+    .loginForm {
+        padding: 20px 0;
+    }
 }

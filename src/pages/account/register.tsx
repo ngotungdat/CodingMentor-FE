@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import AuthLayout from "~/components/AuthLayout";
 import RegisterForm from "~/components/RegisterForm";
 Register.propTypes = {};
 
@@ -10,5 +10,6 @@ function Register({}) {
     </div>
   );
 }
+Register.layout = AuthLayout
 
 export default Register;

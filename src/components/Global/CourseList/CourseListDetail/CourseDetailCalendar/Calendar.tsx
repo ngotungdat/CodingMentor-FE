@@ -389,9 +389,7 @@ function CDCalendar(props) {
 				}}
 				// 0 - ,1-Bắt đầu , 2-Vào lớp học, 3-Kết thúc
 				style={{
-					backgroundColor: isBranch
-						? '#3275ad'
-						: TeacherAttendanceID !== 0
+					backgroundColor:TeacherAttendanceID !== 0
 						? '#80DEEA'
 						: IsExam !== undefined && IsExam == true
 						? '#FF9800'

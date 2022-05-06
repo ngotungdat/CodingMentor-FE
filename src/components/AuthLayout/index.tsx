@@ -77,26 +77,26 @@ function AuthLayout({ children }) {
 						<div className={styles.calendar}>
 							{dateState?.hour !== undefined ? (
 								<>
-									<p className={styles.month_year}>{dateState.date}</p>
+									{/* <p className={styles.month_year}>{dateState.date}</p>
 									<p className={styles.time}>
 										{dateState.month} {dateState.year}
 									</p>
 									<p className={styles.month_year}>
 										{dateState.hour} : {dateState.minute} : {dateState.second}
-									</p>
+									</p> */}
 								</>
 							) : (
 								<>
-									<p className={styles.month_year}>{dateState.getDate()}</p>
+									{/* <p className={styles.month_year}>{dateState.getDate()}</p>
 									<p className={styles.time}>
 										{dateState.toLocaleDateString('en', { month: 'long' })} {dateState.getFullYear()}
 									</p>
 									<p className={styles.month_year}>
 										{('0' + dateState.getHours()).slice(-2)} : {('0' + dateState.getMinutes()).slice(-2)} : 00
-									</p>
+									</p> */}
 								</>
 							)}
-							<div className={styles.slogan}>
+							{/* <div className={styles.slogan}>
 								<div className={styles.text}>
 									{ReactHtmlParser(
 										idiom.content
@@ -105,7 +105,7 @@ function AuthLayout({ children }) {
 											.replace('rgb(0, 23, 55)', 'rgba(255, 255, 255, 0.9)')
 									)}
 								</div>
-							</div>
+							</div> */}
 						</div>
 					</div>
 				</div>

@@ -4,6 +4,7 @@ import { resetPasswordApi } from "~/apiBase";
 import { useWrap } from "~/context/wrap";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import AuthLayout from "~/components/AuthLayout";
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
@@ -176,5 +177,7 @@ const ResetPassword = () => {
     </div>
   );
 };
+
+ResetPassword.layout = AuthLayout
 
 export default ResetPassword;

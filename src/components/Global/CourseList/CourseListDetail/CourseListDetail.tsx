@@ -129,10 +129,10 @@ const CourseListDetail = () => {
 			>
 				<TabPane
 					tab={
-						<>
+						<div className="menu-course-item">
 							<Calendar />
 							<span title="Lịch học"> Lịch học</span>
-						</>
+						</div>
 					}
 					key="1"
 				>

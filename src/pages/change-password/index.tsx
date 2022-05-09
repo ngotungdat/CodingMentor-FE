@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import ProfileBase from "~/components/Profile";
-import LayoutBase from "~/components/LayoutBase";
 import { useSession } from "next-auth/client";
+import React, { useState } from "react";
 import ChangePassword from "~/components/Global/ChangePassword";
+import LayoutBase from "~/components/LayoutBase";
 
 const ChangePasswordUser = () => {
   const [fileList, setFileList] = useState([]);

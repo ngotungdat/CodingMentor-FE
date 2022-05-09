@@ -54,11 +54,7 @@ function SignIn({ csrfToken }) {
 		})
 	}
 
-	return (
-		<>
-			<LoginForm onSubmit={_Submit} csrfToken={csrfToken} error={haveError} />
-		</>
-	)
+	return <LoginForm onSubmit={_Submit} csrfToken={csrfToken} error={haveError} />
 }
 
 SignIn.layout = AuthLayout

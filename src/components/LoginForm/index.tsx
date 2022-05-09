@@ -1,10 +1,10 @@
+import { Spin } from 'antd'
+import clsx from 'clsx'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from './LoginForm.module.scss'
-import { useRouter } from 'next/router'
-import { Spin } from 'antd'
-import Link from 'next/link'
-import clsx from 'clsx'
 
 type Inputs = {
 	text: string
@@ -62,7 +62,7 @@ function index(props: any) {
 									})}
 									placeholder="Email address"
 								/>
-								<img src="/icons/email-icon.png" className={clsx(styles.icon, styles.iconEmail)} />
+								<img src="/icons/email-icon.png" className={styles.icon} />
 							</div>
 							{errors.username && <span className="form-error">Hãy điền tên đăng nhập</span>}
 							<div className={clsx(styles.fcontrol, 'd-flex justify-content-between')}>

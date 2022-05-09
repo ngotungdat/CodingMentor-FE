@@ -390,19 +390,19 @@ function CDCalendar(props) {
 				// 0 - ,1-Bắt đầu , 2-Vào lớp học, 3-Kết thúc
 				style={{
 					backgroundColor: isBranch
-						? '#3275ad'
+						? '#0A89FF'
 						: TeacherAttendanceID !== 0
-						? '#80DEEA'
+						? '#4DF6A5'
 						: IsExam !== undefined && IsExam == true
-						? '#FF9800'
+						? '#C74AC9'
 						: checkDate == 0
 						? btnID == undefined || btnID == null || btnID == ''
-							? '#fac10a'
+							? '#333333'
 							: btnID == 3
-							? '#bdbdbd'
-							: '#fac10a'
+							? '#C94A4F'
+							: '#333333'
 						: checkDate == -1
-						? '#bdbdbd'
+						? '#C94A4F'
 						: '#3174ad'
 				}}
 			>
@@ -744,15 +744,15 @@ function CDCalendar(props) {
 				/>
 			)}
 			<div className="row m-0 p-0 pt-3" style={{ alignItems: 'center' }}>
-				<div style={{ width: 15, height: 15, backgroundColor: '#3174ad', marginRight: 10 }} />
+				<div style={{ width: 15, height: 15, backgroundColor: '#0A89FF', marginRight: 10 }} />
 				<div>Chưa học</div>
-				<div style={{ width: 15, height: 15, backgroundColor: '#fac10a', marginRight: 10, marginLeft: 10 }} />
+				<div style={{ width: 15, height: 15, backgroundColor: '#333333', marginRight: 10, marginLeft: 10 }} />
 				<div>Buổi học trong ngày</div>
-				<div style={{ width: 15, height: 15, backgroundColor: '#FF9800', marginRight: 10, marginLeft: 10 }} />
+				<div style={{ width: 15, height: 15, backgroundColor: '#C74AC9', marginRight: 10, marginLeft: 10 }} />
 				<div>Kiểm tra</div>
-				<div style={{ width: 15, height: 15, backgroundColor: '#bdbdbd', marginRight: 10, marginLeft: 10 }} />
+				<div style={{ width: 15, height: 15, backgroundColor: '#C94A4F', marginRight: 10, marginLeft: 10 }} />
 				<div>Chưa điểm danh</div>
-				<div style={{ width: 15, height: 15, backgroundColor: '#80DEEA', marginRight: 10, marginLeft: 10 }} />
+				<div style={{ width: 15, height: 15, backgroundColor: '#4DF6A5', marginRight: 10, marginLeft: 10 }} />
 				<div>Đã điểm danh</div>
 			</div>
 		</div>

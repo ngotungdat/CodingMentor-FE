@@ -9,6 +9,8 @@ import { userApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { signIn } from 'next-auth/client'
+import clsx from 'clsx'
+import { useToggle } from '~/context/useToggle'
 
 enum roles {
 	user = 'user',
@@ -36,6 +38,7 @@ interface dataNewAccount {
 function RegisterForm(props) {
 	const router = useRouter()
 	const [count, setCount] = useState(3)
+	const [isAgreed, ToggleAgreed] = useToggle(true)
 	const {
 		register,
 		handleSubmit,
@@ -51,6 +54,7 @@ function RegisterForm(props) {
 	let timerID
 
 	const _Submit = async (data: any) => {
+		if (!isAgreed) return showNoti('danger', 'Bạn chưa đồng ý với điều khoản')
 		setLoading(true)
 
 		try {
@@ -89,11 +93,6 @@ function RegisterForm(props) {
 		router.push('/auth/signin')
 	}
 
-	useEffect(() => {
-		return () => {}
-	}, [])
-
-	/* "handleSubmit" will validate your inputs before invoking "onSubmit" */
 	return (
 		<>
 			<Toaster position="top-center" />
@@ -104,14 +103,15 @@ function RegisterForm(props) {
 							{!isSuccess && <h6 className={styles.title}>Tạo tài khoản mới</h6>}
 							{!isSuccess ? (
 								<>
-									<Form.Item label=" Họ và tên" name="FullNameUnicode" rules={[{ required: true, message: 'Hãy điền tên đăng nhập!' }]}>
-										<div className="form-control-input">
+									<Form.Item label="Tên đầy đủ" name="FullNameUnicode" rules={[{ required: true, message: 'Hãy điền họ và tên' }]}>
+										<div className={clsx('form-control-input', styles.inputIcon)}>
 											<input
 												name="FullNameUnicode"
-												placeholder="Nhập họ và tên"
+												placeholder="Nhập họ và tên.."
 												defaultValue=""
 												{...register('FullNameUnicode', { required: true })}
 											/>
+											<img src="/icons/email-icon.png" className={styles.icon} />
 										</div>
 									</Form.Item>
 
@@ -123,15 +123,16 @@ function RegisterForm(props) {
 											{ required: true, type: 'email', message: 'Hãy điền đúng định dạng email!' }
 										]}
 									>
-										<div className="form-control-input">
+										<div className={clsx('form-control-input', styles.inputIcon)}>
 											{/* <label className={styles.fcontrol}>Email</label> */}
 											<input name="Email" placeholder="Nhập Email" defaultValue="" {...register('Email', { required: true })} />
+											<img src="/icons/email-icon.png" className={styles.icon} />
 											{/* {errors.Email && <span className={styles.errorText}>Hãy điền email</span>} */}
 										</div>
 									</Form.Item>
 
 									<Form.Item label=" Số điện thoại" name="Mobile" rules={[{ required: true, message: 'Hãy điền số điện thoại!' }]}>
-										<div className="form-control-input">
+										<div className={clsx('form-control-input', styles.inputIcon)}>
 											{/* <label className={styles.fcontrol}>Số điện thoại</label> */}
 											<input
 												type="number"
@@ -140,20 +141,27 @@ function RegisterForm(props) {
 												{...register('Mobile', { required: true })}
 												placeholder="Nhập số điện thoại"
 											/>
+											<img src="/icons/email-icon.png" className={styles.icon} />
 											{/* {errors.Mobile && <span className={styles.errorText}>Hãy điền số điện thoại</span>} */}
 										</div>
 									</Form.Item>
 
-									<Form.Item label=" Ghi chú" name="Note" rules={[{ required: false, message: 'Hãy điền số điện thoại!' }]}>
-										<div className="form-control-input">
+									<Form.Item label=" Ghi chú" name="Note" rules={[{ required: false }]}>
+										<div className={clsx('form-control-input', styles.inputIcon)}>
 											{/* <label className={styles.fcontrol}>Số điện thoại</label> */}
 											<input name="Note" defaultValue="" {...register('Note', { required: false })} placeholder="Ghi chú" />
+											<img src="/icons/email-icon.png" className={styles.icon} />
 											{/* {errors.Mobile && <span className={styles.errorText}>Hãy điền số điện thoại</span>} */}
 										</div>
 									</Form.Item>
 
+									<div className={styles.checkbox}>
+										<input type="checkbox" checked={isAgreed} onChange={ToggleAgreed} />
+										<label>Đồng ý với các điều khoản của chúng tôi</label>
+									</div>
+
 									<div className={styles.boxSubmit}>
-										<input type="submit" value={'Đăng ký'} />
+										<input type="submit" value={'Tạo tài khoản mới'} />
 										{loading && <Spin className="loading-login" />}
 									</div>
 									<div className={styles.boxSignup}>

@@ -93,6 +93,7 @@ function RollUp(props) {
 		dataRollUp.ScheduleList.forEach((item) => {
 			if (item.value === CourseScheduleID) {
 				setSelectedDate(item.date)
+				setDefaulSelect(item.value)
 			}
 		})
 		setFilters({
@@ -130,6 +131,10 @@ function RollUp(props) {
 			if (res.status === 200) {
 				newStudentList.splice(idx, 1, student)
 				setDataRollUp({ ...dataRollUp, StudentList: newStudentList })
+				setFilters({
+					...filters,
+				})
+				showNoti('success', res.data.message)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -339,7 +344,7 @@ function RollUp(props) {
 			currentPage={filters.pageIndex}
 			totalPage={totalPage}
 			getPagination={getPagination}
-			dataSource={dataRollUp.StudentList}
+			dataSource={defaultSelect !== 0 ? dataRollUp.RollUp : []}
 			columns={userInformation.RoleID == 3 ? columnsStudent : columns}
 			TitleCard={
 				userInformation !== null &&

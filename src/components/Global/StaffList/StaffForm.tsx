@@ -449,14 +449,12 @@ const StaffForm = (props) => {
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="Email" label="Email" isRequired={true} />
 								</div>
-
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="FullNameUnicode" label="Họ và tên" isRequired={true} />
 								</div>
 								<div className="col-md-6 col-12">
 									<InputPreventText form={form} name="Mobile" label="Số điện thoại" isRequired={true} />
 								</div>
-
 								<div className="col-md-6 col-12">
 									<DateField form={form} name="DOB" label="Ngày sinh" />
 								</div>
@@ -534,7 +532,6 @@ const StaffForm = (props) => {
 										}
 									/>
 								</div>
-
 								<div className="col-md-6 col-12">
 									<SelectField
 										isLoading={loadingSelect.name == 'WardID' && loadingSelect.status}
@@ -550,9 +547,7 @@ const StaffForm = (props) => {
 								<div className="col-md-12 col-12">
 									<InputTextField form={form} name="HouseNumber" label="Số nhà/tên đường" />
 								</div>
-
 								{/** ==== Thông tin ngân hàng  ====*/}
-
 								<div className="col-12">
 									<Divider orientation="center">Thông tin ngân hàng</Divider>
 								</div>
@@ -568,9 +563,7 @@ const StaffForm = (props) => {
 								<div className="col-md-12 col-12">
 									<InputTextField form={form} name="BankBranch" label="Chi nhánh ngân hàng" />
 								</div>
-
 								{/** ==== Khác  ====*/}
-
 								<div className="col-12">
 									<Divider orientation="center">Khác</Divider>
 								</div>
@@ -593,8 +586,10 @@ const StaffForm = (props) => {
 											</a>
 										)}
 									</Form.Item>
+								</div>{' '}
+								<div className="col-12 mb-4">
+									<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
 								</div>
-
 								<div className="col-md-6 col-12">
 									<DateField form={form} name="Jobdate" label="Ngày vào làm" />
 								</div>
@@ -604,7 +599,6 @@ const StaffForm = (props) => {
 								<div className="col-md-12 col-12">
 									<TextAreaField name="Extension" label="Giới thiệu thêm" form={form} rows={4} />
 								</div>
-
 								<div className="row d-none">
 									<div className="col-12 d-flex justify-content-center">
 										<div style={{ paddingRight: 5 }}>

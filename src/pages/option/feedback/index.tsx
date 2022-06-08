@@ -40,7 +40,6 @@ const FeedBackList = () => {
 		},
 
 		{
-			align: 'right',
 			render: (data) => (
 				<>
 					<FeedBackForm

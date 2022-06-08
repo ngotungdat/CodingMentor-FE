@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev -p 3003",
+		"dev": "next dev -p 3005",
 		"build": "next build",
 		"start": "next start -p $PORT",
 		"lint": "next lint",
@@ -34,6 +34,7 @@
 		"bootstrap-icons": "^1.5.0",
 		"chart.js": "^3.2.1",
 		"cleave.js": "^1.6.0",
+		"clsx": "^1.1.1",
 		"date-fns": "^2.11.1",
 		"devextreme": "^20.2.7",
 		"devextreme-react": "^20.2.7",

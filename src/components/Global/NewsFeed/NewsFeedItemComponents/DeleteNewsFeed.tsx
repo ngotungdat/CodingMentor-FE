@@ -19,6 +19,7 @@ const DeleteNewsFeed = (props) => {
 				onClick={() => {
 					setIsModalVisible(true);
 				}}
+				style={{justifyContent: "start"}}
 			>
 				<Trash2 />
 				Xóa bài viết

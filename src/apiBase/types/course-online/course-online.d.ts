@@ -8,6 +8,7 @@ type ICOOptionListForForm = {
 	dayOfWeek: IOptionCommon[]
 	curriculumList: IOptionCommon[]
 	userInformationList: IOptionCommon[]
+	roomList: IOptionCommon[]
 }
 type ICOOptionListForADay = {
 	optionStudyTimeList: IOptionCommon[]
@@ -52,6 +53,7 @@ type ICOStoneDataToSave = {
 	Price: number
 	TimeCourse: ITimeCourse[]
 	Avatar: string
+	RoomID: number
 }
 type ICOSaveCourseInfo = {
 	CourseName: string
@@ -76,6 +78,7 @@ type ICOSaveCourseInfo = {
 	Price: number
 	Schedule: ICOScheduleListToSave[]
 	ImageCourse: string
+	RoomID: number
 }
 type ICOCreateForm = {
 	BranchID: number
@@ -90,6 +93,7 @@ type ICOCreateForm = {
 	CourseName: string
 	Avatar: string
 	TimeCourse: ITimeCourse[]
+	RoomID: number
 }
 
 // EDIT COURSE ONLINE

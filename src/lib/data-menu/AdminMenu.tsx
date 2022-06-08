@@ -19,7 +19,7 @@ import {
 	faBook,
 	faCircleQuestion,
 	faFileLines,
-	faMapLocation,
+	faChalkboardUser,
 	faGears,
 	faWrench,
 	faHome,
@@ -28,8 +28,18 @@ import {
 	faGear,
 	faCubes,
 	faCalendarDays,
-	faGlobe,
-	faComments
+	faCirclePause,
+	faComments,
+	faMoneyBills,
+	faUserGroup,
+	faRectangleList,
+	faCircleExclamation,
+	faHeadset,
+	faArrowRightArrowLeft,
+	faBookmark,
+	faUserSecret,
+	faBookAtlas,
+	faCalendarCheck
 } from '@fortawesome/free-solid-svg-icons'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
@@ -49,7 +59,7 @@ export const AdminParentMenu = [
 	{
 		TabName: 'tab-course',
 		Title: 'Khóa học Video',
-		Icon: <FontAwesomeIcon icon={faBookOpen as IconProp} size="lg" />
+		Icon: <FontAwesomeIcon icon={faVideo as IconProp} size="lg" />
 	},
 	{
 		TabName: 'tab-customer',
@@ -120,7 +130,7 @@ export const AdminChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-course',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCogs as IconProp} size="lg" />,
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faBookAtlas as IconProp} size="lg" />,
 				TitleSub: 'Khóa học',
 				SubMenuList: [
 					{
@@ -150,16 +160,16 @@ export const AdminChildMenu = [
 						Icon: '',
 						Route: '/course/course-list',
 						Text: 'Dữ kiệu khóa học'
-					},
+					}
 				]
 			},
-			// {
-			// 	TypeItem: 'single',
-			// 	Key: '/course/schedule-study',
-			// 	Route: '/course/schedule-study',
-			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarDays as IconProp} size="lg" />,
-			// 	Text: 'Kiểm tra lịch'
-			// },
+			{
+				TypeItem: 'single',
+				Key: '/course/schedule-study',
+				Route: '/course/schedule-study',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarCheck as IconProp} size="lg" />,
+				Text: 'Kiểm tra lịch'
+			},
 			{
 				TypeItem: 'single',
 				Key: '/course/register-course',
@@ -223,21 +233,6 @@ export const AdminChildMenu = [
 						Text: 'Từ khóa'
 					}
 				]
-			},
-			{
-				ItemType: 'sub-menu',
-				Key: 'sub-course-zoom',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faGlobe as IconProp} size="lg" />,
-				TitleSub: 'Quản lý Zoom',
-				SubMenuList: [
-					{
-						ItemType: 'single',
-						Key: '/course/manage-zoom/config-zoom',
-						Route: '/course/manage-zoom/config-zoom',
-						Text: 'Cấu hình',
-						Icon: ''
-					}
-				]
 			}
 		]
 	},
@@ -248,17 +243,17 @@ export const AdminChildMenu = [
 		MenuItem: [
 			{
 				ItemType: 'single',
-				Key: '/customer/service/service-info-student',
-				Route: '/customer/service/service-info-student',
-				Text: 'Thêm lịch hẹn test',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarPlus as IconProp} size="lg" />
-			},
-			{
-				ItemType: 'single',
 				Key: '/customer/student/student-advisory',
 				Route: '/customer/student/student-advisory',
 				Text: 'Khách hàng',
 				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUser as IconProp} size="lg" />
+			},
+			{
+				ItemType: 'single',
+				Key: '/customer/service/service-info-student',
+				Route: '/customer/service/service-info-student',
+				Text: 'Thêm lịch hẹn test',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarPlus as IconProp} size="lg" />
 			},
 			{
 				ItemType: 'single',
@@ -273,6 +268,62 @@ export const AdminChildMenu = [
 				Route: '/customer/student/student-list',
 				Text: 'Dữ liệu học viên',
 				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserGraduate as IconProp} size="lg" />
+			},
+			{
+				ItemType: 'single',
+				Key: '/customer/student/student-appointment',
+				Route: '/customer/student/student-appointment',
+				Text: 'HV chờ xếp lớp',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCirclePause as IconProp} size="lg" />
+			},
+			{
+				ItemType: 'single',
+				Key: '/customer/student/student-course',
+				Route: '/customer/student/student-course',
+				Text: 'HV trong khóa',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faChalkboardUser as IconProp} size="lg" />
+			},
+			{
+				ItemType: 'single',
+				Key: '/customer/student/student-change-course',
+				Route: '/customer/student/student-change-course',
+				Text: 'HV chuyển khóa',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faArrowRightArrowLeft as IconProp} size="lg" />
+			},
+			{
+				ItemType: 'single',
+				Key: '/customer/student/student-reserve',
+				Route: '/customer/student/student-reserve',
+				Text: 'HV bảo lưu',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faBookmark as IconProp} size="lg" />
+			},
+			{
+				ItemType: 'single',
+				Key: '/customer/student/exchange-student',
+				Route: '/customer/student/exchange-student',
+				Text: 'HV chuyển giao',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faHeadset as IconProp} size="lg" />
+			},
+			{
+				ItemType: 'single',
+				Key: '/package/package-payment',
+				Route: '/package/package-payment',
+				Text: 'HV mua bộ đề',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faRectangleList as IconProp} size="lg" />
+			},
+			{
+				ItemType: 'single',
+				Key: '/customer/report/report-customer-warning',
+				Route: '/customer/report/report-customer-warning',
+				Text: 'Cảnh báo học viên',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCircleExclamation as IconProp} size="lg" />
+			},
+			{
+				ItemType: 'single',
+				Key: '/customer/parents',
+				Route: '/customer/parents',
+				Text: 'Danh sách phụ huynh',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserSecret as IconProp} size="lg" />
 			}
 		]
 	},
@@ -283,10 +334,10 @@ export const AdminChildMenu = [
 		MenuItem: [
 			{
 				ItemType: 'single',
-				Key: '/staff/saler-list',
-				Route: '/staff/saler-list',
-				Text: 'Danh sách tư vấn viên',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUsers as IconProp} size="lg" />
+				Key: '/staff/staff-list',
+				Route: '/staff/staff-list',
+				Text: 'Danh sách nhân viên',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserGroup as IconProp} size="lg" />
 			},
 			{
 				ItemType: 'single',
@@ -310,40 +361,47 @@ export const AdminChildMenu = [
 				SubMenuList: [
 					{
 						ItemType: 'single',
-						Key: '/staff/sales-campaign',
-						Route: '/staff/sales-campaign',
-						Text: 'Chiến dịch kinh doanh',
-						Icon: ''
-					},
-					// {
-					// 	ItemType: 'single',
-					// 	Key: '/staff/sales-salary',
-					// 	Route: '/staff/sales-salary',
-					// 	Text: 'Duyệt lương',
-					// 	Icon: ''
-					// },
-					// {
-					// 	ItemType: 'single',
-					// 	Key: '/staff/sales-salary-history',
-					// 	Route: '/staff/sales-salary-history',
-					// 	Text: 'Lịch sử duyệt',
-					// 	Icon: ''
-					// },
-					{
-						ItemType: 'single',
 						Key: '/staff/saler-list',
 						Route: '/staff/saler-list',
 						Text: 'Danh sách tư vấn viên',
 						Icon: ''
 					},
-					// {
-					// 	ItemType: 'single',
-					// 	Key: '/staff/saler-revenue',
-					// 	Route: '/staff/saler-revenue',
-					// 	Text: 'Doanh thu tư vấn viên',
-					// 	Icon: ''
-					// }
+					{
+						ItemType: 'single',
+						Key: '/staff/sales-campaign',
+						Route: '/staff/sales-campaign',
+						Text: 'Chiến dịch kinh doanh',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/staff/sales-salary',
+						Route: '/staff/sales-salary',
+						Text: 'Duyệt lương',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/staff/sales-salary-history',
+						Route: '/staff/sales-salary-history',
+						Text: 'Lịch sử duyệt',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/staff/saler-revenue',
+						Route: '/staff/saler-revenue',
+						Text: 'Doanh thu tư vấn viên',
+						Icon: ''
+					}
 				]
+			},
+			{
+				ItemType: 'single',
+				Key: '/staff/staff-salary',
+				Route: '/staff/staff-salary',
+				Text: 'Cấu hình lương',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faMoneyBills as IconProp} size="lg" />
 			}
 		]
 	},
@@ -422,28 +480,28 @@ export const AdminChildMenu = [
 		MenuTitle: 'Cấu hình',
 		MenuKey: '/option',
 		MenuItem: [
-			{
-				ItemType: 'sub-menu',
-				Key: 'sub-tab-option-1',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faMapLocation as IconProp} size="lg" />,
-				TitleSub: 'Địa chỉ',
-				SubMenuList: [
-					{
-						ItemType: 'single',
-						Key: '/option/provincial',
-						Route: '/option/provincial',
-						Text: 'Tỉnh/Tp',
-						Icon: ''
-					},
-					{
-						ItemType: 'single',
-						Key: '/option/district',
-						Route: '/option/district',
-						Text: 'Quận huyện',
-						Icon: ''
-					}
-				]
-			},
+			// {
+			// 	ItemType: 'sub-menu',
+			// 	Key: 'sub-tab-option-1',
+			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faMapLocation as IconProp} size="lg" />,
+			// 	TitleSub: 'Địa chỉ',
+			// 	SubMenuList: [
+			// 		{
+			// 			ItemType: 'single',
+			// 			Key: '/option/provincial',
+			// 			Route: '/option/provincial',
+			// 			Text: 'Tỉnh/Tp',
+			// 			Icon: ''
+			// 		},
+			// 		{
+			// 			ItemType: 'single',
+			// 			Key: '/option/district',
+			// 			Route: '/option/district',
+			// 			Text: 'Quận huyện',
+			// 			Icon: ''
+			// 		}
+			// 	]
+			// },
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-4',
@@ -481,6 +539,13 @@ export const AdminChildMenu = [
 				SubMenuList: [
 					{
 						ItemType: 'single',
+						Key: '/option/zoom/config-zoom',
+						Route: '/option/zoom/config-zoom',
+						Text: 'Tài khoản Zoom',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
 						Key: '/option/discount',
 						Route: '/option/discount',
 						Text: 'Mã khuyến mãi',
@@ -500,13 +565,13 @@ export const AdminChildMenu = [
 						Text: 'Phương thức thanh toán',
 						Icon: ''
 					},
-					{
-						ItemType: 'single',
-						Key: '/option/currency-config',
-						Route: '/option/currency-config',
-						Text: 'Cấu hình tiền tệ',
-						Icon: ''
-					},
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/option/currency-config',
+					// 	Route: '/option/currency-config',
+					// 	Text: 'Cấu hình tiền tệ',
+					// 	Icon: ''
+					// },
 					{
 						ItemType: 'single',
 						Key: '/option/customer-supplier',
@@ -548,13 +613,6 @@ export const AdminChildMenu = [
 						Key: '/option/purpose',
 						Route: '/option/purpose',
 						Text: 'Mục đích học',
-						Icon: ''
-					},
-					{
-						ItemType: 'single',
-						Key: '/option/staff-salary',
-						Route: '/option/staff-salary',
-						Text: 'Cấu hình lương',
 						Icon: ''
 					},
 					{

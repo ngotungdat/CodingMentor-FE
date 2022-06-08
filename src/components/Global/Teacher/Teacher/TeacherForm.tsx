@@ -74,6 +74,7 @@ const TeacherForm = (props: ITeacherForm) => {
 		optionAreaSystemList,
 		handleFetchDistrict,
 		handleFetchWard,
+		optionBranchList,
 		handleFetchBranch
 	} = props
 
@@ -365,6 +366,20 @@ const TeacherForm = (props: ITeacherForm) => {
 										)}
 									</Form.Item>
 								</div>
+								<div className="col-12 mb-4">
+									<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
+								</div>
+								<div className="col-md-6 col-12">
+										<SelectField
+												form={form}
+												name="Branch"
+												label="Trung tâm"
+												mode="multiple"
+												optionList={optionBranchList}
+												isLoading={isLoading.type === 'FETCH_DATA_BY_AREA' && isLoading.status}
+												placeholder="Chọn trung tâm"
+										/>
+								</div>
 
 								<div className="col-md-6 col-12">
 									<DateField isRequired={false} form={form} name="Jobdate" label="Ngày nhận việc" placeholder="Chọn ngày nhận việc" />
@@ -409,7 +424,18 @@ const TeacherForm = (props: ITeacherForm) => {
 									<InputTextField form={form} name="Email" label="Email" placeholder="Nhập email" isRequired={true} />
 									<DateField form={form} name="Jobdate" label="Ngày nhận việc" placeholder="Chọn ngày nhận việc" isRequired={true} />
 								</div>
+
 								<div className="col-md-6 col-12">
+									<SelectField
+											form={form}
+											name="Branch"
+											label="Trung tâm"
+											mode="multiple"
+											optionList={optionBranchList}
+											isLoading={isLoading.type === 'FETCH_DATA_BY_AREA' && isLoading.status}
+											placeholder="Chọn trung tâm"
+											isRequired={true}
+									/>
 									<InputPreventText form={form} name="Mobile" label="Số điện thoại" placeholder="Nhập số điện thoại" isRequired={true} />
 									<InputTextField form={form} name="LinkFaceBook" label="Link Facebook" placeholder="Nhập link faebook" />
 								</div>
@@ -435,6 +461,9 @@ const TeacherForm = (props: ITeacherForm) => {
 											</a>
 										)}
 									</Form.Item>
+								</div>{' '}
+								<div className="col-12 mb-4">
+									<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
 								</div>
 								{/** ==== Thông tin ngân hàng  ====*/}
 								<div className="col-12">

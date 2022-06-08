@@ -170,7 +170,7 @@ const ScheduleOnlineItem = (props) => {
 							disabled={isLockSchedule}
 						/>
 					</div>
-					{isEditView &&
+					{/* {isEditView &&
 						!isClickAheadSchedule &&
 						typeof ID === 'number' &&
 						saveBeforeAheadSchedule &&
@@ -185,10 +185,10 @@ const ScheduleOnlineItem = (props) => {
 									{isLoading.type === 'AHEAD_SCHEDULE' && isLoading.status && <Spin className="loading-base" />}
 								</button>
 							</div>
-						)}
-					{scheduleObj?.TeacherAttendanceID !== 0 && (
+						)} */}
+					{/* {scheduleObj?.TeacherAttendanceID !== 0 && (
 						<div style={{ color: '#dd4667', fontSize: 14, width: '100%', textAlign: 'left' }}>Đã điểm danh</div>
-					)}
+					)} */}
 				</div>
 			</div>
 		</Panel>

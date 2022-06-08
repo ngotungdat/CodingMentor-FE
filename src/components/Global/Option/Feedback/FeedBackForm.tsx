@@ -99,7 +99,7 @@ const FeedbackForm = React.memo((props: any) => {
 								</Form.Item>
 							</div>
 						</div>
-						{/*  */}
+						
 						<div className="row">
 							<div className="col-12">
 								<Form.Item name="Name" label="Loại phản hồi" rules={[{ required: true, message: 'Vui lòng điền đủ thông tin!' }]}>

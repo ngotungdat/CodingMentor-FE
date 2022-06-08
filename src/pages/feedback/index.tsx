@@ -227,7 +227,7 @@ const FeedbackList = () => {
 			{userInformation !== null && (userInformation?.RoleID === 1 || userInformation?.RoleID === 6) && (
 				<>
 					<Modal title="Xác nhận thông tin" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-						<p>Bạn chắc chắn đã xử lí xong phản hồi</p>
+						<p>Bạn chắc chắn đã xử lý xong phản hồi</p>
 					</Modal>
 
 					<FeedbackTable

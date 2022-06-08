@@ -290,7 +290,7 @@ function ConfigZoom() {
 			totalPage={totalPage}
 			getPagination={getPagination}
 			addClass="basic-header"
-			TitlePage="Danh sách cấu hình"
+			TitlePage="Danh sách"
 			TitleCard={<ConfigZoomForm isLoading={isLoading} handleSubmit={onCreateConfigZoom} />}
 			Extra={
 				<div className="extra-table">

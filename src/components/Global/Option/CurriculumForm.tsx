@@ -2,6 +2,7 @@ import { Form, Input, Modal, Select, Spin, Tooltip } from 'antd'
 import router from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { number } from 'yup/lib/locale'
 import { useWrap } from '~/context/wrap'
 
 const CurriculumForm = React.memo((props: any) => {
@@ -22,7 +23,7 @@ const CurriculumForm = React.memo((props: any) => {
 
 	// SUBMI FORM
 	const onSubmit = handleSubmit((data: any) => {
-		let res = _onSubmit({ ...data, TimeOfLesson: 0 })
+		let res = _onSubmit(data)
 		res.then(function (rs: any) {
 			rs && rs.status == 200 && (setIsModalVisible(false), form.resetFields())
 		})
@@ -142,6 +143,10 @@ const CurriculumForm = React.memo((props: any) => {
 										{
 											required: true,
 											message: 'Bạn không được để trống'
+										},
+										{
+											pattern: new RegExp(/^[0-9]+$/),
+											message: 'Chỉ được điền số',
 										}
 									]}
 								>
@@ -150,6 +155,32 @@ const CurriculumForm = React.memo((props: any) => {
 										placeholder=""
 										className="style-input"
 										onChange={(e) => setValue('Lesson', e.target.value)}
+									/>
+								</Form.Item>
+							</div>
+						</div>
+
+						<div className="row">
+							<div className="col-12">
+								<Form.Item
+									label="Thời gian buổi học"
+									name="TimeOfLesson"
+									rules={[
+										{
+											required: true,
+											message: 'Bạn không được để trống'
+										},
+										{
+											pattern: new RegExp(/^[0-9]+$/),
+											message: 'Chỉ được điền số',
+										}
+									]}
+								>
+									<Input
+										disabled={rowID ? true : false}
+										placeholder=""
+										className="style-input"
+										onChange={(e) => setValue('TimeOfLesson', e.target.value)}
 									/>
 								</Form.Item>
 							</div>

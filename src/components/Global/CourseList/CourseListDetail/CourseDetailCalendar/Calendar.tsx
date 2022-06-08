@@ -246,7 +246,8 @@ function CDCalendar(props) {
 			idx,
 			IsExam,
 			CurriculumDetailID,
-			TeacherAttendanceID
+			TeacherAttendanceID,
+			data
 		} = event.resource
 
 		const dataDetail = event.resource
@@ -319,22 +320,22 @@ function CDCalendar(props) {
 			</div>
 		)
 
-		const childBranchContent = (
+		const childBranchContent = (e) => (
 			<div className="course-dt-event-info" style={{ maxWidth: 300 }}>
 				<ul>
-					{CourseName && (
+					{e?.CourseName && (
 						<li>
-							<span>Khóa học:</span> {CourseName}
+							<span>Khóa học:</span> {e?.CourseName}
 						</li>
 					)}
 					{StudyTimeName && (
 						<li>
-							<span>Ca:</span> {StudyTimeName}
+							<span>Ca:</span> {e?.StudyTimeName}
 						</li>
 					)}
 					{SubjectName && (
 						<li>
-							<span>Môn học:</span> {SubjectName}
+							<span>Môn học:</span> {e?.SubjectName}
 						</li>
 					)}
 				</ul>
@@ -362,7 +363,7 @@ function CDCalendar(props) {
 											<Popover
 												zIndex={999}
 												title={`GV: ${e?.TeacherName}`}
-												content={childBranchContent}
+												content={childBranchContent(e)}
 												placement="rightTop"
 												trigger={window.matchMedia('(max-width: 1199px)').matches ? 'click' : 'hover'}
 											>
@@ -389,9 +390,7 @@ function CDCalendar(props) {
 				}}
 				// 0 - ,1-Bắt đầu , 2-Vào lớp học, 3-Kết thúc
 				style={{
-					backgroundColor: isBranch
-						? '#3275ad'
-						: TeacherAttendanceID !== 0
+					backgroundColor:TeacherAttendanceID !== 0
 						? '#80DEEA'
 						: IsExam !== undefined && IsExam == true
 						? '#FF9800'
@@ -602,22 +601,22 @@ function CDCalendar(props) {
 			</div>
 		)
 
-		const childBranchContent = (
+		const childBranchContent = (e) => (
 			<div className="course-dt-event-info" style={{ maxWidth: 300 }}>
 				<ul>
-					{CourseName && (
+					{e?.CourseName && (
 						<li>
-							<span>Khóa học:</span> {CourseName}
+							<span>Khóa học:</span> {e?.CourseName}
 						</li>
 					)}
 					{StudyTimeName && (
 						<li>
-							<span>Ca:</span> {StudyTimeName}
+							<span>Ca:</span> {e?.StudyTimeName}
 						</li>
 					)}
 					{SubjectName && (
 						<li>
-							<span>Môn học:</span> {SubjectName}
+							<span>Môn học:</span> {e?.SubjectName}
 						</li>
 					)}
 				</ul>
@@ -645,7 +644,7 @@ function CDCalendar(props) {
 											<Popover
 												zIndex={999}
 												title={`GV: ${e?.TeacherName}`}
-												content={childBranchContent}
+												content={childBranchContent(e)}
 												placement="rightTop"
 												trigger={window.matchMedia('(max-width: 1199px)').matches ? 'click' : 'hover'}
 											>

@@ -4,6 +4,7 @@ import styles from './LoginForm.module.scss'
 import { useRouter } from 'next/router'
 import { Spin } from 'antd'
 import Link from 'next/link'
+import clsx from 'clsx'
 
 type Inputs = {
 	text: string
@@ -43,52 +44,64 @@ function index(props: any) {
 					<div className={styles.wrapForm}>
 						<form onSubmit={handleSubmit(_Submit)} className={styles.loginForm}>
 							<div className={styles.loginFormImg}>
-								<img src="/images/logo-final.png" alt="" />
+								<img src="/images/login-logo.png" alt="" />
 							</div>
-							<h6 className={styles.title}>Đăng nhập</h6>
+							<h6 className={styles.title}>Đăng nhập Coding Mentor</h6>
 							<input name="csrfToken" type="hidden" defaultValue={props?.csrfToken} />
-							<label className={styles.fcontrol}>Tên đăng nhập</label>
-							<input
-								name="username"
-								defaultValue=""
-								{...register('username', {
-									required: true,
-									validate: (value: any) => {
-										return !!value.trim()
-									},
-									setValueAs: (value) => value.trim()
-								})}
-								placeholder="Nhập tên đăng nhập"
-							/>
+							<label className={styles.fcontrol}>Email hoặc tài khoản</label>
+							<div className={styles.inputIcon}>
+								<input
+									name="username"
+									defaultValue=""
+									{...register('username', {
+										required: true,
+										validate: (value: any) => {
+											return !!value.trim()
+										},
+										setValueAs: (value) => value.trim()
+									})}
+									placeholder="Email address"
+								/>
+								<img src="/icons/email-icon.png" className={clsx(styles.icon, styles.iconEmail)} />
+							</div>
 							{errors.username && <span className="form-error">Hãy điền tên đăng nhập</span>}
-							<label className={styles.fcontrol}>Mật khẩu</label>
-							<input
-								name="password"
-								type="password"
-								defaultValue=""
-								{...register('password', { required: true })}
-								placeholder="Nhập mật khẩu"
-							/>
+							
+							<label>Mật khẩu</label>
+							<div className={styles.inputIcon}>
+								<input
+									name="password"
+									type="password"
+									defaultValue=""
+									{...register('password', { required: true })}
+									placeholder="Password"
+								/>
+								<img src="/icons/Lock.png" className={styles.icon} />
+							</div>
 							{errors.password && <span className="form-error">Hãy điền mật khẩu</span>}
 							{!!router.query?.error && router.query?.error != 'undefined' && (
 								<span className="form-error">{JSON.parse(router.query?.error.toString())?.message}</span>
 							)}
-							<div className="mt-2 d-flex justify-content-end">
-								<div className={styles.forgetPass}>
+
+							<div className={styles.checkbox}>
+								<input type="checkbox" />
+								<label>Ghi nhớ đăng nhập</label>
+								
+								<div className={styles.forgetPass} style={{ marginLeft: 'auto' }}>
 									<Link href="/reset-password">
 										<a>Quên mật khẩu?</a>
 									</Link>
 								</div>
 							</div>
+
 							<div className="position-relative">
 								<input type="submit" value={'Đăng nhập'} />
 								{loading && <Spin className="loading-login" />}
 								<div className="w-100 m-1 text-center color-red fw-bold">{props.error && props.error}</div>
 							</div>
 							<div className={styles.boxSignup}>
-								Bạn chưa có tài khoản?{' '}
-								<a href="" onClick={moveToSignUp}>
-									Đăng kí
+								Chưa có tài khoản?{' '}
+								<a href="" onClick={moveToSignUp} style={{ textDecoration: 'underline' }}>
+									Tạo tài khoản mới
 								</a>
 							</div>
 						</form>

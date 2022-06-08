@@ -492,6 +492,7 @@
 			&.ant-menu-item-selected {
 				background-color: transparent !important;
 				color: $primary-color;
+				font-weight: bold;
 
 				&:after {
 					border-right: none;
@@ -508,6 +509,7 @@
 
 				a {
 					color: $primary-color;
+					border-bottom: $primary-color 1px solid;
 				}
 			}
 

@@ -178,6 +178,9 @@ const MapForm = (props) => {
 										valueFile={questionDataForm?.LinkAudio}
 									/>
 								</Form.Item>
+								<div className="mb-4">
+									<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
+								</div>
 							</div>
 						</div>
 						<div className="row">

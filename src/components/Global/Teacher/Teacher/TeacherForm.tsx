@@ -366,7 +366,9 @@ const TeacherForm = (props: ITeacherForm) => {
 										)}
 									</Form.Item>
 								</div>
-
+								<div className="col-12 mb-4">
+									<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
+								</div>
 								<div className="col-md-6 col-12">
 										<SelectField
 												form={form}
@@ -459,6 +461,9 @@ const TeacherForm = (props: ITeacherForm) => {
 											</a>
 										)}
 									</Form.Item>
+								</div>{' '}
+								<div className="col-12 mb-4">
+									<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
 								</div>
 								{/** ==== Thông tin ngân hàng  ====*/}
 								<div className="col-12">

@@ -128,7 +128,10 @@ function PackageForm(props: IPropTypes) {
 							</div>
 
 							<div className="col-md-6 col-12">
-								<UploadAvatarField form={form} name="Avatar" label="Thumbnail" />
+								<UploadAvatarField form={form} name="Avatar" label="Thumbnail" />{' '}
+								<div className="mb-4">
+									<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
+								</div>
 							</div>
 
 							<div className="col-md-6 col-12">

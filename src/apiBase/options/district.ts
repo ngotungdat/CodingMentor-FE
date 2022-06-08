@@ -21,6 +21,8 @@ class DistrictApi {
 		instance.get<IApiResultData<IDistrict[]>>('/api/District', {
 			params: {
 				AreaID: areaID,
+				pageIndex: 1,
+				pageSize: 99999999
 			},
 		});
 

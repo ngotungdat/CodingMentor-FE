@@ -65,14 +65,8 @@ function index(props: any) {
 								<img src="/icons/email-icon.png" className={clsx(styles.icon, styles.iconEmail)} />
 							</div>
 							{errors.username && <span className="form-error">Hãy điền tên đăng nhập</span>}
-							<div className={clsx(styles.fcontrol, 'd-flex justify-content-between')}>
-								<label>Mật khẩu</label>
-								<div className={styles.forgetPass}>
-									<Link href="/reset-password">
-										<a>Quên mật khẩu?</a>
-									</Link>
-								</div>
-							</div>
+							
+							<label>Mật khẩu</label>
 							<div className={styles.inputIcon}>
 								<input
 									name="password"
@@ -91,6 +85,12 @@ function index(props: any) {
 							<div className={styles.checkbox}>
 								<input type="checkbox" />
 								<label>Ghi nhớ đăng nhập</label>
+								
+								<div className={styles.forgetPass} style={{ marginLeft: 'auto' }}>
+									<Link href="/reset-password">
+										<a>Quên mật khẩu?</a>
+									</Link>
+								</div>
 							</div>
 
 							<div className="position-relative">
@@ -100,8 +100,8 @@ function index(props: any) {
 							</div>
 							<div className={styles.boxSignup}>
 								Chưa có tài khoản?{' '}
-								<a href="" onClick={moveToSignUp}>
-									Tạo tài khoản mói
+								<a href="" onClick={moveToSignUp} style={{ textDecoration: 'underline' }}>
+									Tạo tài khoản mới
 								</a>
 							</div>
 						</form>

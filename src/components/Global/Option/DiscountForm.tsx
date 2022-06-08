@@ -189,7 +189,7 @@ const DiscountForm = (props) => {
 								</Form.Item>
 							</div>
 
-							<div className="col-9">
+							<div className="col-6">
 								{percent ? (
 									<>
 										<Form.Item
@@ -233,7 +233,7 @@ const DiscountForm = (props) => {
 								)}
 							</div>
 
-							<div className="col-3 d-flex justify-content-center">
+							<div className="col-6 d-flex">
 								<Form.Item label="Phần trăm">
 									<Switch checked={percent} onChange={onChange} />
 								</Form.Item>

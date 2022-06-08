@@ -452,6 +452,23 @@ export const DetailsModal = (props) => {
 												)}
 											</Form.Item>
 
+										<div className='d-flex' style={{float: 'right'}}>
+											<div className="text-right mt-3">
+												{isAdmin && enableEdit && (
+													<Tooltip className="group-button_btn-add" title="Hủy thao tác">
+														<button
+															onClick={() => {
+																setEdit(false),
+																getDetails()
+															}}
+															className="btn ml-2 btn-secondary"
+														>
+														Hủy
+														</button>
+													</Tooltip>
+												)}
+											</div>
+
 											<div className="text-right mt-3">
 												{isAdmin && enableEdit && (
 													<Tooltip className="group-button_btn-add" title="Lưu thông tin">
@@ -467,6 +484,8 @@ export const DetailsModal = (props) => {
 													</Tooltip>
 												)}
 											</div>
+										</div>
+											
 										</div>
 									) : (
 										<></>

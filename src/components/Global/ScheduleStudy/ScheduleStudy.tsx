@@ -13,7 +13,7 @@ import {
 import TitlePage from '~/components/TitlePage'
 import { useWrap } from '~/context/wrap'
 import { fmSelectArr } from '~/utils/functions'
-// import CDCalendar from '../CourseList/CourseListDetail/CourseDetailCalendar/Calendar'
+import CDCalendar from '../CourseList/CourseListDetail/CourseDetailCalendar/Calendar'
 import CheckBranch from './Form/CheckBranch'
 import CheckOneTeacher from './Form/CheckOneTeacher'
 import CheckRoom from './Form/CheckRoom'
@@ -41,6 +41,7 @@ type infoSearch = {
 }
 const ScheduleStudy = () => {
 	const { showNoti } = useWrap()
+	const [totalRow, setTotalRow] = useState(null)
 	const [isLoading, setIsLoading] = useState({
 		type: '',
 		status: false
@@ -221,9 +222,12 @@ const ScheduleStudy = () => {
 				})
 				setDataList({ list: res.data.data, type: '' })
 				showNoti('success', res.data.message)
+				setTotalRow(res.data.totalRow)
 			}
 			if (res.status === 204) {
 				showNoti('danger', 'Không tìm thấy')
+				setDataList({ list: [], type: '' })
+				setTotalRow(0)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -252,12 +256,13 @@ const ScheduleStudy = () => {
 				final.push(y)
 			}
 		}
+
 		return final
 	}
 
 	// CALENDAR FORMAT
 	const calendarFm = (calendarArr: ICourseDetailSchedule[]) => {
-		const rs = calendarArr.map((c, idx) => {
+		const rs = calendarArr.map(c => {
 			const {
 				ID,
 				CourseID,
@@ -324,9 +329,12 @@ const ScheduleStudy = () => {
 					toDate: moment(EndTime).format('DD/MM/YYYY')
 				})
 				showNoti('success', res.data.message)
+				setTotalRow(res.data.totalRow)
 			}
 			if (res.status === 204) {
 				showNoti('danger', 'Không tìm thấy')
+				setTotalRow(0)
+				setDataList({ list: [], type: 'CheckManyTeacher' })
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -384,10 +392,13 @@ const ScheduleStudy = () => {
 					fromDate: moment(StartTime).format('DD/MM/YYYY'),
 					toDate: moment(EndTime).format('DD/MM/YYYY')
 				})
+				setTotalRow(res.data.totalRow)
 				showNoti('success', res.data.message)
 			}
 			if (res.status === 204) {
+				setDataList({ list: [], type: 'CheckBranch' })
 				showNoti('danger', 'Lịch trống')
+				setTotalRow(0)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -408,6 +419,7 @@ const ScheduleStudy = () => {
 			})
 		}
 	}, [optionList.branchList])
+
 	const fmListOfBranch = (calendarArr: ICheckBranchScheduleStudyData[]) => {
 		const rs = {}
 		const newCalendarArr = [...calendarArr]
@@ -443,19 +455,17 @@ const ScheduleStudy = () => {
 	return (
 		<div className="row">
 			<TitlePage title="Kiểm tra lịch học" />
-
 			<div className="col-12">
 				<Card
+					title={
+						<>
+							<h5 className="font-weight-primary">{totalRow ? `Tổng số ca học ${totalRow}` : 'Hiện tại không có ca học'}</h5>
+						</>
+					}
 					extra={
 						<div className="card-list-btn">
 							<CheckBranch isLoading={isLoading} optionList={optionList} handleSubmit={onCheckScheduleOfBranch} />
 							{/* */}
-							{/* <CheckRoom
-								isLoading={isLoading}
-								optionList={optionList}
-								handleFetchRoom={fetchRoomByBranchID}
-								handleSubmit={onCheckRoom}
-							/> */}
 							<CheckOneTeacher
 								isLoading={isLoading}
 								optionList={optionList}
@@ -481,7 +491,7 @@ const ScheduleStudy = () => {
 								{infoSearch.roomName && `[${infoSearch.roomName}]`} | {infoSearch.fromDate} - {infoSearch.toDate}
 							</h4>
 						)}
-						{/* {dataList.type === 'CheckBranch' || dataList.type === 'CheckManyTeacher' ? (
+						{dataList.type === 'CheckBranch' || dataList.type === 'CheckManyTeacher' ? (
 							<>
 								<CDCalendar
 									isLoaded={true}
@@ -492,7 +502,7 @@ const ScheduleStudy = () => {
 							</>
 						) : (
 							<CDCalendar isLoaded={true} isGetRecordList={true} eventList={calendarFm(dataList.list)} />
-						)} */}
+						)}
 					</Spin>
 				</Card>
 			</div>

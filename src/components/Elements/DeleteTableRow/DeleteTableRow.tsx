@@ -12,7 +12,7 @@ const DeleteTableRow = (props) => {
 	}
 	return (
 		<>
-			<Tooltip title={title || 'Xóa bộ đề'}>
+			<Tooltip title={title || 'Xóa'}>
 				<Popconfirm placement="left" title={'Bạn muốn xóa' + text + '?'} onConfirm={checkHandleDelete} cancelText="Hủy" okText="Xóa">
 					<button type="button" className="btn btn-icon delete">
 						<X />

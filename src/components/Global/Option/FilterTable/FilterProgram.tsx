@@ -104,8 +104,10 @@ const FilterProgram = (props) => {
                   })
                 }
               >
-                <Option value="1">Zoom</Option>
-                <Option value="2">Offline</Option>
+                <Option value="1">Offline</Option>
+                <Option value="2">Zoom</Option>
+                <Option value="3">Video</Option>
+                <Option value="4">1 - 1</Option>
               </Select>
             </Form.Item>
           </div>

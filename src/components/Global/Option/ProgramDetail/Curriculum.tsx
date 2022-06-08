@@ -35,6 +35,7 @@ const Curriculum = (props) => {
 			let res = await curriculumApi.getAll(todoApi)
 			if (res.status == 200) {
 				if (res.data.data.length > 0) {
+					console.log(res.data.data)
 					setDataSource(res.data.data)
 					setTotalPage(res.data.totalRow)
 				} else {

@@ -67,7 +67,7 @@ export const fmDateFromNow = (date) => {
 	}
 	return formattedDate
 }
-export const parsePriceStrToNumber = (str: number | string) => parseInt(str.toString().replace(/\D/g, '')) || 0
+export const parsePriceStrToNumber = (str: number | string) => parseInt(str?.toString().replace(/\D/g, '')) || 0
 
 // GET VISIBLE STATUS
 export function usePageVisibility(cb) {

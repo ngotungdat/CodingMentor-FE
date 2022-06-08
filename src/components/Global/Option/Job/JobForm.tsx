@@ -86,9 +86,9 @@ const JobForm = React.memo((props: any) => {
 					<Form form={form} layout="vertical" onFinish={onSubmit}>
 						<div className="row">
 							<div className="col-12">
-								<Form.Item name="JobName" label="Nghề nghiệp" rules={[{ required: true, message: 'Vui lòng điền đủ thông tin!' }]}>
+								<Form.Item name="JobName" label="Công việc" rules={[{ required: true, message: 'Vui lòng điền đủ thông tin!' }]}>
 									<Input
-										placeholder="Nghề nghiệp"
+										placeholder="Công việc"
 										className="style-input"
 										onChange={(e) => setValue('JobName', e.target.value)}
 										allowClear={true}

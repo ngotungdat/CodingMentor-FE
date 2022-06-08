@@ -359,11 +359,11 @@ const VideoCourseStore = () => {
 							</div>
 						))}
 					</div>
-					<div className="ml-2 size-16">
+					{/* <div className="ml-2 size-16">
 						Được <span className="bold purple">đặt lịch thực hành luyện tập phát âm, trao đổi trực tiếp với giáo viên</span> trên hệ thống
 						phòng học online của
 						<span className="bold orange"> IELTS Nguyễn Huyền</span>
-					</div>
+					</div> */}
 					<>
 						<List
 							itemLayout="horizontal"

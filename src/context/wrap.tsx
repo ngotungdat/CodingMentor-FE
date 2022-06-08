@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { oneSignalAPI, userApi } from '~/apiBase'
+import { oneSignalAPI, userApi, userInformationApi } from '~/apiBase'
 import { useSession } from 'next-auth/client'
 import OneSignal from 'react-onesignal'
 
@@ -89,12 +89,13 @@ export const WrapProvider = ({ children }) => {
 	}
 
 	const getRoles = async (roleType) => {
-		// try {
-		// 	let res = await userInformationApi.getRole(roleType)
-		// 	res.status == 200 && roleType == 0 ? setRoles(res.data.data) : setStaffRoles(res.data.data)
-		// } catch (error) {
-		// 	console.log('Lỗi lấy thông tin roles: ', error)
-		// }
+		try {
+			let res = await userInformationApi.getRole(roleType)
+			res.status == 200 && roleType == 0 ? setRoles(res.data.data) : setStaffRoles(res.data.data)
+			console.log(res.data.data)
+		} catch (error) {
+			console.log('Lỗi lấy thông tin roles: ', error)
+		}
 	}
 
 	// --- Get Data User ---

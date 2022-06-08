@@ -536,7 +536,7 @@ const AddPaymentMethodForm = (props) => {
 
 	return (
 		<>
-			{props.type == 'add' && (
+			{/* {props.type == 'add' && (
 				<button
 					className="btn btn-warning"
 					onClick={() => {
@@ -546,7 +546,7 @@ const AddPaymentMethodForm = (props) => {
 				>
 					Thêm phương thức
 				</button>
-			)}
+			)} */}
 
 			{props.type == 'edit' && (
 				<button

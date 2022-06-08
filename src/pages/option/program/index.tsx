@@ -296,7 +296,7 @@ const Programs = () => {
 			}
 		},
 		{
-			title: 'Mã lớp',
+			title: 'Mã chương trình',
 			dataIndex: 'ProgramCode',
 			...FilterColumn('ProgramCode', onSearch, handleReset, 'text'),
 			render: (text) => {
@@ -304,7 +304,7 @@ const Programs = () => {
 			}
 		},
 		{
-			title: 'Tên lớp',
+			title: 'Tên chương trình',
 			dataIndex: 'ProgramName',
 			...FilterColumn('ProgramName', onSearch, handleReset, 'text'),
 			render: (text) => {

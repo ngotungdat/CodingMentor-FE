@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Form, Input, Spin, Tooltip, Select } from 'antd'
+import { Modal, Form, Input, Spin, Tooltip, Select, InputNumber } from 'antd'
 import { RotateCcw } from 'react-feather'
 import { useForm } from 'react-hook-form'
 import EditorSimple from '~/components/Elements/EditorSimple'
-import { numberWithCommas } from '~/utils/functions'
+import { numberWithCommas, parsePriceStrToNumber } from '~/utils/functions'
 
 const ProgramForm = React.memo((props: any) => {
 	const [isModalVisible, setIsModalVisible] = useState(false)
@@ -125,6 +125,44 @@ const ProgramForm = React.memo((props: any) => {
 								</Form.Item>
 							</div>
 
+							<div className="col-md-6 col-12">
+								<Form.Item name="Type" label="Loại" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
+									<Select
+										style={{ width: '100%' }}
+										className="style-input"
+										showSearch
+										placeholder="Select..."
+										optionFilterProp="children"
+										onChange={onChangeSelect('Type')}
+									>
+										<Option key={1} value={1}>
+											Offline
+										</Option>
+										<Option key={2} value={2}>
+											Zoom
+										</Option>
+										<Option key={3} value={3}>
+											Video
+										</Option>
+										<Option key={4} value={4}>
+											1 - 1
+										</Option>
+									</Select>
+								</Form.Item>
+							</div>
+
+							<div className="col-md-6 col-12">
+								<Form.Item name="Level" label="Level" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
+									<InputNumber
+										placeholder=""
+										className="style-input"
+										onChange={(e) => {
+											setValue('Level', parsePriceStrToNumber(e))
+										}}
+									/>
+								</Form.Item>
+							</div>
+							
 							<div className="col-12">
 								<Form.Item name="Description" label="Mô tả">
 									<EditorSimple

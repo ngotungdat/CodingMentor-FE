@@ -315,12 +315,12 @@ const VideoCourseDetail = (props) => {
 						</>
 					)}
 				</div>
-				<hr />
-				<div className="bold">
+				{/*<hr />
+				 <div className="bold">
 					Được <span className="purple">đặt lịch thực hành luyện tập phát âm, trao đổi trực tiếp với giáo viên</span> trên hệ thống phòng
 					học online của
 					<span className="orange"> IELTS Nguyễn Huyền</span>
-				</div>
+				</div> */}
 			</Card>
 		)
 	}

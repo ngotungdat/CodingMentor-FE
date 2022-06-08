@@ -22,7 +22,7 @@ const PowerList = (props) => {
 				</span>
 
 				<img
-					style={{ width: 100, height: 100, borderRadius: 10, marginTop: 5 }}
+					style={{ width: 100, height: 100, borderRadius: 10, marginTop: 5, objectFit:'contain' }}
 					src={Avatar !== null && Avatar !== undefined && Avatar !== '' ? Avatar : '/images/study01.png'}
 					alt="logo course img"
 				/>

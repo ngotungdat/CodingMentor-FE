@@ -290,7 +290,7 @@ const Center = () => {
 				loading={isLoading}
 				addClass="basic-header"
 				TitlePage="Danh sách trung tâm"
-				// TitleCard={<CenterForm dataArea={dataArea} isLoading={isLoading} _onSubmit={(data: any) => _onSubmit(data)} />}
+				TitleCard={<CenterForm dataArea={dataArea} isLoading={isLoading} _onSubmit={(data: any) => _onSubmit(data)} />}
 				dataSource={center}
 				columns={columns}
 				Extra={

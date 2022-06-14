@@ -30,7 +30,8 @@
 		"pages/layoutChart/index.js",
 		"components/Dashboard/RateChart.js",
 		"components/Dashboard/RateChart.js",
-		"components/Elements/AvatarBase"
+		"components/Elements/AvatarBase",
+		"src/lib/amcharts/amcharts.min.js"
 	],
 	"exclude": ["node_modules"]
 }

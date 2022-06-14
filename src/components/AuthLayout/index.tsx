@@ -1,32 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { idiomsApi } from '~/apiBase/options/idioms'
-import { createDateObject } from '~/utils/functions'
 import styles from './AuthLayout.module.scss'
-import _ from '~/appConfig'
 import { Modal } from 'antd'
 import ReactHtmlParser from 'react-html-parser'
 import { rulesApi } from '~/apiBase'
-
-const SHOW_FOOTER = false
+import _ from '~/appConfig'
 
 function AuthLayout({ children }) {
-	const [idiom, setIdiom] = useState<{ content: string; author: string }>({ content: '', author: '' })
-	const [dateState, setDateState] = useState<any>(new Date())
 	const [isVisible, setIsVisible] = useState<boolean>(false)
 	const [termContent, setTermContent] = useState<any>(null)
-
-	async function getFirstIdiom() {
-		try {
-			const res: any = await idiomsApi.getRandom()
-			if (res.status == 200) {
-				const content: any = res?.data?.data?.Idioms
-				const author: any = res?.data?.data?.CreatedBy
-				setIdiom({ content, author })
-			}
-		} catch (error) {
-			console.log(error)
-		}
-	}
 
 	const getTermsInformation = async () => {
 		try {
@@ -38,16 +19,6 @@ function AuthLayout({ children }) {
 	}
 
 	useEffect(() => {
-		const timeID = setInterval(() => {
-			setDateState(createDateObject(new Date(), 'en'))
-		}, 1000)
-		return () => {
-			clearInterval(timeID)
-		}
-	}, [])
-
-	useEffect(() => {
-		getFirstIdiom()
 		getTermsInformation()
 	}, [])
 
@@ -73,24 +44,11 @@ function AuthLayout({ children }) {
 
 			<div className={styles.wrapper}>
 				<div className={styles['image-wrapper']}>
-					<img style={{ height: 300, width: 'auto' }} src="/images/login-top-icon.png" alt="trophy img" />
-					<img style={{ height: 500, width: 'auto' }} src="/images/login-bottom-icon.png" alt="trophy img" />
+					<img src="/images/login-top-icon.png" />
+					<img src="/images/login-bottom-icon.png" />
 				</div>
 				<div className={styles.content}>{children}</div>
 			</div>
-
-			{SHOW_FOOTER && (
-				<div className={`${styles.footer}${' row'}`}>
-					<div className={`${styles.footer__left}`}>
-						<i className="fas fa-map-marker-alt" style={{ color: '#fff' }}></i>
-						<span className="ml-3">Địa chỉ</span>
-					</div>
-					<div className={`${styles.footer__left}`} style={{ cursor: 'pointer' }} onClick={() => setIsVisible(true)}>
-						<i className="fas fa-book" style={{ color: '#fff' }}></i>
-						<span className="ml-3">điều khoản</span>
-					</div>
-				</div>
-			)}
 		</>
 	)
 }

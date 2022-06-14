@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import LoginForm from '~/components/LoginForm'
 import { useWrap } from '~/context/wrap'
 import AuthLayout from '~/components/AuthLayout'
-import { getTypeURL } from '~/utils/functions'
 
 function SignIn({ csrfToken }) {
 	const { showNoti } = useWrap()
@@ -14,7 +13,9 @@ function SignIn({ csrfToken }) {
 	useEffect(() => {
 		if (router.query?.error) {
 			const { error } = router.query
+
 			const erData = error.includes('Error:') ? JSON.parse(error.toString().split('Error:')[0]) : { status: 69 }
+
 			switch (erData?.status) {
 				case 200:
 					showNoti('success', 'Đăng nhập thành công')
@@ -38,27 +39,15 @@ function SignIn({ csrfToken }) {
 		return () => {}
 	}, [])
 
-	const [currentUrl, setCurrentUrl] = useState('')
-
-	useEffect(() => {
-		setCurrentUrl(window.location.href)
-	}, [])
-
 	const _Submit = (data: any) => {
-		let type = getTypeURL(currentUrl)
 		signIn('credentials-signin', {
 			...data,
-			callbackUrl:
-				type == 'LOCALHOST' ? 'http://localhost:3003' : type == 'DEMO' ? 'nguyenhuyen.monamedia.net' : 'https://pea-elms.herokuapp.com',
+			callbackUrl: (router.query?.callbackUrl as string | undefined) ?? '/',
 			redirect: true
 		})
 	}
 
-	return (
-		<>
-			<LoginForm onSubmit={_Submit} csrfToken={csrfToken} error={haveError} />
-		</>
-	)
+	return <LoginForm onSubmit={_Submit} csrfToken={csrfToken} error={haveError} />
 }
 
 SignIn.layout = AuthLayout

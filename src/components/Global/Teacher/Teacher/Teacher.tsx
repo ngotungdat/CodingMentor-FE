@@ -5,39 +5,38 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Eye } from 'react-feather'
 import { areaApi, branchApi, districtApi, staffSalaryApi, teacherApi, userInformationApi, wardApi } from '~/apiBase'
 import SortBox from '~/components/Elements/SortBox'
-import ExpandTable from '~/components/ExpandTable'
 import PowerTable from '~/components/PowerTable'
 import FilterColumn from '~/components/Tables/FilterColumn'
 import { useWrap } from '~/context/wrap'
 import { fmSelectArr } from '~/utils/functions'
 import StaffSalaryForm from '../../Option/StaffSalaryForm'
-import ConfirmForm from '../TeacherSalary/confirm-form'
-import PromoteTeacher from './PromoteTeacher'
 import SalaryTeacherNested from './SalaryTeacherNested'
 import TeacherFilterForm from './TeacherFilterForm'
 import TeacherForm from './TeacherForm'
 
+type IAreaSystemList = {
+	areaList: IOptionCommon[]
+	branchListTotal: IOptionCommon[]
+	districtList: IOptionCommon[]
+	wardList: IOptionCommon[]
+}
+
+const initAreaSystemList = {
+	areaList: [],
+	branchListTotal: [],
+	districtList: [],
+	wardList: []
+}
+
 const Teacher = () => {
 	const [teacherList, setTeacherList] = useState<ITeacher[]>([])
-	const [optionAreaSystemList, setOptionAreaSystemList] = useState<{
-		areaList: IOptionCommon[]
-		branchListTotal: IOptionCommon[]
-		districtList: IOptionCommon[]
-		wardList: IOptionCommon[]
-	}>({
-		areaList: [],
-		branchListTotal: [],
-		districtList: [],
-		wardList: []
-	})
+	const [optionAreaSystemList, setOptionAreaSystemList] = useState<IAreaSystemList>(initAreaSystemList)
 	const [branchList, setBranchList] = useState([])
-	const [isLoading, setIsLoading] = useState({
-		type: '',
-		status: false
-	})
+	const [isLoading, setIsLoading] = useState({ type: '', status: false })
 	const [totalPage, setTotalPage] = useState(null)
 	const { showNoti, pageSize, userInformation } = useWrap()
 	const [activeColumnSearch, setActiveColumnSearch] = useState('')
+
 	// FILTER
 	const listFieldInit = {
 		pageIndex: 1,
@@ -50,12 +49,7 @@ const Teacher = () => {
 		toDate: '',
 		StatusID: null
 	}
-	let refValue = useRef({
-		pageIndex: 1,
-		pageSize: 10,
-		sort: 1,
-		sortType: false
-	})
+	let refValue = useRef({ pageIndex: 1, pageSize: 10, sort: 1, sortType: false })
 	const [filters, setFilters] = useState(listFieldInit)
 	// ADD SALARY TO NEW TEACHER
 	const [isClearForm, setIsClearForm] = useState(false)
@@ -486,7 +480,6 @@ const Teacher = () => {
 						updateObj={value}
 						indexUpdateObj={idx}
 						handleUpdateTeacher={onUpdateTeacher}
-						optionStatusList={optionStatusList}
 						optionGenderList={optionGenderList}
 						optionAreaSystemList={optionAreaSystemList}
 						handleFetchDistrict={fetchDistrictByAreaID}

@@ -51,7 +51,6 @@ type ITeacherForm = {
 	isLoading: { type: string; status: boolean }
 	isClearForm: boolean
 	indexUpdateObj: number
-	optionStatusList: any
 	optionGenderList: any
 	optionAreaSystemList: { areaList: any; districtList: any; wardList: any }
 	handleFetchDistrict: Function
@@ -60,29 +59,24 @@ type ITeacherForm = {
 	handleFetchBranch: Function
 }
 
-const TeacherForm = (props: ITeacherForm) => {
-	const {
-		handleCreateTeacher,
-		isUpdate,
-		handleUpdateTeacher,
-		updateObj,
-		isLoading,
-		indexUpdateObj,
-		isClearForm,
-		optionStatusList,
-		optionGenderList,
-		optionAreaSystemList,
-		handleFetchDistrict,
-		handleFetchWard,
-		optionBranchList,
-		handleFetchBranch
-	} = props
+const optionStatusList = [
+	{ title: 'Hoạt động', value: 0 },
+	{ title: 'Khóa', value: 1 }
+]
 
+const TeacherForm = (props: ITeacherForm) => {
+	const { handleCreateTeacher, isClearForm, isUpdate, handleUpdateTeacher } = props
+	const { updateObj, isLoading, optionAreaSystemList, handleFetchDistrict, handleFetchWard, indexUpdateObj } = props
+	const { optionGenderList, optionBranchList, handleFetchBranch } = props
 	const { areaList, districtList, wardList } = optionAreaSystemList
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const { userInformation } = useWrap()
 
 	const openModal = () => {
+		if (isUpdate && !!updateObj) {
+			form.setValue('StatusID', updateObj?.StatusID)
+		}
+
 		setIsModalVisible(true)
 		if (isUpdate && updateObj && updateObj.AreaID) {
 			!!handleFetchBranch && handleFetchBranch(updateObj.AreaID)
@@ -370,15 +364,15 @@ const TeacherForm = (props: ITeacherForm) => {
 									<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
 								</div>
 								<div className="col-md-6 col-12">
-										<SelectField
-												form={form}
-												name="Branch"
-												label="Trung tâm"
-												mode="multiple"
-												optionList={optionBranchList}
-												isLoading={isLoading.type === 'FETCH_DATA_BY_AREA' && isLoading.status}
-												placeholder="Chọn trung tâm"
-										/>
+									<SelectField
+										form={form}
+										name="Branch"
+										label="Trung tâm"
+										mode="multiple"
+										optionList={optionBranchList}
+										isLoading={isLoading.type === 'FETCH_DATA_BY_AREA' && isLoading.status}
+										placeholder="Chọn trung tâm"
+									/>
 								</div>
 
 								<div className="col-md-6 col-12">
@@ -424,17 +418,16 @@ const TeacherForm = (props: ITeacherForm) => {
 									<InputTextField form={form} name="Email" label="Email" placeholder="Nhập email" isRequired={true} />
 									<DateField form={form} name="Jobdate" label="Ngày nhận việc" placeholder="Chọn ngày nhận việc" isRequired={true} />
 								</div>
-
 								<div className="col-md-6 col-12">
 									<SelectField
-											form={form}
-											name="Branch"
-											label="Trung tâm"
-											mode="multiple"
-											optionList={optionBranchList}
-											isLoading={isLoading.type === 'FETCH_DATA_BY_AREA' && isLoading.status}
-											placeholder="Chọn trung tâm"
-											isRequired={true}
+										form={form}
+										name="Branch"
+										label="Trung tâm"
+										mode="multiple"
+										optionList={optionBranchList}
+										isLoading={isLoading.type === 'FETCH_DATA_BY_AREA' && isLoading.status}
+										placeholder="Chọn trung tâm"
+										isRequired={true}
 									/>
 									<InputPreventText form={form} name="Mobile" label="Số điện thoại" placeholder="Nhập số điện thoại" isRequired={true} />
 									<InputTextField form={form} name="LinkFaceBook" label="Link Facebook" placeholder="Nhập link faebook" />

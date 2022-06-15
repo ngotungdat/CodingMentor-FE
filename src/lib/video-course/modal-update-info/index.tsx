@@ -630,7 +630,9 @@ const ModalUpdateInfo = React.memo((props: any) => {
 														</div>
 													)}
 												</Form.Item>
-												<p className="font-weight-primary mb-4">*Lưu ý: Upload tối đa 100Mb</p>
+												<p className="font-weight-primary mb-4" style={{ color: 'red' }}>
+													*Lưu ý: Upload tối đa 100Mb
+												</p>
 											</div>
 										)}
 

@@ -46,6 +46,7 @@ export const WrapProvider = ({ children }) => {
 	const router = useRouter()
 	const getRouter = router.pathname
 	let path: string = router.pathname
+
 	const [session, loading] = useSession()
 	const [titlePage, setTitlePage] = useState('')
 	const [userInfo, setUserInfo] = useState<IUser>(null)
@@ -55,12 +56,12 @@ export const WrapProvider = ({ children }) => {
 	const [reloadNotification, setReloadNotification] = useState(false)
 	const [reloadCart, setReloadCart] = useState(false)
 
-	// --- Get Title Page ---
+	// Get Title Page
 	const getTitlePage = (title) => {
 		setTitlePage(title)
 	}
 
-	// --- Show Notification ---
+	// Show Notification
 	const showNoti = (type: string, content: string) => {
 		const nodeNoti = () => {
 			return (
@@ -98,12 +99,12 @@ export const WrapProvider = ({ children }) => {
 		}
 	}
 
-	// --- Get Data User ---
+	// Get Data User
 	const getDataUser = (data) => {
 		data && setUserInfo(data)
 	}
 
-	// --- Check is Admin ---
+	// Check is Admin
 	const checkIsAdmin = (data) => {
 		let role = data.RoleID
 		if (role == 1 || role == 5) {
@@ -111,7 +112,7 @@ export const WrapProvider = ({ children }) => {
 		}
 	}
 
-	// --- Get New Data Use ---
+	// Get New Data Use
 	const getNewDataUser = async () => {
 		try {
 			let res = await userApi.getNew()
@@ -121,12 +122,12 @@ export const WrapProvider = ({ children }) => {
 		}
 	}
 
-	// --- Handle Reload Notification ---
+	// Handle Reload Notification
 	const handleReloadNoti = () => {
 		setReloadNotification(!reloadNotification)
 	}
 
-	// --- Handle Reload Card ---
+	// Handle Reload Card
 	const handleReloadCart = () => {
 		setReloadCart(!reloadCart)
 	}
@@ -141,7 +142,7 @@ export const WrapProvider = ({ children }) => {
 	}
 
 	useEffect(() => {
-		if (loading && typeof session !== 'undefined' && session !== null) {
+		if (path !== '/baochau' && !!session) {
 			if (path.search('signin') < 1) {
 				getNewDataUser()
 				getRoles(0)

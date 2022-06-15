@@ -11,9 +11,6 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'antd/dist/antd.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '~/styles/global.scss'
-import '~/styles/lib/dx-gantt.min.css'
-import '~/styles/lib/dx.light.css'
-import '~/styles/lib/export.css'
 
 // import config
 import _ from '~/appConfig'
@@ -65,10 +62,6 @@ export default function App({ Component, pageProps }) {
 				<meta property="og:description" content={codingDescription} />
 
 				<link rel="icon" href="/logo.png" />
-
-				<script src="amcharts.js" />
-				<script src="serial.js" />
-				<script src="light.js" />
 			</Head>
 
 			<AuthProvider session={pageProps.session}>

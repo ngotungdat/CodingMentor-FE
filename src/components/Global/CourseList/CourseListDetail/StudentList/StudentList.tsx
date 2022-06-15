@@ -40,7 +40,7 @@ function StudentsList(props) {
 	}
 	const columns = [
 		{ title: 'Tên học viên', width: 200, dataIndex: 'StudentName' },
-		{ title: 'SĐT', width: 150, dataIndex: 'Mobile' },
+		{ title: 'Số điện thoại', width: 150, dataIndex: 'Mobile' },
 		{ title: 'Email', width: 180, dataIndex: 'Email' },
 		{ title: 'Số ngày nghỉ', width: 150, dataIndex: 'DayOff' },
 		{

@@ -609,7 +609,7 @@ const ParentsList = () => {
 			dataIndex: 'Email'
 		},
 		{
-			title: 'SĐT',
+			title: 'Số điện thoại',
 			width: 120,
 			dataIndex: 'Mobile'
 		},

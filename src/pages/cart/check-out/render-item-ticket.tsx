@@ -34,7 +34,7 @@ const RenderItemTicket = (props: IItemTicket) => {
 				<div className="content noselect">
 					<div className="w-code flex-center">
 						<img
-							src={!!item?.Images ? item?.Images : '/images/logo-panda.png'}
+							src={!!item?.Images ? item?.Images : '/images/logo-square.png'}
 							alt="avt"
 							style={{ width: 90, height: 90, opacity: _getStatus(1) == '' ? 1 : 0.5 }}
 						/>

@@ -11,7 +11,7 @@ const HeaderVideo: FC<hProps> = ({ params, onClick }): JSX.Element => {
 	return (
 		<div className="row video-header pl-5 pr-5 video-shadow">
 			<Link href="/">
-				<img className="logo-img" src="/images/login-logo.png" />
+				<img className="logo-img" src="/images/logo.png" />
 			</Link>
 
 			<div className="video-header__video-title in-2-line ml-5">{params.name}</div>

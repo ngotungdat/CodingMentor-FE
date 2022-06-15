@@ -420,7 +420,7 @@ const Teacher = () => {
 			render: (genderID) => optionGenderList.find((o) => o.value === genderID).title
 		},
 		{
-			title: 'SĐT',
+			title: 'Số điện thoại',
 			width: 120,
 			dataIndex: 'Mobile',
 			render: (text) => <p className="font-weight-primary">{text}</p>

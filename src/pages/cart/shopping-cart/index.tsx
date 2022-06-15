@@ -190,7 +190,7 @@ const ShoppingCart = () => {
 						>
 							<Avatar
 								style={{ width: 80, height: 80, padding: 0, margin: 0 }}
-								src={item.ImageThumbnails && item.ImageThumbnails.length ? item.ImageThumbnails : '/images/logo-thumnail-2.jpg'}
+								src={item.ImageThumbnails && item.ImageThumbnails.length ? item.ImageThumbnails : '/images/logo-square.png'}
 							/>
 						</div>
 
@@ -314,7 +314,7 @@ const ShoppingCart = () => {
 					<div className="header__logo col-6 col-md-3">
 						<Link href="/">
 							<a href="#">
-								<img className="logo-img" src="/images/logo-final.png" alt="logo branch"></img>
+								<img className="logo-img" src="/images/logo-square.png" alt="logo branch"></img>
 							</a>
 						</Link>
 					</div>

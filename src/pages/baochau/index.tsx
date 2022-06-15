@@ -12,11 +12,11 @@ export default function BelongingToDev() {
 	const useAllRoles = [
 		{ ID: 1, name: 'Admin' },
 		{ ID: 2, name: 'Giáo viên' },
-		{ ID: 3, name: 'Học viên' }
-		// { ID: 4, name: 'Phụ huynh' },
-		// { ID: 5, name: 'Quản lý' },
-		// { ID: 6, name: 'Tư vấn viên' },
-		// { ID: 10, name: 'Nhân viên' }
+		{ ID: 3, name: 'Học viên' },
+		{ ID: 4, name: 'Phụ huynh' },
+		{ ID: 5, name: 'Quản lý' },
+		{ ID: 6, name: 'Tư vấn viên' },
+		{ ID: 10, name: 'Nhân viên' }
 	]
 
 	const handleAccess = async (data) => {
@@ -36,13 +36,12 @@ export default function BelongingToDev() {
 		return (
 			<div className="dev__screen d-flex justify-content-center align-items-center">
 				<Form form={form} onFinish={handleAccess}>
-					<div className="dev__screen-content shake">
+					<div className="dev__screen-content">
 						<Form.Item name="pass" style={{ width: '100%' }}>
-							<Input.Password placeholder="Show your dick" style={{ width: '100%' }} className="style-input shake" />
+							<Input.Password placeholder="ใส่รหัสผ่าน" style={{ width: '100%' }} className="style-input" />
 						</Form.Item>
-
-						<button className="btn btn-primary shake" disabled={isLoading.status} type="submit" style={{ width: '100%' }}>
-							{isLoading.type === 'ACCESS' && isLoading.status ? <Spin /> : 'Play Now'}
+						<button className="btn btn-primary" disabled={isLoading.status} type="submit" style={{ width: '100%' }}>
+							{isLoading.type === 'ACCESS' && isLoading.status ? <Spin /> : 'เข้าสู่ระบบ'}
 						</button>
 					</div>
 				</Form>
@@ -67,7 +66,6 @@ export default function BelongingToDev() {
 	}
 
 	const handleSelect = async (event) => {
-		console.log(event)
 		setIsLoading({ type: 'SELECT_ROLE', status: true })
 		try {
 			let res = await devApi.getAllMenuByRole({ roleId: 1 })
@@ -81,11 +79,11 @@ export default function BelongingToDev() {
 		return (
 			<Form form={form} onFinish={handleRedirect}>
 				<div className="dev__main d-flex justify-content-center align-items-center p-5">
-					<div className="dev__main-screen row shake">
+					<div className="dev__main-screen row">
 						<div className="dev__main-redirect col-12 d-flex justify-content-between ">
 							<div className="d-flex justify-content-center align-items-center" style={{ flex: 1 }}>
 								<Form.Item name="roleId" className="d-flex justify-content-center align-items-center" style={{ width: '100%' }}>
-									<Select placeholder="Chọn role đi" className="style-input" onChange={handleSelect}>
+									<Select placeholder="เลือกบัญชี" className="style-input" onChange={handleSelect}>
 										{!!useAllRoles &&
 											useAllRoles.map((item, index) => {
 												return (
@@ -99,8 +97,8 @@ export default function BelongingToDev() {
 							</div>
 
 							<div className="d-flex justify-content-center align-items-center ml-3">
-								<button type="submit" className="btn btn-primary shake">
-									FUCK
+								<button type="submit" className="btn btn-primary">
+									เล่น
 								</button>
 							</div>
 						</div>
@@ -113,6 +111,7 @@ export default function BelongingToDev() {
 
 	return <>{isAccess ? renderMainScreen() : renderInputPassScreen()}</>
 }
+
 export async function getServerSideProps() {
 	const providers = await getProviders()
 	return {

@@ -295,7 +295,7 @@ function PackageExaminer() {
 			render: (price) => (!price ? 0 : numberWithCommas(price))
 		},
 		{
-			title: 'SĐT',
+			title: 'Số điện thoại',
 			dataIndex: 'Mobile'
 		},
 		{

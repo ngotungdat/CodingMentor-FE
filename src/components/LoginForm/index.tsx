@@ -44,7 +44,7 @@ function index(props: any) {
 					<div className={styles.wrapForm}>
 						<form onSubmit={handleSubmit(_Submit)} className={styles.loginForm}>
 							<div className={styles.loginFormImg}>
-								<img src="/images/login-logo.png" alt="coding-logo" />
+								<img src="/images/logo.png" alt="coding-logo" />
 							</div>
 
 							<h6 className={styles.title}>Đăng nhập Coding Mentor</h6>

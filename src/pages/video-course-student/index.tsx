@@ -224,7 +224,7 @@ const VideoCourseStudent = () => {
 									<div className="row m-0 item pr-3 pl-3">
 										<div className="row m-0 main justify-content-between">
 											<div className="imgs">
-												<img src={item?.ImageThumbnails == null ? '/images/logo-panda.png' : item?.ImageThumbnails} alt="img course" />
+												<img src={item?.ImageThumbnails == null ? '/images/logo-square.png' : item?.ImageThumbnails} alt="img course" />
 											</div>
 											<div className="column ml-5">
 												<span className="font-weight-black">{item?.VideoCourseName}</span>

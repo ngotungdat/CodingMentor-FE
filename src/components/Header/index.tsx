@@ -120,7 +120,7 @@ export default function Header(props: any) {
 			<div className={`app-header-logo ${!isOpen ? 'close-app' : countOpen > 0 ? 'open' : 'open-no-ani'}`}>
 				<Link href="/">
 					<a href="#">
-						<img className="logo-img" src="/images/Logo-Type.png"></img>
+						<img className="logo-img" src="/images/logo.png"></img>
 					</a>
 				</Link>
 				<p style={{ display: !isOpen ? 'block' : 'none' }}></p>

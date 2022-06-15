@@ -396,7 +396,7 @@ const CheckOut = () => {
 					<div className="header__logo col-6 col-md-3">
 						<Link href="/">
 							<a href="#">
-								<img className="logo-img" src="/images/logo-final.png" alt="logo branch"></img>
+								<img className="logo-img" src="/images/logo-square.png" alt="logo branch"></img>
 							</a>
 						</Link>
 					</div>

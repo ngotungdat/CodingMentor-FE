@@ -250,7 +250,7 @@ const AddTrialStudentForm = (props) => {
 								</Form.Item>
 							</div>
 							<div className="col-md-6 col-12">
-								<Form.Item label="SĐT">
+								<Form.Item label="Số điện thoại">
 									<Select
 										className="style-input"
 										showSearch

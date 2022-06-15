@@ -313,14 +313,14 @@ export const AdminChildMenu = [
 						Route: '/customer/contract/contract-customer-list',
 						Text: 'Học viên có hợp đồng',
 						Icon: ''
-					},
-					{
-						ItemType: 'single',
-						Key: '/customer/certificate-list',
-						Route: '/customer/certificate-list',
-						Text: 'Chứng chỉ học viên',
-						Icon: ''
 					}
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/customer/certificate-list',
+					// 	Route: '/customer/certificate-list',
+					// 	Text: 'Chứng chỉ học viên',
+					// 	Icon: ''
+					// }
 				]
 			},
 			{

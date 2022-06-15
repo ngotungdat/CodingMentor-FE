@@ -39,7 +39,11 @@ import {
 	faBookmark,
 	faUserSecret,
 	faBookAtlas,
-	faCalendarCheck
+	faCalendarCheck,
+	faUserAltSlash,
+	faUsersGear,
+	faCommentDollar,
+	faIdBadge
 } from '@fortawesome/free-solid-svg-icons'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
@@ -242,81 +246,162 @@ export const AdminChildMenu = [
 		MenuKey: '/customer',
 		MenuItem: [
 			{
-				ItemType: 'single',
-				Key: '/customer/student/student-advisory',
-				Route: '/customer/student/student-advisory',
-				Text: 'Khách hàng',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUser as IconProp} size="lg" />
+				ItemType: 'sub-menu',
+				Key: 'student-list-032',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUser as IconProp} size="lg" />,
+				TitleSub: 'Học viên',
+				SubMenuList: [
+					{
+						ItemType: 'single',
+						Key: '/customer/student/student-advisory',
+						Route: '/customer/student/student-advisory',
+						Text: 'Khách hàng',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/student/student-list',
+						Route: '/customer/student/student-list',
+						Text: 'Dữ liệu học viên',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/student/student-reserve',
+						Route: '/customer/student/student-reserve',
+						Text: 'Học viên bảo lưu',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/student/student-appointment',
+						Route: '/customer/student/student-appointment',
+						Text: 'Học viên chờ xếp lớp',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/student/student-course',
+						Route: '/customer/student/student-course',
+						Text: 'Học viên trong khóa',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/student/student-change-course',
+						Route: '/customer/student/student-change-course',
+						Text: 'Học viên chuyển khóa',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/student/exchange-student',
+						Route: '/customer/student/exchange-student',
+						Text: 'Học viên chuyển giao',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/package/package-payment',
+						Route: '/package/package-payment',
+						Text: 'Học viên mua bộ đề',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/contract/contract-customer-list',
+						Route: '/customer/contract/contract-customer-list',
+						Text: 'Học viên có hợp đồng',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/certificate-list',
+						Route: '/customer/certificate-list',
+						Text: 'Chứng chỉ học viên',
+						Icon: ''
+					}
+				]
 			},
 			{
-				ItemType: 'single',
-				Key: '/customer/service/service-info-student',
-				Route: '/customer/service/service-info-student',
-				Text: 'Thêm lịch hẹn test',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarPlus as IconProp} size="lg" />
+				ItemType: 'sub-menu',
+				Key: 'sss-list-33098s',
+				TitleSub: 'Hẹn test',
+				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserClock as IconProp} size="lg" />,
+				SubMenuList: [
+					{
+						ItemType: 'single',
+						Key: '/customer/service/service-info-student',
+						Route: '/customer/service/service-info-student',
+						Text: 'Thêm lịch hẹn test',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/service/service-appointment-test',
+						Route: '/customer/service/service-appointment-test',
+						Text: 'Khách hẹn test',
+						Icon: ''
+					}
+				]
 			},
 			{
-				ItemType: 'single',
-				Key: '/customer/service/service-appointment-test',
-				Route: '/customer/service/service-appointment-test',
-				Text: 'Khách hẹn test',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserClock as IconProp} size="lg" />
+				ItemType: 'sub-menu',
+				Key: 'sub-list-course-child-3',
+				Icon: <FontAwesomeIcon icon={faUsersGear} size="lg" />,
+				TitleSub: 'Báo cáo học viên',
+				SubMenuList: [
+					{
+						ItemType: 'single',
+						Key: '/customer/report/report-customer-warning',
+						Route: '/customer/report/report-customer-warning',
+						Text: 'Cảnh báo học viên',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/report/report-customer-test',
+						Route: '/customer/report/report-customer-test',
+						Text: 'Học viên sắp thi',
+						Icon: ''
+					}
+				]
 			},
 			{
-				ItemType: 'single',
-				Key: '/customer/student/student-list',
-				Route: '/customer/student/student-list',
-				Text: 'Dữ liệu học viên',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserGraduate as IconProp} size="lg" />
-			},
-			{
-				ItemType: 'single',
-				Key: '/customer/student/student-appointment',
-				Route: '/customer/student/student-appointment',
-				Text: 'HV chờ xếp lớp',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCirclePause as IconProp} size="lg" />
-			},
-			{
-				ItemType: 'single',
-				Key: '/customer/student/student-course',
-				Route: '/customer/student/student-course',
-				Text: 'HV trong khóa',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faChalkboardUser as IconProp} size="lg" />
-			},
-			{
-				ItemType: 'single',
-				Key: '/customer/student/student-change-course',
-				Route: '/customer/student/student-change-course',
-				Text: 'HV chuyển khóa',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faArrowRightArrowLeft as IconProp} size="lg" />
-			},
-			{
-				ItemType: 'single',
-				Key: '/customer/student/student-reserve',
-				Route: '/customer/student/student-reserve',
-				Text: 'HV bảo lưu',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faBookmark as IconProp} size="lg" />
-			},
-			{
-				ItemType: 'single',
-				Key: '/customer/student/exchange-student',
-				Route: '/customer/student/exchange-student',
-				Text: 'HV chuyển giao',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faHeadset as IconProp} size="lg" />
-			},
-			{
-				ItemType: 'single',
-				Key: '/package/package-payment',
-				Route: '/package/package-payment',
-				Text: 'HV mua bộ đề',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faRectangleList as IconProp} size="lg" />
-			},
-			{
-				ItemType: 'single',
-				Key: '/customer/report/report-customer-warning',
-				Route: '/customer/report/report-customer-warning',
-				Text: 'Cảnh báo học viên',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCircleExclamation as IconProp} size="lg" />
+				ItemType: 'sub-menu',
+				Key: 'sub-list-course-child-4',
+				Icon: <FontAwesomeIcon icon={faCircleDollarToSlot} size="lg" />,
+				TitleSub: 'Tài chính',
+				SubMenuList: [
+					{
+						ItemType: 'single',
+						Key: '/customer/finance/finance-customer-debts',
+						Route: '/customer/finance/finance-customer-debts',
+						Text: 'Thông tin thanh toán',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/finance/finance-cashier-refund',
+						Route: '/customer/finance/finance-cashier-refund',
+						Text: 'Yêu cầu hoàn tiền',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/finance/finance-cashier-payment',
+						Route: '/customer/finance/finance-cashier-payment',
+						Text: 'Phiếu chi',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/finance/finance-cashier-invoice',
+						Route: '/customer/finance/finance-cashier-invoice',
+						Text: 'Phiếu thu',
+						Icon: ''
+					}
+				]
 			},
 			{
 				ItemType: 'single',

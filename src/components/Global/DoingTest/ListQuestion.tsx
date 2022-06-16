@@ -18,7 +18,7 @@ type IListQuestion = {
 	openPagi?: any
 }
 
-const ListQuestion = (props: IListQuestion): JSX.Element => {
+const ListQuestion = (props: any): JSX.Element => {
 	const { dataQuestion, listQuestionID, isMarked, showScore, setChild, openPagi } = props
 	const { doneTestData } = useDoneTest()
 

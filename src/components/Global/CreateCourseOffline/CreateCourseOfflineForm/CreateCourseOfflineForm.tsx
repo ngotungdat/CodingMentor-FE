@@ -29,7 +29,6 @@ const CreateCourseOfflineForm = (props) => {
 	const { userInformation } = useWrap()
 	const closeModal = () => {
 		setIsModalVisible(false)
-		//form.reset()
 	}
 
 	const schema = yup.object().shape({
@@ -40,6 +39,7 @@ const CreateCourseOfflineForm = (props) => {
 		CurriculumID: yup.number().nullable().required('Bạn không được để trống'),
 		StartDay: yup.string().required('Bạn không được để trống'),
 		Price: yup.string().nullable().required('Bạn không được để trống'),
+		SalaryOfLesson: yup.string().nullable().required('Bạn không được để trống'),
 		CourseName: yup.string(),
 		TimeCourse: yup.array().of(
 			yup.object().shape({
@@ -53,6 +53,7 @@ const CreateCourseOfflineForm = (props) => {
 		GradeID: null,
 		ProgramID: null,
 		TeacherID: null,
+		SalaryOfLesson: null,
 		CurriculumID: null,
 		StartDay: moment().format('YYYY/MM/DD'),
 		Price: '',
@@ -78,7 +79,7 @@ const CreateCourseOfflineForm = (props) => {
 				const res: any = await handleGetCourse(data)
 				if (res) {
 					closeModal()
-					// form.reset({ ...defaultValuesInit })
+					form.reset()
 				}
 				break
 			default:
@@ -86,10 +87,10 @@ const CreateCourseOfflineForm = (props) => {
 		}
 	}
 	// ONCHANGE OF GRADE FIELD
-	const checkHandleFetchProgramByGrade = async (value) => {
+	const checkHandleFetchProgramByGrade = (value) => {
 		if (!handleFetchProgramByGrade) return
 		form.setValue('ProgramID', undefined)
-		var data = await handleFetchProgramByGrade(value)
+		handleFetchProgramByGrade(value)
 	}
 	// ONCHANGE STUDY TIME AND PROGRAM
 	const checkHandleGetValueBeforeFetchCurriculum = (key: string, value: number) => {
@@ -97,7 +98,7 @@ const CreateCourseOfflineForm = (props) => {
 		form.setValue('CurriculumID', undefined)
 		handleGetValueBeforeFetchCurriculum(key, value)
 	}
-	// ONCHANGE Curriculum AND BRANCH
+	// ONCHANGE PROGRAM AND BRANCH
 	const checkHandleGetValueBeforeFetchTeacher = (key: string, value: number) => {
 		if (!handleGetValueBeforeFetchTeacher) return
 		form.setValue('TeacherID', undefined)
@@ -129,9 +130,9 @@ const CreateCourseOfflineForm = (props) => {
 								<SelectField
 									form={form}
 									name="GradeID"
-									label="Khối học"
+									label="chuyên môn"
 									isRequired
-									placeholder="Chọn khối học"
+									placeholder="Chọn chuyên môn"
 									isLoading={isLoading.type === 'FETCH_DATA' && isLoading.status}
 									optionList={optionListForForm.gradeList}
 									onChangeSelect={checkHandleFetchProgramByGrade}
@@ -147,6 +148,7 @@ const CreateCourseOfflineForm = (props) => {
 									placeholder="Chọn phòng học"
 									isLoading={isLoading.type === 'RoomID' && isLoading.status}
 									optionList={optionListForForm.roomList}
+									// onChangeSelect={checkHandleFetchProgramByGrade}
 								/>
 							</div>
 
@@ -245,10 +247,10 @@ const CreateCourseOfflineForm = (props) => {
 									placeholder="Chọn chương trình học"
 									optionList={optionListForForm.programList}
 									onChangeSelect={(value) => {
-										console.log(optionListForForm.programList)
-										const price = 0 //optionListForForm.programList.find((p) => p.value === value)?.options.Price || 0
+										const price = optionListForForm.programList.find((p) => p.value === value)?.price || 0
 										form.setValue('Price', numberWithCommas(price))
 										checkHandleGetValueBeforeFetchCurriculum('ProgramID', value)
+										checkHandleGetValueBeforeFetchTeacher('ProgramID', value)
 									}}
 								/>
 							</div>
@@ -261,9 +263,6 @@ const CreateCourseOfflineForm = (props) => {
 									isLoading={isLoading.type === 'ProgramID' && isLoading.status}
 									placeholder="Chọn giáo trình"
 									optionList={optionListForForm.curriculumList}
-									onChangeSelect={(value) => {
-										checkHandleGetValueBeforeFetchTeacher('ProgramID', value)
-									}}
 								/>
 							</div>
 							<div className="col-md-6 col-12">
@@ -287,7 +286,7 @@ const CreateCourseOfflineForm = (props) => {
 							<div className="col-md-6 col-12">
 								<InputMoneyField form={form} name="Price" label="Giá khóa học" placeholder="Nhập giá khóa học" isRequired />
 							</div>
-							<div className="col-6">
+							<div className="col-12 col-md-6">
 								<InputTextField
 									form={form}
 									name="MaximumStudent"
@@ -295,7 +294,7 @@ const CreateCourseOfflineForm = (props) => {
 									placeholder="Nhập số học viên tối đa trong lớp"
 								/>
 							</div>
-							<div className="col-12">
+							<div className="col-12 col-md-6">
 								<InputTextField
 									form={form}
 									name="CourseName"
@@ -304,7 +303,14 @@ const CreateCourseOfflineForm = (props) => {
 								/>
 							</div>
 							<div className="col-md-12 col-12 mt-3 " style={{ textAlign: 'center' }}>
-								<button type="submit" className="btn btn-primary" disabled={isLoading.type == 'ADD_DATA' && isLoading.status}>
+								<button
+									type="submit"
+									className="btn btn-primary"
+									disabled={isLoading.type == 'ADD_DATA' && isLoading.status}
+									onClick={() => {
+										console.log('clicked')
+									}}
+								>
 									Thêm Vào Lịch
 									{isLoading.type == 'ADD_DATA' && isLoading.status && <Spin className="loading-base" />}
 								</button>

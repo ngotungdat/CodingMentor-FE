@@ -10,6 +10,7 @@ import {
 	gradeApi,
 	lessonOnlineApi,
 	programApi,
+	roomApi,
 	staffApi,
 	studyDayOnlineApi,
 	studyTimeApi,
@@ -21,9 +22,9 @@ import { fmArrayToObjectWithSpecialKey, fmSelectArr } from '~/utils/functions'
 import CreateCourseCalendar from '../CreateCourse/Calendar/CreateCourseCalendar'
 import Schedule from '../CreateCourse/Schedule/Schedule'
 import ScheduleList from '../CreateCourse/Schedule/ScheduleList'
-import CreateCourseOnlineForm from './CreateCourseOnlineForm/CreateCourseOnlineForm'
-import SaveCreateCourseOnline from './SaveCreateCourseOnline'
-import ScheduleOnlineItem from './ScheduleOnline/ScheduleOnlineItem'
+import CreateCourseOfflineForm from './CreateCourseOfflineForm/CreateCourseOfflineForm'
+import SaveCreateCourseOffline from './SaveCreateCourseOffline'
+import ScheduleOfflineItem from './ScheduleOffline/ScheduleOfflineItem'
 
 // ------------ MAIN COMPONENT ------------------
 const dayOfWeek = [
@@ -57,7 +58,7 @@ const dayOfWeek = [
 	}
 ]
 
-const CreateCourseOnline = () => {
+const CreateCourseOffline = () => {
 	const router = useRouter()
 	// -----------STATE-----------
 	// FORM
@@ -66,7 +67,7 @@ const CreateCourseOnline = () => {
 		type: '',
 		status: false
 	})
-	const [optionListForForm, setOptionListForForm] = useState<any>({
+	const [optionListForForm, setOptionListForForm] = useState<ICOOptionListForForm>({
 		branchList: [],
 		studyTimeList: [],
 		gradeList: [],
@@ -74,7 +75,8 @@ const CreateCourseOnline = () => {
 		teacherList: [],
 		dayOfWeek,
 		curriculumList: [],
-		userInformationList: []
+		userInformationList: [],
+		roomList: []
 	})
 	const [dataToFetchCurriculum, setDataToFetchCurriculum] = useState<{
 		StudyTimeID: number
@@ -83,7 +85,10 @@ const CreateCourseOnline = () => {
 		StudyTimeID: null,
 		ProgramID: null
 	})
-	const [dataToFetchTeacher, setDataToFetchTeacher] = useState<{ ProgramID: number; BranchID: number }>({
+	const [dataToFetchTeacher, setDataToFetchTeacher] = useState<{
+		ProgramID: number
+		BranchID: number
+	}>({
 		BranchID: null,
 		ProgramID: null
 	})
@@ -113,6 +118,7 @@ const CreateCourseOnline = () => {
 		SalaryOfLesson: 0,
 		Price: 0,
 		TimeCourse: [],
+		RoomID: 0,
 		Avatar: ''
 	})
 	const [saveCourseInfo, setSaveCourseInfo] = useState<ICOSaveCourseInfo>({
@@ -137,6 +143,7 @@ const CreateCourseOnline = () => {
 		SalaryOfLesson: 0,
 		Price: 0,
 		Schedule: [],
+		RoomID: 0,
 		ImageCourse: ''
 	})
 	// CALENDAR MODAL
@@ -172,7 +179,7 @@ const CreateCourseOnline = () => {
 				gradeList: newGradeList
 			})
 		} catch (error) {
-			showNoti('danger', error.message)
+			showNoti('danger', error?.message)
 		} finally {
 			setIsLoading({
 				type: 'FETCH_DATA',
@@ -207,8 +214,7 @@ const CreateCourseOnline = () => {
 				}))
 			}
 		} catch (error) {
-			console.log('FetchDataByBranch - PromiseAll:', error)
-			showNoti('danger', error.message)
+			showNoti('danger', error?.message)
 		} finally {
 			setIsLoading({
 				type: 'BranchID',
@@ -229,7 +235,7 @@ const CreateCourseOnline = () => {
 				isNotVideo: true
 			})
 			if (res.status === 200) {
-				const newProgramList = fmSelectArr(res.data.data, 'ProgramName', 'ID', ['Price'])
+				const newProgramList = fmSelectArr(res.data.data, 'ProgramName', 'ID', [])
 				setOptionListForForm({
 					...optionListForForm,
 					programList: newProgramList
@@ -242,7 +248,7 @@ const CreateCourseOnline = () => {
 				})
 			}
 		} catch (error) {
-			showNoti('danger', error.message)
+			showNoti('danger', error?.message)
 		} finally {
 			setIsLoading({
 				type: 'GradeID',
@@ -257,7 +263,6 @@ const CreateCourseOnline = () => {
 			[key]: value
 		}))
 	}
-
 	const fetchTeacher = async () => {
 		setIsLoading({
 			type: 'ProgramID',
@@ -267,6 +272,9 @@ const CreateCourseOnline = () => {
 			const res = await teacherApi.getTeacherByProgram(dataToFetchTeacher)
 			if (res.status === 200) {
 				const newTeacherList = fmSelectArr(res.data.data, 'FullNameUnicode', 'UserInformationID')
+				newTeacherList.forEach((item) => {
+					delete item.options
+				})
 				if (userInformation && userInformation.RoleID === 2) {
 					setOptionListForForm((prevState) => ({
 						...prevState,
@@ -290,7 +298,7 @@ const CreateCourseOnline = () => {
 				}))
 			}
 		} catch (error) {
-			showNoti('danger', error.message)
+			showNoti('danger', error?.message)
 		} finally {
 			setIsLoading({
 				type: 'ProgramID',
@@ -298,9 +306,45 @@ const CreateCourseOnline = () => {
 			})
 		}
 	}
+	const fetchRoom = async () => {
+		setIsLoading({
+			type: 'RoomID',
+			status: true
+		})
+		try {
+			const res = await roomApi.getAll({ pageIndex: 1, pageSize: 99999, BranchID: dataToFetchTeacher.BranchID })
+			if (res.status === 200) {
+				console.log('room list', res.data.data)
+				const newRoomList = fmSelectArr(res.data.data, 'RoomName', 'RoomID')
+				newRoomList.forEach((item) => {
+					delete item.options
+				})
+				setOptionListForForm((prevState) => ({
+					...prevState,
+					roomList: newRoomList
+				}))
+			}
+			if (res.status === 204) {
+				showNoti('danger', 'Không tìm thấy phòng học!')
+				setOptionListForForm((prevState) => ({
+					...prevState,
+					roomList: []
+				}))
+			}
+		} catch (error) {
+		} finally {
+			setIsLoading({
+				type: 'RoomID',
+				status: false
+			})
+		}
+	}
 	useEffect(() => {
 		if (dataToFetchTeacher.ProgramID && dataToFetchTeacher.BranchID) {
 			fetchTeacher()
+		}
+		if (dataToFetchTeacher.BranchID) {
+			fetchRoom()
 		}
 	}, [dataToFetchTeacher])
 	// CURRICULUM: GET ENOUGH 2 VALUE TO GET CURRICULUM - NEED PROGRAM ID - STUDY TIME ID
@@ -335,7 +379,7 @@ const CreateCourseOnline = () => {
 				}))
 			}
 		} catch (error) {
-			showNoti('danger', error.message)
+			showNoti('danger', error?.message)
 		} finally {
 			setIsLoading({
 				type: 'ProgramID',
@@ -350,7 +394,6 @@ const CreateCourseOnline = () => {
 	}, [dataToFetchCurriculum])
 	// -----------GET COURSE-----------
 	const getCourse = async (object: ICOCreateForm) => {
-		console.log('object of object tracking: ', object)
 		setIsLoading({
 			type: 'ADD_DATA',
 			status: true
@@ -367,7 +410,7 @@ const CreateCourseOnline = () => {
 				SalaryOfLesson,
 				Price,
 				TimeCourse,
-				Avatar
+				RoomID
 			} = object
 			stoneDataToSave.current = {
 				CourseName,
@@ -377,11 +420,12 @@ const CreateCourseOnline = () => {
 				ProgramID,
 				TeacherID,
 				GradeID,
+				RoomID,
 				StartDay: StartDate,
-				SalaryOfLesson: +SalaryOfLesson.replace(/\D/g, ''),
+				SalaryOfLesson: 0,
 				Price: +Price.replace(/\D/g, ''),
 				TimeCourse,
-				Avatar
+				Avatar: ''
 			}
 			const lessonParams = {
 				CurriculumnID: CurriculumID,
@@ -429,11 +473,12 @@ const CreateCourseOnline = () => {
 					}
 				})
 				.catch((error) => {
-					error.status === 400 && showNoti('danger', error.message)
+					showNoti('danger', error?.message)
 				})
+
 			return arrRes
 		} catch (error) {
-			showNoti('error', error.message)
+			showNoti('error', error?.message)
 		} finally {
 			setIsLoading({
 				type: 'ADD_DATA',
@@ -725,7 +770,6 @@ const CreateCourseOnline = () => {
 		}
 		return rs
 	}
-
 	const onFetchDataToSave = () => {
 		const { branchList, programList, curriculumList, studyTimeList, teacherList } = optionListForForm
 		const { show, save, endDate } = onValidateDataToSave()
@@ -734,7 +778,7 @@ const CreateCourseOnline = () => {
 
 		const fmScheduleShowToObject = fmArrayToObjectWithSpecialKey(scheduleListSorted, 'date')
 
-		const { BranchID, ProgramID, CurriculumID, StartDay, CourseName, TeacherID, TimeCourse } = stoneDataToSave.current
+		const { BranchID, ProgramID, CurriculumID, StartDay, CourseName, TeacherID, TimeCourse, RoomID } = stoneDataToSave.current
 
 		const BranchName = getTitle(branchList, BranchID)
 		const ProgramName = getTitle(programList, ProgramID)
@@ -764,23 +808,21 @@ const CreateCourseOnline = () => {
 			DaySelected: daySelectedListString,
 			StudyTimeID: studyTimeListString,
 			EndDay: moment(endDate).format('YYYY/MM/DD'),
-			Schedule: save
+			Schedule: save,
+			RoomID
 		})
 	}
-
 	const onSaveCourse = async () => {
 		setIsLoading({
 			type: 'SAVE_COURSE',
 			status: true
 		})
-
 		try {
 			const haveErrors = Object.keys(scheduleShow).find((date, idx) => scheduleShow[date].find((s) => s.isValid))
 			if (haveErrors) {
 				showNoti('danger', 'Đã xảy ra lỗi. Xin kiểm tra lại')
 				return
 			}
-			console.log('saveCourseInfo: ', saveCourseInfo)
 			const res = await courseApi.add(saveCourseInfo)
 			if (res.status === 200) {
 				showNoti('success', res.data.message)
@@ -788,7 +830,7 @@ const CreateCourseOnline = () => {
 				return res
 			}
 		} catch (error) {
-			showNoti('error', error.message)
+			showNoti('error', error?.message)
 		} finally {
 			setIsLoading({
 				type: 'SAVE_COURSE',
@@ -798,19 +840,17 @@ const CreateCourseOnline = () => {
 	}
 	return (
 		<div className="create-course">
-			<TitlePage title="Tạo khóa học online" />
+			<TitlePage title="Tạo khóa học offline" />
 			<div className="row">
 				<div className="col-md-8 col-12">
 					<Card
 						title="Sắp xếp lịch học"
 						extra={
 							<div className="btn-page-course">
-								<CreateCourseOnlineForm
+								<CreateCourseOfflineForm
 									isLoading={isLoading}
 									isUpdate={false}
-									//
 									optionListForForm={optionListForForm}
-									//
 									handleGetCourse={getCourse}
 									handleFetchDataByBranch={fetchStaffByBranch}
 									handleFetchProgramByGrade={fetchProgramByGrade}
@@ -818,7 +858,7 @@ const CreateCourseOnline = () => {
 									handleGetValueBeforeFetchTeacher={getValueBeforeFetchTeacher}
 								/>
 								{isSave && (
-									<SaveCreateCourseOnline
+									<SaveCreateCourseOffline
 										isLoading={isLoading}
 										saveInfo={saveCourseInfo}
 										scheduleShow={scheduleShow}
@@ -841,7 +881,7 @@ const CreateCourseOnline = () => {
 								<Schedule>
 									<ScheduleList>
 										{scheduleList.available.map((s, idx) => (
-											<ScheduleOnlineItem key={idx} scheduleObj={s} handleChangeStatusSchedule={onToggleSchedule} />
+											<ScheduleOfflineItem key={idx} scheduleObj={s} handleChangeStatusSchedule={onToggleSchedule} />
 										))}
 									</ScheduleList>
 								</Schedule>
@@ -849,7 +889,7 @@ const CreateCourseOnline = () => {
 						>
 							<ScheduleList panelActiveListInModal={dataModalCalendar.scheduleList.map((_, idx) => idx)}>
 								{dataModalCalendar.scheduleList.map((s, idx) => (
-									<ScheduleOnlineItem
+									<ScheduleOfflineItem
 										key={idx}
 										isUnavailable={true}
 										scheduleObj={s}
@@ -868,7 +908,7 @@ const CreateCourseOnline = () => {
 					<Schedule>
 						<ScheduleList>
 							{scheduleList.available.map((s, idx) => (
-								<ScheduleOnlineItem key={idx} scheduleObj={s} handleChangeStatusSchedule={onToggleSchedule} />
+								<ScheduleOfflineItem key={idx} scheduleObj={s} handleChangeStatusSchedule={onToggleSchedule} />
 							))}
 						</ScheduleList>
 					</Schedule>
@@ -878,4 +918,4 @@ const CreateCourseOnline = () => {
 	)
 }
 
-export default CreateCourseOnline
+export default CreateCourseOffline

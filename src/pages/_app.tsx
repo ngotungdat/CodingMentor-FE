@@ -1,10 +1,11 @@
-import { Provider as AuthProvider } from 'next-auth/client'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { WrapProvider } from '~/context/wrap'
 import OneSignal from 'react-onesignal'
 import { config } from '@fortawesome/fontawesome-svg-core'
+
+import { SessionProvider } from 'next-auth/react'
 
 // import css
 import '@fortawesome/fontawesome-svg-core/styles.css'
@@ -20,12 +21,8 @@ config.autoAddCss = false
 const codingDescription =
 	"A community where 'tay-ngang' and 'non-tay-ngang' connect. As an IT group built with love, we create a better life, better career path for individuals"
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
 	const router = useRouter()
-
-	useEffect(() => {
-		console.log('NODE_ENV: ', process.env.NODE_ENV)
-	}, [])
 
 	useEffect(() => {
 		// OneSignal.setSubscription(true)
@@ -64,13 +61,13 @@ export default function App({ Component, pageProps }) {
 				<link rel="icon" href="/logo.png" />
 			</Head>
 
-			<AuthProvider session={pageProps.session}>
+			<SessionProvider session={session} refetchInterval={5 * 60}>
 				<WrapProvider>
 					<Layout>
 						<Component {...pageProps} />
 					</Layout>
 				</WrapProvider>
-			</AuthProvider>
+			</SessionProvider>
 		</>
 	)
 }

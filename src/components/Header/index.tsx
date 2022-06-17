@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Popover } from 'antd'
 import { useWrap } from '~/context/wrap'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import {
 	MenuFoldOutlined,
@@ -21,8 +21,6 @@ let countOpen = 0
 export default function Header(props: any) {
 	const { isOpenMenu, isOpen, funcMenuMobile, openMenuMobile } = props
 	const { titlePage, userInformation } = useWrap()
-	const [session] = useSession()
-	const [dataUser, setDataUser] = useState<IUser>()
 
 	const moveToLogin = () => {
 		signIn()
@@ -94,27 +92,6 @@ export default function Header(props: any) {
 		countOpen++
 	}
 
-	function parseJwt(token: any) {
-		var base64Url: any = token.split('.')[1]
-		var base64: any = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-		var jsonPayload: any = decodeURIComponent(
-			atob(base64)
-				.split('')
-				.map(function (c) {
-					return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-				})
-				.join('')
-		)
-		return JSON.parse(jsonPayload)
-	}
-
-	useEffect(() => {
-		if (!!session) {
-			let token: any = session.accessToken
-			!!userInformation ? setDataUser(userInformation) : setDataUser(parseJwt(token))
-		}
-	}, [userInformation])
-
 	return (
 		<header className={`app-header ${openMenuMobile ? 'mobile' : ''}`}>
 			<div className={`app-header-logo ${!isOpen ? 'close-app' : countOpen > 0 ? 'open' : 'open-no-ani'}`}>
@@ -158,17 +135,19 @@ export default function Header(props: any) {
 							<Notifiaction />
 						</li>
 						<li className="user" style={{ paddingRight: 20 }}>
-							<Popover content={!session ? contentLogin : contentLogout} trigger="click" title="">
+							<Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
 								<div className="user-wrap">
 									<div className="user-info">
-										{session?.user ? (
+										{!!userInformation ? (
 											<div className="user-name-desktop">
 												<div className="user-img">
-													<img src={dataUser?.Avatar && dataUser?.Avatar !== '' ? dataUser.Avatar : '/images/user.png'} alt="" />
+													<img
+														src={userInformation?.Avatar && userInformation?.Avatar !== '' ? userInformation.Avatar : '/images/user.png'}
+													/>
 												</div>
 												<div className="user-info">
-													<p className="user-name">{dataUser?.FullNameUnicode}</p>
-													<p className="user-position">{dataUser?.RoleName}</p>
+													<p className="user-name">{userInformation?.FullNameUnicode}</p>
+													<p className="user-position">{userInformation?.RoleName}</p>
 												</div>
 											</div>
 										) : (

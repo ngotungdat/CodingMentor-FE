@@ -1,7 +1,7 @@
 import { Form, Input, Spin, Select } from 'antd'
 import React, { useState } from 'react'
 import { devApi } from '~/apiBase/dev/dev'
-import { signIn, getProviders } from 'next-auth/client'
+import { signIn, getProviders } from 'next-auth/react'
 
 export default function BelongingToDev() {
 	const [isAccess, setIsAccess] = useState(false)

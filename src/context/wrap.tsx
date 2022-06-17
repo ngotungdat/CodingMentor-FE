@@ -1,11 +1,12 @@
-import React, { createContext, useState, useContext, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { oneSignalAPI, userApi, userInformationApi } from '~/apiBase'
-import { useSession } from 'next-auth/client'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import React, { createContext, FC, useContext, useEffect, useState } from 'react'
 import OneSignal from 'react-onesignal'
+import { toast, ToastContainer } from 'react-toastify'
+import { oneSignalAPI, userApi, userInformationApi } from '~/apiBase'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 export type IProps = {
 	titlePage: string
@@ -22,6 +23,8 @@ export type IProps = {
 	handleReloadNoti: Function
 	reloadCart: boolean
 	handleReloadCart: Function
+	session: any
+	sessionStatus: 'loading' | 'authenticated' | 'unauthenticated'
 }
 
 const WrapContext = createContext<IProps>({
@@ -38,16 +41,18 @@ const WrapContext = createContext<IProps>({
 	reloadNotification: false,
 	handleReloadNoti: Function,
 	reloadCart: false,
-	handleReloadCart: Function
+	handleReloadCart: Function,
+	session: {},
+	sessionStatus: 'loading'
 })
 
-export const WrapProvider = ({ children }) => {
+const WrapProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	// Get path and slug
 	const router = useRouter()
 	const getRouter = router.pathname
 	let path: string = router.pathname
 
-	const [session, loading] = useSession()
+	const { data: session, status } = useSession()
 	const [titlePage, setTitlePage] = useState('')
 	const [userInfo, setUserInfo] = useState<IUser>(null)
 	const [roles, setRoles] = useState<IRole[]>(null)
@@ -141,53 +146,57 @@ export const WrapProvider = ({ children }) => {
 		}
 	}
 
+	const getAllData = () => {
+		getNewDataUser()
+		getRoles(0)
+		getRoles(1)
+		postOnesignalID()
+	}
+
 	useEffect(() => {
-		if (path !== '/baochau' && !!session) {
-			if (path.search('signin') < 1) {
-				getNewDataUser()
-				getRoles(0)
-				getRoles(1)
-				postOnesignalID()
-			}
+		if (path !== '/baochau' && !!session && path.search('signin') < 1) {
+			getAllData()
 		}
 	}, [session])
 
 	return (
-		<>
-			<WrapContext.Provider
-				value={{
-					pageSize: 30,
-					titlePage: titlePage,
-					getTitlePage,
-					getRouter,
-					showNoti,
-					getDataUser,
-					userInformation: userInfo,
-					useAllRoles: roles,
-					useStaffRoles: staffRoles,
-					isAdmin: isAdmin,
-					reloadNotification: reloadNotification,
-					handleReloadNoti: handleReloadNoti,
-					reloadCart: reloadCart,
-					handleReloadCart: handleReloadCart
-				}}
-			>
-				<ToastContainer
-					position="top-right"
-					autoClose={3000}
-					hideProgressBar={false}
-					newestOnTop={false}
-					closeOnClick
-					rtl={false}
-					pauseOnFocusLoss
-					draggable
-					pauseOnHover
-				/>
+		<WrapContext.Provider
+			value={{
+				pageSize: 30,
+				titlePage: titlePage,
+				getTitlePage,
+				getRouter,
+				showNoti,
+				getDataUser,
+				userInformation: userInfo,
+				useAllRoles: roles,
+				useStaffRoles: staffRoles,
+				isAdmin: isAdmin,
+				reloadNotification: reloadNotification,
+				handleReloadNoti: handleReloadNoti,
+				reloadCart: reloadCart,
+				handleReloadCart: handleReloadCart,
+				session: session,
+				sessionStatus: status
+			}}
+		>
+			<ToastContainer
+				position="top-right"
+				autoClose={3000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
 
-				{children}
-			</WrapContext.Provider>
-		</>
+			{children}
+		</WrapContext.Provider>
 	)
 }
 
-export const useWrap = () => useContext(WrapContext)
+const useWrap = () => useContext(WrapContext)
+
+export { WrapProvider, useWrap }

@@ -6,8 +6,7 @@
 		"dev": "next dev -p 3005",
 		"build": "next build",
 		"start": "next start -p $PORT",
-		"lint": "next lint",
-		"preinstall": "npx npm-force-resolutions"
+		"lint": "next lint"
 	},
 	"dependencies": {
 		"@amcharts/amcharts3-react": "^3.1.0",
@@ -46,7 +45,7 @@
 		"jquery": "^3.6.0",
 		"moment": "^2.29.1",
 		"next": "^10.0.0",
-		"next-auth": "^3.24.1",
+		"next-auth": "^4.5.0",
 		"popper.js": "^1.16.1",
 		"randomcolor": "^0.6.2",
 		"react": "17.0.1",
@@ -97,10 +96,10 @@
 		"yup": "^0.32.9"
 	},
 	"devDependencies": {
+		"@types/react-big-calendar": "^0.31.0",
 		"@types/date-arithmetic": "^4.1.1",
 		"@types/node": "^15.0.2",
 		"@types/react": "^17.0.5",
-		"@types/react-big-calendar": "^0.31.0",
 		"prettier": "^2.2.1",
 		"typescript": "^4.4.4"
 	},

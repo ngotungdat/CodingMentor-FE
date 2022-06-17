@@ -8,7 +8,7 @@ import {
 	UserOutlined
 } from '@ant-design/icons'
 import { Avatar, Dropdown, Input, Popover, Skeleton, Tooltip } from 'antd'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import router from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -23,7 +23,6 @@ import _ from '~/appConfig'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 const ShoppingCart = () => {
-	const [session] = useSession()
 	const { userInformation } = useWrap()
 	const [dataUser, setDataUser] = useState<IUser>()
 	const [cartItems, setCartItems] = useState<IShoppingCart[]>([])
@@ -267,17 +266,17 @@ const ShoppingCart = () => {
 							enterButton={<SearchOutlined />}
 							size="large"
 						/>
-						<Popover content={!session ? contentLogin : contentLogout} trigger="click" title="">
+						<Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
 							<div className="user-wrap">
 								<div className="user-info">
-									{session?.user ? (
+									{!!userInformation ? (
 										<div className="user-wrap">
 											<div className="user-img">
-												<img src={dataUser?.Avatar ? dataUser.Avatar : '/images/user.png'} alt="" />
+												<img src={userInformation?.Avatar ? userInformation.Avatar : '/images/user.png'} alt="" />
 											</div>
 											<div className="user-info">
-												<p className="user-name">{dataUser?.FullNameUnicode}</p>
-												<p className="user-position">{dataUser?.RoleName}</p>
+												<p className="user-name">{userInformation?.FullNameUnicode}</p>
+												<p className="user-position">{userInformation?.RoleName}</p>
 											</div>
 										</div>
 									) : (
@@ -291,17 +290,6 @@ const ShoppingCart = () => {
 			</>
 		)
 	}
-
-	useEffect(() => {
-		if (session !== undefined) {
-			let token = session.accessToken
-			if (userInformation) {
-				setDataUser(userInformation)
-			} else {
-				setDataUser(parseJwt(token))
-			}
-		}
-	}, [userInformation])
 
 	useEffect(() => {
 		getShoppingCartData()
@@ -338,10 +326,10 @@ const ShoppingCart = () => {
 									</div>
 
 									<div className="d-none d-md-inline-block ">
-										<Popover content={!session ? contentLogin : contentLogout} trigger="click" title="">
+										<Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
 											<div className="user-wrap">
 												<div className="user-info">
-													{session?.user ? (
+													{!!userInformation ? (
 														<div className="user-wrap">
 															<div className="user-img">
 																<img src={dataUser?.Avatar ? dataUser.Avatar : '/images/user.png'} alt="" />

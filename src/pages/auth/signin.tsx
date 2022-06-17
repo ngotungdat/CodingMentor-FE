@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { signIn, getProviders } from 'next-auth/client'
+import { getProviders, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import AuthLayout from '~/components/AuthLayout'
 import LoginForm from '~/components/LoginForm'
 import { useWrap } from '~/context/wrap'
-import AuthLayout from '~/components/AuthLayout'
 
 function SignIn({ csrfToken }) {
 	const { showNoti } = useWrap()

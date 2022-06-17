@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { getSession } from 'next-auth/react'
 import React, { useEffect, useRef } from 'react'
 
 //  ---------EXPORT TO ARRAY FOR SELECT FIELD---------
@@ -68,6 +69,36 @@ export const fmDateFromNow = (date) => {
 	return formattedDate
 }
 export const parsePriceStrToNumber = (str: number | string) => parseInt(str?.toString().replace(/\D/g, '')) || 0
+
+export const copyRightLog = () => {
+	console.log('----------------------------------------------------')
+	console.log('----------                                ----------')
+	console.log('----------   LMS - © 2022 • NGUYEN CHAU   ----------')
+	console.log('----------                                ----------')
+	console.log('----------------------------------------------------')
+}
+
+export function parseJwt(token) {
+	var base64Url = token.split('.')[1]
+	var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+	var jsonPayload = decodeURIComponent(
+		atob(base64)
+			.split('')
+			.map(function (c) {
+				return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+			})
+			.join('')
+	)
+	return JSON.parse(jsonPayload)
+}
+
+export const getLocalUser = async () => {
+	const session: any = await getSession()
+	let token = session.accessToken
+	let userInfor = parseJwt(token)
+
+	return userInfor
+}
 
 // GET VISIBLE STATUS
 export function usePageVisibility(cb) {

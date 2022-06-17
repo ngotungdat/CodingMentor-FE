@@ -1,6 +1,6 @@
 import { EllipsisOutlined, FormOutlined, LoginOutlined, LogoutOutlined, RedoOutlined, UserOutlined } from '@ant-design/icons'
 import { Dropdown, Popover, Skeleton, Form, Modal } from 'antd'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import router from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -25,17 +25,11 @@ const paymentMethods = [
 ]
 
 const ShoppingCartProduct = () => {
-	const [session, loading] = useSession()
-	const [dataUser, setDataUser] = useState<IUser>()
 	const { userInformation, pageSize } = useWrap()
 	const [cartItems, setCartItems] = useState<IOrderProductCart[]>()
 	const [dropDownVisible, setDropDownVisible] = useState(false)
-	const [clickedItem, setClickedItem] = useState(null)
 	const [branch, setBranch] = useState(null)
-	const [isLoading, setIsLoading] = useState({
-		status: '',
-		loading: false
-	})
+	const [isLoading, setIsLoading] = useState({ status: '', loading: false })
 	const [isDisabledPayButton, setIsDisabledPayButton] = useState(false)
 
 	const moveToLogin = () => {
@@ -279,17 +273,17 @@ const ShoppingCartProduct = () => {
 			<>
 				<div className="menu__dropdown d-inline-block d-md-none" style={{ width: 300 }}>
 					<div className="d-inline-block d-md-none ">
-						<Popover content={!session ? contentLogin : contentLogout} trigger="click" title="">
+						<Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
 							<div className="user-wrap">
 								<div className="user-info">
-									{session?.user ? (
+									{!!userInformation ? (
 										<div className="user-wrap">
 											<div className="user-img">
-												<img src={dataUser?.Avatar ? dataUser.Avatar : '/images/user.png'} alt="" />
+												<img src={userInformation?.Avatar ? userInformation.Avatar : '/images/user.png'} alt="" />
 											</div>
 											<div className="user-info">
-												<p className="user-name">{dataUser?.FullNameUnicode}</p>
-												<p className="user-position">{dataUser?.RoleName}</p>
+												<p className="user-name">{userInformation?.FullNameUnicode}</p>
+												<p className="user-position">{userInformation?.RoleName}</p>
 											</div>
 										</div>
 									) : (
@@ -303,17 +297,6 @@ const ShoppingCartProduct = () => {
 			</>
 		)
 	}
-
-	useEffect(() => {
-		if (session !== undefined) {
-			let token = session.accessToken
-			if (userInformation) {
-				setDataUser(userInformation)
-			} else {
-				setDataUser(parseJwt(token))
-			}
-		}
-	}, [userInformation])
 
 	useEffect(() => {
 		getShoppingCartData()
@@ -448,17 +431,17 @@ const ShoppingCartProduct = () => {
 										</Dropdown>
 									</div>
 									<div className="d-none d-md-inline-block ">
-										<Popover content={!session ? contentLogin : contentLogout} trigger="click" title="">
+										<Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
 											<div className="user-wrap">
 												<div className="user-info">
-													{session?.user ? (
+													{!userInformation ? (
 														<div className="user-wrap">
 															<div className="user-img">
-																<img src={dataUser?.Avatar ? dataUser.Avatar : '/images/user.png'} alt="" />
+																<img src={!!userInformation?.Avatar ? userInformation.Avatar : '/images/user.png'} alt="" />
 															</div>
 															<div className="user-info">
-																<p className="user-name">{dataUser?.FullNameUnicode}</p>
-																<p className="user-position">{dataUser?.RoleName}</p>
+																<p className="user-name">{userInformation?.FullNameUnicode}</p>
+																<p className="user-position">{userInformation?.RoleName}</p>
 															</div>
 														</div>
 													) : (

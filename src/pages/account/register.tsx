@@ -1,15 +1,11 @@
-import React from "react";
-import AuthLayout from "~/components/AuthLayout";
-import RegisterForm from "~/components/RegisterForm";
-Register.propTypes = {};
+import React from 'react'
+import AuthLayout from '~/components/AuthLayout'
+import RegisterForm from '~/components/RegisterForm'
 
 function Register({}) {
-  return (
-    <div>
-      <RegisterForm />
-    </div>
-  );
+	return <RegisterForm />
 }
+
 Register.layout = AuthLayout
 
-export default Register;
+export default Register

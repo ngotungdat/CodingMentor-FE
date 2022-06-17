@@ -271,7 +271,7 @@ const PackageStore = () => {
 												<Image
 													width="100%"
 													height="100%"
-													src={Avatar || '/images/logo-thumnail-2.jpg'}
+													src={Avatar || '/images/logo-square.png'}
 													title="Ảnh bìa bộ đề"
 													alt="Ảnh bìa bộ đề"
 													style={{ objectFit: 'cover' }}

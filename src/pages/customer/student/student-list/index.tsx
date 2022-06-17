@@ -1,8 +1,9 @@
-import { Tooltip } from 'antd'
+import { Button, Spin, Tooltip } from 'antd'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { Check, Eye } from 'react-feather'
 import { areaApi, branchApi, jobApi, parentsApi, puroseApi, sourceInfomationApi, staffApi, studentApi } from '~/apiBase'
+import { downloadApi } from '~/apiBase/download'
 import FilterBase from '~/components/Elements/FilterBase/FilterBase'
 import SortBox from '~/components/Elements/SortBox'
 import ExpandTable from '~/components/ExpandTable'
@@ -456,9 +457,8 @@ const StudentData = () => {
 					''
 				)
 		},
-
 		{
-			title: 'SĐT',
+			title: 'Số điện thoại',
 			dataIndex: 'Mobile',
 			...FilterColumn('Mobile', onSearch, handleReset, 'text')
 		},
@@ -532,6 +532,33 @@ const StudentData = () => {
 		}
 	]
 
+	const [loadingExport, setLoadingExport] = useState(false)
+
+	async function downloadFile() {
+		setLoadingExport(true)
+		try {
+			const response = await downloadApi.StudentExcel()
+			console.log('response.data.data: ', response.data)
+
+			if (response.status == 200) {
+				const url = window.URL.createObjectURL(new Blob([response.data]))
+				const link = document.createElement('a')
+
+				link.href = url
+				link.setAttribute('download', `coding-mentor-students-${Date.now()}.xlsx`)
+
+				document.body.appendChild(link)
+				link.click()
+
+				link.remove()
+			}
+		} catch (error) {
+			showNoti('danger', error?.message)
+		} finally {
+			setLoadingExport(false)
+		}
+	}
+
 	return (
 		<ExpandTable
 			currentPage={currentPage}
@@ -555,6 +582,10 @@ const StudentData = () => {
 								resetListCustomer={() => setListCustomer([])}
 								isStudent={true}
 							/>
+
+							<Button onClick={downloadFile} className="btn btn-primary">
+								Tải danh sách {loadingExport && <Spin />}
+							</Button>
 						</>
 					)}
 				</div>

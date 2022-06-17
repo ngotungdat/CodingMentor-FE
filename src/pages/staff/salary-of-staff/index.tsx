@@ -1,39 +1,31 @@
-import { Select, Popconfirm, Input, Dropdown, DatePicker } from 'antd';
-import { useSession } from 'next-auth/client';
-import React, { useEffect, useRef, useState } from 'react';
-import { staffSalaryApi } from '~/apiBase/staff-manage/staff-salary';
-import SortBox from '~/components/Elements/SortBox';
-import LayoutBase from '~/components/LayoutBase';
-import PowerTable from '~/components/PowerTable';
-import FilterColumn from '~/components/Tables/FilterColumn';
-import { useWrap } from '~/context/wrap';
-import { numberWithCommas } from '~/utils/functions';
-import ConfirmForm from '../../../components/Global/StaffList/StaffSalary/staff-confirm-salary';
-import { Card } from 'antd';
-import { EllipsisOutlined } from '@ant-design/icons';
-import moment from 'moment';
+import { Select, Popconfirm, Input, Dropdown, DatePicker } from 'antd'
+import React, { useEffect, useRef, useState } from 'react'
+import { staffSalaryApi } from '~/apiBase/staff-manage/staff-salary'
+import SortBox from '~/components/Elements/SortBox'
+import LayoutBase from '~/components/LayoutBase'
+import PowerTable from '~/components/PowerTable'
+import FilterColumn from '~/components/Tables/FilterColumn'
+import { useWrap } from '~/context/wrap'
+import { numberWithCommas } from '~/utils/functions'
+import ConfirmForm from '../../../components/Global/StaffList/StaffSalary/staff-confirm-salary'
+import { Card } from 'antd'
+import { EllipsisOutlined } from '@ant-design/icons'
+import moment from 'moment'
 
-const now = new Date();
+const now = new Date()
 
 const SalaryStaffReview = () => {
-	const [totalPage, setTotalPage] = useState(null);
-	const [payRoll, setPayRoll] = useState<IStaffSalary[]>([]);
-	const [currentPage, setCurrentPage] = useState(1);
-	const [dropDownVisible, setDropDownVisible] = useState(false);
-	const [roleID, setRoleID] = useState(null);
-	const { showNoti, userInformation, pageSize } = useWrap();
-	const [session, loading] = useSession();
-	const [visible, setVisible] = useState(false);
-	const [isLoading, setIsLoading] = useState({
-		type: 'GET_ALL',
-		status: false
-	});
-	const [workDays, setWorkDays] = useState({
-		days: 0,
-		messError: ''
-	});
+	const [totalPage, setTotalPage] = useState(null)
+	const [payRoll, setPayRoll] = useState<IStaffSalary[]>([])
+	const [currentPage, setCurrentPage] = useState(1)
+	const [dropDownVisible, setDropDownVisible] = useState(false)
+	const [roleID, setRoleID] = useState(null)
+	const { showNoti, userInformation, pageSize } = useWrap()
+	const [visible, setVisible] = useState(false)
+	const [isLoading, setIsLoading] = useState({ type: 'GET_ALL', status: false })
+	const [workDays, setWorkDays] = useState({ days: 0, messError: '' })
 
-	const { Option } = Select;
+	const { Option } = Select
 	const months = [
 		'Tháng 1',
 		'Tháng 2',
@@ -47,15 +39,15 @@ const SalaryStaffReview = () => {
 		'Tháng 10',
 		'Tháng 11',
 		'Tháng 12'
-	];
+	]
 
 	const getLastYear = () => {
-		return now.getMonth() == 0 ? now.getFullYear() - 1 : now.getFullYear();
-	};
+		return now.getMonth() == 0 ? now.getFullYear() - 1 : now.getFullYear()
+	}
 
 	const getDateNumber = (number) => {
-		return number > 10 ? number : number == 0 ? '12' : '0' + number;
-	};
+		return number > 10 ? number : number == 0 ? '12' : '0' + number
+	}
 
 	const paramDefault = {
 		pageIndex: currentPage,
@@ -68,13 +60,13 @@ const SalaryStaffReview = () => {
 		// selectAll: true,
 		StaffID: null,
 		StatusID: null
-	};
-	const [params, setParams] = useState(paramDefault);
+	}
+	const [params, setParams] = useState(paramDefault)
 
 	let listFieldSearch = {
 		pageIndex: 1,
 		StaffName: null
-	};
+	}
 	// SORT
 	const sortOptionList = [
 		{
@@ -125,57 +117,57 @@ const SalaryStaffReview = () => {
 			value: 6,
 			text: 'Ngày nghỉ tăng dần '
 		}
-	];
+	]
 
 	let refValue = useRef({
 		pageIndex: 1,
 		pageSize: pageSize,
 		sort: -1,
 		sortType: false
-	});
+	})
 
 	// ------------ ON SEARCH -----------------------
 
 	const checkField = (valueSearch, dataIndex) => {
-		let newList = { ...listFieldSearch };
+		let newList = { ...listFieldSearch }
 		Object.keys(newList).forEach(function (key) {
 			if (key != dataIndex) {
 				if (key != 'pageIndex') {
-					newList[key] = null;
+					newList[key] = null
 				}
 			} else {
-				newList[key] = valueSearch;
+				newList[key] = valueSearch
 			}
-		});
+		})
 
-		return newList;
-	};
+		return newList
+	}
 
 	const onSearch = (valueSearch, dataIndex) => {
-		let clearKey = checkField(valueSearch, dataIndex);
+		let clearKey = checkField(valueSearch, dataIndex)
 
 		setParams({
 			...params,
 			...clearKey
-		});
-	};
+		})
+	}
 
 	// HANDLE RESET
 	const resetListFieldSearch = () => {
 		Object.keys(listFieldSearch).forEach(function (key) {
 			if (key != 'pageIndex') {
-				listFieldSearch[key] = null;
+				listFieldSearch[key] = null
 			}
-		});
-	};
+		})
+	}
 
 	const handleReset = () => {
 		setParams({
 			...paramDefault,
 			pageIndex: 1
-		});
-		setCurrentPage(1), resetListFieldSearch();
-	};
+		})
+		setCurrentPage(1), resetListFieldSearch()
+	}
 
 	// SORT
 	const onSort = (option) => {
@@ -183,21 +175,19 @@ const SalaryStaffReview = () => {
 			...refValue.current,
 			sort: option.title.sort,
 			sortType: option.title.sortType
-		};
-		setParams({ ...params, sort: option.title.sort, sortType: option.title.sortType });
+		}
+		setParams({ ...params, sort: option.title.sort, sortType: option.title.sortType })
 		// setFilters({
 		// 	...listFieldInit,
 		// 	...refValue.current
 		// });
-	};
+	}
 
 	useEffect(() => {
-		if (session !== undefined) {
-			let token = session.accessToken;
-			let userInfor = parseJwt(token);
-			setRoleID(userInfor.roleID);
+		if (!!userInformation) {
+			setRoleID(userInformation.RoleID)
 		}
-	}, []);
+	}, [])
 
 	const columns = [
 		{
@@ -296,87 +286,85 @@ const SalaryStaffReview = () => {
 		{
 			title: 'Cập Nhật',
 			width: 100,
-			render: (text, record) => (
-				<ConfirmForm isLoading={isLoading} roleID={roleID} record={record} setParams={setParams} params={params} />
-			)
+			render: (text, record) => <ConfirmForm isLoading={isLoading} roleID={roleID} record={record} setParams={setParams} params={params} />
 		}
-	];
+	]
 
 	const getDataPayroll = async (page: any) => {
 		setIsLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await staffSalaryApi.getAll({ ...params, pageIndex: page });
+			let res = await staffSalaryApi.getAll({ ...params, pageIndex: page })
 			if (res.status == 200) {
-				setPayRoll(res.data.data);
-				setTotalPage(res.data.totalRow);
-				setDropDownVisible(false);
+				setPayRoll(res.data.data)
+				setTotalPage(res.data.totalRow)
+				setDropDownVisible(false)
 			}
 			if (res.status == 204) {
-				setPayRoll([]);
-				setDropDownVisible(false);
+				setPayRoll([])
+				setDropDownVisible(false)
 			}
 		} catch (error) {
 		} finally {
 			setIsLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	const postSalaryOfTeacherClosing = async () => {
 		setIsLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await staffSalaryApi.postSalaryClosing(workDays.days);
+			let res = await staffSalaryApi.postSalaryClosing(workDays.days)
 			if (res.status == 200) {
-				setDropDownVisible(false);
-				setParams({ ...params });
-				showNoti('success', 'Thành công!');
+				setDropDownVisible(false)
+				setParams({ ...params })
+				showNoti('success', 'Thành công!')
 			}
 			if (res.status == 204) {
-				setDropDownVisible(false);
-				showNoti('success', 'Lương đã được tính rồi!');
+				setDropDownVisible(false)
+				showNoti('success', 'Lương đã được tính rồi!')
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
-			setVisible(false);
+			setVisible(false)
 			setIsLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	const getPagination = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
+		setCurrentPage(pageNumber)
 		setParams({
 			...params,
 			pageIndex: currentPage
-		});
-	};
+		})
+	}
 
 	const onChangeMonth = (value) => {
-		setParams({ ...params, Month: Number(value.getMonth() + 1), Year: Number(value.getFullYear()) });
-	};
+		setParams({ ...params, Month: Number(value.getMonth() + 1), Year: Number(value.getFullYear()) })
+	}
 
 	function daysInMonth(month, year) {
-		return new Date(year, month, 0).getDate();
+		return new Date(year, month, 0).getDate()
 	}
 
 	const showPopconfirm = () => {
-		setVisible(true);
-	};
+		setVisible(true)
+	}
 
 	const handleCancel = () => {
-		setVisible(false);
-	};
+		setVisible(false)
+	}
 
 	const renderTitle = () => {
 		return (
@@ -384,8 +372,8 @@ const SalaryStaffReview = () => {
 				Xác nhận tính lương từ 01-{getDateNumber(now.getMonth())}-{now.getFullYear()} đến{' '}
 				{daysInMonth(getDateNumber(now.getMonth()), now.getFullYear())}-{getDateNumber(now.getMonth())}-{now.getFullYear()} ?
 			</p>
-		);
-	};
+		)
+	}
 
 	const menu = () => {
 		return (
@@ -393,7 +381,7 @@ const SalaryStaffReview = () => {
 				<Card title="Thao tác" style={{ width: 300 }}>
 					<Input
 						onChange={(event) => {
-							setWorkDays({ ...workDays, days: Number(event.target.value) });
+							setWorkDays({ ...workDays, days: Number(event.target.value) })
 						}}
 						className="style-input w-100 mb-4"
 						name="wordDays"
@@ -429,26 +417,26 @@ const SalaryStaffReview = () => {
 					</div>
 				</Card>
 			</div>
-		);
-	};
+		)
+	}
 
 	useEffect(() => {
-		getDataPayroll(currentPage);
-	}, [params, userInformation]);
+		getDataPayroll(currentPage)
+	}, [params, userInformation])
 
 	function parseJwt(token) {
-		var base64Url = token.split('.')[1];
-		var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+		var base64Url = token.split('.')[1]
+		var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
 		var jsonPayload = decodeURIComponent(
 			atob(base64)
 				.split('')
 				.map(function (c) {
-					return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+					return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
 				})
 				.join('')
-		);
+		)
 
-		return JSON.parse(jsonPayload);
+		return JSON.parse(jsonPayload)
 	}
 
 	return (
@@ -468,7 +456,7 @@ const SalaryStaffReview = () => {
 							<div className="d-flex justify-content-end align-items-center">
 								<Input
 									onChange={(event) => {
-										setWorkDays({ ...workDays, days: Number(event.target.value) });
+										setWorkDays({ ...workDays, days: Number(event.target.value) })
 									}}
 									className="style-input"
 									style={{ width: 150, marginRight: 5 }}
@@ -494,8 +482,8 @@ const SalaryStaffReview = () => {
 								<a
 									className="ant-dropdown-link"
 									onClick={(e) => {
-										e.preventDefault();
-										setDropDownVisible(!dropDownVisible);
+										e.preventDefault()
+										setDropDownVisible(!dropDownVisible)
 									}}
 								>
 									<EllipsisOutlined />
@@ -512,7 +500,7 @@ const SalaryStaffReview = () => {
 							defaultValue={moment(new Date(getLastYear() + '-' + getDateNumber(now.getMonth())), 'MM/yyyy')}
 							onChange={(e, a) => {
 								// @ts-ignore
-								onChangeMonth(e._d);
+								onChangeMonth(e._d)
 							}}
 							picker="month"
 						/>
@@ -521,7 +509,7 @@ const SalaryStaffReview = () => {
 				</div>
 			}
 		/>
-	);
-};
-SalaryStaffReview.layout = LayoutBase;
-export default SalaryStaffReview;
+	)
+}
+SalaryStaffReview.layout = LayoutBase
+export default SalaryStaffReview

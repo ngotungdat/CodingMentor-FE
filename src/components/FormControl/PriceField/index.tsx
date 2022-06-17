@@ -1,5 +1,4 @@
-import { Form, Input } from 'antd'
-import PropTypes from 'prop-types'
+import { Form } from 'antd'
 import React from 'react'
 import { Controller } from 'react-hook-form'
 import NumberFormat from 'react-number-format'
@@ -15,6 +14,8 @@ type IProps = {
 	className: string
 	isDynamicField: boolean
 	isRequired: boolean
+	error?: string
+	setError?: Function
 }
 
 const PriceField = (props: IProps) => {
@@ -61,6 +62,9 @@ const PriceField = (props: IProps) => {
 						disabled={disabled}
 						className={className}
 						onChange={(e) => {
+							if (!!props?.setError) {
+								props?.setError('')
+							}
 							checkHandleChange(e.target.value)
 							field.onChange(e.target.value)
 						}}
@@ -68,9 +72,9 @@ const PriceField = (props: IProps) => {
 					/>
 				)}
 			/>
-			{hasError && (
+			{(!!props?.error || hasError) && (
 				<div className="ant-form-item-explain ant-form-item-explain-error font-color-error">
-					<div role="alert">{errorMessage}</div>
+					<div role="alert">{errorMessage || props?.error}</div>
 				</div>
 			)}
 		</Form.Item>

@@ -13,7 +13,7 @@ const ItemVideo = ({ item, addToCard }) => {
 			<Link href="">
 				<div className="vc-store_item_warp-image">
 					{item.ImageThumbnails === '' || item.ImageThumbnails === null || item.ImageThumbnails === undefined ? (
-						<img src="/images/logo-final.jpg" />
+						<img src="/images/ logo.png" />
 					) : (
 						<img src={item.ImageThumbnails} />
 					)}

@@ -254,7 +254,7 @@ const TeacherDetails = () => {
 			<div className="col-md-3 col-12 mt-0 mb-3">
 				<Card loading={isLoading.status} title={null}>
 					<div className="info">
-						<Avatar className="avatar" src={!!router?.query?.Avatar ? router?.query?.Avatar : '/images/logo-thumnail-2.jpg'} alt="avatar" />
+						<Avatar className="avatar" src={!!router?.query?.Avatar ? router?.query?.Avatar : '/images/logo-square.png'} alt="avatar" />
 						<div className="name mt-4">{router.query?.FullNameUnicode}</div>
 						{/* <span className="mt-2 in-1-line">
 							{router.query?.TotalBooking} lượt đăng ký - {router.query?.TotalFeedback} lượt đánh giá

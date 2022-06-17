@@ -7,8 +7,6 @@ import { lessonDetailApi } from '~/apiBase/options/lesson-detail'
 import { useWrap } from '~/context/wrap'
 import AddCurriculumForm from './AddCurriculumForm'
 import { useRouter } from 'next/router'
-import ReactHtmlParser from 'react-html-parser'
-import EditorSimple from '~/components/Elements/EditorSimple'
 
 const { Option } = Select
 let currentItem: string = ''
@@ -19,6 +17,7 @@ export const DetailsModal = (props) => {
 	const { curriculumDetailID, courseID, dataExamTopic, dataCurriculumDetail, dataRow, isFixed } = props
 
 	const { showNoti, isAdmin } = useWrap()
+	const { TextArea } = Input
 
 	const [visible, setVisible] = useState(false)
 	const [data, setData] = useState([])
@@ -30,34 +29,66 @@ export const DetailsModal = (props) => {
 	const [size, setSize] = useState([0, 0])
 
 	const [isLoading, setLoading] = useState(true)
-	const [isReset, setReset] = useState(false)
 
 	// DATA OF SELECTED LIST ITEM
 	const [selected, dispatch] = React.useReducer(
 		(prevState, action) => {
 			switch (action.type) {
 				case 'ID':
-					return { ...prevState, ID: action.data }
+					return {
+						...prevState,
+						ID: action.data
+					}
 				case 'LinkVideo':
-					return { ...prevState, LinkVideo: action.data }
+					return {
+						...prevState,
+						LinkVideo: action.data
+					}
 				case 'LinkDocument':
-					return { ...prevState, LinkDocument: action.data }
+					return {
+						...prevState,
+						LinkDocument: action.data
+					}
 				case 'LinkHtml':
-					return { ...prevState, LinkHtml: action.data }
+					return {
+						...prevState,
+						LinkHtml: action.data
+					}
 				case 'SecondVideo':
-					return { ...prevState, SecondVideo: action.data }
+					return {
+						...prevState,
+						SecondVideo: action.data
+					}
 				case 'Content':
-					return { ...prevState, Content: action.data }
+					return {
+						...prevState,
+						Content: action.data
+					}
 				case 'MinuteVideo':
-					return { ...prevState, MinuteVideo: action.data }
+					return {
+						...prevState,
+						MinuteVideo: action.data
+					}
 				case 'ExamTopicID':
-					return { ...prevState, ExamTopicID: action.data }
+					return {
+						...prevState,
+						ExamTopicID: action.data
+					}
 				case 'ExamTopicName':
-					return { ...prevState, ExamTopicName: action.data }
+					return {
+						...prevState,
+						ExamTopicName: action.data
+					}
 				case 'Description':
-					return { ...prevState, Description: action.data }
+					return {
+						...prevState,
+						Description: action.data
+					}
 				case 'CurriculumDetailID':
-					return { ...prevState, CurriculumDetailID: action.data }
+					return {
+						...prevState,
+						CurriculumDetailID: action.data
+					}
 			}
 		},
 		{
@@ -75,17 +106,16 @@ export const DetailsModal = (props) => {
 		}
 	)
 
+	useEffect(() => {
+		console.log('selected: ', selected)
+	}, [selected])
+
 	// INIT DATA AFTER GET FROM API
 	useEffect(() => {
 		if (data && data.length !== 0) {
 			setSelectItem(data[0])
 		}
 	}, [data])
-
-	useEffect(() => {
-		setReset(true)
-		setTimeout(() => setReset(false), 0)
-	}, [selected.ID])
 
 	useLayoutEffect(() => {
 		function updateSize() {
@@ -116,9 +146,15 @@ export const DetailsModal = (props) => {
 		setLoading(true)
 		try {
 			const res = await LessonDetail.getAll(curriculumDetailID)
-			//@ts-ignore
-			res.status == 200 && setData(res.data.data)
-		} catch (err) {}
+			if (res.status == 200) {
+				setData(res.data.data)
+			}
+			if (res.status === 204) {
+				setData([])
+			}
+		} catch (err) {
+			console.log(err)
+		}
 		setLoading(false)
 	}
 
@@ -129,6 +165,7 @@ export const DetailsModal = (props) => {
 			await LessonDetail.update(data)
 			getDetails()
 		} catch (err) {
+			console.log(err)
 			getDetails()
 		}
 	}
@@ -140,6 +177,9 @@ export const DetailsModal = (props) => {
 			content: `Bạn thật sự muốn xóa "${param}"?`,
 			onOk() {
 				handleDelete(ID)
+			},
+			onCancel() {
+				console.log('Cancel')
 			}
 		})
 	}
@@ -213,6 +253,7 @@ export const DetailsModal = (props) => {
 				setShowListUploadDoc(true)
 			}
 		} catch (error) {
+			console.log(error)
 			showNoti('danger', error.message)
 			setShowListUploadDoc(false)
 		}
@@ -224,9 +265,13 @@ export const DetailsModal = (props) => {
 		if (info.file.status === 'uploading') {
 			return
 		}
+
 		try {
 			let res = await lessonDetailApi.UploadHtml(info.file.originFileObj)
-			dispatch({ type: 'LinkHtml', data: res.data.data })
+			dispatch({
+				type: 'LinkHtml',
+				data: res.data.data
+			})
 			showNoti('success', 'Upload file thành công')
 			setShowListUploadHtml(true)
 		} catch (error) {
@@ -239,17 +284,36 @@ export const DetailsModal = (props) => {
 	const RenderItem = ({ item }) => {
 		return (
 			<div
-				onClick={() => setSelectItem(item)}
+				onClick={() => {
+					setSelectItem(item)
+				}}
 				className="pr-3 pl-3 pt-3 pb-3 row m-0 modal-curriculum-item none-selection"
 				style={{
 					background: item.ID === currentItem ? '#ffc105  ' : data.indexOf(item) % 2 !== 0 ? '#fff' : '#e1f6e1'
 				}}
 			>
 				<div className="row m-0">{item.Content !== '' ? item.Content : 'Không có tiêu đề'}</div>
+
 				{isFixed && <i onClick={() => showConfirm(item.Content, item.ID)} className="far fa-trash-alt mr-2 ic-trash"></i>}
 			</div>
 		)
 	}
+
+	const moveToTest = (data) => {
+		router.push({
+			pathname: '/exam/exam-review',
+			query: {
+				examID: data.ExamTopicID,
+				packageDetailID: courseID,
+				type: 'check', // Kiểm tra,
+				CurriculumDetailID: data.CurriculumDetailID
+			}
+		})
+	}
+
+	useEffect(() => {
+		console.log('dataExam: ', dataExamTopic)
+	}, [dataExamTopic])
 
 	// RENDER
 	return (
@@ -259,12 +323,13 @@ export const DetailsModal = (props) => {
 					<Info />
 				</Tooltip>
 			</button>
-
 			<Modal title="Thông tin chương trình dạy" visible={visible} onCancel={handleCancel} footer={false} width={1200}>
 				<div className="wrap-modal-curriculum ">
 					<div className="row container">
 						<div className="list">
-							<List loading={isLoading} itemLayout="horizontal" dataSource={data} renderItem={(item) => <RenderItem item={item} />} />
+							{data !== null && data !== undefined && data.length !== 0 && (
+								<List loading={isLoading} itemLayout="horizontal" dataSource={data} renderItem={(item) => <RenderItem item={item} />} />
+							)}
 						</div>
 
 						{showList && (
@@ -273,92 +338,72 @@ export const DetailsModal = (props) => {
 							</div>
 						)}
 
-						<div className="p-4 details">
-							{isAdmin && !enableEdit && (
-								<div className="group-button">
-									<div className="group-button_btn-add">
-										{isAdmin && (
-											<>
-												{size[0] > 470 ? (
-													data?.length > 0 &&
-													(enableEdit ? (
-														<Tooltip className="group-button_btn-add" title="Hủy bỏ">
-															<button onClick={() => setEdit(false)} className="btn ml-2 btn-primary">
-																<i className="far fa-times-circle mr-2"></i>Hủy
-															</button>
-														</Tooltip>
-													) : (
-														isFixed && (
-															<button onClick={() => setEdit(true)} className="btn btn-warning" style={{ color: '#fff' }}>
-																<i className="far fa-edit mr-2"></i>Chỉnh sửa
-															</button>
-														)
-													))
-												) : (
-													<button onClick={() => setEdit(true)} className="btn btn-info">
-														<i className="far fa-edit mr-2"></i>Chỉnh sửa
-													</button>
-												)}
-											</>
-										)}
-										{isFixed && (
-											<AddCurriculumForm
-												callBack={(e: any) => {
-													setVisible(e)
-													if (!!e) {
-														getDetails()
-													}
-												}}
-												callFrom="modal"
-												curriculumDetailID={curriculumDetailID}
-												dataExamTopic={dataExamTopic}
-												dataCurriculumDetail={dataCurriculumDetail}
-												dataRow={dataRow}
-											/>
-										)}
+						{
+							<div className="p-4 details">
+								{isAdmin && !enableEdit && (
+									<div className="group-button">
+										<div className="group-button_btn-add">
+											{isFixed && (
+												<AddCurriculumForm
+													callBack={(e) => {
+														setVisible(e)
+
+														if (e) {
+															getDetails()
+														}
+													}}
+													callFrom="modal"
+													curriculumDetailID={curriculumDetailID}
+													dataExamTopic={dataExamTopic}
+													dataCurriculumDetail={dataCurriculumDetail}
+													dataRow={dataRow}
+												/>
+											)}
+										</div>
 									</div>
-								</div>
-							)}
+								)}
 
-							{!showList && (
-								<Spin spinning={isLoading}>
-									{data.length !== 0 ? (
-										<div className="mt-2">
-											<div className="row p-0 m-0  hide-if-800">
-												<Tooltip title="Hiển thị danh sách">
-													<button
-														onClick={() => {
-															setShowList(true)
-														}}
-														className="btn mb-3 btn-light"
-													>
-														<i className="far fa-list-alt mr-2"></i>Danh sách
-													</button>
-												</Tooltip>
-											</div>
+								{!showList && (
+									<Spin spinning={isLoading}>
+										{data.length !== 0 ? (
+											<div className="mt-2">
+												<div className="row p-0 m-0  hide-if-800">
+													<Tooltip title="Hiển thị danh sách">
+														<button
+															onClick={() => {
+																setShowList(true)
+															}}
+															className="btn mb-3 btn-light"
+														>
+															<i className="far fa-list-alt mr-2"></i>Danh sách
+														</button>
+													</Tooltip>
+												</div>
 
-											<Input
-												className="item-info"
-												prefix="Tiêu đề:"
-												value={selected.Content}
-												disabled={!enableEdit}
-												onChange={(p) => {
-													dispatch({ type: 'Content', data: p.target.value })
-												}}
-											/>
+												<Input
+													className="item-info"
+													prefix="Nội dung:"
+													value={selected.Content}
+													disabled={!enableEdit}
+													onChange={(p) => {
+														dispatch({ type: 'Content', data: p.target.value })
+													}}
+												/>
 
-											{/* <Input
-												className="item-info"
-												prefix="Link video:"
-												value={selected.LinkVideo}
-												disabled={!enableEdit}
-												onChange={(p) => {
-													dispatch({ type: 'LinkVideo', data: p.target.value })
-												}}
-											/> */}
+												<Input
+													className="item-info"
+													prefix="Link video:"
+													value={selected.LinkVideo}
+													disabled={!enableEdit}
+													onChange={(p) => {
+														dispatch({
+															type: 'LinkVideo',
+															data: p.target.value
+														})
+													}}
+												/>
 
-											<div className="row m-0 group-row">
-												{!enableEdit ? (
+												<div className="row m-0 group-row">
 													<Input
 														className="item-info"
 														prefix="Link document:"
@@ -371,17 +416,17 @@ export const DetailsModal = (props) => {
 															})
 														}}
 													/>
-												) : (
-													<Form.Item className="mr-3">
-														<Upload onChange={onChangeUploadLinkDocument} showUploadList={showListUploadDoc} maxCount={1}>
-															<Button className="item-info item-info__Upload" icon={<UploadOutlined />}>
-																Bấm để tải lên tài liệu
-															</Button>
-														</Upload>
-													</Form.Item>
-												)}
 
-												{/* {!enableEdit ? (
+													{enableEdit && (
+														<Form.Item className="mr-3">
+															<Upload onChange={onChangeUploadLinkDocument} showUploadList={showListUploadDoc} maxCount={1}>
+																<Button className="item-info item-info__Upload" icon={<UploadOutlined />}>
+																	Bấm để tải lên tài liệu
+																</Button>
+															</Upload>
+														</Form.Item>
+													)}
+
 													<Input
 														className="item-info"
 														prefix="Link html:"
@@ -394,89 +439,102 @@ export const DetailsModal = (props) => {
 															})
 														}}
 													/>
-												) : (
-													<Form.Item className="mr-3">
-														<Upload onChange={onChangeUploadLinkHTML} showUploadList={showListUploadHtml} maxCount={1}>
-															<Button className="item-info item-info__Upload" icon={<UploadOutlined />}>
-																Bấm để tải lên file html
-															</Button>
-														</Upload>
-													</Form.Item>
-												)} */}
 
-												{!enableEdit ? (
-													<Input className="item-info" prefix="Bài tập:" value={selected?.ExamTopicName} disabled={!enableEdit} />
-												) : (
-													<Select
-														defaultValue={!!selected.ExamTopicID ? selected?.ExamTopicID : undefined}
-														onChange={(e, a: any) => dispatch({ type: 'ExamTopicID', data: a.key })}
-														className="select"
-														placeholder="Chọn bài tập"
-														style={{ width: 100 }}
-													>
-														<Option value={0} key={0}>
-															Không chọn
-														</Option>
-														{dataExamTopic?.map((item, index) => {
-															return (
-																<Option value={item.ID} key={item.ID}>
-																	{item.Name}
-																</Option>
-															)
-														})}
-													</Select>
-												)}
-												{enableEdit && (
-													<div className="col-12 mb-4">
-														<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
-													</div>
-												)}
-											</div>
+													{enableEdit && (
+														<Form.Item>
+															<Upload onChange={onChangeUploadLinkHTML} showUploadList={showListUploadHtml} maxCount={1}>
+																<Button className="item-info item-info__Upload" icon={<UploadOutlined />}>
+																	Bấm để tải lên file html
+																</Button>
+															</Upload>
+														</Form.Item>
+													)}
 
-											<Form.Item>
-												<p style={{ color: !enableEdit ? 'rgba(0, 0, 0, 0.7)' : '#000' }}>Nội dung</p>
-												{!enableEdit ? (
-													<> {ReactHtmlParser(selected.Description)} </>
-												) : (
-													<>
-														{!isReset && (
-															<EditorSimple
-																isFull
-																handleChange={(value: string) =>
-																	dispatch({
-																		type: 'Description',
-																		data: value
-																	})
-																}
-																defaultValue={selected.Description}
-																isTranslate={false}
-																isReset={isReset}
-															/>
-														)}
-													</>
-												)}
-											</Form.Item>
-
-										<div className='d-flex' style={{float: 'right'}}>
-											<div className="text-right mt-3">
-												{isAdmin && enableEdit && (
-													<Tooltip className="group-button_btn-add" title="Hủy thao tác">
-														<button
-															onClick={() => {
-																setEdit(false),
-																getDetails()
-															}}
-															className="btn ml-2 btn-secondary"
+													{!enableEdit ? (
+														<Input className="item-info" prefix="Đề kiểm tra:" value={selected?.ExamTopicName} disabled={!enableEdit} />
+													) : (
+														<Select
+															defaultValue={!!selected.ExamTopicID ? `${selected?.ExamTopicName}` : null}
+															onChange={(e: any, a: any) => dispatch({ type: 'ExamTopicID', data: a.key })}
+															className="ml-3 select"
+															placeholder="Chọn đề kiểm tra"
 														>
-														Hủy
-														</button>
-													</Tooltip>
-												)}
-											</div>
+															{dataExamTopic?.map((item, index) => {
+																return (
+																	<Option value={item.Name} key={item.ID}>
+																		{item.Name}
+																	</Option>
+																)
+															})}
+														</Select>
+													)}
+													{enableEdit && (
+														<div className="col-12 mb-4">
+															<p className="font-weight-primary" style={{ color: 'red' }}>
+																*Lưu ý: Upload tối đa 100Mb
+															</p>
+														</div>
+													)}
+												</div>
 
-											<div className="text-right mt-3">
-												{isAdmin && enableEdit && (
-													<Tooltip className="group-button_btn-add" title="Lưu thông tin">
+												<Form.Item>
+													<p style={{ color: !enableEdit ? 'rgba(0, 0, 0, 0.7)' : '#000' }}>Ghi chú</p>
+													<TextArea
+														rows={4}
+														placeholder=""
+														value={selected.Description}
+														onChange={(p) => {
+															dispatch({ type: 'Description', data: p.target.value })
+														}}
+														disabled={!enableEdit}
+													/>
+												</Form.Item>
+
+												<div className="text-right mt-3">
+													{isAdmin && (
+														<>
+															{size[0] > 470 ? (
+																data?.length > 0 &&
+																(enableEdit ? (
+																	<button
+																		onClick={() => {
+																			setEdit(false)
+																		}}
+																		className="btn ml-2 btn-primary"
+																	>
+																		<i className="far fa-times-circle mr-2"></i>
+																		Hủy
+																	</button>
+																) : (
+																	isFixed && (
+																		<button
+																			onClick={() => {
+																				setEdit(true)
+																			}}
+																			className="btn btn-warning"
+																			style={{ marginLeft: 11, color: '#fff' }}
+																		>
+																			<i className="far fa-edit mr-2"></i>Chỉnh sửa
+																		</button>
+																	)
+																))
+															) : (
+																<button
+																	onClick={() => {
+																		setEdit(true)
+																	}}
+																	className="btn btn-info"
+																	style={{
+																		marginLeft: 11,
+																		marginTop: marginTop
+																	}}
+																>
+																	<i className="far fa-edit mr-2"></i>Chỉnh sửa
+																</button>
+															)}
+														</>
+													)}
+													{isAdmin && enableEdit && (
 														<button
 															onClick={() => {
 																setEdit(false)
@@ -486,18 +544,16 @@ export const DetailsModal = (props) => {
 														>
 															<i className="far fa-save mr-2"></i>Lưu
 														</button>
-													</Tooltip>
-												)}
+													)}
+												</div>
 											</div>
-										</div>
-											
-										</div>
-									) : (
-										<></>
-									)}
-								</Spin>
-							)}
-						</div>
+										) : (
+											<></>
+										)}
+									</Spin>
+								)}
+							</div>
+						}
 					</div>
 				</div>
 			</Modal>

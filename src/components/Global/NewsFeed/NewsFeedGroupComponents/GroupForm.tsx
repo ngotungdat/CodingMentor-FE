@@ -159,7 +159,9 @@ function GroupForm(props) {
 								<UploadAvatarField form={form} name="BackGround" label="Background" />
 							</div>
 							<div className="mb-4">
-								<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
+								<p className="font-weight-primary" style={{ color: 'red' }}>
+									*Lưu ý: Upload tối đa 100Mb
+								</p>
 							</div>
 							<div className="col-12 mt-3">
 								<button type="submit" className="btn btn-primary w-100" disabled={isLoading.type === 'ADD_DATA' && isLoading.status}>

@@ -268,7 +268,7 @@ const VideoCourseDetail = (props) => {
 		return (
 			<Card className="w-100 card">
 				<div onClick={_watchDemo} className="main-thum center-column w-100">
-					<img className="thum w-100 h-100" src={!!router.query?.Thum ? router.query.Thum.toString() : '/images/logo.jpg'} />
+					<img className="thum w-100 h-100" src={!!router.query?.Thum ? router.query.Thum.toString() : '/images/logo-thumnail.jpg'} />
 					<div className="thum-mark w-100 h-100 flex-center">
 						<i className="far fa-play-circle"></i>
 					</div>

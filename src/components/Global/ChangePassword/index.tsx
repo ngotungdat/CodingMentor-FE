@@ -9,7 +9,7 @@ import { userApi } from '~/apiBase'
 import TitlePage from '~/components/Elements/TitlePage'
 import InputPassField from '~/components/FormControl/InputPassField'
 import ProfileSummary from '~/components/ProfileSummary.tsx/ProfileSummary'
-import { signOut } from 'next-auth/client'
+import { signOut } from 'next-auth/react'
 
 let returnSchema = {}
 let schema = null

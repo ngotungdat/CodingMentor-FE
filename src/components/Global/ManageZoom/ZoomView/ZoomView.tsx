@@ -1,5 +1,5 @@
 import { Spin } from 'antd'
-import { signIn, useSession } from 'next-auth/client'
+import { signIn, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -10,7 +10,7 @@ import { useWrap } from '~/context/wrap'
 function ZoomView() {
 	const router = useRouter()
 	const { slug: ScheduleID } = router.query
-	const [session, loading] = useSession()
+	// const { data: session, status } = useSession()
 	let path: string = router.pathname
 
 	const [dataZoom, setDataZoom] = useState<{
@@ -66,15 +66,15 @@ function ZoomView() {
 		fetchInfoRoomZoom()
 	}, [userInformation])
 
-	useEffect(() => {
-		if (typeof session !== 'undefined') {
-			if (session == null) {
-				if (path.search('signin') < 0) {
-					signIn()
-				}
-			}
-		}
-	}, [session])
+	// useEffect(() => {
+	// 	if (typeof session !== 'undefined') {
+	// 		if (session == null) {
+	// 			if (path.search('signin') < 0) {
+	// 				signIn()
+	// 			}
+	// 		}
+	// 	}
+	// }, [session])
 
 	if (typeof window !== 'undefined') {
 		const cac = window.location.origin + '/course/calendar'

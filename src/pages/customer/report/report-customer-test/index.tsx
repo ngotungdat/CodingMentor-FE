@@ -206,7 +206,7 @@ export default function ReportTest() {
 			render: (a) => <p className="font-weight-primary">{a}</p>
 		},
 		{
-			title: 'SĐT',
+			title: 'Số điện thoại',
 			dataIndex: 'Mobile',
 			...FilterColumn('Mobile', onSearch, handleReset, 'text'),
 			render: (a) => <p className="font-weight-primary">{a}</p>

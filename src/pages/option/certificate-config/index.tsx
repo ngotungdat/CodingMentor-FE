@@ -60,7 +60,6 @@ function CertificateOfStudent(props) {
 
 	return (
 		<>
-			{' '}
 			<div className="row">
 				<TitlePage title="Chứng chỉ học viên" />
 				<div className="col-12">

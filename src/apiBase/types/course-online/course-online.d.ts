@@ -53,7 +53,7 @@ type ICOStoneDataToSave = {
 	Price: number
 	TimeCourse: ITimeCourse[]
 	Avatar: string
-	RoomID: number
+	RoomID?: number
 }
 type ICOSaveCourseInfo = {
 	CourseName: string
@@ -78,7 +78,7 @@ type ICOSaveCourseInfo = {
 	Price: number
 	Schedule: ICOScheduleListToSave[]
 	ImageCourse: string
-	RoomID: number
+	RoomID?: number
 }
 type ICOCreateForm = {
 	BranchID: number
@@ -93,7 +93,7 @@ type ICOCreateForm = {
 	CourseName: string
 	Avatar: string
 	TimeCourse: ITimeCourse[]
-	RoomID: number
+	RoomID?: number
 }
 
 // EDIT COURSE ONLINE

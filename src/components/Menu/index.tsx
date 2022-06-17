@@ -5,7 +5,7 @@ import { AdminChildMenu, AdminParentMenu } from '~/lib/data-menu/AdminMenu'
 import { TeacherChildMenu, TeacherParentMenu } from '~/lib/data-menu/TeacherMenu'
 import { StudentChildMenu, StudentParentMenu } from '~/lib/data-menu/StudentMenu'
 import { SellerChildMenu, SellerParentMenu } from '~/lib/data-menu/SellerMenu'
-import { useSession } from 'next-auth/client'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { ParentsChildMenu, ParentsParentMenu } from '~/lib/data-menu/ParentsMenu'
 import { StaffManagerChildMenu, StaffManagerParentMenu } from '~/lib/data-menu/StaffManagerMenu'
@@ -14,6 +14,8 @@ import { ProfessionalManagerChildMenu, ProfessionalManagerParentMenu } from '~/l
 import { AccountantChildMenu, AccountantParentMenu } from '~/lib/data-menu/AccountantMenu'
 import { StaffChildMenu, StaffParentMenu } from '~/lib/data-menu/StaffMenu'
 import _ from '~/appConfig'
+import { useWrap } from '~/context/wrap'
+import { parseJwt } from '~/utils/functions'
 
 const { SubMenu } = Menu
 
@@ -34,7 +36,9 @@ const MenuDefault = (props: any) => {
 	const [sameTab, setSameTab] = useState(false)
 	const [parentMenu, setParentMenu] = useState([])
 	const [childMenu, setChildMenu] = useState([])
-	const [session] = useSession()
+	const { data: session } = useSession()
+
+	const { userInformation } = useWrap()
 
 	const changeTabs = (e: any) => {
 		e.preventDefault()
@@ -213,22 +217,8 @@ const MenuDefault = (props: any) => {
 		}
 	}, [sameTab])
 
-	function parseJwt(token) {
-		var base64Url = token.split('.')[1]
-		var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-		var jsonPayload = decodeURIComponent(
-			atob(base64)
-				.split('')
-				.map(function (c) {
-					return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-				})
-				.join('')
-		)
-		return JSON.parse(jsonPayload)
-	}
-
 	useEffect(() => {
-		if (session !== undefined) {
+		if (!!session) {
 			let token = session.accessToken
 			let userInfor = parseJwt(token)
 			switch (parseInt(userInfor.roleID)) {
@@ -276,7 +266,7 @@ const MenuDefault = (props: any) => {
 					break
 			}
 		}
-	}, [])
+	}, [session])
 
 	useEffect(() => {
 		if (childMenu.length > 0) {

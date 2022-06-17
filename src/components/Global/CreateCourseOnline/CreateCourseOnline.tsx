@@ -66,7 +66,7 @@ const CreateCourseOnline = () => {
 		type: '',
 		status: false
 	})
-	const [optionListForForm, setOptionListForForm] = useState<ICOOptionListForForm>({
+	const [optionListForForm, setOptionListForForm] = useState<any>({
 		branchList: [],
 		studyTimeList: [],
 		gradeList: [],

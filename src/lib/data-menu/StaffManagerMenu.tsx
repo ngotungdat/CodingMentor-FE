@@ -467,14 +467,14 @@ export const StaffManagerChildMenu = [
 				Route: '/customer/contract/contract-customer-list',
 				Text: 'Học viên có hợp đồng',
 				Icon: '<span class="anticon"><img src="/images/icons/clipboard.svg"></span>'
-			},
-			{
-				ItemType: 'single',
-				Key: '/customer/certificate-list',
-				Route: '/customer/certificate-list',
-				Text: 'Chứng chỉ học viên',
-				Icon: '<span class="anticon"><img src="/images/icons/certificate.svg"></span>'
 			}
+			// {
+			// 	ItemType: 'single',
+			// 	Key: '/customer/certificate-list',
+			// 	Route: '/customer/certificate-list',
+			// 	Text: 'Chứng chỉ học viên',
+			// 	Icon: '<span class="anticon"><img src="/images/icons/certificate.svg"></span>'
+			// }
 			// {
 			//   ItemType: "sub-menu",
 			//   Key: "sub-list-course-child-5",

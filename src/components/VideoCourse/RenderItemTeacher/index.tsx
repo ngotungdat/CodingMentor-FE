@@ -45,7 +45,7 @@ const RenderItemTeacher = (props) => {
 							</div>
 						)}
 
-						<Avatar className="avatar" src={!!item?.Avatar ? item?.Avatar : '/images/logo-thumnail-2.jpg'} alt="avatar" />
+						<Avatar className="avatar" src={!!item?.Avatar ? item?.Avatar : '/images/logo-square.png'} alt="avatar" />
 
 						<h4 className="title ml-3 mr-3 in-1-line">{item.FullNameUnicode}</h4>
 

@@ -10,16 +10,11 @@ type hProps = {
 const HeaderVideo: FC<hProps> = ({ params, onClick }): JSX.Element => {
 	return (
 		<div className="row video-header pl-5 pr-5 video-shadow">
-			<div className="app-header-logo">
-				<Link href="/">
-					<a href="#">
-						<img className="logo-img" src="/images/logo-final.png"></img>
-					</a>
-				</Link>
-			</div>
-			<div className="row video-header__title mr-3">
-				<div className="video-header__video-title in-2-line">{params.name}</div>
-			</div>
+			<Link href="/">
+				<img className="logo-img" src="/images/logo.png" />
+			</Link>
+
+			<div className="video-header__video-title in-2-line ml-5">{params.name}</div>
 
 			<div className="row p-0 video-header__header-right">
 				<div className="row video-header__progress">

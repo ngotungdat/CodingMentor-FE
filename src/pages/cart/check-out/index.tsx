@@ -1,6 +1,6 @@
 import { FormOutlined, LockOutlined, LoginOutlined, LogoutOutlined, RedoOutlined, UserOutlined } from '@ant-design/icons'
 import { Form, Input, Popover, Radio, Skeleton, Spin, Select, Card, Button, Avatar, Modal, List } from 'antd'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -15,8 +15,6 @@ import RenderItemTicket from './render-item-ticket'
 const CheckOut = () => {
 	const { showNoti } = useWrap()
 	const router = useRouter()
-	const [session] = useSession()
-	const [dataUser, setDataUser] = useState<IUser>()
 	const [cartItems, setCartItems] = useState<IShoppingCart[]>()
 	const [paymentMethods, setPaymentMethods] = useState([])
 	const [method, setMethod] = useState<{ PaymentCode: string; transferpayment: string }>({ PaymentCode: '', transferpayment: '' })
@@ -358,17 +356,6 @@ const CheckOut = () => {
 	}
 
 	useEffect(() => {
-		if (session !== undefined) {
-			let token = session.accessToken
-			if (userInformation) {
-				setDataUser(userInformation)
-			} else {
-				setDataUser(parseJwt(token))
-			}
-		}
-	}, [userInformation])
-
-	useEffect(() => {
 		getShoppingCartData()
 		getPaymentMethod()
 	}, [])
@@ -396,7 +383,7 @@ const CheckOut = () => {
 					<div className="header__logo col-6 col-md-3">
 						<Link href="/">
 							<a href="#">
-								<img className="logo-img" src="/images/logo-final.png" alt="logo branch"></img>
+								<img className="logo-img" src="/images/logo-square.png" alt="logo branch"></img>
 							</a>
 						</Link>
 					</div>
@@ -405,17 +392,17 @@ const CheckOut = () => {
 							<ul className="col-setting-list">
 								<li className="user">
 									<div className="d-none d-md-inline-block ">
-										<Popover content={!session ? contentLogin : contentLogout} trigger="click" title="">
+										<Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
 											<div className="user-wrap">
 												<div className="user-info">
-													{session?.user ? (
+													{!!userInformation ? (
 														<div className="user-wrap">
 															<div className="user-img">
-																<img src={dataUser?.Avatar ? dataUser.Avatar : '/images/user.png'} alt="" />
+																<img src={userInformation?.Avatar ? userInformation.Avatar : '/images/user.png'} alt="" />
 															</div>
 															<div className="user-info">
-																<p className="user-name">{dataUser?.FullNameUnicode}</p>
-																<p className="user-position">{dataUser?.RoleName}</p>
+																<p className="user-name">{userInformation?.FullNameUnicode}</p>
+																<p className="user-position">{userInformation?.RoleName}</p>
 															</div>
 														</div>
 													) : (

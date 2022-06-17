@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import styles from './RegisterForm.module.scss'
 import { useRouter } from 'next/router'
-import toast, { Toaster } from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 import { Form, Spin } from 'antd'
 import { userApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 import { CheckCircleOutlined } from '@ant-design/icons'
-import { signIn } from 'next-auth/client'
+import { signIn } from 'next-auth/react'
 
-enum roles {
-	user = 'user',
-	admin = 'admin',
-	moderator = 'moderator'
-}
+import styles from './RegisterForm.module.scss'
+
 type Inputs = {
 	text: string
 	textRequired: string
@@ -26,23 +21,10 @@ interface RegisterInputs {
 	Note: Inputs
 }
 
-interface dataNewAccount {
-	FullNameUnicode: string
-	Email: string
-	Mobile: string
-	Note: string
-}
-
-function RegisterForm(props) {
+function RegisterForm() {
 	const router = useRouter()
 	const [count, setCount] = useState(3)
-	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors },
-		reset
-	} = useForm<RegisterInputs>()
+	const { register, handleSubmit } = useForm<RegisterInputs>()
 
 	const [loading, setLoading] = useState(false)
 	const [isSuccess, setIsSuccess] = useState(false)
@@ -78,10 +60,7 @@ function RegisterForm(props) {
 	}
 
 	const handleLogin = (data) => {
-		signIn('credentials-signin', {
-			...data,
-			callbackUrl: router.query?.callbackUrl ?? '/'
-		})
+		signIn('credentials-signin', { ...data, callbackUrl: router.query?.callbackUrl ?? '/' })
 	}
 
 	const moveToSignIn = (e) => {
@@ -89,11 +68,6 @@ function RegisterForm(props) {
 		router.push('/auth/signin')
 	}
 
-	useEffect(() => {
-		return () => {}
-	}, [])
-
-	/* "handleSubmit" will validate your inputs before invoking "onSubmit" */
 	return (
 		<>
 			<Toaster position="top-center" />
@@ -124,15 +98,12 @@ function RegisterForm(props) {
 										]}
 									>
 										<div className="form-control-input">
-											{/* <label className={styles.fcontrol}>Email</label> */}
 											<input name="Email" placeholder="Nhập Email" defaultValue="" {...register('Email', { required: true })} />
-											{/* {errors.Email && <span className={styles.errorText}>Hãy điền email</span>} */}
 										</div>
 									</Form.Item>
 
 									<Form.Item label=" Số điện thoại" name="Mobile" rules={[{ required: true, message: 'Hãy điền số điện thoại!' }]}>
 										<div className="form-control-input">
-											{/* <label className={styles.fcontrol}>Số điện thoại</label> */}
 											<input
 												type="number"
 												name="Mobile"
@@ -140,15 +111,12 @@ function RegisterForm(props) {
 												{...register('Mobile', { required: true })}
 												placeholder="Nhập số điện thoại"
 											/>
-											{/* {errors.Mobile && <span className={styles.errorText}>Hãy điền số điện thoại</span>} */}
 										</div>
 									</Form.Item>
 
 									<Form.Item label=" Ghi chú" name="Note" rules={[{ required: false, message: 'Hãy điền số điện thoại!' }]}>
 										<div className="form-control-input">
-											{/* <label className={styles.fcontrol}>Số điện thoại</label> */}
 											<input name="Note" defaultValue="" {...register('Note', { required: false })} placeholder="Ghi chú" />
-											{/* {errors.Mobile && <span className={styles.errorText}>Hãy điền số điện thoại</span>} */}
 										</div>
 									</Form.Item>
 

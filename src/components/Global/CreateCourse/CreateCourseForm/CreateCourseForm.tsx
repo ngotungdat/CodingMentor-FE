@@ -147,7 +147,6 @@ const CreateCourseOfflineForm = (props) => {
 									placeholder="Chọn phòng học"
 									isLoading={isLoading.type === 'RoomID' && isLoading.status}
 									optionList={optionListForForm.roomList}
-									// onChangeSelect={checkHandleFetchProgramByGrade}
 								/>
 							</div>
 
@@ -246,8 +245,8 @@ const CreateCourseOfflineForm = (props) => {
 									placeholder="Chọn chương trình học"
 									optionList={optionListForForm.programList}
 									onChangeSelect={(value) => {
-										console.log(optionListForForm.programList);
-										const price = 0;//optionListForForm.programList.find((p) => p.value === value)?.options.Price || 0
+										console.log(optionListForForm.programList)
+										const price = 0 //optionListForForm.programList.find((p) => p.value === value)?.options.Price || 0
 										form.setValue('Price', numberWithCommas(price))
 										checkHandleGetValueBeforeFetchCurriculum('ProgramID', value)
 									}}

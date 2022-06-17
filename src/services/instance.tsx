@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { getSession } from 'next-auth/client'
+import { getSession } from 'next-auth/react'
 import _ from '~/appConfig'
 
 const SHOW_LOG = false

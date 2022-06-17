@@ -280,7 +280,7 @@ const SalerList = () => {
 			render: (genderID) => optionGenderList.find((o) => o.value === genderID).title
 		},
 		{
-			title: 'SĐT',
+			title: 'Số điện thoại',
 			dataIndex: 'Mobile'
 		},
 		{

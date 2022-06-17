@@ -39,16 +39,20 @@ function index(props: any) {
 	// RENDER
 	return (
 		<>
-			<div className={styles.container} style={{ marginTop: 0 }}>
+			<div className={styles.container}>
 				<div className={styles.wrapBox}>
 					<div className={styles.wrapForm}>
 						<form onSubmit={handleSubmit(_Submit)} className={styles.loginForm}>
 							<div className={styles.loginFormImg}>
-								<img src="/images/login-logo.png" alt="" />
+								<img src="/images/logo.png" alt="coding-logo" />
 							</div>
+
 							<h6 className={styles.title}>Đăng nhập Coding Mentor</h6>
+
 							<input name="csrfToken" type="hidden" defaultValue={props?.csrfToken} />
+
 							<label className={styles.fcontrol}>Email hoặc tài khoản</label>
+
 							<div className={styles.inputIcon}>
 								<input
 									name="username"
@@ -60,20 +64,20 @@ function index(props: any) {
 										},
 										setValueAs: (value) => value.trim()
 									})}
-									placeholder="Email address"
+									placeholder="Email"
 								/>
 								<img src="/icons/email-icon.png" className={clsx(styles.icon, styles.iconEmail)} />
 							</div>
 							{errors.username && <span className="form-error">Hãy điền tên đăng nhập</span>}
-							
-							<label>Mật khẩu</label>
+
+							<label className="mt-3">Mật khẩu</label>
 							<div className={styles.inputIcon}>
 								<input
 									name="password"
 									type="password"
 									defaultValue=""
 									{...register('password', { required: true })}
-									placeholder="Password"
+									placeholder="Mật khẩu"
 								/>
 								<img src="/icons/Lock.png" className={styles.icon} />
 							</div>
@@ -85,7 +89,7 @@ function index(props: any) {
 							<div className={styles.checkbox}>
 								<input type="checkbox" />
 								<label>Ghi nhớ đăng nhập</label>
-								
+
 								<div className={styles.forgetPass} style={{ marginLeft: 'auto' }}>
 									<Link href="/reset-password">
 										<a>Quên mật khẩu?</a>

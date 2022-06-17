@@ -1,14 +1,14 @@
 import React from 'react'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 import styles from './account.module.scss'
 
 function index() {
-	const [session, loading] = useSession()
+	const { data, status } = useSession()
 	const router = useRouter()
 
-	if (loading) {
+	if (status == 'loading') {
 		return <div>Authenticating...</div>
 	}
 
@@ -22,7 +22,7 @@ function index() {
 
 	return (
 		<div className={styles.wrapAccount}>
-			{!session && (
+			{!data && (
 				<>
 					<p className={styles.title}>Chưa đăng nhập</p> <br />
 					<button onClick={handleSignIn} className={`${styles.btnLogin} ${styles.btn}`}>
@@ -33,9 +33,9 @@ function index() {
 					</button>
 				</>
 			)}
-			{session && (
+			{data && (
 				<>
-					Đăng nhập bởi {session.user.email} <br />
+					Đăng nhập bởi {data.user.email} <br />
 					<button onClick={handleSignOut} className={`${styles.btnLogin} ${styles.btn}`}>
 						Đăng xuất
 					</button>

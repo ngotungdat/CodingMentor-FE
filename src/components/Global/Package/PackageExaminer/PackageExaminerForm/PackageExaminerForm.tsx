@@ -60,7 +60,7 @@ function PackageExaminerForm(props) {
 			dataIndex: 'Email'
 		},
 		{
-			title: 'SĐT',
+			title: 'Số điện thoại',
 			dataIndex: 'Mobile'
 		},
 		{

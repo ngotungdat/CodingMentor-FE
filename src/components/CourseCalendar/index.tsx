@@ -158,7 +158,7 @@ const CourseCalendar = (props: any) => {
 					<div style={{ width: '100%', flexDirection: 'column', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 						<Avatar
 							className="shadow"
-							src={!!TeacherAvatar ? TeacherAvatar : '/images/logo-thumnail-2.jpg'}
+							src={!!TeacherAvatar ? TeacherAvatar : '/images/logo-square.png'}
 							alt="avt"
 							style={{ width: 90, height: 90 }}
 						/>

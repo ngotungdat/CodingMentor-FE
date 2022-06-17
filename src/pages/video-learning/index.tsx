@@ -1,7 +1,6 @@
 import { Card, Drawer, Spin } from 'antd'
 import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
-import 'react-circular-progressbar/dist/styles.css'
 import { VideoCourseOfStudent, VideoCourses } from '~/apiBase/video-learning'
 import HeaderVideo from '~/components/VideoLearning/header'
 import VideoList from '~/components/VideoLearning/list-video'
@@ -9,6 +8,7 @@ import VideoTabs from '~/components/VideoLearning/tabs'
 import { useWrap } from '~/context/wrap'
 import { usePageVisibility } from '~/utils/functions'
 import Lottie from 'react-lottie-player'
+import 'react-circular-progressbar/dist/styles.css'
 
 import empty from '~/components/json/empty-box.json'
 

@@ -504,7 +504,7 @@ const StudentExchange = () => {
 						...FilterColumn('FullNameUnicode', onSearch, handleReset, 'text')
 					},
 					{
-						title: 'SĐT',
+						title: 'Số điện thoại',
 						dataIndex: 'Mobile',
 						width: 120,
 						render: (nameStudent) => <p className="font-weight-primary">{nameStudent}</p>,
@@ -579,7 +579,7 @@ const StudentExchange = () => {
 						...FilterColumn('FullNameUnicode', onSearch, handleReset, 'text')
 					},
 					{
-						title: 'SĐT',
+						title: 'Số điện thoại',
 						dataIndex: 'Mobile',
 						width: 120,
 						render: (nameStudent) => <p className="font-weight-primary">{nameStudent}</p>,

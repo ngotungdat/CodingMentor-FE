@@ -1,46 +1,47 @@
 import React from 'react'
-import { Home, Airplay, User, Package, Book, UserCheck, Tool, FileText } from 'react-feather'
+
+import Icon from './icons.json'
 
 export const StaffManagerParentMenu = [
 	{
 		TabName: 'tab-home',
 		Title: 'Trang chủ',
-		Icon: <Home />
+		Icon: Icon.home
 	},
 	{
 		TabName: 'tab-course',
 		Title: 'Khóa học',
-		Icon: <Airplay />
+		Icon: Icon.category
 	},
 	{
 		TabName: 'tab-customer',
 		Title: 'Khách hàng',
-		Icon: <User />
+		Icon: Icon.customer
 	},
 	{
 		TabName: 'tab-staff',
 		Title: 'Quản lí nhân viên',
-		Icon: <UserCheck />
+		Icon: Icon.staff
 	},
 	{
 		TabName: 'tab-package',
 		Title: 'Bộ đề',
-		Icon: <Package />
+		Icon: Icon.store
 	},
 	{
 		TabName: 'tab-document',
 		Title: 'Tài liệu',
-		Icon: <Book />
+		Icon: Icon.document
 	},
 	{
 		TabName: 'tab-question-bank',
 		Title: 'Ngân hàng đề',
-		Icon: <FileText />
+		Icon: Icon.question
 	},
 	{
 		TabName: 'tab-option',
 		Title: 'Cấu hình',
-		Icon: <Tool />
+		Icon: Icon.settings
 	}
 ]
 

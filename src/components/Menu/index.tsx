@@ -290,25 +290,30 @@ const MenuDefault = (props: any) => {
 							<>
 								{!isOpen ? (
 									<li className={tab === item.TabName ? 'active' : ''} key={index}>
-										<b className={tab === item.TabName ? '' : 'd-none'} />
-										<b className={tab === item.TabName ? '' : 'd-none'} />
-										<a href="#" onClick={changeTabsClick} onMouseEnter={changeTabs} data-tabs={item.TabName}>
-											{item.Icon}
+										<b id={'b1-' + item?.TabName} className={tab === item.TabName ? '' : 'd-none'} />
+										<b id={'b2-' + item?.TabName} className={tab === item.TabName ? '' : 'd-none'} />
+										<a id={'icon' + item?.TabName} href="#" onClick={changeTabsClick} onMouseEnter={changeTabs} data-tabs={item.TabName}>
+											<svg id={'icon' + item?.TabName} width="24" height="24" viewBox="0 0 24 24" fill="none">
+												<path d={item.Icon} fill={tab === item.TabName ? '#333333' : '#fff'} />
+											</svg>
 										</a>
 									</li>
 								) : (
 									<Tooltip title={item.Title} placement="left">
 										<li className={tab === item.TabName ? 'active' : ''} key={index}>
-											<b className={tab === item.TabName ? '' : 'd-none'} />
-											<b className={tab === item.TabName ? '' : 'd-none'} />
+											<b id={'b1-' + item?.TabName} className={tab === item.TabName ? '' : 'd-none'} />
+											<b id={'b2-' + item?.TabName} className={tab === item.TabName ? '' : 'd-none'} />
 											<a
+												id={'a-' + item?.TabName}
 												className={`${index % 2 !== 0 ? 'margin-top-1' : ''}`}
 												href="#"
 												onClick={changeTabsClick}
 												onMouseEnter={changeTabs}
 												data-tabs={item.TabName}
 											>
-												{item.Icon}
+												<svg id={'icon' + item?.TabName} width="24" height="24" viewBox="0 0 24 24" fill="none">
+													<path d={item.Icon} fill={tab === item.TabName ? '#333333' : '#fff'} />
+												</svg>
 											</a>
 										</li>
 									</Tooltip>
@@ -347,18 +352,33 @@ const MenuDefault = (props: any) => {
 										item.ItemType !== 'sub-menu' ? (
 											<Menu.Item key={item.Key} icon={null}>
 												<Link href={item.Route}>
-													<a>
-														{!!item?.Icon && <a className="mr-3">{item?.Icon}</a>}
-														{item.Text}
-													</a>
+													<div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center' }}>
+														{!!item?.Icon && (
+															<svg className="mr-2" id={'icon' + item?.Icon} width="24" height="24" viewBox="0 0 24 24" fill="none">
+																<path d={item.Icon} fill={tab === item.TabName ? '#C94A4F' : '#333333'} />
+															</svg>
+														)}
+														<a>{item.Text}</a>
+													</div>
 												</Link>
 											</Menu.Item>
 										) : (
 											<SubMenu
 												className={`${openKeys && item.Key === openKeys[openKeys?.length - 1] ? 'is-open' : ''}`}
 												key={item.Key}
-												icon={item.Icon}
-												title={item.TitleSub}
+												icon={null}
+												title={
+													<div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center' }}>
+														<a>
+															{!!item?.Icon && (
+																<svg className="mr-2" id={'icon' + item?.Icon} width="24" height="24" viewBox="0 0 24 24" fill="none">
+																	<path d={item.Icon} fill="#333333" />
+																</svg>
+															)}
+															{item.TitleSub}
+														</a>
+													</div>
+												}
 											>
 												{item?.SubMenuList.map((subitem: any, indexSubitem: any) => (
 													<Menu.Item key={subitem.Key} icon={null}>

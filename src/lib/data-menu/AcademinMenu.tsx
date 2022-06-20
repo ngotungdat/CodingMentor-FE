@@ -1,13 +1,13 @@
-import React from 'react';
-import { Airplay, FileText, Home, User, UserCheck } from 'react-feather';
+import React from 'react'
+import Icon from './icons.json'
 
 export const AcademicParentMenu = [
 	{
 		TabName: 'tab-home',
 		Title: 'Trang chủ',
-		Icon: <Home />
+		Icon: Icon.home
 	}
-];
+]
 
 export const AcademicChildMenu = [
 	{
@@ -31,4 +31,4 @@ export const AcademicChildMenu = [
 			}
 		]
 	}
-];
+]

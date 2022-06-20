@@ -100,7 +100,7 @@
 						background-color: #fff;
 						display: block;
 						position: absolute;
-						bottom: -14.5px;
+						bottom: -15px;
 						right: 0;
 
 						&::before {
@@ -123,6 +123,11 @@
 							border-bottom-left-radius: 20px;
 							z-index: 99999;
 						}
+
+						svg {
+							color: $primary-color !important;
+							background: rgb(255, 255, 255) !important;
+						}
 					}
 
 					a {
@@ -132,6 +137,7 @@
 					}
 
 					svg {
+						color: white !important;
 						width: 22px;
 						pointer-events: none;
 					}
@@ -418,21 +424,6 @@
 			background: transparent;
 		}
 
-		.ant-menu-submenu {
-			color: #504f56;
-
-			.ant-menu-submenu-title {
-				&:hover {
-					color: $primary-color;
-
-					svg,
-					.ant-menu-submenu-arrow {
-						color: $primary-color;
-					}
-				}
-			}
-		}
-
 		.ant-menu-item-group-list {
 			width: 100%;
 		}
@@ -440,6 +431,20 @@
 		.ant-menu-submenu-title {
 			display: flex;
 			align-items: center;
+
+			svg {
+				width: 24px !important;
+				height: 24px !important;
+			}
+
+			&:hover {
+				.ant-menu-title-content {
+					background-color: #f0f0f0 !important;
+				}
+				a {
+					color: #000;
+				}
+			}
 		}
 
 		.ant-menu-item-group {
@@ -484,10 +489,14 @@
 				}
 			}
 
+			// path {
+			// 	fill: #717171;
+			// }
+
 			svg {
-				font-size: 17px;
-				color: #717171;
-				transition: 0.3s;
+				width: 24px !important;
+				height: 24px !important;
+				margin-top: -2px !important;
 			}
 
 			&.ant-menu-item-selected {
@@ -509,13 +518,19 @@
 
 				svg {
 					color: $primary-color;
-					transition: 0.3s;
+					width: 24px !important;
+					height: 24px !important;
+					margin-top: -2px !important;
 				}
 
 				a {
 					font-size: 14px;
 					font-weight: 400;
 					color: #c94a4f !important;
+				}
+
+				path {
+					fill: #c94a4f !important;
 				}
 			}
 
@@ -564,6 +579,10 @@
 
 	&:hover {
 		background: #f0f0f0 !important;
+	}
+
+	a {
+		color: #333333 !important;
 	}
 }
 

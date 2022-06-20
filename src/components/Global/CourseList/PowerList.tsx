@@ -13,6 +13,7 @@ const PowerList = (props) => {
 		if (!getPagination) return
 		getPagination(page)
 	}
+
 	const checkStatus = (vl, ctn, Avatar) => {
 		const rs = ['yellow', 'green', 'gray']
 		return (
@@ -22,7 +23,7 @@ const PowerList = (props) => {
 				</span>
 
 				<img
-					style={{ width: 100, height: 100, borderRadius: 10, marginTop: 5, objectFit:'contain' }}
+					style={{ width: 100, height: 100, borderRadius: 10, marginTop: 5, objectFit: 'contain' }}
 					src={Avatar !== null && Avatar !== undefined && Avatar !== '' ? Avatar : '/images/study01.png'}
 					alt="logo course img"
 				/>
@@ -34,7 +35,6 @@ const PowerList = (props) => {
 		if (!userInformation) return ''
 		let role = userInformation?.RoleID
 		let path = null
-
 		if (role == 1 || role == 5) {
 			path = {
 				pathname: '/course/course-list/course-list-detail/[slug]',
@@ -42,12 +42,10 @@ const PowerList = (props) => {
 			}
 		} else {
 			path = {
-				// pathname: '/customer/student/lesson-detail',
 				pathname: '/course/course-list/course-list-detail/[slug]',
 				query: { slug: ID, courseID: ID, CourseName }
 			}
 		}
-
 		return path
 	}
 
@@ -154,7 +152,6 @@ PowerList.propTypes = {
 		status: PropTypes.bool.isRequired
 	}),
 	children: PropTypes.element,
-	//
 	getPagination: PropTypes.func
 }
 PowerList.defaultProps = {

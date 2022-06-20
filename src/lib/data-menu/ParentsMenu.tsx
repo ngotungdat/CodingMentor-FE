@@ -1,13 +1,14 @@
-import React from 'react';
-import { Home } from 'react-feather';
+import React from 'react'
+
+import Icon from './icons.json'
 
 export const ParentsParentMenu = [
 	{
 		TabName: 'tab-home',
 		Title: 'Trang chủ',
-		Icon: <Home />
+		Icon: Icon.home
 	}
-];
+]
 
 export const ParentsChildMenu = [
 	{
@@ -59,4 +60,4 @@ export const ParentsChildMenu = [
 			}
 		]
 	}
-];
+]

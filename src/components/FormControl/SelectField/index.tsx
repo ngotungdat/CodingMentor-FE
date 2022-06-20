@@ -48,6 +48,8 @@ const SelectField = (props: ISelectField) => {
 						temp = field
 					}
 
+					console.log('props?.optionList: ', props?.optionList)
+
 					return (
 						<Select
 							{...temp}
@@ -64,11 +66,12 @@ const SelectField = (props: ISelectField) => {
 								field.onChange(value)
 							}}
 						>
-							{props.optionList.map((o, idx) => (
-								<Option key={idx} value={o.value} disabled={o.disabled || optionDisabledList?.includes(o.value)}>
-									{o.title}
-								</Option>
-							))}
+							{!!props?.optionList &&
+								props?.optionList.map((o, idx) => (
+									<Option key={idx} value={o.value} disabled={o.disabled || optionDisabledList?.includes(o.value)}>
+										{o.title}
+									</Option>
+								))}
 						</Select>
 					)
 				}}

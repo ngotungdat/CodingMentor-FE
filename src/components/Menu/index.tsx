@@ -301,7 +301,6 @@ const MenuDefault = (props: any) => {
 										<li className={tab === item.TabName ? 'active' : ''} key={index}>
 											<b className={tab === item.TabName ? '' : 'd-none'} />
 											<b className={tab === item.TabName ? '' : 'd-none'} />
-
 											<a
 												className={`${index % 2 !== 0 ? 'margin-top-1' : ''}`}
 												href="#"
@@ -323,7 +322,7 @@ const MenuDefault = (props: any) => {
 			<div className={`menu-child-bg ${!isOpen && `${isHover.status ? 'open' : ''}`}`} onMouseEnter={closeTabs}></div>
 			<div className={`menu-child  ${!isOpen && `close-app  ${isHover.status ? 'hover-open' : ''} `}`}>
 				<div className="app-header-logo">
-					<p>PEA eLMS</p>
+					<p>Coding Mentor</p>
 				</div>
 				<div
 					className={`menu-child-body ${isHover.changeHeight ? 'change-height' : ''}`}
@@ -346,7 +345,7 @@ const MenuDefault = (props: any) => {
 								<Menu.ItemGroup key={menu.MenuKey} title={menu.MenuTitle}>
 									{menu.MenuItem?.map((item: any, indexItem: any) =>
 										item.ItemType !== 'sub-menu' ? (
-											<Menu.Item onClick={() => console.log('item.Route: ', item.Route)} key={item.Key} icon={null}>
+											<Menu.Item key={item.Key} icon={null}>
 												<Link href={item.Route}>
 													<a>
 														{!!item?.Icon && <a className="mr-3">{item?.Icon}</a>}

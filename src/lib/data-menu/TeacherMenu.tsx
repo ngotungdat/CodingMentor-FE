@@ -2,15 +2,12 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faUser,
-	faVideo,
 	faFileContract,
 	faBook,
 	faCircleQuestion,
-	faGears,
 	faHome,
 	faBookOpen,
 	faFileSignature,
-	faGear,
 	faCubes,
 	faFile,
 	faFileLines,

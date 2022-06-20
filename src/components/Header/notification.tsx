@@ -23,9 +23,6 @@ const Notification = () => {
 			if (res.status == 200) {
 				setDataTable(res.data)
 			}
-			if (res.status == 204) {
-				console.log(`%c - Noti 204:` + `%c Không tìm thấy thông báo nào`, 'color: red; font-weight: bold', 'color: yellow;')
-			}
 		} catch (error) {
 			console.log('error: ', error)
 		}
@@ -115,9 +112,7 @@ const Notification = () => {
 				visible={isModalVisible}
 				width={700}
 				okButtonProps={{
-					style: {
-						display: 'none'
-					}
+					style: { display: 'none' }
 				}}
 				onCancel={() => {
 					setIsModalVisible(false)
@@ -130,7 +125,7 @@ const Notification = () => {
 			<Popover placement="bottomRight" content={content_notification}>
 				<div className="shopping__cart-detail cart-icon d-flex justify-content-center align-items-center">
 					<a style={{ textDecoration: 'none' }}>
-						<BellOutlined size={18} />
+						<img src="/icons/icon-notification.svg" style={{ width: 24, height: 24 }} />
 					</a>
 					<span className={dataTable?.totalRow > 0 ? 'count-notification' : 'hide'}>
 						<span>{dataTable?.totalRow > 9 ? `9+` : dataTable?.totalRow}</span>

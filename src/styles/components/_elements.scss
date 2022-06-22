@@ -594,9 +594,12 @@ textarea.ant-input {
 	}
 
 	.ant-select-selector {
+		background-color: #f0f0f0 !important;
+		border: 1px solid #cccccc !important;
 		.ant-select-selection-item,
 		.ant-select-selection-placeholder {
 			line-height: 34px !important;
+			color: #999999 !important;
 		}
 
 		input {
@@ -709,30 +712,15 @@ textarea.ant-input {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
+	background-color: #f0f0f0 !important;
 	&:focus {
 		box-shadow: none;
-
-		svg {
-			color: white;
-		}
+		border-style: none !important;
 	}
-
 	&:hover {
-		// background-color: $primary-color !important;
-		// border-color: $primary-color !important;
-		svg {
-			color: white;
-		}
+		background-color: #dfdfdf !important;
+		border-style: none !important;
 	}
-
-	// &:focus {
-	//   background-color: $primary-color !important;
-	//   border-color: $primary-color !important;
-	//   svg {
-	//     color: white;
-	//   }
-	// }
 	svg {
 		width: 16px;
 		color: #2d384a;

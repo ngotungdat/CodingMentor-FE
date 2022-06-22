@@ -179,7 +179,7 @@ const FilterBase = (props) => {
 				overlayClassName="filter-popover"
 				onVisibleChange={handleChangeFilter}
 			>
-				<button className="btn btn-secondary light btn-filter">
+				<button className="btn light btn-filter">
 					<Filter />
 				</button>
 			</Popover>

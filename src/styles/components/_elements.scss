@@ -404,7 +404,7 @@
 	border-color: #ebeef6;
 
 	&:hover {
-		background: rgb(230, 230, 230);
+		background: #f0f0f0;
 		color: #181c32;
 		border-color: rgb(230, 230, 230);
 	}
@@ -414,6 +414,13 @@
 		background: rgb(226, 226, 226);
 		color: #181c32;
 		border-color: rgb(226, 226, 226);
+	}
+
+	&.active {
+		background-color: #fdecef !important;
+		span {
+			color: $button-color !important;
+		}
 	}
 }
 
@@ -521,7 +528,6 @@ textarea.ant-input {
 	}
 
 	&.hide-icon {
-
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 			-webkit-appearance: none;
@@ -588,7 +594,6 @@ textarea.ant-input {
 	}
 
 	.ant-select-selector {
-
 		.ant-select-selection-item,
 		.ant-select-selection-placeholder {
 			line-height: 34px !important;
@@ -619,7 +624,6 @@ textarea.ant-input {
 }
 
 .style-input.multiple-select {
-
 	.ant-select-selector,
 	&.ant-input,
 	.ant-picker-input input,
@@ -631,7 +635,7 @@ textarea.ant-input {
 	}
 }
 
-.ant-form-item-label>label.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
+.ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
 	flex-direction: row-reverse;
 
 	&::before {
@@ -644,7 +648,7 @@ textarea.ant-input {
 	font-weight: 500;
 }
 
-.ant-btn>span {
+.ant-btn > span {
 	vertical-align: middle;
 }
 
@@ -715,7 +719,6 @@ textarea.ant-input {
 	}
 
 	&:hover {
-
 		// background-color: $primary-color !important;
 		// border-color: $primary-color !important;
 		svg {
@@ -1358,7 +1361,6 @@ hr {
 }
 
 .ant-table-filter-trigger-container {
-
 	// right: inherit;
 	// left: -15px;
 	&.ant-table-filter-trigger-container-open {
@@ -1703,10 +1705,6 @@ hr {
 }
 
 .loading-login {
-	position: absolute;
-	top: 18px;
-	right: 24%;
-
 	.ant-spin-dot-item {
 		background: white;
 	}
@@ -1888,7 +1886,6 @@ hr {
 }
 
 .input-number {
-
 	&::-webkit-outer-spin-button,
 	&::-webkit-inner-spin-button {
 		-webkit-appearance: none;
@@ -1929,7 +1926,6 @@ hr {
 }
 
 .input-number {
-
 	&::-webkit-outer-spin-button,
 	&::-webkit-inner-spin-button {
 		-webkit-appearance: none;
@@ -1953,7 +1949,6 @@ hr {
 }
 
 .content_notification {
-
 	.ant-card-head,
 	.ant-card-head-title,
 	.ant-card-extra,

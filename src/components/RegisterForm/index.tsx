@@ -146,11 +146,13 @@ function RegisterForm() {
 									</div>
 
 									<div className={styles.boxSubmit}>
-										<input type="submit" value={'Tạo tài khoản mới'} />
-										{loading && <Spin className="loading-login" />}
+										<button className="pt-1" type="submit">
+											Tạo tài khoản mới {loading && <Spin className="loading-login ml-2" style={{ marginTop: 5 }} />}
+										</button>
 									</div>
+
 									<div className={styles.boxSignup}>
-										Bạn đã có tài khoản?{' '}
+										<span style={{ color: '#000' }}>Bạn đã có tài khoản?</span>{' '}
 										<a href="" onClick={moveToSignIn}>
 											Đăng nhập
 										</a>

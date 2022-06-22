@@ -1,10 +1,8 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-	faCalendarPlus,
 	faUser,
 	faUserClock,
-	faUserGraduate,
 	faUserTie,
 	faChartLine,
 	faVideo,
@@ -19,33 +17,21 @@ import {
 	faBook,
 	faCircleQuestion,
 	faFileLines,
-	faChalkboardUser,
 	faGears,
 	faWrench,
-	faHome,
-	faBookOpen,
-	faFileSignature,
-	faGear,
 	faCubes,
 	faCalendarDays,
-	faCirclePause,
 	faComments,
 	faMoneyBills,
 	faUserGroup,
-	faRectangleList,
-	faCircleExclamation,
-	faHeadset,
-	faArrowRightArrowLeft,
-	faBookmark,
 	faUserSecret,
 	faBookAtlas,
 	faCalendarCheck,
-	faUserAltSlash,
-	faUsersGear,
-	faCommentDollar,
-	faIdBadge
+	faUsersGear
 } from '@fortawesome/free-solid-svg-icons'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
+
+import Icon from './icons.json'
 
 const SHOW_ICON = true
 
@@ -53,47 +39,47 @@ export const AdminParentMenu = [
 	{
 		TabName: 'tab-home',
 		Title: 'Trang chủ',
-		Icon: <FontAwesomeIcon icon={faHome as IconProp} size="lg" />
+		Icon: Icon.home
 	},
 	{
 		TabName: 'tab-course-list',
 		Title: 'Quản lý khóa học',
-		Icon: <FontAwesomeIcon icon={faBookOpen as IconProp} size="lg" />
+		Icon: Icon.category
 	},
 	{
 		TabName: 'tab-course',
 		Title: 'Khóa học Video',
-		Icon: <FontAwesomeIcon icon={faVideo as IconProp} size="lg" />
+		Icon: Icon.video
 	},
 	{
 		TabName: 'tab-customer',
 		Title: 'Khách hàng',
-		Icon: <FontAwesomeIcon icon={faUser as IconProp} size="lg" />
+		Icon: Icon.customer
 	},
 	{
 		TabName: 'tab-staff',
 		Title: 'Quản lí nhân viên',
-		Icon: <FontAwesomeIcon icon={faUserTie as IconProp} size="lg" />
+		Icon: Icon.staff
 	},
 	{
 		TabName: 'tab-package',
 		Title: 'Bộ đề',
-		Icon: <FontAwesomeIcon icon={faFileContract as IconProp} size="lg" />
+		Icon: Icon.store
 	},
 	{
 		TabName: 'tab-document',
 		Title: 'Thư viện tài liệu',
-		Icon: <FontAwesomeIcon icon={faBook as IconProp} size="lg" />
+		Icon: Icon.document
 	},
 	{
 		TabName: 'tab-question-bank',
 		Title: 'Ngân hàng đề',
-		Icon: <FontAwesomeIcon icon={faFileSignature as IconProp} size="lg" />
+		Icon: Icon.question
 	},
 	{
 		TabName: 'tab-option',
 		Title: 'Cấu hình',
-		Icon: <FontAwesomeIcon icon={faGear as IconProp} size="lg" />
+		Icon: Icon.settings
 	}
 ]
 
@@ -107,14 +93,14 @@ export const AdminChildMenu = [
 				TypeItem: 'single',
 				Key: '/dashboard',
 				Route: '/dashboard',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faChartLine as IconProp} size="lg" />,
+				Icon: Icon.chart,
 				Text: 'Thống kê'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/newsfeed',
 				Route: '/newsfeed',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCubes as IconProp} size="lg" />,
+				Icon: Icon.news,
 				Text: 'Tin tức'
 			},
 			{
@@ -122,7 +108,7 @@ export const AdminChildMenu = [
 				Key: '/feedback',
 				Route: '/feedback',
 				Text: 'Phản hồi',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faComments as IconProp} size="lg" />
+				Icon: Icon.star
 			}
 		]
 	},
@@ -134,7 +120,7 @@ export const AdminChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-course',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faBookAtlas as IconProp} size="lg" />,
+				Icon: Icon.category,
 				TitleSub: 'Khóa học',
 				SubMenuList: [
 					{
@@ -171,14 +157,14 @@ export const AdminChildMenu = [
 				TypeItem: 'single',
 				Key: '/course/schedule-study',
 				Route: '/course/schedule-study',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarCheck as IconProp} size="lg" />,
+				Icon: Icon.calendar,
 				Text: 'Kiểm tra lịch'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/course/register-course',
 				Route: '/course/register-course',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarDays as IconProp} size="lg" />,
+				Icon: Icon.add,
 				Text: 'Đăng ký học'
 			}
 		]
@@ -192,27 +178,27 @@ export const AdminChildMenu = [
 				TypeItem: 'single',
 				Key: '/video-course',
 				Route: '/video-course',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faVideo as IconProp} size="lg" />,
+				Icon: Icon.video,
 				Text: 'Danh sách'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/video-course-order',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faShoppingCart as IconProp} size="lg" />,
+				Icon: Icon.buy,
 				Route: '/video-course-order',
 				Text: 'Đơn hàng'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/video-course-list',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCircleCheck as IconProp} size="lg" />,
+				Icon: Icon.videoActivated,
 				Route: '/video-course-list',
 				Text: 'Đã kích hoạt'
 			},
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-course-child',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCogs as IconProp} size="lg" />,
+				Icon: Icon.settings,
 				TitleSub: 'Cấu hình',
 				SubMenuList: [
 					{
@@ -248,7 +234,7 @@ export const AdminChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'student-list-032',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUser as IconProp} size="lg" />,
+				Icon: Icon.customer,
 				TitleSub: 'Học viên',
 				SubMenuList: [
 					{
@@ -327,7 +313,7 @@ export const AdminChildMenu = [
 				ItemType: 'sub-menu',
 				Key: 'sss-list-33098s',
 				TitleSub: 'Hẹn test',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserClock as IconProp} size="lg" />,
+				Icon: Icon.promiseTest,
 				SubMenuList: [
 					{
 						ItemType: 'single',
@@ -348,7 +334,7 @@ export const AdminChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-course-child-3',
-				Icon: <FontAwesomeIcon icon={faUsersGear} size="lg" />,
+				Icon: Icon.userEclips,
 				TitleSub: 'Báo cáo học viên',
 				SubMenuList: [
 					{
@@ -370,7 +356,7 @@ export const AdminChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-course-child-4',
-				Icon: <FontAwesomeIcon icon={faCircleDollarToSlot} size="lg" />,
+				Icon: Icon.money,
 				TitleSub: 'Tài chính',
 				SubMenuList: [
 					{
@@ -408,7 +394,7 @@ export const AdminChildMenu = [
 				Key: '/customer/parents',
 				Route: '/customer/parents',
 				Text: 'Danh sách phụ huynh',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserSecret as IconProp} size="lg" />
+				Icon: Icon.parent
 			}
 		]
 	},
@@ -422,26 +408,26 @@ export const AdminChildMenu = [
 				Key: '/staff/staff-list',
 				Route: '/staff/staff-list',
 				Text: 'Danh sách nhân viên',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserGroup as IconProp} size="lg" />
+				Icon: Icon.staff
 			},
 			{
 				ItemType: 'single',
 				Key: '/staff/teacher-list',
 				Route: '/staff/teacher-list',
 				Text: 'Danh sách giáo viên',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserTie as IconProp} size="lg" />
+				Icon: Icon.firstList
 			},
 			{
 				ItemType: 'single',
 				Key: '/staff/teacher-salary',
 				Route: '/staff/teacher-salary',
 				Text: 'Bảng lương giáo viên',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCircleDollarToSlot as IconProp} size="lg" />
+				Icon: Icon.secMoney
 			},
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-staff-child-3',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCircleDollarToSlot as IconProp} size="lg" />,
+				Icon: Icon.saler,
 				TitleSub: 'Tư vấn viên',
 				SubMenuList: [
 					{
@@ -486,7 +472,7 @@ export const AdminChildMenu = [
 				Key: '/staff/staff-salary',
 				Route: '/staff/staff-salary',
 				Text: 'Cấu hình lương',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faMoneyBills as IconProp} size="lg" />
+				Icon: Icon.secSettings
 			}
 		]
 	},
@@ -500,28 +486,28 @@ export const AdminChildMenu = [
 				Key: '/package/package-list',
 				Route: '/package/package-list',
 				Text: 'Quản lí bộ đề',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faFileContract as IconProp} size="lg" />
+				Icon: Icon.store
 			},
 			{
 				ItemType: 'single',
 				Key: '/package/package-examiner',
 				Route: '/package/package-examiner',
 				Text: 'Giáo viên chấm bài',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserCheck as IconProp} size="lg" />
+				Icon: Icon.userEclips
 			},
 			{
 				ItemType: 'single',
 				Key: '/package/package-set-result',
 				Route: '/package/package-set-result',
 				Text: 'Kết quả đã làm',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserPen as IconProp} size="lg" />
+				Icon: Icon.promiseTest
 			},
 			{
 				ItemType: 'single',
 				Key: '/package/package-payment',
 				Route: '/package/package-payment',
 				Text: 'Học viên mua bộ đề',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUsers as IconProp} size="lg" />
+				Icon: Icon.customer
 			}
 		]
 	},
@@ -535,7 +521,7 @@ export const AdminChildMenu = [
 				Key: '/document-list',
 				Route: '/document-list',
 				Text: 'Danh sách tài liệu',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faBook as IconProp} size="lg" />
+				Icon: Icon.document
 			}
 		]
 	},
@@ -549,14 +535,14 @@ export const AdminChildMenu = [
 				Key: '/question-bank/question-list',
 				Route: '/question-bank/question-list',
 				Text: 'Danh sách câu hỏi',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCircleQuestion as IconProp} size="lg" />
+				Icon: Icon.secList
 			},
 			{
 				ItemType: 'single',
 				Key: '/question-bank/exam-list',
 				Route: '/question-bank/exam-list',
 				Text: 'Danh sách đề',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faFileLines as IconProp} size="lg" />
+				Icon: Icon.store
 			}
 		]
 	},
@@ -590,7 +576,7 @@ export const AdminChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-4',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faGears as IconProp} size="lg" />,
+				Icon: Icon.education,
 				TitleSub: 'Cấu hình học',
 				SubMenuList: [
 					{
@@ -619,7 +605,7 @@ export const AdminChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-3',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faWrench as IconProp} size="lg" />,
+				Icon: Icon.more,
 				TitleSub: 'Khác',
 				SubMenuList: [
 					{

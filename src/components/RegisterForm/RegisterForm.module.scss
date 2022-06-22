@@ -1,40 +1,46 @@
-$primary-color: #DE3551;
+$primary-color: #de3551;
 
 .container {
-	display: block;
 	width: 100%;
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	overflow-y: scroll;
 }
 
 .fcontrol {
 	display: block;
 	position: relative;
 	width: auto;
+	margin-top: 24px;
+	font-size: 16px;
 }
 
 .wrapBox {
-	position: relative;
-	width: 100%;
+	max-width: 90%;
+
 	height: auto;
-	margin: 0 auto;
+	margin: 0 160px;
 	display: -webkit-flex;
 	display: -moz-box;
 	display: flex;
-	justify-content: center;
-	border-radius: 10px;
+
+	margin-top: -20px;
 }
 
 .wrapForm {
 	display: flex;
 	align-items: center;
-	width: 560px;
+	width: 100%;
 	height: 100%;
-	padding: 0 60px;
+	padding: 20px 0;
 	background: white;
-	border-radius: 7px;
+	border-radius: 0.575rem;
+
+	@media screen and (max-width: 1000px) {
+		width: 100%;
+	}
+
+	@media screen and (max-width: 600px) {
+		padding: 0 5px;
+	}
 }
 
 .imgLogin {
@@ -49,8 +55,12 @@ $primary-color: #DE3551;
 	display: flex;
 	align-items: center;
 
+	@media screen and (max-width: 1000px) {
+		display: none;
+	}
+
 	img {
-		width: 77%;
+		width: 70%;
 		margin: auto;
 	}
 }
@@ -70,14 +80,51 @@ $primary-color: #DE3551;
 .loginForm {
 	width: 100%;
 	height: auto;
-	padding: 30px 50px;
+	padding: 20px 0;
 	background: white;
-	border-radius: 7px;
+
+	.wIconBack {
+		width: 36px;
+		height: 36px;
+		border-radius: 99;
+		background: '#fff';
+		display: 'flex';
+		justify-content: 'center';
+		align-items: 'center';
+	}
+
+	.wIconInner {
+		width: 24px;
+		height: 24px;
+		background: #c94a4f;
+		border-radius: 8px;
+
+		display: 'flex';
+		justify-content: 'center';
+		align-items: 'center';
+	}
+
+	.btnBack {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		width: 44px;
+		height: 44px;
+		background: #f0f0f0;
+		border-radius: 8px;
+		margin-bottom: 5vh;
+		margin-top: 4vh;
+		&:hover {
+			background: #e3e3e3;
+		}
+	}
 
 	.title {
-		font-size: 25px;
+		font-size: 24px;
 		color: $primary-color;
-		text-align: center;
+		font-weight: 700;
+		margin-bottom: 48px !important;
 	}
 
 	/* Change Autocomplete styles in Chrome*/
@@ -95,15 +142,6 @@ $primary-color: #DE3551;
 		transition: background-color 5000s ease-in-out 0s;
 	}
 
-	input[type='number'] {
-
-		&::-webkit-outer-spin-button,
-		&::-webkit-inner-spin-button {
-			-webkit-appearance: none;
-			margin: 0;
-		}
-	}
-
 	input {
 		position: relative;
 		display: block;
@@ -111,15 +149,17 @@ $primary-color: #DE3551;
 		width: 100%;
 		border-radius: 0;
 		border: none;
-		border-bottom: 1px solid #0000002e;
+		border: 0.5px solid #ccc;
 		padding: 10px 15px;
 		padding-left: 0;
 		margin-bottom: 10px;
 		font-size: 14px;
+		background-color: #f0f0f0;
+		border-radius: 8px;
 
 		&:focus {
 			outline: 0;
-			border-bottom: 1px solid $primary-color;
+			border: 0.5px solid #ccc;
 			transition: 0.3s;
 		}
 
@@ -139,14 +179,10 @@ $primary-color: #DE3551;
 	}
 
 	label {
-		line-height: 2;
-		text-align: left;
 		display: block;
-		// margin-bottom: 5px;
-		margin-top: 20px;
-		color: #424242;
-		font-size: 14px;
-		font-weight: 700;
+		color: #333333;
+		font-size: 16px;
+		font-weight: 400;
 	}
 
 	button[type='submit'],
@@ -154,15 +190,15 @@ $primary-color: #DE3551;
 		cursor: pointer;
 		background: $primary-color;
 		color: white;
-		text-transform: uppercase;
 		border: none;
-		border-radius: 999px;
-		margin-top: 40px;
-		padding: 15px;
+		border-radius: 8px;
 		font-size: 16px;
 		font-weight: 500;
 		letter-spacing: 3px;
 		transition: 0.3s;
+		height: 44px;
+		padding: 0 !important;
+		width: 100%;
 	}
 
 	button[type='submit']:hover,
@@ -201,8 +237,6 @@ $primary-color: #DE3551;
 		background: #333;
 		color: white;
 		border: none;
-		text-transform: uppercase;
-		padding: 10px 20px;
 		border-radius: 4px;
 	}
 
@@ -216,8 +250,6 @@ $primary-color: #DE3551;
 		margin-top: 40px;
 		border: 1px solid #333;
 		margin-bottom: 20px;
-		text-transform: uppercase;
-		padding: 10px 20px;
 		border-radius: 4px;
 	}
 }
@@ -234,27 +266,30 @@ $primary-color: #DE3551;
 }
 
 .loginFormImg {
-	text-align: center;
-	margin-bottom: 20px;
+	margin-bottom: 48px;
+	margin-top: 80px;
 
 	img {
-		width: 100px;
+		width: 320px;
+	}
+
+	@media screen and (max-width: 600px) {
+		width: 140px;
 	}
 }
 
 .checkbox {
-	display: inline-block;
-	vertical-align: middle;
-	width: 50%;
+	display: flex !important;
+	align-items: center;
+	margin-top: 10px;
+	margin-bottom: 24px;
 
 	label {
 		display: inline-block; // to make it easier to click
 		color: #424242;
-		cursor: pointer;
 		position: relative; // important
-		margin-top: 0;
-
-		// Now we'll create the checkbox object
+		margin: 0 !important;
+		width: auto !important;
 
 		span {
 			display: inline-block;
@@ -269,8 +304,6 @@ $primary-color: #DE3551;
 			vertical-align: -6px;
 			margin-right: 10px;
 			transition: background-color 150ms 200ms, transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89); // custom ease effect for bouncy animation
-
-			// Now we'll create the "tick" using pseudo elements - those will be basically two lines that will be rotated to form the "tick"
 
 			&:before {
 				content: '';
@@ -301,15 +334,12 @@ $primary-color: #DE3551;
 			}
 		}
 
-		// Time to add some life to it
-
 		&:hover {
 			span {
 				&:before {
 					width: 5px;
 					transition: width 100ms ease;
 				}
-
 				&:after {
 					width: 10px;
 					transition: width 150ms ease 100ms;
@@ -319,12 +349,13 @@ $primary-color: #DE3551;
 	}
 
 	input[type='checkbox'] {
-		display: none; // hide the system checkbox
+		width: 16px !important;
+		height: 16px !important;
+		margin: 0 18px 0 0;
 
 		// Let's add some effects after the checkbox is checked
-
 		&:checked {
-			+label {
+			+ label {
 				span {
 					border: 1px solid $primary-color;
 					background-color: $primary-color;
@@ -344,7 +375,6 @@ $primary-color: #DE3551;
 				}
 
 				&:hover {
-
 					// copy the states for onMouseOver to avoid flickering
 					span {
 						background-color: $primary-color;
@@ -368,6 +398,22 @@ $primary-color: #DE3551;
 	}
 }
 
+.inputIcon {
+	position: relative;
+
+	input {
+		padding-left: 50px;
+	}
+
+	.icon {
+		position: absolute;
+		top: 3px;
+		left: 5px;
+		width: 36px;
+		height: 36px;
+	}
+}
+
 .forgetPass {
 	display: inline-block;
 	vertical-align: middle;
@@ -375,32 +421,33 @@ $primary-color: #DE3551;
 	width: 50%;
 
 	a {
-		color: #d05151;
-		font-size: 15px;
-		font-weight: bold;
+		color: $primary-color !important;
+		font-size: 14px;
+		font-weight: 500;
 		cursor: pointer;
-
-		&:hover {
-			text-decoration: underline;
-		}
 	}
 }
 
 .boxSignup {
 	margin-top: 30px;
-	padding: 20px 0;
+	padding-bottom: 0;
+	font-size: 16px;
+	text-align: center;
+	font-weight: 400;
+	color: $primary-color;
+	a {
+		cursor: pointer;
+	}
+}
+
+.boxDemo {
+	margin-top: 20px;
+	padding-top: 20px;
 	padding-bottom: 0;
 	border-top: 1px solid #d1d1d1;
 	color: #29292987;
 	font-size: 15px;
-	text-align: center;
-
-	a {
-		color: $primary-color;
-		font-weight: bold;
-		text-decoration: underline;
-		cursor: pointer;
-	}
+	text-align: left;
 }
 
 .boxSocial {
@@ -409,6 +456,7 @@ $primary-color: #DE3551;
 
 	ul {
 		text-align: center;
+		padding-left: 0;
 
 		li {
 			position: relative;
@@ -426,7 +474,7 @@ $primary-color: #DE3551;
 				box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 
 				&:hover {
-					background: $primary-color;
+					background: #dd47680a;
 				}
 			}
 
@@ -473,86 +521,8 @@ $primary-color: #DE3551;
 	}
 }
 
-.errorText {
-	font-size: 13px;
-	font-style: italic;
-	color: #d81e1e;
-	opacity: 0.8;
-	margin-top: -5px;
-	display: block;
-}
-
 @media screen and (max-width: 1600px) {
-	.wrapBox {
-		width: 100%;
-	}
-
 	.loginForm {
-		padding: 20px 30px;
-	}
-
-	.loginFormImg {
-		display: none;
-	}
-}
-
-.loginSelect {
-	position: relative;
-	display: block;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	width: 100%;
-	border-radius: 0;
-	border: none;
-	border-bottom: 1px solid #0000002e;
-	padding: 10px 15px;
-	padding-left: 0;
-	margin-bottom: 10px;
-	font-size: 14px;
-
-	&:focus {
-		outline: 0;
-		border-bottom: 1px solid $primary-color;
-		transition: 0.3s;
-	}
-}
-
-.boxSubmit {
-	position: relative;
-}
-
-.loading {
-	position: absolute;
-	width: 30px;
-	height: 30px;
-	border-radius: 150px;
-	border: 3px solid #e2e2e2;
-	border-top-color: $primary-color;
-	box-sizing: border-box;
-	position: absolute;
-	top: 30px;
-	right: 30px;
-	animation: loading 1.2s linear infinite;
-	-webkit-animation: loading 1.2s linear infinite;
-	z-index: 10;
-}
-
-@keyframes loading {
-	0% {
-		transform: rotate(0deg);
-	}
-
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-@-webkit-keyframes loading {
-	0% {
-		-webkit-transform: rotate(0deg);
-	}
-
-	100% {
-		-webkit-transform: rotate(360deg);
+		padding: 20px 0;
 	}
 }

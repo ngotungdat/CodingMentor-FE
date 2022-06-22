@@ -2,7 +2,7 @@ import { Button, Popover, Spin } from 'antd'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import CloseZoomRoom from '~/components/Global/ManageZoom/ZoomRoom/CloseZoomRoom'
@@ -390,19 +390,20 @@ function CDCalendar(props) {
 				}}
 				// 0 - ,1-Bắt đầu , 2-Vào lớp học, 3-Kết thúc
 				style={{
-					backgroundColor:TeacherAttendanceID !== 0
-						? '#80DEEA'
-						: IsExam !== undefined && IsExam == true
-						? '#FF9800'
-						: checkDate == 0
-						? btnID == undefined || btnID == null || btnID == ''
-							? '#fac10a'
-							: btnID == 3
+					backgroundColor:
+						TeacherAttendanceID !== 0
+							? '#80DEEA'
+							: IsExam !== undefined && IsExam == true
+							? '#FF9800'
+							: checkDate == 0
+							? btnID == undefined || btnID == null || btnID == ''
+								? '#fac10a'
+								: btnID == 3
+								? '#bdbdbd'
+								: '#fac10a'
+							: checkDate == -1
 							? '#bdbdbd'
-							: '#fac10a'
-						: checkDate == -1
-						? '#bdbdbd'
-						: '#3174ad'
+							: '#3174ad'
 				}}
 			>
 				<Popover
@@ -690,6 +691,16 @@ function CDCalendar(props) {
 			}
 		}
 	}
+
+	useEffect(() => {
+		const nodes = document.getElementsByClassName('rbc-toolbar')
+
+		if (nodes.length > 0) {
+			const newDiv = document.createElement('div')
+			// newDiv.add
+		}
+	}, [])
+
 	return (
 		<div className="wrap-calendar">
 			<Spin spinning={!isLoaded} size="large" wrapperClassName="calendar-loading">
@@ -742,6 +753,7 @@ function CDCalendar(props) {
 					onCloseModal={closeModal}
 				/>
 			)}
+
 			<div className="row m-0 p-0 pt-3" style={{ alignItems: 'center' }}>
 				<div style={{ width: 15, height: 15, backgroundColor: '#3174ad', marginRight: 10 }} />
 				<div>Chưa học</div>

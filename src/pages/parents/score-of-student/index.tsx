@@ -86,7 +86,7 @@ const ScoreOfStudent = () => {
 			CreatedOn: '2021-10-25T09:19:04.583',
 			CreatedBy: 'Rose xinh đẹp',
 			ModifiedOn: '2021-10-26T11:53:13.697',
-			ModifiedBy: 'PEA eLMS '
+			ModifiedBy: 'Coding Mentor '
 		},
 		{
 			ID: 41,
@@ -121,7 +121,7 @@ const ScoreOfStudent = () => {
 			CreatedOn: '2021-10-25T09:19:04.583',
 			CreatedBy: 'Rose xinh đẹp',
 			ModifiedOn: '2021-10-26T11:53:13.697',
-			ModifiedBy: 'PEA eLMS '
+			ModifiedBy: 'Coding Mentor '
 		},
 		{
 			ID: 41,
@@ -156,7 +156,7 @@ const ScoreOfStudent = () => {
 			CreatedOn: '2021-10-25T09:19:04.583',
 			CreatedBy: 'Rose xinh đẹp',
 			ModifiedOn: '2021-10-26T11:53:13.697',
-			ModifiedBy: 'PEA eLMS '
+			ModifiedBy: 'Coding Mentor '
 		},
 		{
 			ID: 41,
@@ -191,7 +191,7 @@ const ScoreOfStudent = () => {
 			CreatedOn: '2021-10-25T09:19:04.583',
 			CreatedBy: 'Rose xinh đẹp',
 			ModifiedOn: '2021-10-26T11:53:13.697',
-			ModifiedBy: 'PEA eLMS '
+			ModifiedBy: 'Coding Mentor '
 		}
 	]
 

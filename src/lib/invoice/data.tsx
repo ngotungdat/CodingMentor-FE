@@ -18,7 +18,7 @@ export const data = {
 	status: 'online',
 	provincial: 'Thủ Đức',
 	MST: '0107346642',
-	company: 'Công ty cổ phần PEA eLMS',
+	company: 'Công ty cổ phần Coding Mentor',
 	tel: '0987098781',
 	idCard: '024626172',
 	note: 'Chuyển lớp',

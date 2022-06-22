@@ -1,21 +1,23 @@
 import React from 'react'
 import { Airplay, FileText, Home, User, UserCheck } from 'react-feather'
 
+import Icon from './icons.json'
+
 export const StaffParentMenu = [
 	{
 		TabName: 'tab-home',
 		Title: 'Trang chủ',
-		Icon: <Home />
+		Icon: Icon.home
 	},
 	{
 		TabName: 'tab-customer',
 		Title: 'Khách hàng',
-		Icon: <User />
+		Icon: Icon.customer
 	},
 	{
 		TabName: 'tab-staff',
 		Title: 'Quản lí nhân viên',
-		Icon: <UserCheck />
+		Icon: Icon.staff
 	}
 ]
 

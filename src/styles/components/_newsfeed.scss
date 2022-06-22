@@ -221,6 +221,7 @@
 			font-size: 15px;
 			font-weight: 500;
 			margin-bottom: 0;
+			color: #333333;
 			@include line-clamp(1);
 			.share-point {
 				margin: 0 5px;
@@ -265,6 +266,8 @@
 			font-size: 12px;
 			margin-top: -4px;
 			display: block;
+			color: #999999;
+			margin-top: -3px;
 			@include max-media(500px) {
 				font-size: 10px;
 			}

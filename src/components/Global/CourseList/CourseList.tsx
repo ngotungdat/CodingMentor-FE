@@ -24,10 +24,7 @@ const statusList = [
 ]
 const CourseList = () => {
 	const [courseList, setCourseList] = useState<ICourse[]>([])
-	const [isLoading, setIsLoading] = useState({
-		type: '',
-		status: false
-	})
+	const [isLoading, setIsLoading] = useState({ type: '', status: false })
 	const [isShowUpdate, setIsShowUpdate] = useState(false)
 	const [totalPage, setTotalPage] = useState(null)
 	const { showNoti, userInformation } = useWrap()
@@ -152,7 +149,7 @@ const CourseList = () => {
 			status: true
 		})
 		try {
-			const res = await teacherApi.getAll({ pageSize: 99999,StatusID: 0, pageIndex:1 })
+			const res = await teacherApi.getAll({ pageSize: 99999, StatusID: 0, pageIndex: 1 })
 			if (res.status === 200) {
 				const newTeacherList = [{ title: '---Trống---', value: 0 }, ...fmSelectArr(res.data.data, 'FullNameUnicode', 'UserInformationID')]
 				setOptionListForUpdate({

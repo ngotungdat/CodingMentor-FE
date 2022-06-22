@@ -15,23 +15,25 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
+import Icon from './icons.json'
+
 const SHOW_ICON = true
 
 export const SellerParentMenu = [
 	{
 		TabName: 'tab-home',
 		Title: 'Trang chủ',
-		Icon: <FontAwesomeIcon icon={faHome as IconProp} size="lg" />
+		Icon: Icon.home
 	},
 	{
 		TabName: 'tab-course',
 		Title: 'Khóa học',
-		Icon: <FontAwesomeIcon icon={faBookOpen as IconProp} size="lg" />
+		Icon: Icon.category
 	},
 	{
 		TabName: 'tab-customer',
 		Title: 'Khách hàng',
-		Icon: <FontAwesomeIcon icon={faUser as IconProp} size="lg" />
+		Icon: Icon.customer
 	}
 ]
 
@@ -45,13 +47,13 @@ export const SellerChildMenu = [
 				TypeItem: 'single',
 				Key: '/newsfeed',
 				Route: '/newsfeed',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCubes as IconProp} size="lg" />,
+				Icon: Icon.home,
 				Text: 'Tin tức'
 			},
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-1',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCommentDots as IconProp} size="lg" />,
+				Icon: Icon.star,
 				TitleSub: 'Phản hồi',
 				SubMenuList: [
 					{
@@ -75,7 +77,7 @@ export const SellerChildMenu = [
 				Key: '/option/faq',
 				Route: '/option/faq',
 				Text: 'Câu hỏi thường gặp',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon style={{ marginRight: -5 }} icon={faQuestionCircle as IconProp} size="lg" />
+				Icon: Icon.secList
 			}
 		]
 	},
@@ -88,7 +90,7 @@ export const SellerChildMenu = [
 				TypeItem: 'single',
 				Key: '/video-course',
 				Route: '/video-course',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faVideo as IconProp} size="lg" />,
+				Icon: Icon.video,
 				Text: 'Danh sách'
 			}
 		]
@@ -103,28 +105,28 @@ export const SellerChildMenu = [
 				Key: '/customer/student/student-advisory',
 				Route: '/customer/student/student-advisory',
 				Text: 'Khách hàng',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUser as IconProp} size="lg" />
+				Icon: Icon.customer
 			},
 			{
 				ItemType: 'single',
 				Key: '/customer/service/service-info-student',
 				Route: '/customer/service/service-info-student',
 				Text: 'Thêm lịch hẹn test',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarPlus as IconProp} size="lg" />
+				Icon: Icon.promiseTest
 			},
 			{
 				ItemType: 'single',
 				Key: '/customer/service/service-appointment-test',
 				Route: '/customer/service/service-appointment-test',
 				Text: 'Khách hẹn test',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserClock as IconProp} size="lg" />
+				Icon: Icon.add
 			},
 			{
 				ItemType: 'single',
 				Key: '/customer/student/student-list',
 				Route: '/customer/student/student-list',
 				Text: 'Dữ liệu học viên',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserGraduate as IconProp} size="lg" />
+				Icon: Icon.userEclips
 			}
 		]
 	}

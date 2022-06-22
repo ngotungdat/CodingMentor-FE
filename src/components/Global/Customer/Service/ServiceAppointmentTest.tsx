@@ -559,7 +559,11 @@ export default function ServiceAppointmentTest(props) {
 			title: 'Học viên',
 			dataIndex: 'FullNameUnicode',
 			fixed: 'left',
-			render: (a) => <p className="font-weight-primary">{a}</p>,
+			render: (a) => (
+				<>
+					<p className="font-weight-primary">{a}</p>
+				</>
+			),
 			...FilterColumn('FullNameUnicode', onSearch, handleReset, 'text')
 		},
 		{
@@ -657,13 +661,6 @@ export default function ServiceAppointmentTest(props) {
 						{status == 2 && <span className="tag yellow">Chờ đăng kí khóa học</span>}
 						{status == 3 && <span className="tag green">Đã đăng kí </span>}
 						{status == 4 && <span className="tag gray">Đã hủy hẹn test</span>}
-						{/* {apmReg == 1 ? (
-              <span className="tag blue">Chưa đăng kí khóa học</span>
-            ) : apmReg == 2 ? (
-              <span className="tag green">Đã đăng kí khóa học</span>
-            ) : (
-              <span className="tag red">Chưa test</span>
-            )} */}
 					</>
 				)
 			}

@@ -97,27 +97,51 @@ export default function Header(props: any) {
 			<div className={`app-header-logo ${!isOpen ? 'close-app' : countOpen > 0 ? 'open' : 'open-no-ani'}`}>
 				<Link href="/">
 					<a href="#">
-						<img className="logo-img" src="/images/logo.png"></img>
+						<img className="logo-img" src="/images/logo.png" />
 					</a>
 				</Link>
 				<p style={{ display: !isOpen ? 'block' : 'none' }}></p>
 			</div>
+
 			<div className={`app-header-inner ${!isOpen && 'close-app'}`}>
 				<div className="right">
 					<div className="col-button" onClick={() => isOpenMenu()}>
 						<div className="box-menu">
-							<div className="icon-action">{!isOpen ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}</div>
+							<div className="icon-action">
+								{!isOpen ? (
+									<div className="main-menu-icon">
+										<i className="fa fa-bars" />
+									</div>
+								) : (
+									<div className="main-menu-icon">
+										<i className="fa fa-arrow-left" />
+									</div>
+								)}
+							</div>
 						</div>
 					</div>
+
 					<div className="col-button mobile" onClick={() => funcMenuMobile()}>
 						<div className="box-menu">
-							<div className="icon-action">{!openMenuMobile ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}</div>
+							<div className="icon-action">
+								{!openMenuMobile ? (
+									<div className="main-menu-icon">
+										<i className="fa fa-bars" />
+									</div>
+								) : (
+									<div className="main-menu-icon">
+										<i className="fa fa-arrow-left" />
+									</div>
+								)}
+							</div>
 						</div>
 					</div>
+
 					<div className="col-title-page">
 						<TitlePageHeader title={titlePage} />
 					</div>
 				</div>
+
 				<div className="col-setting">
 					<ul className="col-setting-list">
 						{userInformation?.RoleID !== undefined &&
@@ -131,35 +155,31 @@ export default function Header(props: any) {
 									<Cart />
 								</li>
 							)}
+
 						<li className="notification">
 							<Notifiaction />
 						</li>
-						<li className="user" style={{ paddingRight: 20 }}>
+
+						<div className="user">
 							<Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
-								<div className="user-wrap">
-									<div className="user-info">
-										{!!userInformation ? (
-											<div className="user-name-desktop">
-												<div className="user-img">
-													<img
-														src={userInformation?.Avatar && userInformation?.Avatar !== '' ? userInformation.Avatar : '/images/user.png'}
-													/>
-												</div>
-												<div className="user-info">
-													<p className="user-name">{userInformation?.FullNameUnicode}</p>
-													<p className="user-position">{userInformation?.RoleName}</p>
-												</div>
+								<div className="user-info">
+									{!!userInformation && (
+										<div className="user-name-desktop">
+											<img className="user-img" src={!!userInformation?.Avatar ? userInformation.Avatar : '/icons/default-avatar.svg'} />
+
+											<div className="user-info">
+												<p className="user-name">{userInformation?.FullNameUnicode}</p>
+												<p className="user-position">{userInformation?.RoleName}</p>
 											</div>
-										) : (
-											<p>Tài khoản</p>
-										)}
-										<div className="user-name-mobile">
-											<User />
 										</div>
+									)}
+
+									<div className="user-name-mobile">
+										<User />
 									</div>
 								</div>
 							</Popover>
-						</li>
+						</div>
 					</ul>
 				</div>
 			</div>

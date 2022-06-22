@@ -3,17 +3,18 @@
 		background-color: #ffffff;
 	}
 	.table-row-dark {
-		background-color: #08b5051f;
+		background-color: #f0f0f0;
 		.ant-table-cell-fix-left {
-			background-color: #e1f6e1;
+			background-color: #f0f0f0 !important;
 		}
 	}
 	.table-row-active {
-		background-color: #ffed95 !important;
+		background-color: #dedede !important;
 		.ant-table-cell-fix-left {
-			background-color: #ffed95 !important;
+			background-color: #dedede !important;
 		}
 	}
+
 	.ant-table-cell-scrollbar {
 		box-shadow: none;
 	}
@@ -148,10 +149,6 @@
 		box-shadow: 0px 5px 20px #00000017;
 		border-radius: 0.575rem !important;
 	}
-	.ant-table-selection-col,
-	.ant-table-selection-column {
-		// display: none;
-	}
 
 	.ant-table-thead {
 		tr {
@@ -162,18 +159,18 @@
 				color: white;
 				border-bottom: none;
 				white-space: nowrap;
-				// background: #eee;
-				// color: #3e3e3e;
+				border-right: 1px solid #1a1a1a !important;
 			}
 		}
 		tr:first-child {
 			th {
 				&:nth-child(1) {
 					border-top-left-radius: 0.575rem !important;
+					border-right: 0px solid #1a1a1a !important;
 				}
-
 				&:last-child {
 					border-top-right-radius: 0.575rem !important;
+					border-right: 0px solid #1a1a1a !important;
 				}
 			}
 		}
@@ -203,10 +200,11 @@
 	}
 
 	.ant-table-tbody {
+		padding: 10px !important;
 		td {
-			padding: 6px 15px !important;
-			padding-left: 15px !important;
+			padding: 5px 15px;
 			transition: 0.3s;
+
 			p {
 				margin: 0;
 			}
@@ -215,27 +213,36 @@
 			}
 		}
 
+		tr.ant-table-row {
+			td:before {
+				display: block;
+				width: 1px;
+				background: #cccccc;
+				position: absolute;
+				right: 0px;
+				top: 10px;
+				bottom: 10px;
+				content: '';
+			}
+		}
+
 		tr.ant-table-row:hover {
-			// background-color: #ffed95 !important;
 			td {
-				background: #ffed95 !important;
+				background: #dedede !important;
 				transition: 0.3s;
 			}
 		}
 
 		tr.ant-table-row:focus {
 			td {
-				background: #ffed95 !important;
+				background: #dedede !important;
 				transition: 0.3s;
 			}
 		}
 
-		// .ant-table-row:nth-of-type(2n + 1) {
-		// 	background-color: #08b5051f;
-		// }
 		.ant-table-row-selected {
 			td {
-				background: #ffed95;
+				background: #dedede;
 			}
 		}
 		.ant-table-row-success {
@@ -430,4 +437,8 @@
 			}
 		}
 	}
+}
+
+.ant-table.ant-table-middle .ant-table-tbody > tr > td {
+	padding: 8px 15px;
 }

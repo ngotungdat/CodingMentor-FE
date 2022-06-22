@@ -53,7 +53,7 @@ function index(props: any) {
 
 							<label className={styles.fcontrol}>Email hoặc tài khoản</label>
 
-							<div className={styles.inputIcon}>
+							<div className={clsx('form-control-input', styles.inputIcon)}>
 								<input
 									name="username"
 									defaultValue=""
@@ -66,11 +66,18 @@ function index(props: any) {
 									})}
 									placeholder="Email"
 								/>
-								<img src="/icons/email-icon.png" className={clsx(styles.icon, styles.iconEmail)} />
+								<img src="/icons/icon-email.svg" className={styles.icon} />
 							</div>
+
 							{errors.username && <span className="form-error">Hãy điền tên đăng nhập</span>}
 
-							<label className="mt-3">Mật khẩu</label>
+							<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+								<label>Mật khẩu</label>
+								<label className={styles.forgetPass}>
+									<a href="/reset-password">Quên mật khẩu?</a>
+								</label>
+							</div>
+
 							<div className={styles.inputIcon}>
 								<input
 									name="password"
@@ -81,30 +88,25 @@ function index(props: any) {
 								/>
 								<img src="/icons/Lock.png" className={styles.icon} />
 							</div>
-							{errors.password && <span className="form-error">Hãy điền mật khẩu</span>}
-							{!!router.query?.error && router.query?.error != 'undefined' && (
-								<span className="form-error">{JSON.parse(router.query?.error.toString())?.message}</span>
-							)}
+
+							{errors?.password && <span className="form-error">Hãy điền mật khẩu</span>}
+							{!!router.query?.error && <span className="form-error">{JSON.parse(router.query?.error.toString())?.message}</span>}
 
 							<div className={styles.checkbox}>
 								<input type="checkbox" />
 								<label>Ghi nhớ đăng nhập</label>
-
-								<div className={styles.forgetPass} style={{ marginLeft: 'auto' }}>
-									<Link href="/reset-password">
-										<a>Quên mật khẩu?</a>
-									</Link>
-								</div>
 							</div>
 
 							<div className="position-relative">
-								<input type="submit" value={'Đăng nhập'} />
-								{loading && <Spin className="loading-login" />}
+								<button className="pt-1" type="submit">
+									Đăng nhập {loading && <Spin className="loading-login ml-2" />}
+								</button>
 								<div className="w-100 m-1 text-center color-red fw-bold">{props.error && props.error}</div>
 							</div>
+
 							<div className={styles.boxSignup}>
-								Chưa có tài khoản?{' '}
-								<a href="" onClick={moveToSignUp} style={{ textDecoration: 'underline' }}>
+								<span style={{ color: '#000' }}>Chưa có tài khoản?</span>{' '}
+								<a href="" onClick={moveToSignUp}>
 									Tạo tài khoản mới
 								</a>
 							</div>

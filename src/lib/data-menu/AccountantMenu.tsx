@@ -1,11 +1,11 @@
 import React from 'react'
-import { Airplay, FileText, Home, User, UserCheck } from 'react-feather'
+import Icon from './icons.json'
 
 export const AccountantParentMenu = [
 	{
 		TabName: 'tab-home',
 		Title: 'Trang chủ',
-		Icon: <Home />
+		Icon: Icon.home
 	}
 ]
 

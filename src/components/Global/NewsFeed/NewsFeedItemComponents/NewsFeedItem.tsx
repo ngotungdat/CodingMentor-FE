@@ -288,7 +288,7 @@ function NewsFeedItem(props) {
 							<div className="name">
 								<a onClick={checkHandleFilters('name', item.FullNameUnicode)}>{item.FullNameUnicode}</a>
 								<span className="share-point">
-									<Navigation />
+									<img src="/icons/right.svg" className="ml-1 mr-1" style={{ marginTop: -2 }} />
 								</span>
 
 								<ul>
@@ -338,25 +338,15 @@ function NewsFeedItem(props) {
 				<div className="newsfeed-total">
 					{item.LikeCount > 0 && (
 						<p>
-							<ThumbsUp color="#0571e5" /> {item.LikeCount}
-						</p>
-					)}
-					{(commentList.length > 0 || item.CommentCount > 0) && (
-						<p
-							className="total-comments"
-							onClick={() => {
-								checkFetchComment(item.ID)
-								handleShowComments()
-							}}
-						>
-							{commentList.length || item.CommentCount} Bình luận
+							<img className="mr-2" src="/icons/heart-active.svg" /> {item.LikeCount}
+							<img className="ml-3 mr-2" src="/icons/chat-active.svg" /> {commentList.length || item.CommentCount}
 						</p>
 					)}
 				</div>
 				<div className="newsfeed-action">
 					<div className="action">
 						<button className={isUserLiked ? 'btn btn-light active' : 'btn btn-light'} onClick={() => checkHandleUserLikeNewsFeed(item.ID)}>
-							<ThumbsUp />
+							{isUserLiked ? <img src="/icons/heart-active.svg" /> : <img src="/icons/heart.svg" />}
 							<span className="ml-2">Thích</span>
 						</button>
 					</div>
@@ -368,7 +358,7 @@ function NewsFeedItem(props) {
 								handleShowComments()
 							}}
 						>
-							<MessageCircle />
+							<img src="/icons/chat.svg" />
 							<span>Bình luận</span>
 						</button>
 					</div>

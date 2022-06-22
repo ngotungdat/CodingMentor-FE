@@ -1,38 +1,35 @@
 .tag {
 	color: white !important;
-	font-size: 13px;
-	font-weight: 500;
-	padding: 3px 15px;
+	font-size: 14px;
+	font-weight: 400;
+	padding: 5px 16px;
 	border-radius: 999px;
-	margin: 0 2px;
-	background: #0088cc;
+	margin: 2px;
+	background: #0a89ff;
 	display: inline-block;
 	white-space: pre;
 
 	&.green {
-		background: rgb(31, 217, 124);
-		background: linear-gradient(0deg, rgba(31, 217, 124, 1) 24%, rgba(27, 196, 112, 1) 100%);
+		background: #4df6a5;
+		color: #333333 !important;
 	}
 
 	&.red {
 		color: white !important;
-		background: rgb(242, 87, 103);
-		background: linear-gradient(0deg, rgba(242, 87, 103, 1) 24%, rgba(223, 77, 77, 1) 100%);
+		background: #c94a4f;
 	}
 
 	&.gray {
 		background: #e8e8e8;
-		color: #666666;
+		color: #f0f0f0;
 	}
 
 	&.blue {
-		background: rgb(0, 136, 204);
-		background: linear-gradient(0deg, rgba(0, 136, 204, 1) 24%, rgba(77, 162, 204, 1) 100%);
+		background: #0a89ff;
 	}
 
 	&.yellow {
-		background: rgb(255, 202, 44);
-		background: linear-gradient(0deg, #eaaf00 24%, #ffc107 100%);
+		background: #ffba0a;
 	}
 
 	&.black {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import styles from './RegisterForm.module.scss'
 import { useRouter } from 'next/router'
 import { Toaster } from 'react-hot-toast'
 import { Form, Spin } from 'antd'
@@ -7,8 +8,8 @@ import { userApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { signIn } from 'next-auth/react'
-
-import styles from './RegisterForm.module.scss'
+import clsx from 'clsx'
+import { useToggle } from '~/context/useToggle'
 
 type Inputs = {
 	text: string
@@ -24,6 +25,7 @@ interface RegisterInputs {
 function RegisterForm() {
 	const router = useRouter()
 	const [count, setCount] = useState(3)
+	const [isAgreed, ToggleAgreed] = useToggle(true)
 	const { register, handleSubmit } = useForm<RegisterInputs>()
 
 	const [loading, setLoading] = useState(false)
@@ -33,6 +35,7 @@ function RegisterForm() {
 	let timerID
 
 	const _Submit = async (data: any) => {
+		if (!isAgreed) return showNoti('danger', 'Bạn chưa đồng ý với điều khoản')
 		setLoading(true)
 
 		try {
@@ -60,7 +63,10 @@ function RegisterForm() {
 	}
 
 	const handleLogin = (data) => {
-		signIn('credentials-signin', { ...data, callbackUrl: router.query?.callbackUrl ?? '/' })
+		signIn('credentials-signin', {
+			...data,
+			callbackUrl: router.query?.callbackUrl ?? '/'
+		})
 	}
 
 	const moveToSignIn = (e) => {
@@ -75,14 +81,20 @@ function RegisterForm() {
 				<div className={styles.wrapBox}>
 					<div className={styles.wrapForm}>
 						<Form onFinish={handleSubmit(_Submit)} layout="vertical" className={`${styles.loginForm}`}>
+							<div onClick={moveToSignIn} className={styles.btnBack}>
+								<img src="/icons/arrow-left.svg" />
+							</div>
+
 							{!isSuccess && <h6 className={styles.title}>Tạo tài khoản mới</h6>}
+
 							{!isSuccess ? (
 								<>
-									<Form.Item label=" Họ và tên" name="FullNameUnicode" rules={[{ required: true, message: 'Hãy điền tên đăng nhập!' }]}>
-										<div className="form-control-input">
+									<Form.Item label="Tên đầy đủ" name="FullNameUnicode" rules={[{ required: true, message: 'Hãy điền họ và tên' }]}>
+										<div className={clsx('form-control-input')}>
 											<input
+												className="pl-3"
 												name="FullNameUnicode"
-												placeholder="Nhập họ và tên"
+												placeholder="Nhập họ và tên.."
 												defaultValue=""
 												{...register('FullNameUnicode', { required: true })}
 											/>
@@ -97,13 +109,14 @@ function RegisterForm() {
 											{ required: true, type: 'email', message: 'Hãy điền đúng định dạng email!' }
 										]}
 									>
-										<div className="form-control-input">
+										<div className={clsx('form-control-input', styles.inputIcon)}>
 											<input name="Email" placeholder="Nhập Email" defaultValue="" {...register('Email', { required: true })} />
+											<img src="/icons/icon-email.svg" className={styles.icon} />
 										</div>
 									</Form.Item>
 
 									<Form.Item label=" Số điện thoại" name="Mobile" rules={[{ required: true, message: 'Hãy điền số điện thoại!' }]}>
-										<div className="form-control-input">
+										<div className={clsx('form-control-input', styles.inputIcon)}>
 											<input
 												type="number"
 												name="Mobile"
@@ -111,21 +124,35 @@ function RegisterForm() {
 												{...register('Mobile', { required: true })}
 												placeholder="Nhập số điện thoại"
 											/>
+											<img src="/icons/phone.svg" className={styles.icon} />
 										</div>
 									</Form.Item>
 
-									<Form.Item label=" Ghi chú" name="Note" rules={[{ required: false, message: 'Hãy điền số điện thoại!' }]}>
-										<div className="form-control-input">
-											<input name="Note" defaultValue="" {...register('Note', { required: false })} placeholder="Ghi chú" />
+									<Form.Item label=" Ghi chú" name="Note" rules={[{ required: false }]}>
+										<div className={clsx('form-control-input')}>
+											<input
+												name="Note"
+												className="pl-3"
+												defaultValue=""
+												{...register('Note', { required: false })}
+												placeholder="Ghi chú"
+											/>
 										</div>
 									</Form.Item>
+
+									<div className={styles.checkbox}>
+										<input type="checkbox" checked={isAgreed} onChange={ToggleAgreed} />
+										<label>Đồng ý với các điều khoản của chúng tôi</label>
+									</div>
 
 									<div className={styles.boxSubmit}>
-										<input type="submit" value={'Đăng ký'} />
-										{loading && <Spin className="loading-login" />}
+										<button className="pt-1" type="submit">
+											Tạo tài khoản mới {loading && <Spin className="loading-login ml-2" style={{ marginTop: 5 }} />}
+										</button>
 									</div>
+
 									<div className={styles.boxSignup}>
-										Bạn đã có tài khoản?{' '}
+										<span style={{ color: '#000' }}>Bạn đã có tài khoản?</span>{' '}
 										<a href="" onClick={moveToSignIn}>
 											Đăng nhập
 										</a>

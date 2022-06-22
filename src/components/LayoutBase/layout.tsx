@@ -254,7 +254,7 @@ function Layout({ children, home }: { children: React.ReactNode; home?: boolean 
 					</Link>
 				)}
 
-				<div className={`app-content ${!isOpen && 'close-app'}`}>
+				<div className={`app-content ${!isOpen && 'close-app'}`} style={{ background: '#FAFAFA' }}>
 					<div className="wrap-breadcrumb">
 						{mainMenu && mainMenu.length > 0 && (
 							<Breadcrumb>

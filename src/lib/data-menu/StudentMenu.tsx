@@ -18,6 +18,7 @@ import {
 	faBook
 } from '@fortawesome/free-solid-svg-icons'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import Icon from './icons.json'
 
 const SHOW_ICON = true
 
@@ -25,27 +26,27 @@ export const StudentParentMenu = [
 	{
 		TabName: 'tab-home',
 		Title: 'Trang chủ',
-		Icon: <FontAwesomeIcon icon={faHouse as IconProp} size="lg" />
+		Icon: Icon.home
 	},
 	{
 		TabName: '1-1',
 		Title: 'Đặt lịch với giáo viên',
-		Icon: <FontAwesomeIcon icon={faCalendarMinus as IconProp} size="lg" />
+		Icon: Icon.calendar
 	},
 	{
 		TabName: 'video',
 		Title: 'Khoá video',
-		Icon: <FontAwesomeIcon icon={faFileVideo as IconProp} size="lg" />
+		Icon: Icon.video
 	},
 	{
 		TabName: 'tab-package',
 		Title: 'Bộ đề',
-		Icon: <FontAwesomeIcon icon={faFileContract as IconProp} size="lg" />
+		Icon: Icon.store
 	},
 	{
 		TabName: 'tab-document',
 		Title: 'Thư viện tài liệu',
-		Icon: <FontAwesomeIcon icon={faBook as IconProp} size="lg" />
+		Icon: Icon.document
 	}
 ]
 
@@ -59,7 +60,7 @@ export const StudentChildMenu = [
 				TypeItem: 'single',
 				Key: '/newsfeed',
 				Route: '/newsfeed',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCubes as IconProp} size="lg" />,
+				Icon: Icon.news,
 				Text: 'Tin tức'
 			},
 			// {
@@ -74,7 +75,7 @@ export const StudentChildMenu = [
 				Key: '/option/faq',
 				Route: '/option/faq',
 				Text: 'Câu hỏi thường gặp',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faQuestionCircle as IconProp} size="lg" />
+				Icon: Icon.secList
 			}
 			// {
 			// 	ItemType: 'single',
@@ -94,14 +95,14 @@ export const StudentChildMenu = [
 				TypeItem: 'single',
 				Key: '/course/teachers',
 				Route: '/course/teachers',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faUserTie as IconProp} size="lg" />,
+				Icon: Icon.userEclips,
 				Text: 'Giáo viên'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/course/calendar',
 				Route: '/course/calendar',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCalendarCheck as IconProp} size="lg" />,
+				Icon: Icon.calendar,
 				Text: 'Lịch của tôi'
 			}
 		]
@@ -116,21 +117,21 @@ export const StudentChildMenu = [
 				Key: '/video-course',
 				Route: '/video-course',
 				Text: 'Danh sách khóa học',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faVideo as IconProp} size="lg" />
+				Icon: Icon.video
 			},
 			{
 				ItemType: 'single',
 				Key: '/video-course-student',
 				Route: '/video-course-student',
 				Text: 'Danh sách đơn hàng',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faShoppingCart as IconProp} size="lg" />
+				Icon: Icon.buy
 			},
 			{
 				ItemType: 'single',
 				Key: '/video-course-list',
 				Route: '/video-course-list',
 				Text: 'Khóa học đã sở hữu',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faCheckCircle as IconProp} size="lg" />
+				Icon: Icon.videoActivated
 			}
 		]
 	},
@@ -144,21 +145,21 @@ export const StudentChildMenu = [
 				Key: '/package/package-student',
 				Route: '/package/package-student',
 				Text: 'Bộ đề của tôi',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faFileContract as IconProp} size="lg" />
+				Icon: Icon.videoActivated
 			},
 			{
 				ItemType: 'single',
 				Key: '/package/package-store',
 				Route: '/package/package-store',
 				Text: 'Cửa hàng',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faStore as IconProp} size="lg" />
+				Icon: Icon.store
 			},
 			{
 				ItemType: 'single',
 				Key: '/package/package-result-student',
 				Route: '/package/package-result-student',
 				Text: 'Kết quả đã làm bài',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faFileLines as IconProp} size="lg" />
+				Icon: Icon.secList
 			}
 		]
 	},
@@ -172,7 +173,7 @@ export const StudentChildMenu = [
 				Key: '/document-list',
 				Route: '/document-list',
 				Text: 'Danh sách tài liệu',
-				Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faBook as IconProp} size="lg" />
+				Icon: Icon.document
 			}
 		]
 	}

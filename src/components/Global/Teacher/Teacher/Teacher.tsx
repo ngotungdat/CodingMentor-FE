@@ -437,29 +437,26 @@ const Teacher = () => {
 			dataIndex: 'Jobdate',
 			render: (date) => date && moment(date).format('DD/MM/YYYY')
 		},
-		{
-			title: 'Facebook',
-			width: 150,
-			dataIndex: 'LinkFaceBook',
-			render: (link) =>
-				link && (
-					<a className="font-weight-black" href={link} target="_blank">
-						Link
-					</a>
-				)
-		},
+		// {
+		// 	title: 'Facebook',
+		// 	width: 150,
+		// 	dataIndex: 'LinkFaceBook',
+		// 	render: (link) =>
+		// 		link && (
+		// 			<a className="font-weight-black" href={link} target="_blank">
+		// 				Link
+		// 			</a>
+		// 		)
+		// },
 		{
 			title: 'Trạng thái',
 			width: 150,
 			dataIndex: 'StatusID',
-			align: 'center',
 			...FilterColumn('StatusID', onSearch, onResetSearch, 'select', optionStatusList),
-			render: (status) => (status ? <span className="tag gray">Khóa</span> : <span className="tag green">Hoạt động</span>)
+			render: (status) => (status ? <span className="tag gray tx-black">Khóa</span> : <span className="tag green">Hoạt động</span>)
 		},
-
 		{
 			width: 140,
-			align: 'center',
 			render: (value, record, idx) => (
 				<div onClick={(e) => e.stopPropagation()}>
 					<Link

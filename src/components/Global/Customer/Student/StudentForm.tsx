@@ -248,46 +248,46 @@ const StudentForm = (props) => {
 		Username: null
 	}
 
-	;(function returnSchemaFunc() {
-		returnSchema = { ...defaultValuesInit }
-		Object.keys(returnSchema).forEach(function (key) {
-			switch (key) {
-				case 'Email':
-					returnSchema[key] = yup.string().email('Email nhập sai cú pháp').required('Bạn không được để trống')
-					break
-				case 'Mobile':
-					returnSchema[key] = yup.mixed().required('Bạn không được để trống')
-					break
-
-				case 'Branch':
-					returnSchema[key] = yup.array()
-				case 'AppointmentDate':
-					if (!dataRow) {
-						returnSchema[key] = yup.mixed()
-					}
-					break
-				case 'ExamAppointmentTime':
-					if (!dataRow) {
-						returnSchema[key] = yup.mixed()
-					}
-					break
-				case 'CounselorsID':
-					if (!dataRow) {
-						returnSchema[key] = yup.mixed()
-					}
-					break
-				case 'FullNameUnicode':
-					if (!dataRow) {
+		; (function returnSchemaFunc() {
+			returnSchema = { ...defaultValuesInit }
+			Object.keys(returnSchema).forEach(function (key) {
+				switch (key) {
+					case 'Email':
+						returnSchema[key] = yup.string().email('Email nhập sai cú pháp').required('Bạn không được để trống')
+						break
+					case 'Mobile':
 						returnSchema[key] = yup.mixed().required('Bạn không được để trống')
-					}
-					break
-				default:
-					break
-			}
-		})
+						break
 
-		schema = yup.object().shape(returnSchema)
-	})()
+					case 'Branch':
+						returnSchema[key] = yup.array()
+					case 'AppointmentDate':
+						if (!dataRow) {
+							returnSchema[key] = yup.mixed()
+						}
+						break
+					case 'ExamAppointmentTime':
+						if (!dataRow) {
+							returnSchema[key] = yup.mixed()
+						}
+						break
+					case 'CounselorsID':
+						if (!dataRow) {
+							returnSchema[key] = yup.mixed()
+						}
+						break
+					case 'FullNameUnicode':
+						if (!dataRow) {
+							returnSchema[key] = yup.mixed().required('Bạn không được để trống')
+						}
+						break
+					default:
+						break
+				}
+			})
+
+			schema = yup.object().shape(returnSchema)
+		})()
 
 	const form = useForm({
 		defaultValues: defaultValuesInit,
@@ -328,7 +328,7 @@ const StudentForm = (props) => {
 
 			res?.status == 200 &&
 				(showNoti('success', data?.UserInformationID ? 'Cập nhật học viên thành công' : 'Hẹn test thành công'),
-				!dataRow && !isSearch && (form.reset(defaultValuesInit), setImageUrl('')))
+					!dataRow && !isSearch && (form.reset(defaultValuesInit), setImageUrl('')))
 		} catch (error) {
 			showNoti('danger', error.message)
 			setIsLoading({
@@ -402,15 +402,15 @@ const StudentForm = (props) => {
 			const _detail = await studentApi.getWithID(value)
 			_detail.status == 200 &&
 				(setUserDetail(_detail.data.data),
-				form.setValue('ID', _detail.data.data?.UserInformationID),
-				form.setValue('Email', _detail.data.data.Email),
-				form.setValue('FullNameUnicode', _detail.data.data.FullNameUnicode))
+					form.setValue('ID', _detail.data.data?.UserInformationID),
+					form.setValue('Email', _detail.data.data.Email),
+					form.setValue('FullNameUnicode', _detail.data.data.FullNameUnicode))
 
 			_detail?.status == 200 &&
 				(form.setValue('CustomerConsultationID', _detail.data.data?.UserInformationID),
-				showNoti('success', 'Tìm kiếm thành công'),
-				handleDataRow(_detail.data.data),
-				setIsSearch(true))
+					showNoti('success', 'Tìm kiếm thành công'),
+					handleDataRow(_detail.data.data),
+					setIsSearch(true))
 		} catch (err) {
 			showNoti('danger', err.message)
 		} finally {
@@ -565,7 +565,7 @@ const StudentForm = (props) => {
 													placeholder="Chọn giờ hẹn test"
 												/>
 											</div>
-											<div className="col-md-6 col-12">
+											{/* <div className="col-md-6 col-12">
 												<SelectField form={form} name="ExamTopicID" label="Đề hẹn test" optionList={listData.Exam} placeholder="Chọn đề" />
 											</div>
 											<div className="col-md-6 col-12">
@@ -576,7 +576,7 @@ const StudentForm = (props) => {
 													optionList={listData.Teacher}
 													placeholder="Chọn giáo viên"
 												/>
-											</div>
+											</div> */}
 											<div className="col-md-12 col-12 mb-5">
 												<TextAreaField
 													disabled={isStudentDetail && true}

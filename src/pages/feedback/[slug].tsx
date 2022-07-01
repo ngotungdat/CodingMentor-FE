@@ -68,7 +68,7 @@ const FeedbackListDetail = () => {
 		try {
 			await FeedbackApi.update(param)
 			getCurrentInfo(slug)
-		} catch (error) {}
+		} catch (error) { }
 	}
 
 	// GET INFO OF SELECTED FEEDBACK ITEM
@@ -76,7 +76,7 @@ const FeedbackListDetail = () => {
 		try {
 			const res = await FeedbackApi.getByID(param)
 			res.status == 200 && setCurrentInfomation(res.data.data)
-		} catch (error) {}
+		} catch (error) { }
 	}
 
 	// GET INFO STUDENT CREATED
@@ -84,7 +84,7 @@ const FeedbackListDetail = () => {
 		try {
 			const res: any = await userApi.getByID(param)
 			res.status == 200 && setCreateBy(res.data.data)
-		} catch (error) {}
+		} catch (error) { }
 	}
 
 	// GET DATA REPLY OF SELECTED FEEDBACK
@@ -103,9 +103,14 @@ const FeedbackListDetail = () => {
 	// ADD DATA REPLY TO SELECTED FEEDBACK
 	const addReply = async () => {
 		try {
-			await FeedbackReplyApi.add({ FeedbackID: slug, Content: content })
-			getReply(slug)
-		} catch (error) {}
+			if (content) {
+				await FeedbackReplyApi.add({ FeedbackID: slug, Content: content })
+				getReply(slug)
+			} else {
+				showNoti('danger', 'Vui lòng điền nhận xét')
+			}
+
+		} catch (error) { }
 	}
 
 	// HANDLE RATE
@@ -242,7 +247,7 @@ const FeedbackListDetail = () => {
 						<div className="list-comment">
 							<ul className="m-feedback__list-group-nf">
 								{reply.map((item, index) => (
-									<li key={index} className={slug === item.ID ? 'active' : ''} onClick={() => {}}>
+									<li key={index} className={slug === item.ID ? 'active' : ''} onClick={() => { }}>
 										<div className="row m-0 student-fb__i-fb">
 											{item.Avatar !== undefined && item.Avatar !== null && item.Avatar !== '' ? (
 												<img className="student-fb__i-avt mr-3" src={item.Avatar} alt="" width="50" height="50" />

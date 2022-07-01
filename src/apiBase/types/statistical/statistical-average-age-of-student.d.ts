@@ -60,3 +60,53 @@ type IStatTotalLessonOfTeacher = IBaseApi<{
 	TotalLesson: number;
 	TotalRow: number;
 }>;
+
+type ILessonDetailsOfTeacher = IBaseApi<{
+	ID: number
+	TeacherID: number
+	Date: string
+	BranchName: string
+	CourseName: string
+	TimeStart: string
+	TimeEnd: string
+	Time: number
+}>
+
+type IStatTotalByBranch = {
+	BaiTapChuaCham: number
+	BoDeChuaCham: number
+	BaiKiemTraChuaCham: number
+	HenTestChuaCham: number
+	TyLeKhongLamBaiTap: number
+	NoHocPhi: number
+	TrungBinhXemVideo: number
+	TongXemKhoaVideo: number
+	HocVienBiCanhBao: number
+	NhanVien: number
+	GiaoVien: number
+	HocVienDangHoc: number
+	KhoaHocDangMo: number
+	KhachHangChuaTuVanThanhCong: number
+	ChuaDangKyHoc: number
+}
+
+type IStatTotalByMonth = {
+	DoanhThuVideo: number
+	PreDoanhThuVideo: number
+	HocVienChuyenKhoa: number
+	PreHocVienChuyenKhoa: number
+	BaiTapDaCham: number
+	PreBaiTapDaCham: number
+	BaiTapDaNop: number
+	PreBaiTapDaNop: number
+	BaoLuu: number
+	PreBaoLuu: number
+	HenTest: number
+	PreHenTest: number
+	PreHocVienHenDangKy: number
+	HocVienHenDangKy: number
+	PreHocVienMoi: number
+	HocVienMoi: number
+	PreKhachHangMoiTrongThang: number
+	KhachHangMoiTrongThang: number
+}

@@ -29,7 +29,8 @@ let listFieldFilter = {
 	fromDate: null,
 	toDate: null,
 	CustomerConsultationStatusID: null,
-	LearningNeedID: null
+	LearningNeedID: null,
+	Potential: null
 }
 
 const dataOption = [
@@ -61,6 +62,7 @@ interface listDataForm {
 	SourceInformation: Array<optionObj>
 	Counselors: Array<optionObj>
 	ConsultationStatus: Array<optionObj>
+	Potential: Array<optionObj>
 }
 
 const listApi = [
@@ -97,7 +99,8 @@ export default function StudentAdvisory() {
 		SourceInformation: [],
 		Counselors: [],
 		ConsultationStatus: [],
-		Program: []
+		Program: [],
+		Potential: [{ title: 'Mức 1', value: 1 }, { title: 'Mức 2', value: 3 }, { title: 'Mức 3', value: 3 }]
 	})
 	const [confirmLoading, setConfirmLoading] = useState(false)
 	const [showGroup, setShowGroup] = useState(false)
@@ -150,6 +153,13 @@ export default function StudentAdvisory() {
 			col: 'col-md-6 col-12',
 			type: 'select',
 			optionList: null
+		},
+		{
+			name: 'Potential',
+			title: 'Mức độ tiềm năng',
+			col: 'col-md-6 col-12',
+			type: 'select',
+			optionList: [{ title: 'Tất cả', value: null }, { title: 'Mức 1', value: 1 }, { title: 'Mức 2', value: 3 }, { title: 'Mức 3', value: 3 }]
 		},
 		{
 			name: 'date-range',
@@ -211,6 +221,12 @@ export default function StudentAdvisory() {
 				}))
 				setDataFunc('CustomerConsultationStatusID', newData)
 				break
+			case 'Potential':
+				newData = data.map((item) => ({
+					value: item.Potential
+				}))
+				setDataFunc('Potential', newData)
+				break
 			default:
 				break
 		}
@@ -232,7 +248,7 @@ export default function StudentAdvisory() {
 	// ----------- GET DATA SOURCE ---------------
 	const getDataStudentForm = (arrApi) => {
 		arrApi.forEach((item, index) => {
-			;(async () => {
+			; (async () => {
 				let res = null
 				try {
 					if (item.name == 'Counselors') {
@@ -532,153 +548,152 @@ export default function StudentAdvisory() {
 	const columns =
 		userInformation && userInformation?.RoleID !== 10
 			? [
-					{
-						title: 'Mã số',
-						dataIndex: 'CustomerCode',
-						fixed: 'left',
-						render: (CustomerCode) => <p className="font-weight-black">{CustomerCode}</p>
-					},
-					{
-						title: 'Họ tên',
-						dataIndex: 'CustomerName',
-						...FilterColumn('CustomerName', onSearch, handleReset, 'text'),
-						fixed: 'left',
-						render: (a) => <p className="font-weight-primary">{a}</p>
-					},
-					{
-						title: 'Số điện thoại',
-						dataIndex: 'Number',
-						...FilterColumn('Number', onSearch, handleReset, 'text'),
-						fixed: 'left',
-						render: (a) => <p style={{ width: 130 }}>{a}</p>
-					},
-					{
-						title: 'Email',
-						dataIndex: 'Email',
-						...FilterColumn('Email', onSearch, handleReset, 'text'),
-						fixed: 'left',
-						render: (a) => <p style={{ width: 200 }}>{a}</p>
-					},
-					{
-						width: 180,
-						title: 'Nhu cầu học',
-						dataIndex: 'LearningNeedName'
-					},
-					{
-						width: 150,
-						title: 'Nguồn',
-						dataIndex: 'SourceInformationName'
-					},
-					{
-						className: 'text-center',
-						width: 200,
-						title: 'Trạng thái',
-						dataIndex: 'CustomerConsultationStatusName',
+				{
+					title: 'Mã số',
+					dataIndex: 'CustomerCode',
+					fixed: 'left',
+					render: (CustomerCode) => <p className="font-weight-black">{CustomerCode}</p>
+				},
+				{
+					title: 'Họ tên',
+					dataIndex: 'CustomerName',
+					...FilterColumn('CustomerName', onSearch, handleReset, 'text'),
+					fixed: 'left',
+					render: (a) => <p className="font-weight-primary">{a}</p>
+				},
+				{
+					title: 'Số điện thoại',
+					dataIndex: 'Number',
+					...FilterColumn('Number', onSearch, handleReset, 'text'),
+					fixed: 'left',
+					render: (a) => <p style={{ width: 130 }}>{a}</p>
+				},
+				{
+					title: 'Email',
+					dataIndex: 'Email',
+					...FilterColumn('Email', onSearch, handleReset, 'text'),
+					fixed: 'left',
+					render: (a) => <p style={{ width: 200 }}>{a}</p>
+				},
+				{
+					width: 180,
+					title: 'Nhu cầu học',
+					dataIndex: 'LearningNeedName'
+				},
+				{
+					width: 150,
+					title: 'Nguồn',
+					dataIndex: 'SourceInformationName'
+				},
+				{
+					width: 200,
+					title: 'Trạng thái',
+					dataIndex: 'CustomerConsultationStatusName',
 
-						render: (text, data) => <p className="font-weight-black">{text}</p>
-					},
-					{
-						title: 'Ngày đăng ký',
-						dataIndex: 'CreatedOn',
-						render: (date) => <p>{moment(date).format('DD/MM/YYYY')}</p>,
-						width: 120
-					},
-					{
-						title: '',
-						dataIndex: 'CustomerConsultationStatusID',
-						width: 135,
-						render: (text, data, index) => {
-							return (
-								<div className="d-flex align-items-center">
-									<StudentAdviseForm
-										getIndex={() => setIndexRow(index)}
-										index={index}
-										rowData={data}
-										rowID={data.ID}
-										listData={listDataForm}
-										isLoading={isLoading}
-										_onSubmit={(data: any) => _onSubmit(data)}
-									/>
+					render: (text, data) => <p className="font-weight-black">{text}</p>
+				},
+				{
+					title: 'Ngày đăng ký',
+					dataIndex: 'CreatedOn',
+					render: (date) => <p>{moment(date).format('DD/MM/YYYY')}</p>,
+					width: 120
+				},
+				{
+					title: '',
+					dataIndex: 'CustomerConsultationStatusID',
+					width: 135,
+					render: (text, data, index) => {
+						return (
+							<div className="d-flex align-items-center">
+								<StudentAdviseForm
+									getIndex={() => setIndexRow(index)}
+									index={index}
+									rowData={data}
+									rowID={data.ID}
+									listData={listDataForm}
+									isLoading={isLoading}
+									_onSubmit={(data: any) => _onSubmit(data)}
+								/>
 
-									<StudentAdvisoryMail
-										loadingOutside={isLoading}
-										dataSource={dataSource}
-										onFetchData={() => setTodoApi({ ...todoApi })}
-										dataRow={data}
-										listCustomer={listCustomer}
-									/>
-									{text == 2 && (
-										<Link
-											href={{
-												pathname: '/customer/service/service-info-student/',
-												query: { customerID: data.ID }
-											}}
-										>
-											<Tooltip title="Hẹn test">
-												<button className="btn btn-icon view">
-													<CalendarOutlined />
-												</button>
-											</Tooltip>
-										</Link>
-									)}
-								</div>
-							)
-						}
+								<StudentAdvisoryMail
+									loadingOutside={isLoading}
+									dataSource={dataSource}
+									onFetchData={() => setTodoApi({ ...todoApi })}
+									dataRow={data}
+									listCustomer={listCustomer}
+								/>
+								{text == 2 && (
+									<Link
+										href={{
+											pathname: '/customer/service/service-info-student/',
+											query: { customerID: data.ID }
+										}}
+									>
+										<Tooltip title="Hẹn test">
+											<button className="btn btn-icon view">
+												<CalendarOutlined />
+											</button>
+										</Tooltip>
+									</Link>
+								)}
+							</div>
+						)
 					}
-			  ]
+				}
+			]
 			: [
-					{
-						title: 'Mã số',
-						dataIndex: 'CustomerCode',
-						fixed: 'left',
-						render: (CustomerCode) => <p className="font-weight-black">{CustomerCode}</p>
-					},
-					{
-						title: 'Họ tên',
-						dataIndex: 'CustomerName',
-						...FilterColumn('CustomerName', onSearch, handleReset, 'text'),
-						fixed: 'left',
-						render: (a) => <p className="font-weight-primary">{a}</p>
-					},
-					{
-						title: 'Số điện thoại',
-						dataIndex: 'Number',
-						...FilterColumn('Number', onSearch, handleReset, 'text'),
-						fixed: 'left',
-						render: (a) => <p style={{ width: 130 }}>{a}</p>
-					},
-					{
-						title: 'Email',
-						dataIndex: 'Email',
-						...FilterColumn('Email', onSearch, handleReset, 'text'),
-						fixed: 'left',
-						render: (a) => <p style={{ width: 200 }}>{a}</p>
-					},
-					{
-						width: 180,
-						title: 'Nhu cầu học',
-						dataIndex: 'LearningNeedName'
-					},
-					{
-						width: 150,
-						title: 'Nguồn',
-						dataIndex: 'SourceInformationName'
-					},
-					{
-						className: 'text-center',
-						width: 200,
-						title: 'Trạng thái',
-						dataIndex: 'CustomerConsultationStatusName',
+				{
+					title: 'Mã số',
+					dataIndex: 'CustomerCode',
+					fixed: 'left',
+					render: (CustomerCode) => <p className="font-weight-black">{CustomerCode}</p>
+				},
+				{
+					title: 'Họ tên',
+					dataIndex: 'CustomerName',
+					...FilterColumn('CustomerName', onSearch, handleReset, 'text'),
+					fixed: 'left',
+					render: (a) => <p className="font-weight-primary">{a}</p>
+				},
+				{
+					title: 'Số điện thoại',
+					dataIndex: 'Number',
+					...FilterColumn('Number', onSearch, handleReset, 'text'),
+					fixed: 'left',
+					render: (a) => <p style={{ width: 130 }}>{a}</p>
+				},
+				{
+					title: 'Email',
+					dataIndex: 'Email',
+					...FilterColumn('Email', onSearch, handleReset, 'text'),
+					fixed: 'left',
+					render: (a) => <p style={{ width: 200 }}>{a}</p>
+				},
+				{
+					width: 180,
+					title: 'Nhu cầu học',
+					dataIndex: 'LearningNeedName'
+				},
+				{
+					width: 150,
+					title: 'Nguồn',
+					dataIndex: 'SourceInformationName'
+				},
+				{
+					className: 'text-center',
+					width: 200,
+					title: 'Trạng thái',
+					dataIndex: 'CustomerConsultationStatusName',
 
-						render: (text, data) => <p className="font-weight-black">{text}</p>
-					},
-					{
-						title: 'Ngày đăng ký',
-						dataIndex: 'CreatedOn',
-						render: (date) => <p>{moment(date).format('DD/MM/YYYY')}</p>,
-						width: 120
-					}
-			  ]
+					render: (text, data) => <p className="font-weight-black">{text}</p>
+				},
+				{
+					title: 'Ngày đăng ký',
+					dataIndex: 'CreatedOn',
+					render: (date) => <p>{moment(date).format('DD/MM/YYYY')}</p>,
+					width: 120
+				}
+			]
 
 	return (
 		<ExpandTable

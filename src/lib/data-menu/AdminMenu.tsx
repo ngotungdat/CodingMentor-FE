@@ -61,21 +61,21 @@ export const AdminParentMenu = [
 		Title: 'Quản lí nhân viên',
 		Icon: Icon.staff
 	},
-	{
-		TabName: 'tab-package',
-		Title: 'Bộ đề',
-		Icon: Icon.store
-	},
+	// {
+	// 	TabName: 'tab-package',
+	// 	Title: 'Bộ đề',
+	// 	Icon: Icon.store
+	// },
 	{
 		TabName: 'tab-document',
 		Title: 'Thư viện tài liệu',
 		Icon: Icon.document
 	},
-	{
-		TabName: 'tab-question-bank',
-		Title: 'Ngân hàng đề',
-		Icon: Icon.question
-	},
+	// {
+	// 	TabName: 'tab-question-bank',
+	// 	Title: 'Ngân hàng đề',
+	// 	Icon: Icon.question
+	// },
 	{
 		TabName: 'tab-option',
 		Title: 'Cấu hình',
@@ -115,7 +115,7 @@ export const AdminChildMenu = [
 	{
 		MenuName: 'tab-course-list',
 		MenuTitle: 'Quản lý khóa học',
-		MenuKey: '/course-list',
+		MenuKey: '/course',
 		MenuItem: [
 			{
 				ItemType: 'sub-menu',
@@ -149,7 +149,7 @@ export const AdminChildMenu = [
 						Key: '/course/course-list',
 						Icon: '',
 						Route: '/course/course-list',
-						Text: 'Dữ kiệu khóa học'
+						Text: 'Danh sách khóa học'
 					}
 				]
 			},
@@ -171,8 +171,8 @@ export const AdminChildMenu = [
 	},
 	{
 		MenuName: 'tab-course',
-		MenuTitle: 'Khóa học Video',
-		MenuKey: '/course',
+		MenuTitle: 'Khóa học video',
+		MenuKey: '/video-course',
 		MenuItem: [
 			{
 				TypeItem: 'single',
@@ -343,14 +343,14 @@ export const AdminChildMenu = [
 						Route: '/customer/report/report-customer-warning',
 						Text: 'Cảnh báo học viên',
 						Icon: ''
-					},
-					{
-						ItemType: 'single',
-						Key: '/customer/report/report-customer-test',
-						Route: '/customer/report/report-customer-test',
-						Text: 'Học viên sắp thi',
-						Icon: ''
 					}
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/customer/report/report-customer-test',
+					// 	Route: '/customer/report/report-customer-test',
+					// 	Text: 'Học viên sắp thi',
+					// 	Icon: ''
+					// }
 				]
 			},
 			{
@@ -423,6 +423,13 @@ export const AdminChildMenu = [
 				Route: '/staff/teacher-salary',
 				Text: 'Bảng lương giáo viên',
 				Icon: Icon.secMoney
+			},
+			{
+				ItemType: 'single',
+				Key: '/teacher/total-lesson',
+				Route: '/teacher/total-lesson',
+				Text: 'Thống kê giảng dạy',
+				Icon: Icon.chartUp
 			},
 			{
 				ItemType: 'sub-menu',

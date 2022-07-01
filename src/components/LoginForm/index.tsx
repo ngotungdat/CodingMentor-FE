@@ -73,9 +73,6 @@ function index(props: any) {
 
 							<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 								<label>Mật khẩu</label>
-								<label className={styles.forgetPass}>
-									<a href="/reset-password">Quên mật khẩu?</a>
-								</label>
 							</div>
 
 							<div className={styles.inputIcon}>
@@ -92,9 +89,12 @@ function index(props: any) {
 							{errors?.password && <span className="form-error">Hãy điền mật khẩu</span>}
 							{!!router.query?.error && <span className="form-error">{JSON.parse(router.query?.error.toString())?.message}</span>}
 
-							<div className={styles.checkbox}>
+							<div className={styles.checkbox} style={{ position: 'relative' }}>
 								<input type="checkbox" />
 								<label>Ghi nhớ đăng nhập</label>
+								<label className={styles.forgetPass} style={{ position: 'absolute', right: 0 }}>
+									<a href="/reset-password">Quên mật khẩu?</a>
+								</label>
 							</div>
 
 							<div className="position-relative">

@@ -1,6 +1,7 @@
 import { Form, Select } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Controller } from 'react-hook-form'
+
 
 const SelectField = (props: ISelectField) => {
 	const { isDynamicField, disabled, mode, style, optionDisabledList } = props
@@ -40,19 +41,62 @@ const SelectField = (props: ISelectField) => {
 				name={props.name}
 				control={props.form.control}
 				render={({ field }) => {
-					let temp: any = 'fuck'
+
 
 					if (field?.value == null || field?.value == undefined) {
-						temp = { ...field, value: null }
+
+						return (
+							<Select
+								mode={mode}
+								className="style-input"
+								showSearch
+								loading={!!props?.isLoading}
+								style={{ width: '100%' }}
+								placeholder={props?.placeholder}
+								optionFilterProp="children"
+								disabled={disabled}
+								onChange={(value) => {
+									checkOnChangeSelect(value)
+									field.onChange(value)
+								}}
+							>
+								{!!props?.optionList &&
+									props?.optionList.map((o, idx) => (
+										<Option key={idx} value={o.value} disabled={o.disabled || optionDisabledList?.includes(o.value)}>
+											{o.title}
+										</Option>
+									))}
+							</Select>
+						)
 					} else {
-						temp = field
+
+						return (
+							<Select
+								{...field}
+								mode={mode}
+								className="style-input"
+								showSearch
+								loading={!!props?.isLoading}
+								style={{ width: '100%' }}
+								placeholder={props?.placeholder}
+								optionFilterProp="children"
+								disabled={disabled}
+								onChange={(value) => {
+									checkOnChangeSelect(value)
+									field.onChange(value)
+								}}
+							>
+								{!!props?.optionList &&
+									props?.optionList.map((o, idx) => (
+										<Option key={idx} value={o.value} disabled={o.disabled || optionDisabledList?.includes(o.value)}>
+											{o.title}
+										</Option>
+									))}
+							</Select>
+						)
 					}
-
-					console.log('props?.optionList: ', props?.optionList)
-
 					return (
 						<Select
-							{...temp}
 							mode={mode}
 							className="style-input"
 							showSearch

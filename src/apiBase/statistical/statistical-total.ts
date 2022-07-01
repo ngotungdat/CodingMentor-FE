@@ -29,7 +29,21 @@ class StatisticalApi {
 		instance.get<IApiResultData<IStatRankTeacherByLessons[]>>('/api/StatisticalTeacher', { params });
 	getStatisticalTotalLessonsOfTeacher = (params) =>
 		instance.get<IApiResultData<IStatTotalLessonOfTeacher[]>>('/api/StatisticalTotalLesson_Teacher', { params });
+		getTotalLessonsDetails = (params) =>
+		instance.get<IApiResultData<Array<ILessonDetailsOfTeacher>>>('/api/Statistical/GetTeachingDetail', { params });
 	getStatisticalRateVideoCourse = () => instance.get<IApiResultData<IStatRate[]>>('/api/EvaluateVideoCourse', {});
+	getStatisticalTotalByBranch = (ID) => instance.get<IApiResultData<IStatTotalByBranch>>(`/api/Statistical_All/${ID}`)
+	getStatisticalTotalByMonth = (params) =>
+		instance.get<IApiResultData<IStatTotalByMonth>>('/api/Statistical_Month', {
+			params
+		})
+	getCustomerByMonth = (params) =>
+		instance.get<IApiResultData<{ newCustomer: number; newExamAppointment: number; studentComeback: number }>>(
+			'/api/Statistical/Customer',
+			{
+				params
+			}
+		)
 }
 
 export const statisticalApi = new StatisticalApi();

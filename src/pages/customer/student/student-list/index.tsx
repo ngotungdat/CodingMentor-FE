@@ -14,6 +14,7 @@ import StudentFormModal from '~/components/Global/Customer/Student/StudentFormMo
 import LayoutBase from '~/components/LayoutBase'
 import FilterColumn from '~/components/Tables/FilterColumn'
 import { useWrap } from '~/context/wrap'
+import XLSX from 'xlsx'
 
 let listFieldSearch = {
 	pageIndex: 1,
@@ -258,7 +259,7 @@ const StudentData = () => {
 	// ----------- GET DATA SOURCE ---------------
 	const getDataStudentForm = (arrApi) => {
 		arrApi.forEach((item, index) => {
-			;(async () => {
+			; (async () => {
 				let res = null
 				try {
 					if (item.name == 'Counselors') {
@@ -349,10 +350,10 @@ const StudentData = () => {
 			dataIndex == 'FullNameUnicode'
 				? { FullNameUnicode: valueSearch }
 				: dataIndex == 'ChineseName'
-				? { ChineseName: valueSearch }
-				: dataIndex == 'Mobile'
-				? { Mobile: valueSearch }
-				: { Email: valueSearch }
+					? { ChineseName: valueSearch }
+					: dataIndex == 'Mobile'
+						? { Mobile: valueSearch }
+						: { Email: valueSearch }
 		setCurrentPage(1)
 		setTodoApi({
 			...todoApi,
@@ -500,8 +501,8 @@ const StudentData = () => {
 									dataSubmit.Branch == ''
 										? []
 										: dataSubmit.Branch.split(',').map((item) => ({
-												ID: parseInt(item)
-										  }))
+											ID: parseInt(item)
+										}))
 							})
 							setDataSource(newDataSource)
 						}}
@@ -541,22 +542,71 @@ const StudentData = () => {
 			console.log('response.data.data: ', response.data)
 
 			if (response.status == 200) {
-				const url = window.URL.createObjectURL(new Blob([response.data]))
-				const link = document.createElement('a')
+				// const url = window.URL.createObjectURL(new Blob([response.data]))
+				// const link = document.createElement('a')
 
-				link.href = url
-				link.setAttribute('download', `coding-mentor-students-${Date.now()}.xlsx`)
+				// link.href = url
+				// link.setAttribute('download', `coding-mentor-students-${Date.now()}.xlsx`)
 
-				document.body.appendChild(link)
-				link.click()
+				// document.body.appendChild(link)
+				// link.click()
 
-				link.remove()
+				// link.remove()
+				let temp = []
+				response.data.data.forEach((item, index) =>
+					temp.push({
+						A: index + 1,
+						B: item.UserCode,
+						C: item.FullNameUnicode,
+						D: item.Email,
+						E: item.Mobile,
+						F: item.Gender == 0 ? 'Nữ' : item.Gender == 1 ? 'Nam' : 'Khác'
+					})
+				)
+				createExcelFile1(temp)
 			}
 		} catch (error) {
 			showNoti('danger', error?.message)
 		} finally {
 			setLoadingExport(false)
 		}
+	}
+
+	const createExcelFile1 = async (data) => {
+		let wb = XLSX.utils.book_new()
+
+		/* Initial row */
+		var ws = XLSX.utils.json_to_sheet([], {
+			header: ['Danh sách học viên'],
+			skipHeader: false
+		})
+		/* Write data starting at E2 */
+		XLSX.utils.sheet_add_json(
+			ws,
+			[
+				{
+					A: 'STT',
+					B: 'Mã học viên',
+					C: 'Họ và tên',
+					D: 'Email',
+					E: 'Số điện thoại',
+					F: 'Giới tính'
+				}
+			],
+			{ skipHeader: true, origin: 'A2' }
+		)
+
+		/* Write data starting at A2 */
+		XLSX.utils.sheet_add_json(ws, data, { skipHeader: true, origin: 'A3' })
+
+		// set width
+		let wscols = [{ wch: 8 }, { wch: 20 }, { wch: 22 }, { wch: 32 }, { wch: 18 }, { wch: 24 }, { wch: 22 }, { wch: 22 }]
+		let wsrows = [{ hpt: 22 }]
+		ws['!cols'] = wscols
+		ws['!rows'] = wsrows
+		// });
+		XLSX.utils.book_append_sheet(wb, ws, 'Danh sách học viên')
+		XLSX.writeFile(wb, 'student_list.xlsx', { type: 'binary', bookType: 'xlsx' })
 	}
 
 	return (

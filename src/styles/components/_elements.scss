@@ -594,7 +594,7 @@ textarea.ant-input {
 	}
 
 	.ant-select-selector {
-		background-color: #f0f0f0 !important;
+		background-color: #f0f0f0 ;
 		border: 1px solid #cccccc !important;
 		.ant-select-selection-item,
 		.ant-select-selection-placeholder {
@@ -2517,4 +2517,12 @@ hr {
 		align-items: center;
 		padding-top: 5px;
 	}
+}
+
+.ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover{
+	color: white;
+}
+
+.tx-black{
+	color: #000 !important;
 }

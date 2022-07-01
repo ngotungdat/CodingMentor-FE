@@ -1,7 +1,7 @@
 import { Form, Input, InputNumber, Modal, Select, Spin, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { userInformationApi } from '~/apiBase'
+import { userInformationApi, staffSalaryApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 import NumberFormat from 'react-number-format'
 
@@ -28,7 +28,8 @@ const StaffSalaryForm = (props) => {
 		if (props.dataStaff && props.dataStaff.length > 0) {
 			let res = props._onSubmit({ ...data, Role: 2, Style: 3, Note: !!note ? note : null })
 			res.then(function (rs: any) {
-				rs && rs.status == 200 && setIsModalVisible(false), form.resetFields()
+				rs && rs.status == 200 && setIsModalVisible(false), form.resetFields(),
+					getDataStaff()
 			})
 		} else {
 			let res = props._onSubmitStaff({ ...data, Role: 2, Style: 3, Note: !!note ? note : null })
@@ -41,7 +42,7 @@ const StaffSalaryForm = (props) => {
 	const getDataStaff = async () => {
 		setIsLoading({ status: 'GET_ALL', loading: true })
 		try {
-			let res = await userInformationApi.getAllParams({ RoleID: 2, pageSize: 999 })
+			let res = await staffSalaryApi.getNotExists(``);
 			res.status == 200 && setDataStaff(res.data.data)
 			if (res.status == 204) {
 				setDataStaff([])
@@ -56,7 +57,7 @@ const StaffSalaryForm = (props) => {
 	const getSearchDataStaff = async (name) => {
 		setIsLoading({ status: 'GET_ALL', loading: true })
 		try {
-			let res = await userInformationApi.getName({ pageIndex: 1, pageSize: pageSize, FullNameUnicode: name })
+			let res = await staffSalaryApi.getNotExists(name);
 			res.status == 200 && setDataStaff(res.data.data)
 			res?.status == 204 && setDataStaff([])
 			res.status == 204 && setDataStaff([])

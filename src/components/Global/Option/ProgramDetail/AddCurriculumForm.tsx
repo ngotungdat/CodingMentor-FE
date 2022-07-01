@@ -259,7 +259,7 @@ export const AddCurriculumForm = (props) => {
 										</Form.Item>
 									</div>
 									<div className="col-12 mb-4">
-										<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
+										<p className="font-weight-red">*Lưu ý: Upload tối đa 100Mb</p>
 									</div>
 								</div>
 								<div className="row">

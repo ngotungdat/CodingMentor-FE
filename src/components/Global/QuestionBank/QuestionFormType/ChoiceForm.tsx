@@ -153,7 +153,7 @@ const ChoiceForm = (props) => {
 									/>
 								</Form.Item>
 								<div className="mb-4">
-									<p className="font-weight-primary">*Lưu ý: Upload tối đa 100Mb</p>
+									<p className="font-weight-red">*Lưu ý: Upload tối đa 100Mb</p>
 								</div>
 							</div>
 						</div>

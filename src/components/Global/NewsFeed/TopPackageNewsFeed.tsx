@@ -65,6 +65,12 @@ function TopPackageNewsFeed(props: any) {
 										title="Ảnh bìa bộ đề"
 										alt="Ảnh bìa bộ đề"
 										style={{ objectFit: 'cover' }}
+										onError={({ currentTarget }) => {
+											console.log(currentTarget)
+											currentTarget.onerror = null; // prevents looping
+											currentTarget.src = "/images/logo-thumnail.jpg";
+										}}
+										preview={false}
 									/>
 								</div>
 								<div className="content">

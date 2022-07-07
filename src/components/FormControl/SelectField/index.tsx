@@ -85,32 +85,14 @@
 
 // export default SelectField
 import { Form, Select } from 'antd'
-import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
 import { Controller } from 'react-hook-form'
 import { optionCommonPropTypes } from '~/utils/proptypes'
 
-const SelectField = (props: any) => {
-	const {
-		form,
-		name,
-		isDynamicField,
-		label,
-		optionList,
-		placeholder,
-		disabled,
-		mode,
-		onChangeSelect,
-		isLoading,
-		style,
-		className,
-		isRequired,
-		optionDisabledList,
-		selectDate,
-		timeCourse,
-		index,
-		defaultValue
-	} = props
+
+const SelectField = (props: ISelectField) => {
+	const { isDynamicField, disabled, mode, style, optionDisabledList } = props
+
 	const { Option } = Select
 	const { errors } = form.formState
 
@@ -155,35 +137,79 @@ const SelectField = (props: any) => {
 				name={name}
 				control={form.control}
 				render={({ field }) => {
-					let temp: any = 'fuck'
+
 
 					if (field?.value == null || field?.value == undefined) {
-						temp == { ...field, value: null }
-					} else {
-						temp = field
-					}
 
+						return (
+							<Select
+								mode={mode}
+								className="style-input"
+								showSearch
+								loading={!!props?.isLoading}
+								style={{ width: '100%' }}
+								placeholder={props?.placeholder}
+								optionFilterProp="children"
+								disabled={disabled}
+								onChange={(value) => {
+									checkOnChangeSelect(value)
+									field.onChange(value)
+								}}
+							>
+								{!!props?.optionList &&
+									props?.optionList.map((o, idx) => (
+										<Option key={idx} value={o.value} disabled={o.disabled || optionDisabledList?.includes(o.value)}>
+											{o.title}
+										</Option>
+									))}
+							</Select>
+						)
+					} else {
+
+						return (
+							<Select
+								{...field}
+								mode={mode}
+								className="style-input"
+								showSearch
+								loading={!!props?.isLoading}
+								style={{ width: '100%' }}
+								placeholder={props?.placeholder}
+								optionFilterProp="children"
+								disabled={disabled}
+								onChange={(value) => {
+									checkOnChangeSelect(value)
+									field.onChange(value)
+								}}
+							>
+								{!!props?.optionList &&
+									props?.optionList.map((o, idx) => (
+										<Option key={idx} value={o.value} disabled={o.disabled || optionDisabledList?.includes(o.value)}>
+											{o.title}
+										</Option>
+									))}
+							</Select>
+						)
+					}
 					return (
-						<>
-							{defaultValue !== undefined && defaultValue !== null ? (
-								<Select
-									{...temp}
-									mode={mode}
-									className="style-input"
-									showSearch
-									loading={isLoading}
-									style={{ width: '100%' }}
-									placeholder={placeholder}
-									optionFilterProp="children"
-									disabled={disabled}
-									onChange={(value) => {
-										checkOnChangeSelect(value)
-										field.onChange(value)
-									}}
-									defaultValue={defaultValue}
-								>
-									<Option key={defaultValue.value} value={defaultValue.value} disabled={disabled}>
-										{defaultValue.title}
+						<Select
+							mode={mode}
+							className="style-input"
+							showSearch
+							loading={!!props?.isLoading}
+							style={{ width: '100%' }}
+							placeholder={props?.placeholder}
+							optionFilterProp="children"
+							disabled={disabled}
+							onChange={(value) => {
+								checkOnChangeSelect(value)
+								field.onChange(value)
+							}}
+						>
+							{!!props?.optionList &&
+								props?.optionList.map((o, idx) => (
+									<Option key={idx} value={o.value} disabled={o.disabled || optionDisabledList?.includes(o.value)}>
+										{o.title}
 									</Option>
 									{/* {optionList.map((o, idx) => (
 								))} */}

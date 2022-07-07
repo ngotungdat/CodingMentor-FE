@@ -121,8 +121,8 @@ function RegisterForm() {
 												type="number"
 												name="Mobile"
 												defaultValue=""
-												{...register('Mobile', { required: true })}
 												placeholder="Nhập số điện thoại"
+												{...register('Mobile', { required: true })}
 											/>
 											<img src="/icons/phone.svg" className={styles.icon} />
 										</div>

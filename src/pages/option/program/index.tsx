@@ -326,15 +326,15 @@ const Programs = () => {
 				</>
 			)
 		},
-		{
-			title: 'Người tạo',
-			dataIndex: 'ModifiedBy'
-		},
-		{
-			title: 'Ngày tạo',
-			dataIndex: 'ModifiedOn',
-			render: (date: any) => moment(date).format('DD/MM/YYYY')
-		},
+		// {
+		// 	title: 'Người tạo',
+		// 	dataIndex: 'ModifiedBy'
+		// },
+		// {
+		// 	title: 'Ngày tạo',
+		// 	dataIndex: 'ModifiedOn',
+		// 	render: (date: any) => moment(date).format('DD/MM/YYYY')
+		// },
 		{
 			align: 'right',
 			render: (value, data, index) => (

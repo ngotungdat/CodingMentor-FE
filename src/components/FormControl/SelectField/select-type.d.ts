@@ -13,4 +13,5 @@ type ISelectField = {
 	className?: string
 	isRequired?: boolean
 	optionDisabledList?: any
+	defaultValue?:any
 }

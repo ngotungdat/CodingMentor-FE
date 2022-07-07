@@ -34,7 +34,7 @@ const RegisterCourse = (props: any) => {
 	const [isFetchDataCourses, setIsFetchDataCourses] = useState(false)
 
 	const fetchDataUser = () => {
-		;(async () => {
+		; (async () => {
 			try {
 				const res = await studentApi.getAll({
 					pageIndex: 1,
@@ -48,6 +48,7 @@ const RegisterCourse = (props: any) => {
 	}
 
 	useEffect(() => {
+		setOption(3);
 		fetchDataUser()
 	}, [])
 
@@ -57,17 +58,17 @@ const RegisterCourse = (props: any) => {
 
 	const handleChangeUser = (value) => {
 		setIsLoading(true)
-		;(async () => {
-			try {
-				const _detail = await studentApi.getWithID(value)
-				_detail.status == 200 &&
-					(setUserDetail(_detail.data.data), form.setFieldsValue({ UserInformationID: _detail.data.data.UserInformationID }))
-			} catch (err) {
-				showNoti('danger', err.message)
-			} finally {
-				setIsLoading(false)
-			}
-		})()
+			; (async () => {
+				try {
+					const _detail = await studentApi.getWithID(value)
+					_detail.status == 200 &&
+						(setUserDetail(_detail.data.data), form.setFieldsValue({ UserInformationID: _detail.data.data.UserInformationID }))
+				} catch (err) {
+					showNoti('danger', err.message)
+				} finally {
+					setIsLoading(false)
+				}
+			})()
 	}
 
 	const resetForm = () => {
@@ -187,17 +188,17 @@ const RegisterCourse = (props: any) => {
 							}
 						>
 							<div className="row">
-								<div className="col-md-6 col-12">
+								<div className="col-md-6 col-12" style={{ display: 'none' }}>
 									<Form.Item label="Loại đăng ký">
-										<Select onChange={onChange} className="style-input w-100" placeholder="Đăng ký học">
-											<Option value={1}>Đăng ký đợt thi</Option>
-											<Option value={3}>Đăng ký khóa học</Option>
-											<Option value={4}>Thanh toán</Option>
+										<Select onChange={onChange} className="style-input w-100 sl-register" placeholder="Đăng ký học">
+											{/* <Option value={1}>Đăng ký đợt thi</Option> */}
+											<Option value={3} >Đăng ký khóa học</Option>
+											{/* <Option value={4}>Thanh toán</Option> */}
 										</Select>
 									</Form.Item>
 								</div>
 								<div className="col-md-6 col-12">
-									<Form.Item label="Có hơp đồng">
+									<Form.Item label="Có hợp đồng">
 										<Switch onChange={(value) => setIsContract(value)} disabled={option != 3 ? true : false} />
 									</Form.Item>
 								</div>

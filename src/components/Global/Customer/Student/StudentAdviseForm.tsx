@@ -29,39 +29,39 @@ const StudentAdviseForm = React.memo((props: any) => {
 		CounselorsID: null
 	}
 
-	;(function returnSchemaFunc() {
-		returnSchema = { ...defaultValuesInit }
-		Object.keys(returnSchema).forEach(function (key) {
-			switch (key) {
-				case 'Email':
-					returnSchema[key] = yup.string().email('Email nhập sai cú pháp').required('Bạn không được để trống')
-					break
-				case 'CustomerName':
-					returnSchema[key] = yup.mixed().required('Bạn không được để trống')
-					break
-				case 'SourceInformationID':
-					returnSchema[key] = yup.mixed()
-					break
-				case 'CustomerConsultationStatusID':
-					returnSchema[key] = yup.mixed().required('Bạn không được để trống')
-					break
-				case 'ProgramID':
-					returnSchema[key] = yup.mixed()
-					break
-				case 'Number':
-					returnSchema[key] = yup.mixed().required('Bạn không được để trống')
-					break
-				// case 'CounselorsID':
-				// 	returnSchema[key] = yup.mixed().required('Bạn không được để trống');
-				// 	break;
-				default:
-					// returnSchema[key] = yup.mixed().required("Bạn không được để trống");
-					break
-			}
-		})
+		; (function returnSchemaFunc() {
+			returnSchema = { ...defaultValuesInit }
+			Object.keys(returnSchema).forEach(function (key) {
+				switch (key) {
+					case 'Email':
+						returnSchema[key] = yup.string().email('Email nhập sai cú pháp').required('Bạn không được để trống')
+						break
+					case 'CustomerName':
+						returnSchema[key] = yup.mixed().required('Bạn không được để trống')
+						break
+					case 'SourceInformationID':
+						returnSchema[key] = yup.mixed()
+						break
+					case 'CustomerConsultationStatusID':
+						returnSchema[key] = yup.mixed().required('Bạn không được để trống')
+						break
+					case 'ProgramID':
+						returnSchema[key] = yup.mixed()
+						break
+					case 'Number':
+						returnSchema[key] = yup.mixed().required('Bạn không được để trống')
+						break
+					// case 'CounselorsID':
+					// 	returnSchema[key] = yup.mixed().required('Bạn không được để trống');
+					// 	break;
+					default:
+						// returnSchema[key] = yup.mixed().required("Bạn không được để trống");
+						break
+				}
+			})
 
-		schema = yup.object().shape(returnSchema)
-	})()
+			schema = yup.object().shape(returnSchema)
+		})()
 
 	const form = useForm({
 		defaultValues: defaultValuesInit,
@@ -125,13 +125,8 @@ const StudentAdviseForm = React.memo((props: any) => {
 							<div className="col-md-12 col-12">
 								<InputTextField form={form} name="CustomerName" label="Họ tên" isRequired={true} />
 							</div>
-						</div>
-						<div className="row">
-							<div className="col-md-6 col-12">
-								<SelectField form={form} name="ProgramID" label="Nhu cầu học" optionList={listData.Program} isRequired={false} />
-							</div>
-							<div className="col-md-6 col-12">
-								<SelectField form={form} name="AreaID" label="Tỉnh/TP" optionList={listData.Area} />
+							<div className="col-md-12 col-12">
+								<InputTextField form={form} name="Email" label="Email" isRequired={true} />
 							</div>
 						</div>
 
@@ -139,14 +134,20 @@ const StudentAdviseForm = React.memo((props: any) => {
 							<div className="col-md-6 col-12">
 								<InputTextField form={form} name="Number" label="Số điện thoại" isRequired={true} />
 							</div>
+
 							<div className="col-md-6 col-12">
-								<InputTextField form={form} name="Email" label="Email" isRequired={true} />
+								<SelectField
+									form={form}
+									name="Potential"
+									label="Mức độ tiềm năng"
+									optionList={listData.Potential} />
 							</div>
+
 							<div className="col-md-6 col-12">
 								<SelectField
 									form={form}
 									name="SourceInformationID"
-									label="Nguồn khách"
+									label="Nguồn khách hàng"
 									optionList={listData.SourceInformation}
 									isRequired={false}
 								/>
@@ -163,6 +164,16 @@ const StudentAdviseForm = React.memo((props: any) => {
 								/>
 							</div>
 						</div>
+
+						<div className="row">
+							<div className="col-md-6 col-12">
+								<SelectField form={form} name="ProgramID" label="Nhu cầu học" optionList={listData.Program} isRequired={false} />
+							</div>
+							<div className="col-md-6 col-12">
+								<SelectField form={form} name="AreaID" label="Tỉnh/TP" optionList={listData.Area} />
+							</div>
+						</div>
+
 						<div className="row mt-3">
 							<div className="col-12">
 								<button type="submit" className="btn btn-primary w-100">

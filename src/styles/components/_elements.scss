@@ -613,7 +613,7 @@ textarea.ant-input {
 	}
 
 	.ant-select-selector {
-		// background-color: #f0f0f0 !important;
+		background-color: #f0f0f0 ;
 		border: 1px solid #cccccc !important;
 		.ant-select-selection-item,
 		.ant-select-selection-placeholder {
@@ -1565,7 +1565,11 @@ hr {
 	margin-left: 3px;
 	font-style: italic;
 }
-
+.font-weight-red {
+	font-weight: 100;
+	color: rgb(225, 20, 20);
+	font-style: italic;
+}
 .font-weight-link {
 	font-weight: 500;
 	color: #3281ba;
@@ -2537,4 +2541,12 @@ hr {
 		align-items: center;
 		padding-top: 5px;
 	}
+}
+
+.ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover{
+	color: white;
+}
+
+.tx-black{
+	color: #000 !important;
 }

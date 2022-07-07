@@ -3,7 +3,6 @@ import SortBox from '~/components/Elements/SortBox'
 import FilterStaffSalaryTable from '~/components/Global/Option/FilterTable/FilterStaffSalaryTable'
 import StaffSalaryForm from '~/components/Global/Option/StaffSalaryForm'
 import LayoutBase from '~/components/LayoutBase'
-import PowerTable from '~/components/PowerTable'
 import FilterColumn from '~/components/Tables/FilterColumn'
 import { useWrap } from '~/context/wrap'
 import { staffSalaryApi } from '~/apiBase'
@@ -12,7 +11,6 @@ import { AlertTriangle, X } from 'react-feather'
 import Modal from 'antd/lib/modal/Modal'
 import moment from 'moment'
 import ExpandTable from '~/components/ExpandTable'
-import CourseExamDetail from '~/components/Global/CourseExam/CourseExamDetail'
 import SalaryHistory from '~/components/Global/SalaryHistory/SalaryHistory'
 
 const StaffSalary = () => {
@@ -82,30 +80,30 @@ const StaffSalary = () => {
 			type: 'GET_ALL',
 			status: true
 		})
-		;(async () => {
-			try {
-				let res = await staffSalaryApi.getAll(todoApi)
-				if (res.status == 204) {
-					showNoti('danger', 'Không có dữ liệu')
-					handleReset()
-					setDataTable([])
-				}
-				if (res.status == 200) {
-					setDataTable(res.data.data)
-					if (res.data.data.length < 1) {
+			; (async () => {
+				try {
+					let res = await staffSalaryApi.getAll(todoApi)
+					if (res.status == 204) {
+						showNoti('danger', 'Không có dữ liệu')
 						handleReset()
+						setDataTable([])
 					}
-					setTotalPage(res.data.totalRow)
+					if (res.status == 200) {
+						setDataTable(res.data.data)
+						if (res.data.data.length < 1) {
+							handleReset()
+						}
+						setTotalPage(res.data.totalRow)
+					}
+				} catch (error) {
+					showNoti('danger', error.message)
+				} finally {
+					setIsLoading({
+						type: 'GET_ALL',
+						status: false
+					})
 				}
-			} catch (error) {
-				showNoti('danger', error.message)
-			} finally {
-				setIsLoading({
-					type: 'GET_ALL',
-					status: false
-				})
-			}
-		})()
+			})()
 	}
 
 	// ADD DATA
@@ -202,13 +200,13 @@ const StaffSalary = () => {
 				if (dataTable.length === 1) {
 					listTodoApi.pageIndex === 1
 						? setTodoApi({
-								...listTodoApi,
-								pageIndex: 1
-						  })
+							...listTodoApi,
+							pageIndex: 1
+						})
 						: setTodoApi({
-								...listTodoApi,
-								pageIndex: listTodoApi.pageIndex - 1
-						  })
+							...listTodoApi,
+							pageIndex: listTodoApi.pageIndex - 1
+						})
 					return
 				}
 				getDataTable()
@@ -284,10 +282,10 @@ const StaffSalary = () => {
 				return <p className="font-weight-primary">{Intl.NumberFormat('ja-JP').format(salary)}</p>
 			}
 		},
-		{
-			title: 'Loại',
-			dataIndex: 'StyleName'
-		},
+		// {
+		// 	title: 'Loại',
+		// 	dataIndex: 'StyleName'
+		// },
 		{ title: 'Thêm bởi', dataIndex: 'CreatedBy' },
 		{
 			title: 'Thêm lúc',
@@ -295,7 +293,6 @@ const StaffSalary = () => {
 			render: (date) => moment(date).format('DD/MM/YYYY')
 		},
 		{
-			align: 'right',
 			render: (record) => (
 				<>
 					<StaffSalaryForm

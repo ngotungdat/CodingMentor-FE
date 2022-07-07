@@ -21,6 +21,8 @@ class StaffSalary {
 
 	// Cập nhật data
 	update = (data: any) => instance.put('/api/Salary', data, {})
+	// Lấy danh sách nhân viên chưa được thêm lương
+	getNotExists = (search: string) => instance.get<IApiResultData<IStaffNotHaveSalary[]>>(`/api/Salary/GetNotExist?search=${search}`)
 }
 
 export const staffSalaryApi = new StaffSalary()

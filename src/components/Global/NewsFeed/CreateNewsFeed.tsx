@@ -379,7 +379,7 @@ function CreateNewsFeed(props) {
 				<div className="create-newsfeed">
 					<div className="top-nf">
 						<div className="avatar">
-							<img src={dataUser?.Avatar || '/images/icons/UserUnknown.svg'} alt="avatar" />
+							<img src={dataUser?.Avatar || '/icons/default-avatar.svg'} alt="avatar" />
 						</div>
 						<div className="box-newsfeed">
 							<button className="btn-thinking" onClick={showModal}>

@@ -323,7 +323,7 @@ const StaffList = () => {
 	// ----------- GET DATA SOURCE ---------------
 	const getDataStudentForm = (arrApi) => {
 		arrApi.forEach((item, index) => {
-			;(async () => {
+			; (async () => {
 				let res = null
 				try {
 					if (item.name == 'Counselors') {
@@ -527,10 +527,10 @@ const StaffList = () => {
 			dataIndex == 'FullNameUnicode'
 				? { FullNameUnicode: valueSearch }
 				: dataIndex == 'ChineseName'
-				? { ChineseName: valueSearch }
-				: dataIndex == 'Mobile'
-				? { Mobile: valueSearch }
-				: { Email: valueSearch }
+					? { ChineseName: valueSearch }
+					: dataIndex == 'Mobile'
+						? { Mobile: valueSearch }
+						: { Email: valueSearch }
 
 		setTodoApi({
 			...todoApi,
@@ -614,11 +614,11 @@ const StaffList = () => {
 			dataIndex: 'Gender',
 			render: (gender) => <>{gender == 0 ? 'Nữ' : gender == 1 ? 'Nam' : 'Khác'}</>
 		},
-		{
-			width: 100,
-			title: 'Tài khoản',
-			dataIndex: 'UserName'
-		},
+		// {
+		// 	width: 100,
+		// 	title: 'Tài khoản',
+		// 	dataIndex: 'UserName'
+		// },
 		{
 			title: 'Email',
 			width: 100,
@@ -636,17 +636,17 @@ const StaffList = () => {
 			dataIndex: 'Jobdate',
 			render: (date: any) => date && moment(date).format('DD/MM/YYYY')
 		},
-		{
-			width: 150,
-			title: 'Facebook',
-			dataIndex: 'LinkFaceBook',
-			render: (link) =>
-				link && (
-					<a className="font-weight-black" href={link} target="_blank">
-						Link
-					</a>
-				)
-		},
+		// {
+		// 	width: 150,
+		// 	title: 'Facebook',
+		// 	dataIndex: 'LinkFaceBook',
+		// 	render: (link) =>
+		// 		link && (
+		// 			<a className="font-weight-black" href={link} target="_blank">
+		// 				Link
+		// 			</a>
+		// 		)
+		// },
 		{
 			title: 'Trạng thái',
 			width: 150,

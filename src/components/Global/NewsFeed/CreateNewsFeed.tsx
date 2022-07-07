@@ -417,7 +417,7 @@ function CreateNewsFeed(props) {
 							<div className="col-12">
 								<div className="info-current-user">
 									<div className="avatar">
-										<img src={dataUser?.Avatar || '/images/user.png'} alt="" />
+										<img src={dataUser?.Avatar || '/images/icons/UserUnknown.svg'} alt="" />
 									</div>
 									<div className="name-user">
 										<p className="name">{dataUser?.FullNameUnicode}</p>

@@ -63,27 +63,34 @@ export const StudentChildMenu = [
 				Icon: Icon.news,
 				Text: 'Tin tức'
 			},
-			// {
-			// 	TypeItem: 'single',
-			// 	Key: '/customer/service/service-test-student',
-			// 	Route: '/customer/service/service-test-student',
-			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faInfoCircle as IconProp} size="lg" />,
-			// 	Text: 'Thông tin hẹn test'
-			// },
+			{
+				TypeItem: 'single',
+				Key: '/customer/service/service-test-student',
+				Route: '/customer/service/service-test-student',
+				Icon: Icon.appointment_info,
+				Text: 'Thông tin hẹn test'
+			},
+			{
+				TypeItem: 'single',
+				Key: '/course/course-list',
+				Route: '/course/course-list',
+				Icon: Icon.course_list,
+				Text: 'Khóa học của bạn'
+			},
 			{
 				ItemType: 'single',
 				Key: '/option/faq',
 				Route: '/option/faq',
 				Text: 'Câu hỏi thường gặp',
 				Icon: Icon.secList
+			},
+			{
+				ItemType: 'single',
+				Key: '/feedback',
+				Route: '/feedback',
+				Text: 'Phản hồi',
+				Icon: Icon.certificate
 			}
-			// {
-			// 	ItemType: 'single',
-			// 	Key: '/feedback',
-			// 	Route: '/feedback',
-			// 	Text: 'Phản hồi',
-			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faComments as IconProp} size="lg" />
-			// }
 		]
 	},
 	{

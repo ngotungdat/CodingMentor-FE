@@ -60,7 +60,7 @@ function BannerGroup(props) {
 			<ul className="list-user-in-group">
 				{userList.map((item, idx) => (
 					<li key={idx}>
-						<img src={item.Avatar || '/images/user.png'} alt="" />
+						<img src={item.Avatar || '/images/icons/UserUnknown.svg'} alt="" />
 						{item.FullNameUnicode}
 					</li>
 				))}
@@ -110,7 +110,7 @@ function BannerGroup(props) {
 								{userList.slice(0, 5).map((item, idx) => (
 									<Tooltip title={item.FullNameUnicode} key={idx}>
 										<button className="item-user">
-											<img src={item.Avatar || '/images/user.png'} alt="" />
+											<img src={item.Avatar || '/images/icons/UserUnknown.svg'} alt="" />
 										</button>
 									</Tooltip>
 								))}
@@ -120,7 +120,7 @@ function BannerGroup(props) {
 								{userList.map((item, idx) => (
 									<Tooltip title={item.FullNameUnicode} key={idx}>
 										<button className="item-user">
-											<img src={item.Avatar || '/images/user.png'} alt="" />
+											<img src={item.Avatar || '/images/icons/UserUnknown.svg'} alt="" />
 										</button>
 									</Tooltip>
 								))}

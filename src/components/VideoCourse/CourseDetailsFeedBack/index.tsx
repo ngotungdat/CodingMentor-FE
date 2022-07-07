@@ -16,9 +16,9 @@ const RenderItemFeedback = (props) => {
 	return (
 		<div className="item-fb mt-3 pb-3" style={{ borderBottomWidth: isFinal() ? 0 : 0.5 }}>
 			{item.Avatar !== undefined && item.Avatar !== null && item.Avatar !== '' ? (
-				<Avatar className="avatar" src={item.Avatar || '/images/user.png'} alt="avt" />
+				<Avatar className="avatar" src={item.Avatar || '/images/icons/UserUnknown.svg'} alt="avt" />
 			) : (
-				<Avatar className="avatar" src="/images/user.png" alt="avt" />
+				<Avatar className="avatar" src="/images/icons/UserUnknown.svg" alt="avt" />
 			)}
 			<div className="main ml-3">
 				<h6>{item?.FullNameUnicode}</h6>

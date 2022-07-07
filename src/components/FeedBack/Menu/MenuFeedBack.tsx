@@ -132,7 +132,7 @@ function MenuFeedBack(props) {
 								{userInformation.Avatar !== null && userInformation.Avatar !== '' ? (
 									<Avatar size={36} className="student-fb__i-avt mr-3" src={userInformation.Avatar} />
 								) : (
-									<Avatar size={36} className="student-fb__i-avt mr-3" src={<img src="/images/user.png" alt="" />} />
+									<Avatar size={36} className="student-fb__i-avt mr-3" src={<img src="/images/icons/UserUnknown.svg" alt="" />} />
 								)}
 
 								<div className="st-fb-colum st-fb-fw">

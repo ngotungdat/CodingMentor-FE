@@ -1,10 +1,78 @@
-import { List } from 'antd'
+import { Avatar, List } from 'antd'
 import moment from 'moment'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
-import { cloneElement } from 'react'
+import { cloneElement, useEffect, useState } from 'react'
 import { useWrap } from '~/context/wrap'
 import { numberWithCommas } from '~/utils/functions'
+
+export const ItemCourse = (props) => {
+	const { Item } = props
+	const [userNumber, setUserNumber] = useState([])
+
+	useEffect(() => {
+		if (Item.TotalStudents > 0) {
+			let temp = []
+			for (let i = 0; i < Item.TotalStudents; i++) {
+				temp.push(i)
+			}
+			setUserNumber(temp)
+		}
+	}, [Item])
+
+	const RenderUserItem = () => {
+		return userNumber.map((item, index) => {
+			return (
+				<>
+					<img
+						className={item == 0 ? 'first-avatar' : item > 0 && item < 5 ? 'middle-avatar' : item == 5 ? 'last-avatar' : 'invisible-avatar'}
+						src="/images/icons/UserUnknown.svg"
+					/>
+				</>
+			)
+		})
+	}
+
+	return (
+		<>
+			<div className="course-item-wrap">
+				<div className="course-item-avatar">
+					<img src={Item.Avatar || '/images/course-alt.jpg'} />
+					<span>{Item.StatusName}</span>
+				</div>
+				{/*  */}
+				<div className="course-item-content">
+					<p className="course-item-content-name in-2-line">{Item.CourseName}</p>
+					{/*  */}
+					<div className="course-item-content-tags">
+						<span>{Item.TypeCourseName}</span>
+						<span>100 sold</span>
+						<span>1203 views</span>
+					</div>
+					{/*  */}
+					<p className="course-item-content-description">{Item.ProgramName ? Item.ProgramName : ''}</p>
+					<p className="course-item-content-description">{Item.CurriculumName ? Item.CurriculumName : ''}</p>
+					{/*  */}
+					<div className="course-item-content-mentor">
+						<img src={Item.TeacherAvatar || '/images/icons/UserUnknown.svg'} />
+						<span>{Item?.TeacherName.length > 0 ? Item.TeacherName : '/Chưa có mentor'}</span>
+					</div>
+					{/*  */}
+					<div className="course-item-content-buttons">
+						<button className="btn btn-primary">
+							Enroll Course: {Item.TotalStudents}/{Item.MaximumStudent}
+						</button>
+						{Item.TotalStudents > 0 && <div className="course-item-content-list-user">{RenderUserItem()}</div>}
+					</div>
+				</div>
+				{/*  */}
+				<div className="course-item-price">
+					<p>{numberWithCommas(Item.Price)} VND</p>
+				</div>
+			</div>
+		</>
+	)
+}
 
 const PowerList = (props) => {
 	const { dataSource, isLoading, totalPage, currentPage, getPagination, children } = props
@@ -56,7 +124,8 @@ const PowerList = (props) => {
 				onChange: checkGetPagination,
 				total: totalPage,
 				size: 'small',
-				current: currentPage
+				current: currentPage,
+				showTotal: () => <div className="font-weight-black">Tổng cộng: {props.totalPage}</div>
 			}}
 			itemLayout="horizontal"
 			dataSource={dataSource}
@@ -82,62 +151,86 @@ const PowerList = (props) => {
 				SalaryOfLesson,
 				Avatar
 			}: ICourse) => (
-				<List.Item
-					extra={cloneElement(children, {
-						courseObj: { ID, BranchID, AcademicUID, TeacherLeaderUID, SalaryOfLesson }
-					})}
-				>
-					<List.Item.Meta
-						avatar={checkStatus(Status, StatusName, Avatar)}
-						title={
-							<Link href={returnPathName(ID, TypeCourse, CourseName)}>
-								<a>{CourseName}</a>
-							</Link>
-						}
-						description={
-							<div className="content-body">
-								<ul className="list-ver">
-									<li>
-										<span>Quản lý: </span> <span>{TeacherLeaderName || 'Trống'}</span>
-									</li>
-									<li>
-										<span>Giáo viên: </span> <span>{TeacherName || 'Trống'}</span>
-									</li>
-									<li>
-										<span>Hình thức: </span> <span>{TypeCourseName || 'Trống'}</span>
-									</li>
-									<li>
-										<span>Học phí: </span> <span>{numberWithCommas(Price)} VNĐ</span>
-									</li>
-									{userInformation?.RoleID === 1 && (
-										<li>
-											<span>Lương/Buổi: </span> <span>{numberWithCommas(SalaryOfLesson)} VNĐ</span>
-										</li>
-									)}
-								</ul>
-								<ul className="list-hor">
-									<li>
-										Số buổi học: <span>{TotalDays}</span>
-									</li>
-									<li>
-										Khai giảng: <span>{moment(StartDay).format('DD/MM/YYYY')}</span>
-									</li>
-									<li>
-										Bế giảng: <span>{moment(EndDay).format('DD/MM/YYYY')}</span>
-									</li>
-									<li>
-										Số học viên: <span>{TotalStudents}</span>
-									</li>
-									{MaximumStudent && (
-										<li>
-											Số học viên tối đa: <span>{MaximumStudent}</span>
-										</li>
-									)}
-								</ul>
-							</div>
-						}
-					/>
-				</List.Item>
+				<ItemCourse
+					Item={{
+						ID,
+						Status,
+						StatusName,
+						CourseName,
+						AcademicName,
+						AcademicUID,
+						TeacherLeaderName,
+						TeacherLeaderUID,
+						TeacherName,
+						Price,
+						TotalDays,
+						StartDay,
+						EndDay,
+						TotalStudents,
+						TypeCourse,
+						TypeCourseName,
+						BranchID,
+						MaximumStudent,
+						SalaryOfLesson,
+						Avatar
+					}}
+				/>
+				// <List.Item
+				// 	extra={cloneElement(children, {
+				// 		courseObj: { ID, BranchID, AcademicUID, TeacherLeaderUID, SalaryOfLesson }
+				// 	})}
+				// >
+				// 	<List.Item.Meta
+				// 		avatar={checkStatus(Status, StatusName, Avatar)}
+				// 		title={
+				// 			<Link href={returnPathName(ID, TypeCourse, CourseName)}>
+				// 				<a>{CourseName}</a>
+				// 			</Link>
+				// 		}
+				// 		description={
+				// 			<div className="content-body">
+				// 				<ul className="list-ver">
+				// 					<li>
+				// 						<span>Quản lý: </span> <span>{TeacherLeaderName || 'Trống'}</span>
+				// 					</li>
+				// 					<li>
+				// 						<span>Giáo viên: </span> <span>{TeacherName || 'Trống'}</span>
+				// 					</li>
+				// 					<li>
+				// 						<span>Hình thức: </span> <span>{TypeCourseName || 'Trống'}</span>
+				// 					</li>
+				// 					<li>
+				// 						<span>Học phí: </span> <span>{numberWithCommas(Price)} VNĐ</span>
+				// 					</li>
+				// 					{userInformation?.RoleID === 1 && (
+				// 						<li>
+				// 							<span>Lương/Buổi: </span> <span>{numberWithCommas(SalaryOfLesson)} VNĐ</span>
+				// 						</li>
+				// 					)}
+				// 				</ul>
+				// 				<ul className="list-hor">
+				// 					<li>
+				// 						Số buổi học: <span>{TotalDays}</span>
+				// 					</li>
+				// 					<li>
+				// 						Khai giảng: <span>{moment(StartDay).format('DD/MM/YYYY')}</span>
+				// 					</li>
+				// 					<li>
+				// 						Bế giảng: <span>{moment(EndDay).format('DD/MM/YYYY')}</span>
+				// 					</li>
+				// 					<li>
+				// 						Số học viên: <span>{TotalStudents}</span>
+				// 					</li>
+				// 					{MaximumStudent && (
+				// 						<li>
+				// 							Số học viên tối đa: <span>{MaximumStudent}</span>
+				// 						</li>
+				// 					)}
+				// 				</ul>
+				// 			</div>
+				// 		}
+				// 	/>
+				// </List.Item>
 			)}
 		/>
 	)

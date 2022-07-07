@@ -279,7 +279,7 @@ function ProfileCustomer(props) {
 							<>
 								<div className="row">
 									<div className="col-12 d-flex align-items-center justify-content-center">
-										<Avatar size={70} src={<img src={info?.Avatar ? info.Avatar : '/images/user.png'} />} />
+										<Avatar size={70} src={<img src={info?.Avatar ? info.Avatar : '/images/icons/UserUnknown.svg'} />} />
 									</div>
 								</div>
 								<div className="row pt-4 align-items-center">

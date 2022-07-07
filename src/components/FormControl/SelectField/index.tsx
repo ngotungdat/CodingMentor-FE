@@ -95,29 +95,7 @@ const SelectField = (props: ISelectField) => {
 							</Select>
 						)
 					}
-					return (
-						<Select
-							mode={mode}
-							className="style-input"
-							showSearch
-							loading={!!props?.isLoading}
-							style={{ width: '100%' }}
-							placeholder={props?.placeholder}
-							optionFilterProp="children"
-							disabled={disabled}
-							onChange={(value) => {
-								checkOnChangeSelect(value)
-								field.onChange(value)
-							}}
-						>
-							{!!props?.optionList &&
-								props?.optionList.map((o, idx) => (
-									<Option key={idx} value={o.value} disabled={o.disabled || optionDisabledList?.includes(o.value)}>
-										{o.title}
-									</Option>
-								))}
-						</Select>
-					)
+				
 				}}
 			/>
 

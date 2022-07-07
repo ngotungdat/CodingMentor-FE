@@ -74,7 +74,7 @@ const StatisticalRankTeacher = (props) => {
 			render: (text, data) => (
 				<img
 					style={{ width: 40, height: 40, borderRadius: '100%' }}
-					src={data.Avatar.length > 0 ? data.Avatar : '/images/user.png'}
+					src={data.Avatar.length > 0 ? data.Avatar : '/images/icons/UserUnknown.svg'}
 					alt="avatar img"
 				/>
 			)

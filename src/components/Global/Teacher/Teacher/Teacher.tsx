@@ -324,7 +324,7 @@ const Teacher = () => {
 		setIsLoading({ type: 'ADD_DATA', status: true })
 		let res
 		try {
-			const newTeacher = { ...data, Branch: data.Branch.join(',') }
+			const newTeacher = { ...data, Branch: data.Branch.toString() }
 			res = await teacherApi.add(newTeacher)
 			if (res.status === 200) {
 				showNoti('success', res.data.message)

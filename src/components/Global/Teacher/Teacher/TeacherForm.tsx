@@ -469,18 +469,15 @@ const TeacherForm = (props: ITeacherForm) => {
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="Bank" label="Tên ngân hàng" />
 								</div>
-
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="BankBranch" label="Chi nhánh ngân hàng" />
 								</div>
-
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="BankAccountHolderName" label="Tên chủ thẻ" />
 								</div>
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="BankAccountNumber" label="Số tài khoản" />
 								</div>
-
 								<div className="col-12 mt-3">
 									<button type="submit" className="btn btn-primary w-100" disabled={isLoading.type === 'ADD_DATA' && isLoading.status}>
 										Thêm mới

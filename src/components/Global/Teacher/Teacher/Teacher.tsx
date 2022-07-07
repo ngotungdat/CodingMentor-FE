@@ -324,10 +324,11 @@ const Teacher = () => {
 		setIsLoading({ type: 'ADD_DATA', status: true })
 		let res
 		try {
-			const newTeacher = { ...data, Branch: data.Branch.join(',')}
+			const newTeacher = { ...data, Branch: data.Branch.toString()}
 			res = await teacherApi.add(newTeacher)
 			if (res.status === 200) {
 				showNoti('success', res.data.message)
+				fetchTeacherList()
 				onResetSearch() // <== khi tạo xong r reset search để trở về trang đầu tiên
 			}
 		} catch (error) {

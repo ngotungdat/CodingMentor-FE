@@ -95,7 +95,6 @@ const SelectField = (props: ISelectField) => {
 							</Select>
 						)
 					}
-				
 				}}
 			/>
 

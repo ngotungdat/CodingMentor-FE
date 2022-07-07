@@ -2,7 +2,6 @@ import { Form, Select } from 'antd'
 import React, { useEffect } from 'react'
 import { Controller } from 'react-hook-form'
 
-
 const SelectField = (props: ISelectField) => {
 	const { isDynamicField, disabled, mode, style, optionDisabledList } = props
 
@@ -41,10 +40,7 @@ const SelectField = (props: ISelectField) => {
 				name={props.name}
 				control={props.form.control}
 				render={({ field }) => {
-
-
 					if (field?.value == null || field?.value == undefined) {
-
 						return (
 							<Select
 								mode={mode}
@@ -69,7 +65,6 @@ const SelectField = (props: ISelectField) => {
 							</Select>
 						)
 					} else {
-
 						return (
 							<Select
 								{...field}
@@ -95,29 +90,6 @@ const SelectField = (props: ISelectField) => {
 							</Select>
 						)
 					}
-					return (
-						<Select
-							mode={mode}
-							className="style-input"
-							showSearch
-							loading={!!props?.isLoading}
-							style={{ width: '100%' }}
-							placeholder={props?.placeholder}
-							optionFilterProp="children"
-							disabled={disabled}
-							onChange={(value) => {
-								checkOnChangeSelect(value)
-								field.onChange(value)
-							}}
-						>
-							{!!props?.optionList &&
-								props?.optionList.map((o, idx) => (
-									<Option key={idx} value={o.value} disabled={o.disabled || optionDisabledList?.includes(o.value)}>
-										{o.title}
-									</Option>
-								))}
-						</Select>
-					)
 				}}
 			/>
 

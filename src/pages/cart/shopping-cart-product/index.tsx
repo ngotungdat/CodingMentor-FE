@@ -279,7 +279,7 @@ const ShoppingCartProduct = () => {
 									{!!userInformation ? (
 										<div className="user-wrap">
 											<div className="user-img">
-												<img src={userInformation?.Avatar ? userInformation.Avatar : '/images/user.png'} alt="" />
+												<img src={userInformation?.Avatar ? userInformation.Avatar : '/images/icons/UserUnknown.svg'} alt="" />
 											</div>
 											<div className="user-info">
 												<p className="user-name">{userInformation?.FullNameUnicode}</p>
@@ -437,7 +437,7 @@ const ShoppingCartProduct = () => {
 													{!userInformation ? (
 														<div className="user-wrap">
 															<div className="user-img">
-																<img src={!!userInformation?.Avatar ? userInformation.Avatar : '/images/user.png'} alt="" />
+																<img src={!!userInformation?.Avatar ? userInformation.Avatar : '/images/icons/UserUnknown.svg'} alt="" />
 															</div>
 															<div className="user-info">
 																<p className="user-name">{userInformation?.FullNameUnicode}</p>

@@ -248,6 +248,25 @@
 	}
 }
 
+.btn-outline {
+	color: $primary-color;
+	background-color: #fff;
+	border-color: #fff;
+
+	&:hover {
+		color: $primary-color;
+		background-color: #fff;
+		border-color: $primary-color;
+	}
+
+	&:focus {
+		box-shadow: none;
+		color: $primary-color;
+		background-color: #fff;
+		border-color: $primary-color;
+	}
+}
+
 .btn-success {
 	color: #fff;
 	background-color: #10ca93;
@@ -265,20 +284,20 @@
 }
 
 .btn-dark {
-	background: #181c32;
-	border-color: #181c32;
+	background: $black;
+	border-color: $black;
 	color: #fff;
 
 	&:hover {
 		color: #fff;
-		background-color: #0c0e18;
+		background-color: $black-light;
 		border-color: #070910;
 	}
 
 	&:focus {
 		box-shadow: none;
 		color: #fff;
-		background-color: #0c0e18;
+		background-color: $black-light;
 		border-color: #070910;
 	}
 }
@@ -594,12 +613,12 @@ textarea.ant-input {
 	}
 
 	.ant-select-selector {
-		background-color: #f0f0f0 !important;
+		// background-color: #f0f0f0 !important;
 		border: 1px solid #cccccc !important;
 		.ant-select-selection-item,
 		.ant-select-selection-placeholder {
 			line-height: 34px !important;
-			color: #999999 !important;
+			// color: #999999 !important;
 		}
 
 		input {
@@ -639,8 +658,9 @@ textarea.ant-input {
 }
 
 .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
+	display: flex;
 	flex-direction: row-reverse;
-
+	justify-content: start;
 	&::before {
 		margin-right: 0;
 		margin-left: 4px;

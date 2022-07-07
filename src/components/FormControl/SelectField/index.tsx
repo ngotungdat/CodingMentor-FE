@@ -47,9 +47,6 @@ const SelectField = (props: ISelectField) => {
 					} else {
 						temp = field
 					}
-
-					console.log('props?.optionList: ', props?.optionList)
-
 					return (
 						<Select
 							{...temp}

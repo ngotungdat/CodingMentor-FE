@@ -279,6 +279,44 @@
 	}
 }
 
+.ant-pagination {
+	display: flex;
+	align-items: center;
+
+	.ant-pagination-item-link {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.ant-pagination-prev,.ant-pagination-next {
+		margin-top: 5px!important;
+	}
+
+	li {
+		border-radius: 4px !important;
+		border-color: $primary-color;
+		margin-top: 1px;
+		&.ant-pagination-item-active {
+			margin-top: 1px;
+		}
+
+		&.ant-pagination-item-active a {
+			color: $primary-color;
+		}
+
+		a,
+		button {
+			border-radius: 4px !important;
+		}
+	}
+	.ant-pagination-item-link {
+		&:hover {
+			color: $primary-color;
+		}
+	}
+}
+
 // ==================== NESTED TABLE ==========================
 .nested-table {
 	margin-top: 20px;

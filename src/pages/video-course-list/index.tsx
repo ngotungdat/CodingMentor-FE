@@ -10,6 +10,8 @@ import LayoutBase from '~/components/LayoutBase'
 import { useWrap } from '~/context/wrap'
 import NumberFormat from 'react-number-format'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import ReactHtmlParser from 'react-html-parser'
+import router from 'next/router'
 
 const { TextArea, Search } = Input
 
@@ -22,68 +24,69 @@ const ItemVideo = ({ item, onRate }) => {
 	}, [item])
 
 	return (
-		<div className="video-course-list__item">
-			<Link
-				href={{
-					pathname: '/video-learning',
-					query: {
-						ID: userInformation.RoleID == 3 ? item.ID : item.VideoCourseID,
-						course: item.VideoCourseID,
-						complete: item.Complete + '/' + item.TotalLesson,
-						name: item.VideoCourseName
-					}
-				}}
-			>
-				<div className="video-course-list__item_warp-image">
-					<Link
-						href={{
-							pathname: '/video-learning',
-							query: {
-								ID: userInformation.RoleID == 3 ? item.ID : item.VideoCourseID,
-								course: item.VideoCourseID,
-								complete: item.Complete + '/' + item.TotalLesson,
-								name: item.VideoCourseName
-							}
-						}}
-					>
-						{item.ImageThumbnails === '' || item.ImageThumbnails === null || item.ImageThumbnails === undefined ? (
-							<img src="/images/logo-thumnail.jpg" />
-						) : (
-							<img src={item.ImageThumbnails} />
-						)}
-					</Link>
-				</div>
-			</Link>
+		<>
+			<div className="video-course-list__item">
+				<Link
+					href={{
+						pathname: '/video-learning',
+						query: {
+							ID: userInformation.RoleID == 3 ? item.ID : item.VideoCourseID,
+							course: item.VideoCourseID,
+							complete: item.Complete + '/' + item.TotalLesson,
+							name: item.VideoCourseName
+						}
+					}}
+				>
+					<div className="video-course-list__item_warp-image">
+						<Link
+							href={{
+								pathname: '/video-learning',
+								query: {
+									ID: userInformation.RoleID == 3 ? item.ID : item.VideoCourseID,
+									course: item.VideoCourseID,
+									complete: item.Complete + '/' + item.TotalLesson,
+									name: item.VideoCourseName
+								}
+							}}
+						>
+							{item.ImageThumbnails === '' || item.ImageThumbnails === null || item.ImageThumbnails === undefined ? (
+								<img src="/images/logo-thumnail.jpg" />
+							) : (
+								<img src={item.ImageThumbnails} />
+							)}
+						</Link>
+					</div>
+				</Link>
 
-			<Link
-				href={{
-					pathname: '/video-learning',
-					query: {
-						ID: userInformation.RoleID == 3 ? item.ID : item.VideoCourseID,
-						course: item.VideoCourseID,
-						complete: item.Complete + '/' + item.TotalLesson,
-						name: item.VideoCourseName
-					}
-				}}
-			>
-				<div className="p-3 video-course-list__item__content">
-					<Tooltip title={item.VideoCourseName} style={{ width: '100%' }}>
-						<span className="title in-1-line" style={{ width: '100%' }}>
-							{item.VideoCourseName}
-						</span>
-					</Tooltip>
-					<>
-						<Progress
-							className="text-process"
-							percent={(item.Complete / item.TotalLesson) * 100} // 10 - CHANGE TO TOTALESSION
-							status="active"
-						/>
+				<Link
+					href={{
+						pathname: '/video-learning',
+						query: {
+							ID: userInformation.RoleID == 3 ? item.ID : item.VideoCourseID,
+							course: item.VideoCourseID,
+							complete: item.Complete + '/' + item.TotalLesson,
+							name: item.VideoCourseName
+						}
+					}}
+				>
+					<div className="p-3 video-course-list__item__content">
+						<div className="d-flex flex-column justify-content-between" style={{ height: '100%' }}>
+							<div className="course-description in-3-line">
+								<Tooltip title={item.VideoCourseName} style={{ width: '100%' }}>
+									<span className="title in-2-line" style={{ width: '100%' }}>
+										{item.VideoCourseName}
+									</span>
+								</Tooltip>
+								<p>{ReactHtmlParser(item.Description)}</p>
+							</div>
 
-						<div style={{}}>Thời gian còn lại: {item?.DaysLeft} ngày</div>
+							<div className="d-flex justify-content-start align-items-center mentor">
+								<img src="/images/icons/UserUnknown.svg" />
+								<p>{item.TeacherName ? item.TeacherName : 'Chưa có Mentor'}</p>
+							</div>
+							{/* <div className="course-description" style={{ color: '#8E8E93' }}>Số lần đặt lịch còn lại: {item?.LeftLimitBooking}</div> */}
 
-						<div style={{ color: '#8E8E93' }}>Số lần đặt lịch còn lại: {item?.LeftLimitBooking}</div>
-
-						{/* <div className="pr-3 pl-3 pt-3 row rate-container">
+							{/* <div className="pr-3 pl-3 pt-3 row rate-container">
 							<Rate className="rate-start" disabled value={item.RatingNumber} />
 							<a
 								onClick={(e) => {
@@ -95,10 +98,70 @@ const ItemVideo = ({ item, onRate }) => {
 								Đánh giá
 							</a>
 						</div> */}
-					</>
+						</div>
+					</div>
+				</Link>
+				<div className="video-course__hover">
+					<div className="content">
+						<p>
+							Tiến độ: {item.Complete}/{item.TotalLesson}
+						</p>
+						<Progress
+							className="text-process"
+							percent={(item.Complete / item.TotalLesson) * 100} // 10 - CHANGE TO TOTALESSION
+							status="active"
+							showInfo={false}
+						/>
+						<div className="buttons">
+							<button
+								onClick={() => {
+									router.push({
+										pathname: '/video-learning',
+										query: {
+											ID: userInformation.RoleID == 3 ? item.ID : item.VideoCourseID,
+											course: item.VideoCourseID,
+											complete: item.Complete + '/' + item.TotalLesson,
+											name: item.VideoCourseName
+										}
+									})
+								}}
+								className="btn btn-primary"
+							>
+								Tiếp tục
+							</button>
+							<button
+								onClick={() => {
+									router.push({
+										pathname: '/video-course/[slug]',
+										query: {
+											Category: item.CategoryName,
+											Level: item.LevelName,
+											Create: item.CreatedOn,
+											Thum: item.ImageThumbnails,
+											slug: item.VideoCourseID,
+											Active: item.StatusName,
+											TeacherID: item?.TeacherID,
+											LimitBooking: item?.LimitBooking,
+											CategoryID: item.CategoryID,
+											AverageRating: item.AverageRating,
+											TotalFeedBack: item.TotalFeedBack,
+											Original: item.OriginalPrice,
+											Sell: item.SellPrice,
+											TotalVideo: item.TotalVideoCourseSold,
+											TotalVideoViews: item?.TotalVideoViews,
+											CurriculumID: item?.CurriculumID,
+										}
+									})
+								}}
+								className="btn btn-light ml-2"
+							>
+								Xem chi tiết
+							</button>
+						</div>
+					</div>
 				</div>
-			</Link>
-		</div>
+			</div>
+		</>
 	)
 }
 
@@ -160,7 +223,7 @@ const VideoCourseList = () => {
 		setLoading(true)
 		try {
 			const res = userInformation?.RoleID == 1 ? await VideoCourseListApi.getAll(todoApi) : await VideoCourseListApi.getByUser(todoApi)
-			res.status == 200 && (setData(res.data.data), setTotalPage(res.data.totalRow))
+			res.status == 200 && (setData(res.data.data), setTotalPage(res.data.data.length))
 			res.status == 204 && setData([])
 			setRender(res + '')
 		} catch (err) {
@@ -320,12 +383,13 @@ const VideoCourseList = () => {
 									onChange: getPagination,
 									total: totalPage,
 									size: 'small',
-									current: pageIndex
+									current: pageIndex,
+									showTotal: () => totalPage && <p className="font-weight-black" style={{marginTop: 2, color: '#000'}}>Tổng cộng: {totalPage}</p>
 								}}
 								loading={loading}
 								itemLayout="horizontal"
 								dataSource={data}
-								grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 5 }}
+								grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 2, xl: 4, xxl: 5 }}
 								renderItem={(item) => (
 									<ItemVideo
 										onRate={(p) => {

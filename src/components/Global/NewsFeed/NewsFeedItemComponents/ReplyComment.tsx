@@ -31,7 +31,7 @@ function ReplyComment(props) {
 				<li key={index} className="item-comment">
 					<div className="info-current-user">
 						<div className="avatar">
-							<img src={item.Avatar || '/images/user.png'} alt="avatar" />
+							<img src={item.Avatar || '/images/icons/UserUnknown.svg'} alt="avatar" />
 						</div>
 						<div className="content-comment reply">
 							<div className="box-comment">

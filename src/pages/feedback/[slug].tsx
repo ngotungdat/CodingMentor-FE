@@ -123,7 +123,7 @@ const FeedbackListDetail = () => {
 								{createdBy.Avatar !== null && createdBy.Avatar !== '' ? (
 									<Avatar size={64} src={<img src={createdBy.Avatar} />} />
 								) : (
-									<Avatar size={64} src={<img src="/images/user.png" alt="" />} />
+									<Avatar size={64} src={<img src="/images/icons/UserUnknown.svg" alt="" />} />
 								)}
 							</div>
 						</div>
@@ -247,7 +247,7 @@ const FeedbackListDetail = () => {
 											{item.Avatar !== undefined && item.Avatar !== null && item.Avatar !== '' ? (
 												<img className="student-fb__i-avt mr-3" src={item.Avatar} alt="" width="50" height="50" />
 											) : (
-												<img className="student-fb__i-avt mr-3" src="/images/user.png" width="50" height="50" />
+												<img className="student-fb__i-avt mr-3" src="/images/icons/UserUnknown.svg" width="50" height="50" />
 											)}
 											<div className="st-fb-colum st-fb-fw">
 												<div className="row m-0 st-fb-rsb">

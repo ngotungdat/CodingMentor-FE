@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import { Input, Spin } from 'antd'
 import 'antd/dist/antd.css'
 import Link from 'next/link'
-import { parseToMoney } from '~/utils/functions'
-import { Spin, Input } from 'antd'
+import router from 'next/router'
+import { useState } from 'react'
+import ReactHtmlParser from 'react-html-parser'
+import { VideoCourseStoreApi } from '~/apiBase/video-course-store'
 import { useWrap } from '~/context/wrap'
 import ModalUpdateDetail from '~/lib/video-course/modal-update-details'
 import ModalUpdateInfo from '~/lib/video-course/modal-update-info'
-import RatingStar from '~/components/RatingStar'
-import { VideoCourseStoreApi } from '~/apiBase/video-course-store'
+import { numberWithCommas, parseToMoney } from '~/utils/functions'
 
 // CARD ITEM ON VIDEO COURSE
 const RenderItemCard = (props) => {
@@ -69,8 +70,18 @@ const RenderItemCard = (props) => {
 	return (
 		<>
 			<div className="vc-store_container">
-				<div className="vc-store_item" style={{ height: 260 }}>
+				<div
+					className="vc-store_item"
+					// style={{ height: 260 }}
+				>
 					<div className="flip-card-front">
+						<div className={item.MaxSold == item.TotalVideoCourseSold ? `tagSell best-seller` : `tagSell percent`}>
+							<span>
+								{item.MaxSold == item.TotalVideoCourseSold
+									? 'Best Seller'
+									: `-${(((item.OriginalPrice - item.SellPrice) / item.OriginalPrice) * 100).toFixed(0)}%`}
+							</span>
+						</div>
 						{userInformation && userInformation.RoleID === 3 && item && item.isBought && (
 							<div className="course-paid-icon">
 								<img src="/images/paid.png" alt="paid icon" />
@@ -92,39 +103,168 @@ const RenderItemCard = (props) => {
 						</div>
 
 						<div className="content">
-							<h3 style={{ width: '90%' }} className="title ml-3 mr-3 in-1-line">
-								{item.VideoCourseName}
-							</h3>
-							<h3 style={{ width: '90%', fontSize: 12, color: '#000' }} className="title ml-3 mr-3 in-1-line">
-								{item.EnglishName}
-							</h3>
-							{/* <span style={{ width: '90%' }} className="ml-3 mr-3 in-1-line">
-								<i className="fas fa-play-circle mr-1"></i> {item.TotalVideoCourseSold} đã bán - {item.TotalVideoViews} lượt xem
-							</span> */}
-
-							{/* <Link href={{ pathname: '/video-course/[slug]', query: params }}>
-								<div className="ml-3">
-									<RatingStar AverageRating={item.AverageRating} TotalFeedBack={item.TotalFeedBack} />
+							<>
+								<h3 style={{ width: '90%' }} className="title m-0 in-1-line">
+									{item.VideoCourseName}
+								</h3>
+								<div className="tags">
+									<span>{item.TotalVideos} videos</span>
+									{item.TotalVideoCourseSold != 0 && <span>{item.TotalVideoCourseSold} sold</span>}
+									<span>{item.TotalVideoViews} views</span>
 								</div>
-							</Link> */}
-
-							<Link href={{ pathname: '/video-course/[slug]', query: params }}>
-								<div className="ml-3 mb-3 price-group">
-									<i
-										className="price price-old"
-										style={{
-											textDecorationLine: 'line-through'
-										}}
-									>
-										{parseToMoney(item.OriginalPrice)}đ
-									</i>
-									<span className="price">{parseToMoney(item.SellPrice)}đ</span>
+							</>
+							<>
+								<h3 className="description in-3-line">{ReactHtmlParser(item.Description)}</h3>
+							</>
+							<>
+								<div className="d-flex justify-content-start align-items-center mentor">
+									<img src="/images/icons/UserUnknown.svg" />
+									<p>{item.TeacherName ? `Mentor ${item.TeacherName}` : 'Chưa có Mentor'}</p>
 								</div>
-							</Link>
+							</>
+							<div className="price">
+								<p>{numberWithCommas(item.SellPrice)} VND</p>
+								<p>{numberWithCommas(item.OriginalPrice)} VND</p>
+							</div>
+							<div className=" buttons d-flex justify-content-start align-items-center">
+								{/* <button className="mr-2 btn btn-primary">Mua ngay</button>
+								<button className="mr-2 btn btn-light">Thêm vào giỏ hàng</button>
+								 */}
+								{userInformation?.RoleID == 1 || userInformation?.RoleID == 2 ? (
+									<div style={{ zIndex: 99999 }} className='d-flex w-100' >
+										{userInformation?.RoleID == 1 && (
+											<button
+												type="button"
+												className=" btn btn-warning"
+												onClick={(e) => {
+													e.stopPropagation()
+													setShowModalUpdate(true)
+												}}
+											>
+												Chỉnh sửa
+											</button>
+										)}
+
+										{userInformation !== null && (userInformation?.RoleID == 1 || userInformation?.RoleID == 2) && (
+											<Link
+												href={{
+													pathname: '/video-learning',
+													query: {
+														ID: item.ID,
+														course: item.ID,
+														complete: 0 + '/' + 0,
+														name: item.VideoCourseName
+													}
+												}}
+											>
+												<button className="btn btn-dark">
+													Xem khóa học
+												</button>
+											</Link>
+										)}
+									</div>
+								) : (
+									<>
+										{activing ? (
+											<>
+												<Input
+													onClick={(e) => e.stopPropagation()}
+													value={code}
+													onChange={(e) => setCode(e.target.value)}
+													placeholder="Mã kích hoạt"
+													style={{ height: 36, borderRadius: 6, marginRight: 4, width: 200 }}
+												/>
+												<button
+													onClick={(e) => {
+														e.stopPropagation()
+														handleActive({ VdieoCourseID: item.ID, ActiveCode: code })
+													}}
+													className="btn btn-light btn-add"
+												>
+													Kích hoạt {activeLoading && <Spin className="loading-base" />}
+												</button>
+												<button
+													onClick={(e) => {
+														e.stopPropagation()
+														setActiving(false)
+													}}
+													className="btn btn-primary btn-add"
+												>
+													Huỷ
+												</button>
+											</>
+										) : (
+											<>
+												{item.StatusActive == 'notactivated' ? (
+													<>
+														<button
+															onClick={(e) => {
+																e.stopPropagation()
+																addToCard(item, 1)
+															}}
+															className="btn btn-primary"
+														>
+															Thêm vào giỏ {loading && <Spin className="loading-base" />}
+														</button>
+														<button
+															onClick={(e) => {
+																e.stopPropagation()
+																setActiving(true)
+															}}
+															className="btn btn-dark"
+														>
+															Kích hoạt
+														</button>
+														<button
+															className="mr-2 btn btn-outline"
+															onClick={() => {
+																router.push({
+																	pathname: '/video-course/[slug]',
+																	query: params
+																})
+															}}
+														>
+															Xem chi tiết
+														</button>
+													</>
+												) : (
+													<Link
+														href={{
+															pathname: '/video-learning',
+															query: {
+																ID: item.ID,
+																course: item.ID,
+																complete: 0 + '/' + 0,
+																name: item.VideoCourseName
+															}
+														}}
+													>
+														<button className="btn btn-primary">Xem khóa học</button>
+													</Link>
+												)}
+												{/* <button
+														onClick={(e) => {
+															e.stopPropagation()
+															addToCard(item, 0)
+														}}
+														className="btn btn-light btn-add mt-2"
+													>
+														Mua ngay {buyNowLoading && <Spin className="loading-base" />}
+													</button> */}
+											</>
+										)}
+									</>
+								)}
+							</div>
+						</div>
+
+						<div className="price">
+							<p>{numberWithCommas(item.SellPrice)} VND</p>
+							<p>{numberWithCommas(item.OriginalPrice)} VND</p>
 						</div>
 					</div>
 
-					<div className="flip-card-back p-3" style={{}}>
+					<div className="flip-card-back p-3 d-none" style={{}}>
 						<Link
 							href={{
 								pathname: '/video-course/[slug]',
@@ -137,20 +277,62 @@ const RenderItemCard = (props) => {
 							>
 								<div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
 									<h3 className="title mb-2">{item.VideoCourseName}</h3>
-									<span className="in-1-line mb-1 ">
-										<i className="fas fa-certificate mr-2"></i> {item.CategoryName}
-									</span>
-									<span className="in-1-line mb-1 ">
-										<i className="fas fa-graduation-cap" style={{ marginRight: 7, fontSize: 12 }}></i> {item.LevelName}
-									</span>
-									{/* <span className="mb-1 in-1-line">
-										<i className="fas fa-calendar-alt" style={{ marginRight: 8 }}></i> {item.CreatedOn}
-									</span> */}
+									<span className="row mb-1 ">
+										<div className="col-1">
+											<i className="fas fa-certificate mr-2"></i>
+										</div>
 
-									<span className="mb-1 in-1-line">
-										<i className="fas fa-clock mr-2"></i> Thời gian:{' '}
-										{item?.ExpiryDays !== null || item?.ExpiryDays > 0 ? item?.ExpiryDays + ' ngày' : 'vĩnh viễn'}
+										<div className="col-10">
+											<span className=" in-1-line">{item.CategoryName}</span>
+										</div>
 									</span>
+									<span className="row mb-1 ">
+										<div className="col-1">
+											<i className="fas fa-graduation-cap" style={{ marginRight: 7, fontSize: 12 }}></i>
+										</div>
+										<div className="col-10">
+											<span className="">{item.LevelName}</span>
+										</div>
+									</span>
+									<span className="row mb-1 ">
+										<div className="col-1">
+											<i className="fas fa-clock mr-2"></i>
+										</div>
+
+										<div className="col-10">
+											<span className=" in-1-line">
+												Thời gian: {item?.ExpiryDays !== null || item?.ExpiryDays > 0 ? item?.ExpiryDays + ' ngày' : 'vĩnh viễn'}
+											</span>
+										</div>
+									</span>
+									<span className="row mb-1 ">
+										<div className="col-1">
+											<i className="fas fa-dollar-sign"></i>{' '}
+										</div>
+										<div className="col-10">
+											<span
+												className=" in-1-line"
+												style={{
+													textDecorationLine: 'line-through',
+													marginRight: 4
+												}}
+											>
+												{parseToMoney(item.OriginalPrice)}đ
+											</span>
+											<span className="price font-weight-black">{parseToMoney(item.SellPrice)}đ</span>
+										</div>
+									</span>
+									{/* <Link href={{ pathname: '/video-course/[slug]', query: params }}>
+										<div className="ml-3 mb-3 price-group">
+											<i
+												className="price price-old"
+												style={{
+													textDecorationLine: 'line-through'
+												}}
+											></i>
+											<span className="price">{parseToMoney(item.SellPrice)}đ</span>
+										</div>
+									</Link> */}
 
 									<div style={{ flex: 1 }} />
 									{userInformation?.RoleID == 1 || userInformation?.RoleID == 2 ? (

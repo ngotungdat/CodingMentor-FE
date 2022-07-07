@@ -282,7 +282,7 @@ function NewsFeedItem(props) {
 				<div className="newsfeed-header">
 					<div className="info-current-user">
 						<div className="avatar">
-							<img src={item.Avatar || '/images/user.png'} alt="avatar" />
+							<img src={item.Avatar || '/images/icons/UserUnknown.svg'} alt="avatar" />
 						</div>
 						<div className="name-user">
 							<div className="name">

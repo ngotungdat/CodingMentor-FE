@@ -72,7 +72,7 @@ function Comment(props) {
 		<li className="item-comment">
 			<div className="info-current-user">
 				<div className="avatar">
-					<img src={dataComment.Avatar || '/images/user.png'} alt="avatar" />
+					<img src={dataComment.Avatar || '/images/icons/UserUnknown.svg'} alt="avatar" />
 				</div>
 				<div className="content-comment">
 					<div className="box-comment">

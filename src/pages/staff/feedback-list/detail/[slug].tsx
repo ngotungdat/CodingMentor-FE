@@ -66,7 +66,7 @@ const FeedbackListDetail = (props) => {
           <Card className="info-profile-left">
             <div className="row">
               <div className="col-12 d-flex align-items-center justify-content-center flex-wrap">
-                <Avatar size={64} src={<img src="/images/user.png" />} />
+                <Avatar size={64} src={<img src="/images/icons/UserUnknown.svg" />} />
 
                 <Rate
                   disabled

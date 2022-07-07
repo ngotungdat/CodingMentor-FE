@@ -56,7 +56,7 @@ function CommentForm(props) {
 	return (
 		<div className="info-current-user user-comment">
 			<div className="avatar">
-				<img src={dataUser?.Avatar || '/images/user.png'} alt="" />
+				<img src={dataUser?.Avatar || '/images/icons/UserUnknown.svg'} alt="" />
 			</div>
 			<div className="input-comments">
 				<Form layout="vertical" onFinish={form.handleSubmit(checkHandleComment)}>

@@ -328,6 +328,7 @@ const Teacher = () => {
 			res = await teacherApi.add(newTeacher)
 			if (res.status === 200) {
 				showNoti('success', res.data.message)
+				fetchTeacherList()
 				onResetSearch() // <== khi tạo xong r reset search để trở về trang đầu tiên
 			}
 		} catch (error) {

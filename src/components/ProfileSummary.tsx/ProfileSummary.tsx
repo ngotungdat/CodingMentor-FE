@@ -9,7 +9,7 @@ const ProfileSummary = (props) => {
 		<>
 			<div className="row mb-3">
 				<div className="col-12 d-flex align-items-center justify-content-center flex-wrap">
-					<Avatar size={64} src={<img src={dataForm?.Avatar ? dataForm.Avatar : '/images/user.png'} />} />
+					<Avatar size={64} src={<img src={dataForm?.Avatar ? dataForm.Avatar : '/images/icons/UserUnknown.svg'} />} />
 				</div>
 			</div>
 			<div className="row pt-3">

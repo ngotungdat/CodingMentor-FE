@@ -202,7 +202,7 @@ function MainFeedback(props) {
 										{item.Avatarr !== null && item.Avatar !== '' ? (
 											<Avatar size={36} className="student-fb__i-avt mr-3" src={userInformation.Avatar} />
 										) : (
-											<Avatar size={36} className="student-fb__i-avt mr-3" src={<img src="/images/user.png" alt="" />} />
+											<Avatar size={36} className="student-fb__i-avt mr-3" src={<img src="/images/icons/UserUnknown.svg" alt="" />} />
 										)}
 										<div className="st-fb-colum st-fb-fw">
 											<div className="row m-0 st-fb-rsb">

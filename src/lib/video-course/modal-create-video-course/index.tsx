@@ -192,7 +192,7 @@ const ModalCreateVideoCourse = React.memo((props: any) => {
 	// RENDER
 	return (
 		<>
-			<div className="ml-3 mr-3 mb-3 mt-1">
+			<div className="">
 				<button className="btn btn-warning add-new" onClick={() => setIsModalVisible(true)}>
 					Thêm mới
 				</button>

@@ -13,29 +13,87 @@
 	&_item {
 		background: #fff;
 		margin: 15px;
-		border-radius: 8px;
-		border-style: solid;
-		border-width: 0.5px;
-		border-color: #e4e4e4;
-
+		border-radius: 16px;
 		perspective: 1000px;
 		transition: transform 0.5s;
-		transform-style: preserve-3d;
+		width: 997px;
+		height: 272px;
 
-		@include max-media(1600px) {
-			height: 250px;
+		@include max-media(1500px) {
+			width: 98%;
+			height: 272px;
 		}
 
-		@include max-media(575px) {
-			height: 370px;
+		@include max-media(1160px) {
+			height: 692px;
+			border: $border-primary;
+		}
+
+		@include max-media(1000px) {
+			width: 98%;
+		}
+
+		@include max-media(600px) {
+			width: 92%;
+		}
+		@include max-media(600px) {
+			height: 672px;
 		}
 
 		.flip-card-front {
 			width: 100%;
 			height: 100%;
 			position: relative;
-			transition: transform 0.8s;
-			transform-style: preserve-3d;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			@include max-media(1160px) {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-between;
+			}
+
+			.tagSell {
+				span {
+					position: absolute;
+					display: flex;
+					flex-direction: row;
+					align-items: flex-start;
+					padding: 8px 16px;
+					gap: 8px;
+					left: -12px;
+					top: 0.83%;
+					bottom: 84.5%;
+					@include max-media(1160px) {
+						top: -2.17%;
+						bottom: 96.5%;
+					}
+				}
+				&.best-seller {
+					span {
+						background: #c94a4f;
+						box-shadow: 0px 16px 24px rgba(92, 103, 153, 0.2);
+						border-radius: 40px;
+						font-weight: 400;
+						font-size: 16px;
+						line-height: 24px;
+						color: #ffffff;
+					}
+				}
+				&.percent {
+					span {
+						background: #ffba0a;
+						border-radius: 40px;
+						font-weight: 400;
+						font-size: 16px;
+						line-height: 24px;
+						color: #333333;
+					}
+				}
+			}
+
 			.course-paid-icon {
 				position: absolute;
 				top: 10px;
@@ -47,42 +105,157 @@
 			}
 
 			.warp-image {
-				width: 100%;
-				height: 60%;
-				padding: 10px;
-				padding-bottom: 5px;
+				width: 240px;
+				height: 240px;
+				border-radius: 24px;
+				padding: 0;
+				@include max-media(1160px) {
+					width: 100%;
+					height: 340px;
+					padding: 16px 16px 0 16px;
+				}
+				@include max-media(500px) {
+					width: 100%;
+					height: 272px;
+				}
+				cursor: pointer;
 				img {
+					border-radius: 24px;
 					width: 100%;
 					height: 100%;
-					border-top-left-radius: 7px;
-					border-top-right-radius: 7px;
 					object-fit: cover;
 				}
 			}
 
 			.content {
 				flex: 1;
-				height: 40%;
+				height: 100%;
+				width: 60%;
 				display: flex;
+				padding: 16px;
 				flex-direction: column;
 				justify-content: space-between;
-				padding-top: 10px;
+				@include max-media(1160px) {
+					width: 100%;
+				}
+				.price {
+					display: none;
+					@include max-media(1300px) {
+						display: inline-block;
+						height: 68px;
+						p {
+							text-align: left;
+							margin-bottom: 0px !important;
+						}
+					}
+				}
+				.tags {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					gap: 10px;
+					@include max-media(1300px) {
+						display: none;
+					}
+					@include max-media(1160px) {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						gap: 10px;
+					}
+					span {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						padding: 2px 6px;
+						gap: 10px;
+						height: 22px;
+						background: rgba(0, 0, 0, 0.2);
+						border-radius: 5px;
+					}
+				}
+				.title {
+					font-style: normal;
+					font-weight: 700;
+					line-height: 40px;
+					font-size: 24px;
+				}
+				.description {
+					font-style: normal !important;
+					font-weight: 400 !important;
+					font-size: 16px !important;
+					line-height: 24px !important;
+					color: $primary-color;
+				}
+				.buttons {
+					margin-top: 16px;
+					button {
+						margin-right: 4px;
+					}
+					.btn-outline {
+						@include max-media(500px) {
+							display: none !important;
+						}
+					}
+				}
+				.mentor {
+					@include max-media(1300px) {
+						display: none !important;
+					}
+					@include max-media(1160px) {
+						display: flex !important;
+					}
+					p {
+						padding: 0 !important;
+						margin-left: 8px;
+						margin-bottom: 6px;
+						font-weight: 700;
+						font-size: 16px;
+						line-height: 24px;
+						color: $red;
+					}
+				}
 				.price-old {
 					font-size: 13px;
 					color: #aaa;
 					font-weight: 300;
 				}
-
-				.price {
-					display: inline-block;
-				}
-
 				.price-group {
 					display: flex;
 					align-items: center;
 					flex-wrap: wrap;
 					gap: 10px;
 					font-weight: bold;
+				}
+			}
+
+			.price {
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: flex-end;
+				height: 100%;
+
+				display: block;
+				@include max-media(1300px) {
+					display: none;
+				}
+				p {
+					text-align: right;
+					margin-bottom: 0px !important;
+				}
+				p:nth-child(1) {
+					font-weight: 700;
+					font-size: 24px;
+					line-height: 40px;
+					color: $red;
+				}
+				p:nth-child(2) {
+					font-weight: 500;
+					font-size: 20px;
+					line-height: 28px;
+					text-decoration-line: line-through;
+					color: #999999;
 				}
 			}
 
@@ -114,24 +287,15 @@
 		.flip-card-back {
 			width: 100%;
 			height: 100%;
-			transform: rotateY(180deg);
-		}
-
-		.rotate180 {
-			transform: rotateY(0deg);
+			top: 100%;
+			transition: all 0.3s ease-out;
+			background: #fff;
 		}
 
 		.flip-card-front,
 		.flip-card-back {
 			position: absolute;
-			-webkit-backface-visibility: hidden;
-			backface-visibility: hidden;
 		}
-	}
-
-	&_container:hover &_item {
-		border-color: #50684b;
-		transform: rotateY(179.999deg); // 180 CAN NOT RUN IN SAFARI
 	}
 
 	&_modal {
@@ -225,6 +389,41 @@
 	justify-content: flex-start;
 	align-items: center;
 }
+
+.video-course-header-extra,
+.video-course-header-extra-btn-add-new {
+	@include max-media(800px) {
+		display: none;
+	}
+}
+
+.video-course-header-extra-btn-dropdown {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	button {
+		width: 40px;
+		height: 40px;
+	}
+	@include min-media(801px) {
+		display: none;
+	}
+}
+
+.video-course-header-menu-dropdown {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+    padding: 16px 25px;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px 0 #00000014, 0 9px 28px 8px #0000000d;
+	@include min-media(801px) {
+		display: none;
+	}
+}
+
 
 .w-recommend {
 	width: 2800px;
@@ -651,5 +850,17 @@
 .on-mobile {
 	@include max-media(1540px) {
 		margin-top: 15px;
+	}
+}
+
+.ant-card-body {
+	.ant-list-pagination {
+		.ant-pagination-item-active {
+			font-weight: 500;
+			background: #fff;
+			border-color: #c94a4f;
+			border-radius: 8px;
+			margin-top: 4px;
+		}
 	}
 }

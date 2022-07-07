@@ -8,11 +8,11 @@ import * as yup from 'yup'
 import InputTextField from '~/components/FormControl/InputTextField'
 import SelectField from '~/components/FormControl/SelectField'
 import { optionCommonPropTypes } from '~/utils/proptypes'
+import Icon from '../../../../src/lib/data-menu/icons.json'
 
 const CourseListFilterForm = (props) => {
 	const { handleFilter, handleResetFilter, optionList } = props
 	const { statusList, branchList, programList, teacherList } = optionList
-	console.log('🚀 ~ file: CourseListFilterForm.tsx ~ line 14 ~ CourseListFilterForm ~ teacherList', teacherList)
 	const [showFilter, showFilterSet] = useState(false)
 
 	const funcShowFilter = () => {
@@ -98,7 +98,11 @@ const CourseListFilterForm = (props) => {
 					onVisibleChange={funcShowFilter}
 				>
 					<button className="btn btn-secondary light btn-filter">
-						<Filter />
+						{
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+								<path d={Icon.filters} fill={'#333333'} />
+							</svg>
+						}
 					</button>
 				</Popover>
 			</div>

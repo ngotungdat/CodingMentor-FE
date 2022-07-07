@@ -1,7 +1,8 @@
-import { Card, Input, List, Modal, notification } from 'antd'
+import { Card, Dropdown, Input, List, Modal, notification, Space } from 'antd'
 import 'antd/dist/antd.css'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { MoreVertical } from 'react-feather'
 import { VideoCourseListApi } from '~/apiBase'
 import { teacherApi } from '~/apiBase'
 import { VideoCourseCardApi, VideoCourseStoreApi } from '~/apiBase/video-course-store'
@@ -83,7 +84,14 @@ const VideoCourseStore = () => {
 			if (userInformation?.RoleID == 1 || userInformation?.RoleID == 2 || userInformation?.RoleID == 6) {
 				// ADMIN
 				const res = await VideoCourseStoreApi.getAll(todoApi)
-				res.status == 200 && (setData(res.data.data), setTotalPage(res.data.totalRow))
+				if (res.status == 200) {
+					setTotalPage(res.data.totalRow)
+					let tempSoldNumber = []
+					res.data.data.forEach((item) => tempSoldNumber.push(item.TotalVideoCourseSold))
+					let tempData = []
+					res.data.data.forEach((item) => tempData.push({ ...item, MaxSold: Math.max(...tempSoldNumber) }))
+					setData(tempData)
+				}
 				if (userInformation?.RoleID != 6) {
 					getCurriculum()
 					getTeacherOption()
@@ -93,7 +101,14 @@ const VideoCourseStore = () => {
 			} else {
 				// HOC VIEN
 				const res = await VideoCourseStoreApi.getAllForStudent({ ...todoApi, pageSize: 10 })
-				res.status == 200 && (setData(res.data.data), setTotalPage(res.data.totalRow))
+				if (res.status == 200) {
+					setTotalPage(res.data.totalRow)
+					let tempSoldNumber = []
+					res.data.data.forEach((item) => tempSoldNumber.push(item.TotalVideoCourseSold))
+					let tempData = []
+					res.data.data.forEach((item) => tempData.push({ ...item, MaxSold: Math.max(...tempSoldNumber) }))
+					setData(tempData)
+				}
 				setRender(res + '')
 				setIsLoading({ type: 'GET_ALL', status: false })
 			}
@@ -325,30 +340,70 @@ const VideoCourseStore = () => {
 		}
 	}
 
+	const MenuDropdown = () => {
+		return (
+			<div className="video-course-header-menu-dropdown">
+				<ModalCreateVideoCourse
+					dataTeacher={dataTeacher}
+					_onSubmit={(data: any) => createNewCourse(data)}
+					dataLevel={categoryLevel}
+					dataCategory={category}
+					dataCurriculum={dataCurriculum}
+					showAdd={false}
+					isLoading={false}
+					refeshData={() => getAllArea()}
+					tags={tags}
+					onRefeshTags={() => getTags()}
+				/>
+			</div>
+		)
+	}
+
 	// RENDER
 	return (
-		<div className="">
+		<div className="container-fluid">
 			{userInformation !== null && (
 				<Card
 					style={{ width: '100%' }}
 					loading={isLoading.status}
-					title={<div className="m-2">{Extra()}</div>}
+					title={<div className="m-2 video-course-header-extra">{Extra()}</div>}
 					extra={
 						userInformation?.RoleID !== 1 ? null : (
-							<div className="vc-teach-modal_header">
-								<ModalCreateVideoCourse
-									dataTeacher={dataTeacher}
-									_onSubmit={(data: any) => createNewCourse(data)}
-									dataLevel={categoryLevel}
-									dataCategory={category}
-									dataCurriculum={dataCurriculum}
-									showAdd={false}
-									isLoading={false}
-									refeshData={() => getAllArea()}
-									tags={tags}
-									onRefeshTags={() => getTags()}
-								/>
-							</div>
+							<>
+								<div className="video-course-header-extra-btn-add-new">
+									<ModalCreateVideoCourse
+										dataTeacher={dataTeacher}
+										_onSubmit={(data: any) => createNewCourse(data)}
+										dataLevel={categoryLevel}
+										dataCategory={category}
+										dataCurriculum={dataCurriculum}
+										showAdd={false}
+										isLoading={false}
+										refeshData={() => getAllArea()}
+										tags={tags}
+										onRefeshTags={() => getTags()}
+									/>
+								</div>
+								<div className="video-course-header-extra-btn-dropdown">
+									<div className="d-flex video-course-header-extra-search">
+										<FilterVideoCourses
+											handleReset={handleReset}
+											dataLevel={categoryLevel}
+											dataCategory={category}
+											handleFilter={(value: any) => handleFilter(value)}
+										/>
+
+										<Search className="" size="large" placeholder="Tìm kiếm" onSearch={(e) => handleSearch(e)} style={{ flex: 1 }} />
+									</div>
+									<Dropdown overlay={MenuDropdown}>
+										<a onClick={(e) => e.preventDefault()}>
+											<Space>
+												<MoreVertical />
+											</Space>
+										</a>
+									</Dropdown>
+								</div>
+							</>
 						)
 					}
 				>
@@ -359,16 +414,11 @@ const VideoCourseStore = () => {
 							</div>
 						))}
 					</div>
-					{/* <div className="ml-2 size-16">
-						Được <span className="bold purple">đặt lịch thực hành luyện tập phát âm, trao đổi trực tiếp với giáo viên</span> trên hệ thống
-						phòng học online của
-						<span className="bold orange"> IELTS Nguyễn Huyền</span>
-					</div> */}
-					<>
+					<div className="container-fluid">
 						<List
 							itemLayout="horizontal"
 							dataSource={data}
-							grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 5 }}
+							grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 }}
 							renderItem={(item) => (
 								<RenderItemCard
 									loading={addToCardLoading}
@@ -390,7 +440,13 @@ const VideoCourseStore = () => {
 								onChange: getPagination,
 								total: totalPage,
 								size: 'small',
-								current: pageIndex
+								current: pageIndex,
+								showTotal: () =>
+									totalPage && (
+										<p className="font-weight-black" style={{ marginTop: 2, color: '#000' }}>
+											Tổng cộng: {totalPage}
+										</p>
+									)
 							}}
 						/>
 
@@ -415,7 +471,7 @@ const VideoCourseStore = () => {
 								</a>
 							</div>
 						</Modal>
-					</>
+					</div>
 				</Card>
 			)}
 		</div>

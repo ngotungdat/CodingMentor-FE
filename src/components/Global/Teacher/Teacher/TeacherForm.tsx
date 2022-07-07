@@ -15,7 +15,7 @@ import { useWrap } from '~/context/wrap'
 
 const defaultValuesInit = {
 	AreaID: null,
-	Branch: undefined,
+	Branch: null,
 	FullNameUnicode: '',
 	ChineseName: '',
 	LinkFaceBook: '',

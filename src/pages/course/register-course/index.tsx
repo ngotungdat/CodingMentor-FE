@@ -32,6 +32,7 @@ const RegisterCourse = (props: any) => {
 	const [visibleModalConfirm, setVisibleModalConfirm] = useState(false)
 	const [dataSubmit, setDataSubmit] = useState(null)
 	const [isFetchDataCourses, setIsFetchDataCourses] = useState(false)
+	const [selectedCourse, setSelectedCourse] = useState(null)
 
 	const fetchDataUser = () => {
 		; (async () => {
@@ -79,26 +80,27 @@ const RegisterCourse = (props: any) => {
 	}
 
 	const onSubmit = async (data: any) => {
+    console.log("🚀 ~ file: index.tsx ~ line 83 ~ onSubmit ~ data", data)
 		let temp = []
-
-		if (data?.Course !== undefined) {
-			for (let i = 0; i < data.Course.length; i++) {
-				temp.push({ BranchID: data.BranchID, CourseID: data.Course[i] })
+		
+		if (selectedCourse) {
+			for (let i = 0; i < selectedCourse.length; i++) {
+				temp.push(selectedCourse[i])
 			}
 		}
 		if (data?.ProgramID !== undefined) {
 			for (let i = 0; i < data.ProgramID.length; i++) {
-				temp.push({ BranchID: data.BranchID, ProgramID: data.ProgramID[i] })
+				temp.push({ BranchID: data.BranchID, ProgramID: data.ProgramID[i] , CourseID: 0})
 			}
 		}
-
+		
 		setDataSubmit(data)
 		setLoading(true)
 		if (option == 1) {
 			try {
 				let res = await studentExamServicesApi.add({
 					...data,
-					UserInformationID: userDetail.UserInformationID,
+					// UserInformationID: userDetail.UserInformationID,
 					billCourseDetails: temp,
 					StudentID: userDetail.UserInformationID
 				})
@@ -316,6 +318,7 @@ const RegisterCourse = (props: any) => {
 								setCourseOverStudentClone={setCourseOverStudentClone}
 								isFetchDataCourses={isFetchDataCourses}
 								form={form}
+								setSelectedCourse={setSelectedCourse}
 							/>
 						)}
 						{option == 4 && <RegCoursePayment userID={userDetail ? userDetail.UserInformationID : null} />}

@@ -19,13 +19,13 @@ export const ProfessionalManagerChildMenu = [
 				TypeItem: 'single',
 				Key: '/dashboard',
 				Route: '/dashboard',
-				Icon: '',
+				Icon: Icon.chart,
 				Text: 'Trang chủ'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/staff/salary-of-staff',
-				Icon: '',
+				Icon: Icon.secMoney,
 				Route: '/staff/salary-of-staff',
 				Text: 'Bảng lương nhân viên'
 			}

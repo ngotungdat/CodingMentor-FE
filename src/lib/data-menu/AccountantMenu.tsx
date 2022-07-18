@@ -19,27 +19,27 @@ export const AccountantChildMenu = [
 				TypeItem: 'single',
 				Key: '/newsfeed',
 				Route: '/newsfeed',
-				Icon: '',
+				Icon: Icon.news,
 				Text: 'Tin tức'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/dashboard',
 				Route: '/dashboard',
-				Icon: '',
+				Icon: Icon.chart,
 				Text: 'Thống kê'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/staff/salary-of-staff',
 				Route: '/staff/salary-of-staff',
-				Icon: '',
+				Icon: Icon.secMoney,
 				Text: 'Bảng lương nhân viên'
 			},
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-course-child-4',
-				Icon: '',
+				Icon: Icon.money,
 				TitleSub: 'Tài chính',
 				SubMenuList: [
 					{
@@ -63,7 +63,7 @@ export const AccountantChildMenu = [
 				Key: '/staff/manage-task',
 				Route: '/staff/manage-task',
 				Text: 'Quản lí công việc',
-				Icon: ''
+				Icon: Icon.more,
 			}
 		]
 	}

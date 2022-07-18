@@ -225,7 +225,11 @@ const StudentExamOfServices = React.memo((props: any) => {
 					</div>
 					<div className="col-md-6 col-12">
 						<Form.Item label="Số tiền được giảm">
-							<Input value={Intl.NumberFormat('ja-JP').format(discountPrice)} className="style-input" readOnly={true} />
+							<Input value={Intl.NumberFormat('en-AU', {
+									// style: 'currency',
+									// currency: 'AUD',
+									minimumFractionDigits: 2
+								}).format(discountPrice)} className="style-input" readOnly={true} />
 						</Form.Item>
 					</div>
 				</div>
@@ -237,7 +241,7 @@ const StudentExamOfServices = React.memo((props: any) => {
 								placeholder="Số tiền thanh toán"
 								className="style-input"
 								style={{ borderRadius: 5 }}
-								formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+								formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 								parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
 								precision={2}
 								onChange={(value: any) => {

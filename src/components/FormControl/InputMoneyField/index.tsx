@@ -44,7 +44,7 @@ const InputMoneyField = (props) => {
 						placeholder={placeholder}
 						disabled={disabled}
 						precision={2}
-						formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+						formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 						parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
 						// value={
 						//   salary.length !== 0 ? numberWithCommas(field?.value) : salary

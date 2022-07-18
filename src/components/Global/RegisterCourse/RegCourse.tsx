@@ -27,6 +27,7 @@ const RegCourse = React.memo((props: any) => {
 	const [discountStyle, setDiscountStyle] = useState(1)
 	const [branchID, setBranchID] = useState(0)
 	const [program, setProgram] = useState<IProgram[]>()
+	const [disabledSubmit, setDisabledSubmit]= useState(false)
 
 	const fetchDataSelectList = () => {
 		;(async () => {
@@ -153,6 +154,17 @@ const RegCourse = React.memo((props: any) => {
 			return sum
 		}
 		setTotalPrice(sumArray(_price))
+
+		// handle selected course
+		let selectedTemp = []
+		value?.value.forEach((item) => {
+			let temp = [...course].filter((e) => e.ID == item)
+			// @ts-ignore
+			selectedTemp.push({ BranchID: temp[0].BranchID, CourseID: temp[0].ID, ProgramID: temp[0].ProgramID })
+		})
+		if (selectedTemp.length > 0) {
+			props.setSelectedCourse(selectedTemp)
+		}
 	}
 
 	const handleChangeProgram = (value) => {
@@ -370,8 +382,8 @@ const RegCourse = React.memo((props: any) => {
 					<Form.Item label="Số tiền được giảm">
 						<Input
 							value={Intl.NumberFormat('en-AU', {
-								style: 'currency',
-								currency: 'AUD',
+								// style: 'currency',
+								// currency: 'AUD',
 								minimumFractionDigits: 2
 							}).format(discountPrice)}
 							className="style-input"
@@ -388,12 +400,18 @@ const RegCourse = React.memo((props: any) => {
 								placeholder="Số tiền thanh toán"
 								className="style-input"
 								style={{ borderRadius: 5 }}
-								formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+								formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 								parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
 								precision={2}
 								onChange={(value) => {
 									setValue('Paid', value)
 									handleMoneyLeft(value)
+									if(value > debt) {
+										showNoti('danger', 'Số tiền thanh toán lớn hơn tổng tiền!')
+										setDisabledSubmit(true)
+									}else {
+										setDisabledSubmit(false)
+									}
 								}}
 							/>
 						</Form.Item>
@@ -402,8 +420,8 @@ const RegCourse = React.memo((props: any) => {
 						<Form.Item label="Số tiền còn lại">
 							<Input
 								value={Intl.NumberFormat('en-AU', {
-									style: 'currency',
-									currency: 'AUD',
+									// style: 'currency',
+									// currency: 'AUD',
 									minimumFractionDigits: 2
 								}).format(debt)}
 								className="style-input"
@@ -417,7 +435,7 @@ const RegCourse = React.memo((props: any) => {
 			{userInformation?.RoleID !== 2 && userInformation?.RoleID !== 6 && (
 				<div className="row">
 					<div className="col-md-6 col-12">
-						<Form.Item name="PayBranchID" label="Trung tâm thanh toán">
+						<Form.Item name="PayBranchID" label="Trung tâm thanh toán" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
 							<Select className="style-input" showSearch optionFilterProp="children" allowClear={true}>
 								{branch?.map((item, index) => (
 									<Option key={index} value={item.ID}>
@@ -456,7 +474,11 @@ const RegCourse = React.memo((props: any) => {
 			</div>
 			<div className="row mt-5">
 				<div className="col-12 mt-3 text-center text-left-mobile">
-					<button type="submit" className="btn btn-primary">
+					<button type="submit" className="btn btn-primary" disabled={disabledSubmit} onClick={()=>{
+						if(disabledSubmit) {
+							showNoti('danger', 'Vui lòng nhập đúng số tiền thành toán!')
+						}
+					}}>
 						Xác nhận
 						{props.loading == true && <Spin className="loading-base" />}
 					</button>

@@ -152,7 +152,7 @@ function Layout({ children, home }: { children: React.ReactNode; home?: boolean 
 			if (getRouter.search('detail') > 0) {
 				nameRouter = 'Chi tiết'
 				if (getRouter.includes('course-list-detail')) {
-					nameRouter = 'Tên khóa học'
+					nameRouter = `${router.query.CourseName}`
 				}
 			} else {
 				nameRouter = ''

@@ -145,12 +145,8 @@ export default function Header(props: any) {
 				<div className="col-setting">
 					<ul className="col-setting-list">
 						{userInformation?.RoleID !== undefined &&
-							userInformation?.RoleID !== 1 &&
-							userInformation?.RoleID !== 2 &&
-							userInformation?.RoleID !== 4 &&
-							userInformation?.RoleID !== 5 &&
-							userInformation?.RoleID !== 6 &&
-							userInformation?.RoleID !== 10 && (
+							userInformation?.RoleID === 3 &&
+							 (
 								<li className="notification" style={{ marginRight: -10 }}>
 									<Cart />
 								</li>

@@ -19,14 +19,14 @@ export const AcademicChildMenu = [
 				TypeItem: 'single',
 				Key: '/dashboard',
 				Route: '/dashboard',
-				Icon: '',
+				Icon: Icon.chart,
 				Text: 'Trang chủ'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/staff/salary-of-staff',
 				Route: '/staff/salary-of-staff',
-				Icon: '',
+				Icon: Icon.secMoney,
 				Text: 'Bảng lương nhân viên'
 			}
 		]

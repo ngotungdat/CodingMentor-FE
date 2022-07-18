@@ -446,7 +446,7 @@ const AddTrialStudentForm = (props) => {
 													placeholder="Số tiền thanh toán"
 													className="style-input"
 													style={{ borderRadius: 5 }}
-													formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+													formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 													parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
 													precision={2}
 												/>

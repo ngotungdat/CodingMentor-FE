@@ -340,7 +340,7 @@ const ChangeCourseForm = React.memo((props: any) => {
 											placeholder="Số tiền còn lại cần phải thanh toán"
 											className="style-input"
 											style={{ borderRadius: 5 }}
-											formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+											formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 											parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
 											precision={2}
 											onChange={(value) => setValue('Paid', value)}

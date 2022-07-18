@@ -764,7 +764,7 @@ export const StaffManagerChildMenu = [
 				Key: '/question-bank/exam-list',
 				Route: '/question-bank/exam-list',
 				Text: 'Danh sách đề',
-				Icon: Icon.store
+				Icon: Icon.document
 			}
 		]
 	},

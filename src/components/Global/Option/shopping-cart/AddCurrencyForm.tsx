@@ -113,7 +113,7 @@ const AddCurrencyForm = (props) => {
 											placeholder="Nhập mệnh giá"
 											className="style-input"
 											style={{ borderRadius: 5 }}
-											formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+											formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 											parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
 											precision={2}
 											onChange={(value) => form.setFieldsValue({ ExchangeRate: value })}

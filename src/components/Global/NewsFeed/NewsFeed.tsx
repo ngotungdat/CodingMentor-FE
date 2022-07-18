@@ -644,7 +644,7 @@ const NewsFeed = () => {
 		<>
 			<TitlePage title="Tin tức" />
 			<div className="row wrap-newsfeed">
-				<div className="col-md-8 col-12">
+				<div className={userInformation?.RoleID == 9 ? 'col-12' : 'col-md-8 col-12'}>
 					<div className="list-newsfeed">
 						{filtersData.idGroup && (
 							<BannerGroup
@@ -774,16 +774,17 @@ const NewsFeed = () => {
 						</div>
 					)}
 				</div>
-
-				<div className="col-md-4 col-12">
-					<SideBarNewsFeed
-						optionList={optionList}
-						filtersData={filtersData}
-						handleBack={onBackToHomePage}
-						handleFilters={onFilters}
-						groupFormComponent={<></>}
-					/>
-				</div>
+				{userInformation?.RoleID !== 9 && (
+					<div className="col-md-4 col-12">
+						<SideBarNewsFeed
+							optionList={optionList}
+							filtersData={filtersData}
+							handleBack={onBackToHomePage}
+							handleFilters={onFilters}
+							groupFormComponent={<></>}
+						/>
+					</div>
+				)}
 			</div>
 		</>
 	)

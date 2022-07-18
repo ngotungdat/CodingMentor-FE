@@ -140,7 +140,7 @@ const SaveCreateCourseOnline = (props) => {
 										<div className="item">
 											<p>
 												<span>Giá khóa học:</span>
-												<span>{numberWithCommas(saveInfo.Price)}</span>
+												<span>{numberWithCommas(saveInfo.Price)} AUD</span>
 											</p>
 										</div>
 									</div>
@@ -148,7 +148,7 @@ const SaveCreateCourseOnline = (props) => {
 										<div className="item">
 											<p>
 												<span>Lương/buổi:</span>
-												<span>{numberWithCommas(saveInfo.SalaryOfLesson)}</span>
+												<span>{numberWithCommas(saveInfo.SalaryOfLesson)} AUD</span>
 											</p>
 										</div>
 									</div>

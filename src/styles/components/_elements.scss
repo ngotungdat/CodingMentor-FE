@@ -115,8 +115,8 @@
 }
 
 .btn {
-	padding: 0.575rem 1.25rem;
-	border-radius: 0.375rem;
+	padding: 10px 20px;
+	border-radius: 8px;
 	font-weight: 500;
 }
 
@@ -613,7 +613,7 @@ textarea.ant-input {
 	}
 
 	.ant-select-selector {
-		background-color: #f0f0f0 ;
+		background-color: #f0f0f0;
 		border: 1px solid #cccccc !important;
 		.ant-select-selection-item,
 		.ant-select-selection-placeholder {
@@ -1583,6 +1583,13 @@ hr {
 
 .page-no-scroll {
 	overflow: hidden;
+	padding: 16px;
+
+	.class-d-none {
+		@include max-media(1260px) {
+			display: none;
+		}
+	}
 
 	// visible scrollbar in tabs
 	.profile-tabs {
@@ -1604,6 +1611,155 @@ hr {
 		&::-webkit-scrollbar-thumb {
 			border-radius: 10px;
 			background-color: #b1b1b1;
+		}
+	}
+	.ant-tabs-nav-wrap {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		padding: 12px;
+		gap: 12px;
+
+		background: #ffffff;
+
+		box-shadow: 0px 4px 8px rgba(92, 103, 153, 0.2);
+		border-radius: 8px;
+		.ant-tabs-nav-list {
+			.ant-tabs-ink-bar-animated {
+				display: none;
+			}
+			.ant-tabs-tab {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				padding: 8px;
+				gap: 8px;
+
+				border-radius: 8px;
+				&:last-child {
+					.ant-tabs-tab-btn {
+
+						@include max-media(1260px) {
+							padding-right: 26px;
+						}
+					}
+				}
+				.ant-tabs-tab-btn {
+					width: 100%;
+				}
+				.course-mentor {
+					display: flex;
+					justify-content: flex-start;
+					align-items: center;
+					padding: 16px;
+					gap: 16px;
+
+					border: 0.5px solid #cccccc;
+					box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.2);
+					border-radius: 16px;
+					p {
+						margin: 0 !important;
+						font-weight: 700;
+						font-size: 16px;
+						line-height: 24px;
+						color: #c94a4f;
+					}
+				
+				}
+				.calendar-tab {
+					display: flex;
+					align-items: center;
+					justify-content: flex-start;
+					gap: 8px;
+					span {
+						font-weight: 700;
+						font-size: 16px;
+						line-height: 24px;
+						color: #000000;
+					}
+				}
+				.justify-content-start {
+					display: flex;
+					align-items: center;
+					justify-content: flex-start;
+					gap: 8px;
+					span {
+						font-weight: 700;
+						font-size: 16px;
+						line-height: 24px;
+						color: #000000;
+					}
+				}
+				&.ant-tabs-tab-active {
+					background: #fdecef;
+					position: relative;
+					&::after {
+						content: '';
+						width: 8px;
+						height: 8px;
+						background-color: #c94a4f;
+						position: absolute;
+						top: 50%;
+						right: 8px;
+						border-radius: 50%;
+						transform: translateY(-50%);
+						@include max-media(1260px) {
+							display: none;
+						}
+					}
+				}
+				&:nth-child(1) {
+					&.ant-tabs-tab-active {
+						background: #fff;
+						&::after {
+							width: 0;
+							height: 0;
+							background-color: #fff;
+							position: absolute;
+							top: 50%;
+							right: 0;
+						}
+					}
+				}
+				
+			}
+		}
+	}
+	.ant-tabs-content-holder {
+		.rbc-toolbar {
+			.rbc-btn-group {
+				button {
+					font-weight: 600;
+					font-size: 16px;
+					line-height: 24px;
+					color: #333333;
+					&:first-child {
+						border-top-left-radius: 8px;
+						border-bottom-left-radius: 8px;
+					}
+					&:last-child {
+						border-top-right-radius: 8px;
+						border-bottom-right-radius: 8px;
+					}
+				}
+			}
+			.rbc-toolbar-label {
+				font-weight: 700;
+				font-size: 16px;
+				line-height: 24px;
+				color: #333333;
+				text-transform: capitalize;
+			}
+		}
+		.rbc-month-view {
+			.rbc-date-cell {
+				a {
+					font-weight: 400;
+					font-size: 16px;
+					line-height: 24px;
+					color: #333333;
+				}
+			}
 		}
 	}
 }
@@ -2543,10 +2699,11 @@ hr {
 	}
 }
 
-.ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover{
+.ant-btn-primary[disabled],
+.ant-btn-primary[disabled]:hover {
 	color: white;
 }
 
-.tx-black{
+.tx-black {
 	color: #000 !important;
 }

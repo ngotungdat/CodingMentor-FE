@@ -56,7 +56,7 @@ const CreateCourseOfflineForm = (props) => {
 		SalaryOfLesson: null,
 		CurriculumID: null,
 		StartDay: moment().format('YYYY/MM/DD'),
-		Price: '',
+		Price: null,
 		CourseName: '',
 		TimeCourse: [{ DaySelected: null, StudyTimeID: null }]
 	}
@@ -79,7 +79,7 @@ const CreateCourseOfflineForm = (props) => {
 				const res: any = await handleGetCourse(data)
 				if (res) {
 					closeModal()
-					form.reset()
+					// form.reset()
 				}
 				break
 			default:
@@ -130,7 +130,7 @@ const CreateCourseOfflineForm = (props) => {
 								<SelectField
 									form={form}
 									name="GradeID"
-									label="chuyên môn"
+									label="Chuyên môn"
 									isRequired
 									placeholder="Chọn chuyên môn"
 									isLoading={isLoading.type === 'FETCH_DATA' && isLoading.status}

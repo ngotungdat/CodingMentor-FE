@@ -17,11 +17,31 @@ const DeleteItem = (props) => {
 		<>
 			<Tooltip title="Xóa">
 				<button className="btn btn-icon delete" onClick={() => setIsVisible(true)}>
-					<Trash />
+					<img src="/images/delete-icon.png" style={{ width: 20, height: 20 }} alt="delete icon" />
 				</button>
 			</Tooltip>
-			<Modal title={<AlertTriangle color="red" />} visible={isVisible} onOk={handleDelete} onCancel={() => setIsVisible(false)}>
-				<p className="text-confirm">Bạn có chắc muốn xóa?</p>
+			<Modal
+				title={
+					<div className="cart-icon-title p-0 m-0">
+						<img src="/images/buy-cart.png" alt="cart icon" />
+						<span className="ml-3">Giỏ hàng</span>
+					</div>
+				}
+				visible={isVisible}
+				onOk={handleDelete}
+				onCancel={() => setIsVisible(false)}
+				footer={null}
+			>
+				<div className="row">
+					<div className="col-12">
+
+				<p className="text-confirm">Bạn có chắc chắn muốn xóa?</p>
+					</div>
+					<div className="col-12 d-flex justify-content-end">
+						<button className="btn btn-light" onClick={()=>{setIsVisible(false)}}>Hủy</button>
+						<button className="btn btn-danger" onClick={()=>{handleDelete()}} style={{marginLeft: 8}}>Xóa mục</button>
+					</div>
+				</div>
 			</Modal>
 		</>
 	)

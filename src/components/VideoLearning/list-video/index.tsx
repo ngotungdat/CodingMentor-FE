@@ -42,8 +42,18 @@ const VideoList: FC<IProps> = ({ videos, onPress }) => {
 
 	return (
 		<>
-			<h4 className="none-selection on-desktop">Nội dung khóa học</h4>
+			<div className="video-course-information">
+				<p>Front End w React Native</p>
+				<p>Use XD to get a job in UI Design, User Interface, User Experience design, UX design and Web Design</p>
+				<div className="mentor">
+					<img src="/images/icons/UserUnknown.svg" alt="user icon" />
+					<p>Mentor Luan Nguyen</p>
+				</div>
+			</div>
+		
 			<hr className="on-desktop" />
+
+			<h4 className="none-selection on-desktop horizontal-video-course">Nội dung khóa học</h4>
 
 			{watching !== 0 && (
 				<List

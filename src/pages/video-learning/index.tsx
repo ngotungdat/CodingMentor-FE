@@ -102,6 +102,7 @@ const VideoLearning = () => {
 
 	// // DRAWER VIDEO LIST STATE
 	const [visible, setVisible] = useState(false)
+    console.log("🚀 ~ file: index.tsx ~ line 105 ~ VideoLearning ~ visible", visible)
 
 	function Iframe(props) {
 		const { src } = props
@@ -118,15 +119,14 @@ const VideoLearning = () => {
 		)
 	}
 
-	console.log('--- RENDER: ', numberRender)
 	numberRender = numberRender + 1
 
 	// RENDER
 	return (
 		<div className="w-video-learning custom-scroll-bar">
-			<HeaderVideo params={router.query} onClick={() => setVisible(!visible)} />
+			<HeaderVideo params={router.query} handleShowDrawer={() => setVisible(!visible)} />
 			<div className="row w-100 m-0 p-0 pt-3 w-main">
-				<div className="col-md-9 col-12 scrollable">
+				<div className="col-xl-9 col-12 scrollable">
 					<Card className="card-main box-shadow">
 						{!!currentVideo ? (
 							<div className="video">
@@ -143,7 +143,7 @@ const VideoLearning = () => {
 					</Card>
 				</div>
 
-				<div className="col-md-3 col-12 scrollable">
+				<div className="col-xl-3 col-0 scrollable">
 					<Card className="w-100 card-list box-shadow">
 						<VideoList
 							onPress={(p) => {
@@ -161,7 +161,7 @@ const VideoLearning = () => {
 				placement="right"
 				onClose={() => setVisible(false)}
 				visible={visible}
-				className="video-drawer custom-scroll-bar"
+				// className="video-drawer custom-scroll-bar"
 				headerStyle={{
 					paddingTop: 24,
 					paddingBottom: 24,

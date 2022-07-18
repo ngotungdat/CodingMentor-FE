@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd'
+import { Form, InputNumber } from 'antd'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { Controller } from 'react-hook-form'
@@ -6,7 +6,7 @@ import { parseToMoney } from '~/utils/functions'
 import { numberWithCommas } from './../../../utils/functions/index'
 
 const InputMoneyField = (props) => {
-	const { form, name, label, placeholder, disabled, handleChange, style, className, isRequired } = props
+	const { form, name, label, placeholder, disabled, handleChange, style, className, isRequired, rules } = props
 
 	const { errors } = form.formState
 	const hasError = errors[name]
@@ -18,48 +18,40 @@ const InputMoneyField = (props) => {
 
 	const [salary, setSalary] = useState('')
 
-	useEffect(() => {
-		const value = salary
-		if (value !== null && value !== undefined) {
-			setSalary(parseToMoney(value.replace(/[^0-9\.]+/g, '')))
-		}
-	}, [salary])
+	// useEffect(() => {
+	//   const value = salary;
+	//   if (value !== null && value !== undefined) {
+	//     setSalary(parseToMoney(value.replace(/[^0-9\.]+/g, "")));
+	//   }
+	// }, [salary]);
 
 	return (
 		<Form.Item
 			style={style}
 			label={label}
-			className={`${className} ${hasError ? 'ant-form-item-with-help ant-form-item-has-error' : ''}`}
+			className={`${hasError ? 'ant-form-item-with-help ant-form-item-has-error' : ''}`}
 			required={isRequired}
 		>
 			<Controller
 				name={name}
+				rules={rules}
 				control={form.control}
 				render={({ field }) => (
-					<Input
+					<InputNumber
 						{...field}
-						className="style-input"
-						allowClear={true}
+						className="style-input w-100"
+						style={{ borderRadius: 5 }}
 						placeholder={placeholder}
 						disabled={disabled}
-						value={salary.length === 0 ? numberWithCommas(field?.value) : salary}
-						onChange={(e) => {
-							setSalary(e.target.value)
-							field.onChange(e.target.value.toLocaleString())
-						}}
-
+						precision={2}
+						formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+						parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+						// value={
+						//   salary.length !== 0 ? numberWithCommas(field?.value) : salary
+						// }
 						// onChange={(e) => {
-						// 	console.log(e.target.value);
-
-						// 	let convertValue = e.target.value.toString();
-						// 	// parseToMoney(value.replace(/[^0-9\.]+/g, ''))
-						// 	let value = parseToMoney(convertValue.replace(/[^0-9\.]+/g, ''));
-
-						// 	if (!isNaN(value)) {
-						// 		field.onChange(value.toLocaleString());
-						// 	} else {
-						// 		field.onChange('');
-						// 	}
+						//   setSalary(e.target.value);
+						//   field.onChange(e.target.value.toLocaleString());
 						// }}
 					/>
 				)}
@@ -81,7 +73,8 @@ InputMoneyField.propTypes = {
 	handleChange: PropTypes.func,
 	style: PropTypes.shape({}),
 	className: PropTypes.string,
-	isRequired: PropTypes.bool
+	isRequired: PropTypes.bool,
+    rules: PropTypes.object
 }
 InputMoneyField.defaultProps = {
 	label: '',

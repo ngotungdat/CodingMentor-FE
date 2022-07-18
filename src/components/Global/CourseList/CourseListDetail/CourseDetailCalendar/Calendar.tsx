@@ -2,14 +2,15 @@ import { Button, Popover, Spin } from 'antd'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import CloseZoomRoom from '~/components/Global/ManageZoom/ZoomRoom/CloseZoomRoom'
 import ZoomRecordModal from '~/components/Global/ManageZoom/ZoomRoom/ZoomRecordModal'
 import { useWrap } from '~/context/wrap'
 import CourseDetailUploadFile from './CourseDetailUploadFile'
-moment.locale('vi')
+moment.locale('vi-VN')
+console.log("🚀 ~ file: Calendar.tsx ~ line 13 ~ moment.locale('vi-VN')", moment.locale('vi-VN'))
 const localizer = momentLocalizer(moment)
 
 CDCalendar.propTypes = {
@@ -392,18 +393,19 @@ function CDCalendar(props) {
 				style={{
 					backgroundColor:
 						TeacherAttendanceID !== 0
-							? '#80DEEA'
+							? '#4DF6A5'
 							: IsExam !== undefined && IsExam == true
-							? '#FF9800'
+							? '#C74AC9'
 							: checkDate == 0
 							? btnID == undefined || btnID == null || btnID == ''
-								? '#fac10a'
+								? '#333333'
 								: btnID == 3
-								? '#bdbdbd'
-								: '#fac10a'
+								? '#C94A4F'
+								: '#333333'
 							: checkDate == -1
-							? '#bdbdbd'
-							: '#3174ad'
+							? '#C94A4F'
+							: '#0A89FF',
+					color:'#fff',
 				}}
 			>
 				<Popover
@@ -707,6 +709,17 @@ function CDCalendar(props) {
 				<Calendar
 					className="custom-calendar"
 					localizer={localizer}
+					messages={{
+						week: 'Tuần',
+						work_week: '',
+						day: 'Ngày',
+						month: 'Tháng',
+						previous: 'Trước',
+						next: 'Sau',
+						today: 'Hôm nay',
+						agenda: 'Agenda',
+						showMore: (total) => `+${total} Xem thêm`
+					}}
 					events={eventList}
 					startAccessor="start"
 					endAccessor="end"
@@ -719,7 +732,10 @@ function CDCalendar(props) {
 					handleDragStart={() => null}
 					formats={{
 						agendaDateFormat: 'DD/MM/YYYY',
-						monthHeaderFormat: (date) => moment(date).format('MM/YYYY'),
+						monthHeaderFormat: (date) => {
+							moment.locale('en')
+							return moment(date).format('MMMM YYYY')
+						},
 						dayHeaderFormat: (date) => {
 							const dayArr = ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']
 							const dayOffWeek = dayArr[moment(date).day()]
@@ -734,7 +750,7 @@ function CDCalendar(props) {
 						},
 						agenda: { event: styleAgenda }
 					}}
-					messages={{}}
+					// messages={{}}
 				/>
 			</Spin>
 			{isUploadDocument && (
@@ -755,15 +771,15 @@ function CDCalendar(props) {
 			)}
 
 			<div className="row m-0 p-0 pt-3" style={{ alignItems: 'center' }}>
-				<div style={{ width: 15, height: 15, backgroundColor: '#3174ad', marginRight: 10 }} />
+				<div style={{ width: 15, height: 15, backgroundColor: '#0A89FF', marginRight: 10, borderRadius: 4 }} />
 				<div>Chưa học</div>
-				<div style={{ width: 15, height: 15, backgroundColor: '#fac10a', marginRight: 10, marginLeft: 10 }} />
+				<div style={{ width: 15, height: 15, backgroundColor: '#333333', marginRight: 10, marginLeft: 10, borderRadius: 4 }} />
 				<div>Buổi học trong ngày</div>
-				<div style={{ width: 15, height: 15, backgroundColor: '#FF9800', marginRight: 10, marginLeft: 10 }} />
+				<div style={{ width: 15, height: 15, backgroundColor: '#C74AC9', marginRight: 10, marginLeft: 10, borderRadius: 4 }} />
 				<div>Kiểm tra</div>
-				<div style={{ width: 15, height: 15, backgroundColor: '#bdbdbd', marginRight: 10, marginLeft: 10 }} />
+				<div style={{ width: 15, height: 15, backgroundColor: '#C94A4F', marginRight: 10, marginLeft: 10, borderRadius: 4 }} />
 				<div>Chưa điểm danh</div>
-				<div style={{ width: 15, height: 15, backgroundColor: '#80DEEA', marginRight: 10, marginLeft: 10 }} />
+				<div style={{ width: 15, height: 15, backgroundColor: '#4DF6A5', marginRight: 10, marginLeft: 10, borderRadius: 4 }} />
 				<div>Đã điểm danh</div>
 			</div>
 		</div>

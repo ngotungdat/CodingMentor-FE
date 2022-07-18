@@ -55,27 +55,27 @@ export const StaffManagerChildMenu = [
 				TypeItem: 'single',
 				Key: '/dashboard',
 				Route: '/dashboard',
-				Icon: '',
-				Text: 'Thống kê'
+				Text: 'Thống kê',
+				Icon: Icon.chartUp
 			},
 			{
 				TypeItem: 'single',
 				Key: '/newsfeed',
 				Route: '/newsfeed',
-				Icon: '',
+				Icon: Icon.news,
 				Text: 'Tin tức'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/course/schedule-study-teacher',
-				Icon: '',
+				Icon: Icon.calendar,
 				Route: '/course/schedule-study-teacher',
 				Text: 'Lịch dạy'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/teacher/day-off-schedule',
-				Icon: '',
+				Icon: Icon.calendar,
 				Route: '/teacher/day-off-schedule',
 				Text: 'Lịch nghỉ'
 			}
@@ -89,13 +89,13 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-course',
-				Icon: '<span class="anticon"><img src="/images/icons/study-course.svg" ></span>',
+				Icon: Icon.category,
 				TitleSub: 'Quản lí khóa học',
 				SubMenuList: [
 					{
 						ItemType: 'single',
-						Key: '/course/create-course',
-						Route: '/course/create-course',
+						Key: '/course/create-course-offline',
+						Route: '/course/create-course-offline',
 						Text: 'Tạo khóa học offline',
 						Icon: ''
 					},
@@ -132,8 +132,8 @@ export const StaffManagerChildMenu = [
 			{
 				TypeItem: 'single',
 				Key: '/course/schedule-study',
-				Icon: '<span class="anticon"><img src="/images/icons/calendar.svg"></span>',
 				Route: '/course/schedule-study',
+				Icon: Icon.calendar,
 				Text: 'Kiểm tra lịch'
 			},
 			//   {
@@ -160,15 +160,15 @@ export const StaffManagerChildMenu = [
 			{
 				TypeItem: 'single',
 				Key: '/course/register-course',
-				Icon: '<span class="anticon"><img src="/images/icons/shopping-bag.svg"></span>',
 				Route: '/course/register-course',
+				Icon: Icon.add,
 				Text: 'Đăng ký khóa học'
 			},
 
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-course-zoom',
-				Icon: '<span class="anticon"><img src="/images/icons/zoom-video.svg" ></span>',
+				Icon: Icon.settings,
 				TitleSub: 'Quản lý Zoom',
 				SubMenuList: [
 					{
@@ -197,8 +197,8 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'video-course',
-				Icon: '<span class="anticon"><img src="/images/icons/zoom-video.svg" ></span>',
 				TitleSub: 'Khóa học video',
+				Icon: Icon.video,
 				SubMenuList: [
 					{
 						TypeItem: 'single',
@@ -255,8 +255,8 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-course-child',
-				Icon: '<span class="anticon"><img src="/images/icons/users.svg"></span>',
 				TitleSub: 'Học viên',
+				Icon: Icon.customer,
 				SubMenuList: [
 					{
 						ItemType: 'single',
@@ -341,7 +341,7 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-parants',
-				Icon: '<span class="anticon"><img src="/images/icons/users.svg"></span>',
+				Icon: Icon.parent,
 				TitleSub: 'Phụ Huynh',
 				SubMenuList: [
 					{
@@ -386,7 +386,7 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-course-child-3',
-				Icon: '<span class="anticon"><img src="/images/icons/user.svg"></span>',
+				Icon: Icon.userEclips,
 				TitleSub: 'Báo cáo học viên',
 				SubMenuList: [
 					{
@@ -415,7 +415,7 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-course-child-4',
-				Icon: '<span class="anticon"><img src="/images/icons/dollar-sign.svg"></span>',
+				Icon: Icon.money,
 				TitleSub: 'Tài chính',
 				SubMenuList: [
 					{
@@ -452,6 +452,13 @@ export const StaffManagerChildMenu = [
 						Route: '/customer/finance/finance-cashier-invoice',
 						Text: 'Phiếu thu',
 						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/customer/contract/contract-customer-list',
+						Route: '/customer/contract/contract-customer-list',
+						Text: 'Học viên có hợp đồng',
+						Icon: ''
 					}
 					// {
 					//   ItemType: "single",
@@ -461,14 +468,8 @@ export const StaffManagerChildMenu = [
 					//   Icon: "",
 					// },
 				]
-			},
-			{
-				ItemType: 'single',
-				Key: '/customer/contract/contract-customer-list',
-				Route: '/customer/contract/contract-customer-list',
-				Text: 'Học viên có hợp đồng',
-				Icon: '<span class="anticon"><img src="/images/icons/clipboard.svg"></span>'
 			}
+
 			// {
 			// 	ItemType: 'single',
 			// 	Key: '/customer/certificate-list',
@@ -511,7 +512,7 @@ export const StaffManagerChildMenu = [
 				Key: '/document-list',
 				Route: '/document-list',
 				Text: 'Danh sách tài liệu',
-				Icon: ''
+				Icon: Icon.document
 			}
 		]
 	},
@@ -523,7 +524,7 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-staff-child-1',
-				Icon: '',
+				Icon: Icon.staff,
 				TitleSub: 'Nhân viên',
 				SubMenuList: [
 					{
@@ -549,18 +550,10 @@ export const StaffManagerChildMenu = [
 					// }
 				]
 			},
-			// {
-			// 	ItemType: 'single',
-			// 	Key: '/staff/salary-review',
-			// 	Route: '/staff/salary-review',
-			// 	Text: 'Bảng lương nhân viên',
-			// 	Icon: ''
-			// },
-
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-staff-child-2',
-				Icon: '',
+				Icon: Icon.firstList,
 				TitleSub: 'Giáo viên',
 				SubMenuList: [
 					{
@@ -570,50 +563,6 @@ export const StaffManagerChildMenu = [
 						Text: 'Giáo viên',
 						Icon: ''
 					}
-
-					// {
-					//   ItemType: "single",
-					//   Key: "/staff/exercise-done-list",
-					//   Route: "/staff/exercise-done-list",
-					//   Text: "Bài đã chấm",
-					//   Icon: "",
-					// },
-					// {
-					//   ItemType: "single",
-					//   Key: "/staff/exercise-check-list",
-					//   Route: "/staff/exercise-check-list",
-					//   Text: "Duyệt bài",
-					//   Icon: "",
-					// },
-					// {
-					//   ItemType: "single",
-					//   Key: "/staff/teach-hours-list",
-					//   Route: "/staff/teach-hours-list",
-					//   Text: "Giờ dạy giáo viên",
-					//   Icon: "",
-					// },
-					// {
-					//   ItemType: "single",
-					//   Key: "/staff/teach-hours-center",
-					//   Route: "/staff/teach-hours-center",
-					//   Text: "Giờ dạy GV theo trung tâm",
-					//   Icon: "",
-					// },
-					// {
-					//   ItemType: "single",
-					//   Key: "/staff/cost-list",
-					//   Route: "/staff/cost-list",
-					//   Text: "Giá vốn hàng bán",
-					//   Icon: "",
-					// },
-					// {
-					//   ItemType: "single",
-					//   Key: "/staff/teacher-salary-list",
-					//   Route: "/staff/teacher-salary-list",
-					//   Text: "Chi phí lương giáo viên",
-					//   Icon: "",
-					// },
-					// add more
 				]
 			},
 			{
@@ -621,26 +570,26 @@ export const StaffManagerChildMenu = [
 				Key: '/staff/teacher-salary',
 				Route: '/staff/teacher-salary',
 				Text: 'Bảng lương giáo viên',
-				Icon: ''
+				Icon: Icon.secMoney
 			},
 			{
 				ItemType: 'single',
 				Key: '/staff/admin-salary-staff',
 				Route: '/staff/admin-salary-staff',
 				Text: 'Bảng lương nhân viên',
-				Icon: ''
+				Icon: Icon.secMoney
 			},
 			{
 				ItemType: 'single',
 				Key: '/feedback',
 				Route: '/feedback',
 				Text: 'Danh sách phản hồi',
-				Icon: ''
+				Icon: Icon.star
 			},
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-list-staff-child-3',
-				Icon: '',
+				Icon: Icon.saler,
 				TitleSub: 'Tư vấn viên',
 				SubMenuList: [
 					{
@@ -692,7 +641,7 @@ export const StaffManagerChildMenu = [
 				Key: '/staff/manage-task',
 				Route: '/staff/manage-task',
 				Text: 'Quản lí công việc',
-				Icon: ''
+				Icon: Icon.category
 			}
 		]
 	},
@@ -704,7 +653,7 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-package-1',
-				Icon: '',
+				Icon: Icon.store,
 				TitleSub: 'Quản lí bộ đề',
 				SubMenuList: [
 					{
@@ -734,7 +683,7 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-package-2',
-				Icon: '',
+				Icon: Icon.customer,
 				TitleSub: 'Thuộc về học viên',
 				SubMenuList: [
 					{
@@ -808,14 +757,14 @@ export const StaffManagerChildMenu = [
 				Key: '/question-bank/question-list',
 				Route: '/question-bank/question-list',
 				Text: 'Danh sách câu hỏi',
-				Icon: ''
+				Icon: Icon.secList
 			},
 			{
 				ItemType: 'single',
 				Key: '/question-bank/exam-list',
 				Route: '/question-bank/exam-list',
 				Text: 'Danh sách đề',
-				Icon: ''
+				Icon: Icon.store
 			}
 		]
 	},
@@ -827,7 +776,7 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-1',
-				Icon: '',
+				Icon: Icon.home,
 				TitleSub: 'Địa chỉ',
 				SubMenuList: [
 					{
@@ -849,7 +798,7 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-2',
-				Icon: '',
+				Icon: Icon.promiseTest,
 				TitleSub: 'Dịch vụ',
 				SubMenuList: [
 					{
@@ -878,7 +827,7 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-4',
-				Icon: '',
+				Icon: Icon.education,
 				TitleSub: 'Cấu hình học',
 				SubMenuList: [
 					{
@@ -920,7 +869,7 @@ export const StaffManagerChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-3',
-				Icon: '',
+				Icon: Icon.more,
 				TitleSub: 'Khác',
 				SubMenuList: [
 					{

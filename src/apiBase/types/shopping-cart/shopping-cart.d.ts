@@ -4,6 +4,7 @@ type IShoppingCart = IBaseApi<{
 	VideoCourseName: string;
 	ImageThumbnails: string;
 	Price: number;
+	OriginalPrice: number;
 	Quantity: number;
 	ExpiryDays: number;
 }>;

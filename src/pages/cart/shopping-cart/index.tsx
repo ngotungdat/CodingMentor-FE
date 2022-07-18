@@ -21,6 +21,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import _ from '~/appConfig'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import Cart from '~/components/Header/cart'
+import Notification from '~/components/Header/notification'
 
 const ShoppingCart = () => {
 	const { userInformation } = useWrap()
@@ -170,83 +172,69 @@ const ShoppingCart = () => {
 	const renderCartItems = () => {
 		return (
 			<div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-				<div className="d-flex justify-content-between">
-					<h2 className="mb-4" style={{ color: _.primaryColor }}>
-						<FontAwesomeIcon icon={faCartShopping as IconProp} /> <span className="ml-3">Giỏ hàng</span>
-					</h2>
-				</div>
-
 				{cartItems?.map((item, index) => (
-					<div className="cart__item d-flex justify-content-between align-items-center row " key={index}>
-						<div
-							onClick={() =>
-								router.push({
-									pathname: '/video-course/[slug]',
-									query: { slug: item.VideoCourseID, Thum: item.ImageThumbnails, Sell: item.Price }
-								})
-							}
-							style={{ cursor: 'pointer' }}
-						>
-							<Avatar
-								style={{ width: 80, height: 80, padding: 0, margin: 0 }}
-								src={item.ImageThumbnails && item.ImageThumbnails.length ? item.ImageThumbnails : '/images/logo-square.png'}
-							/>
-						</div>
-
-						<Tooltip title={item.VideoCourseName}>
-							<div className="cart__item-detail d-none d-sm-inline-block mt-sm-0 mb-sm-0">
-								<h5 className="limit-text-two-line">{item.VideoCourseName}</h5>
-							</div>
-						</Tooltip>
-
-						<div className="cart__item-detail d-none d-sm-inline-block mt-sm-0 mb-sm-0">
-							<h5 style={{ fontSize: 14 }}>Hạn: {item.ExpiryDays} ngày</h5>
-						</div>
-
-						<div className="cart__item-action d-none d-sm-inline-block d-none d-sm-inline-block col-sm-2">
-							<QuantityOfItems item={item} index={index} decreseItem={decreseItem} increseItem={increseItem} />
-						</div>
-
-						<div className="price d-none d-sm-inline-block">
-							<p className="font-weight-primary">{numberWithCommas(item.Price * item.Quantity)} VND</p>
-						</div>
-
-						<div className="cart__item-remove d-none d-sm-inline-block col-sm-1">
-							<DeleteItem onDelete={() => deleteItem(item.ID)} />
-						</div>
-
-						<div className="col-8 d-sm-none">
-							<div className="cart__item-detail col-12 col-sm-3 mt-3  mt-sm-0 mb-sm-0 limit-text-two-line">
-								<h5>{item.VideoCourseName}</h5>
+					<div className="cart__item" key={index}>
+						<div className="cart__item-left">
+							<div
+								onClick={() =>
+									router.push({
+										pathname: '/video-course/[slug]',
+										query: { slug: item.VideoCourseID, Thum: item.ImageThumbnails, Sell: item.Price }
+									})
+								}
+								style={{ cursor: 'pointer' }}
+							>
+								<Avatar
+									style={{ width: 120, height: 120, borderRadius: 24, padding: 0, margin: 0 }}
+									src={item.ImageThumbnails && item.ImageThumbnails.length ? item.ImageThumbnails : '/images/logo-square.png'}
+								/>
 							</div>
 
-							<div className="cart__item-detail col-12 col-sm-3 mt-3  mt-sm-0 mb-sm-0">
-								<h5 style={{ fontSize: 14 }}>Hạn: {item.ExpiryDays} ngày</h5>
-							</div>
+							<div className="cart__item-detail">
+								<Tooltip title={item.VideoCourseName}>
+									<div className="cart__item-detail-name">
+										<p className="limit-text-two-line">{item.VideoCourseName}</p>
+									</div>
+								</Tooltip>
 
-							<div className="cart__item-price">
-								<p className="font-weight-primary">{numberWithCommas(item.Price * item.Quantity)} VND</p>
-							</div>
-
-							<div className="row mt-3">
-								<div className="cart__item-action pl-3 pl-md-5  col-8 col-sm-2">
-									<QuantityOfItems item={item} index={index} decreseItem={decreseItem} increseItem={increseItem} />
+								<div className="cart__item-detail-expire">
+									<p>Hạn sử dụng: {item.ExpiryDays} ngày</p>
 								</div>
-								<div className="cart__item-remove col-4 col-sm-1">
+							</div>
+						</div>
+
+						<div className="cart__item-right">
+							<div className="cart__item-action">
+								<QuantityOfItems item={item} index={index} decreseItem={decreseItem} increseItem={increseItem} />
+							</div>
+
+							<div className="price">
+								<p className="">{numberWithCommas(item.Price * item.Quantity)} VND</p>
+								<p className="">{numberWithCommas(item.OriginalPrice * item.Quantity)} VND</p>
+							</div>
+
+							<div className="cart__item-action-mobile">
+								<QuantityOfItems item={item} index={index} decreseItem={decreseItem} increseItem={increseItem} />
+
+								<div className="cart__item-remove">
 									<DeleteItem onDelete={() => deleteItem(item.ID)} />
 								</div>
+							</div>
+
+							<div className="cart__item-remove">
+								<DeleteItem onDelete={() => deleteItem(item.ID)} />
 							</div>
 						</div>
 					</div>
 				))}
-				<div style={{ flex: 1 }} />
 				<button
-					className="btn btn-primary mt-5"
+					style={{ display: 'inline-block', width: 210, paddingBottom: 4 }}
+					className="btn"
 					onClick={() => {
 						router.push('/video-course')
 					}}
 				>
-					Mua thêm khóa học
+					<img src="/images/plus-icon.png" style={{ marginRight: 8, marginBottom: 4 }} alt="plus" /> Mua thêm sản phẩm
 				</button>
 			</div>
 		)
@@ -255,36 +243,81 @@ const ShoppingCart = () => {
 	const menuDropdown = () => {
 		return (
 			<>
-				<div className="menu__dropdown d-inline-block d-md-none" style={{ width: 300 }}>
+				<div className="menu__dropdown d-inline-block d-md-none" style={{ width: 162 }}>
 					<div className="d-inline-block d-md-none ">
-						<Search
-							onChange={(event) => {}}
-							name="CourseSearch"
-							placeholder="Tìm khóa học"
-							className="style-input mb-3"
-							allowClear
-							enterButton={<SearchOutlined />}
-							size="large"
-						/>
-						<Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
-							<div className="user-wrap">
-								<div className="user-info">
-									{!!userInformation ? (
-										<div className="user-wrap">
-											<div className="user-img">
-												<img src={userInformation?.Avatar ? userInformation.Avatar : '/images/icons/UserUnknown.svg'} alt="" />
-											</div>
-											<div className="user-info">
-												<p className="user-name">{userInformation?.FullNameUnicode}</p>
-												<p className="user-position">{userInformation?.RoleName}</p>
-											</div>
+						<div className="user-wrap">
+							<div className="user-info">
+								{!!userInformation ? (
+									<div className="user-wrap">
+										<div className="user-img">
+											<img src={userInformation?.Avatar ? userInformation.Avatar : '/images/icons/UserUnknown.svg'} alt="" />
 										</div>
-									) : (
-										<p>Tài khoản</p>
-									)}
-								</div>
+										<div className="user-info">
+											<p className="user-name">{userInformation?.FullNameUnicode}</p>
+											<p className="user-position">{userInformation?.RoleName}</p>
+										</div>
+									</div>
+								) : (
+									<p>Tài khoản</p>
+								)}
 							</div>
-						</Popover>
+						</div>
+
+						<hr />
+
+						{!!userInformation ? (
+							<ul className="user-function">
+								<li>
+									<Link href="/profile">
+										<a href="">
+											<span className="icon">
+												<UserOutlined />
+											</span>
+											<span className="function-name">Trang cá nhân</span>
+										</a>
+									</Link>
+								</li>
+								<li>
+									<Link href="/change-password">
+										<a href="#">
+											<span className="icon inbox">
+												<RedoOutlined />
+											</span>
+											<span className="function-name">Đổi mật khẩu</span>
+										</a>
+									</Link>
+								</li>
+								<li>
+									<a href="#" onClick={() => (signOut(), localStorage.removeItem('dataUserEchinese'))}>
+										<span className="icon logout">
+											<LogoutOutlined />
+										</span>
+										<span className="function-name">Log out</span>
+									</a>
+								</li>
+							</ul>
+						) : (
+							<ul className="user-function">
+								<li>
+									<a href="#" onClick={moveToLogin}>
+										<span className="icon">
+											<LoginOutlined />
+										</span>
+										<span className="function-name">Đăng nhập</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span className="icon inbox">
+											<FormOutlined />
+										</span>
+										<span className="function-name">Đăng kí</span>
+									</a>
+								</li>
+							</ul>
+						)}
+						{/* <Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
+						</Popover> */}
 					</div>
 				</div>
 			</>
@@ -299,19 +332,26 @@ const ShoppingCart = () => {
 		<div className="shopping-wrap-all-content">
 			<header>
 				<div className="shopping__cart-header justify-content-between align-items-center row">
-					<div className="header__logo col-6 col-md-3">
+					<div className="header__logo col-4 col-md-3">
 						<Link href="/">
 							<a href="#">
-								<img className="logo-img" src="/images/logo-square.png" alt="logo branch"></img>
+								<img className="logo-img" src="/images/logo.png" alt="logo branch"></img>
 							</a>
 						</Link>
 					</div>
 
-					<div className="header__profile col-2 col-md-3">
+					<div className="header__profile col-8 col-md-8">
 						<div className="col-setting">
 							<ul className="col-setting-list">
+								<li className="notification cart">
+									<Cart />
+								</li>
+								<li className="notification">
+									<Notification />
+								</li>
+								<li className="vertical"></li>
 								<li className="user">
-									<div className="d-inline-block d-md-none  w-25 ">
+									<div className="d-inline-block d-md-none  w-25">
 										<Dropdown overlay={menuDropdown} trigger={['click']} visible={dropDownVisible}>
 											<a
 												className="ant-dropdown-link"
@@ -332,11 +372,11 @@ const ShoppingCart = () => {
 													{!!userInformation ? (
 														<div className="user-wrap">
 															<div className="user-img">
-																<img src={dataUser?.Avatar ? dataUser.Avatar : '/images/icons/UserUnknown.svg'} alt="" />
+																<img src={userInformation?.Avatar ? userInformation.Avatar : '/images/icons/UserUnknown.svg'} alt="" />
 															</div>
 															<div className="user-info">
-																<p className="user-name">{dataUser?.FullNameUnicode}</p>
-																<p className="user-position">{dataUser?.RoleName}</p>
+																<p className="user-name">{userInformation?.FullNameUnicode}</p>
+																<p className="user-position">{userInformation?.RoleName}</p>
 															</div>
 														</div>
 													) : (
@@ -353,31 +393,48 @@ const ShoppingCart = () => {
 				</div>
 			</header>
 
-			<div className="shopping__cart-body">
-				{isLoading.loading && isLoading.status == 'GET_CART_DATA' ? (
-					<Skeleton active />
-				) : (
-					<div className="shopping__cart-content row m-0 p-0">
-						<div className="shopping__cart-items" style={{ marginLeft: 10, marginRight: -10 }}>
-							{renderCartItems()}
-						</div>
+			<div className="shopping-wrap-content">
+				<div className="cart-icon-title">
+					<img src="/images/buy-cart.png" alt="cart icon" />
+					<span className="ml-3">Giỏ hàng</span>
+				</div>
 
-						<div className="shopping__cart-total">
-							<div className="row">
-								<h5 className="col-4 pr-0">Tổng cộng: </h5>
-								<h5 className="font-weight-primary col-8">
-									{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))}
-									<span className="ml-2">VND</span>
-								</h5>
+				<div className="shopping__cart-body">
+					{isLoading.loading && isLoading.status == 'GET_CART_DATA' ? (
+						<Skeleton active />
+					) : (
+						<div className="shopping__cart-content row m-0 p-0">
+							<div className="shopping__cart-items">{renderCartItems()}</div>
+
+							<div className="shopping__cart-total">
+								<div className="price">
+									<div className="price-item">
+										<p className="">Tổng cộng: </p>
+										<p className="">{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.OriginalPrice * b.Quantity), 0))} VND</p>
+									</div>
+
+									<div className="price-item">
+										<p className="">Giảm: </p>
+										<p className="price-red">{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.OriginalPrice * b.Quantity), 0) - cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))} VND</p>
+									</div>
+
+									<div className="horizontal"></div>
+
+									<div className="price-item">
+										<p className="">Thanh toán: </p>
+										<p className="price-red">{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))} VND</p>
+									</div>
+
+									<Link href="/cart/check-out">
+										<button disabled={!!cartItems && cartItems.length == 0 ? true : false} className="btn btn-primary w-100">
+											Đi đến thanh toán
+										</button>
+									</Link>
+								</div>
 							</div>
-							<Link href="/cart/check-out">
-								<button disabled={!!cartItems && cartItems.length == 0 ? true : false} className="btn btn-primary w-100">
-									Thanh toán
-								</button>
-							</Link>
 						</div>
-					</div>
-				)}
+					)}
+				</div>
 			</div>
 		</div>
 	)

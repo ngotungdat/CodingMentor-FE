@@ -1,27 +1,27 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Form, Spin } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { staffSalaryApi } from '~/apiBase';
-import InputMoneyField from '~/components/FormControl/InputMoneyField';
-import InputTextField from '~/components/FormControl/InputTextField';
-import SelectField from '~/components/FormControl/SelectField';
-import { useWrap } from '~/context/wrap';
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Form, Spin } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { staffSalaryApi } from '~/apiBase'
+import InputMoneyField from '~/components/FormControl/InputMoneyField'
+import InputTextField from '~/components/FormControl/InputTextField'
+import SelectField from '~/components/FormControl/SelectField'
+import { useWrap } from '~/context/wrap'
 
-let returnSchemaSalary = {};
-let schemaSalary = null;
+let returnSchemaSalary = {}
+let schemaSalary = null
 
 interface listData {
-	Area: Array<Object>;
-	DistrictID: Array<Object>;
-	WardID: Array<Object>;
-	Role: Array<Object>;
-	Branch: Array<Object>;
-	Purposes: Array<Object>;
-	SourceInformation: Array<Object>;
-	Parent: Array<Object>;
-	Counselors: Array<Object>;
+	Area: Array<Object>
+	DistrictID: Array<Object>
+	WardID: Array<Object>
+	Role: Array<Object>
+	Branch: Array<Object>
+	Purposes: Array<Object>
+	SourceInformation: Array<Object>
+	Parent: Array<Object>
+	Counselors: Array<Object>
 }
 
 const optionGender = [
@@ -37,9 +37,9 @@ const optionGender = [
 		value: 0,
 		title: 'Khác'
 	}
-];
+]
 
-let statusAdd = 'add-staff';
+let statusAdd = 'add-staff'
 
 const SalaryForm = (props) => {
 	const {
@@ -51,17 +51,17 @@ const SalaryForm = (props) => {
 		onSubmitSalary,
 		submitSalary,
 		changeVisible
-	} = props;
-	const [isModalVisible, setIsModalVisible] = useState(false);
-	const { showNoti } = useWrap();
+	} = props
+	const [isModalVisible, setIsModalVisible] = useState(false)
+	const { showNoti } = useWrap()
 	const [isLoading, setIsLoading] = useState({
 		type: '',
 		status: false
-	});
+	})
 	const showModal = () => {
-		setIsModalVisible(true);
-		rowID && getIndex(index);
-	};
+		setIsModalVisible(true)
+		rowID && getIndex(index)
+	}
 
 	// FORM SALARY
 	const valueSalary = {
@@ -69,50 +69,50 @@ const SalaryForm = (props) => {
 		UserInformationID: null,
 		Style: null, //1 lương theo tháng , 2 lương theo giờ
 		FullNameUnicode: null
-	};
+	}
 
-	(function returnSchemaSalaryFunc() {
-		returnSchemaSalary = { ...valueSalary };
+	;(function returnSchemaSalaryFunc() {
+		returnSchemaSalary = { ...valueSalary }
 		Object.keys(returnSchemaSalary).forEach(function (key) {
-			returnSchemaSalary[key] = yup.mixed().required('Bạn không được để trống');
-		});
+			returnSchemaSalary[key] = yup.mixed().required('Bạn không được để trống')
+		})
 
-		schemaSalary = yup.object().shape(returnSchemaSalary);
-	})();
+		schemaSalary = yup.object().shape(returnSchemaSalary)
+	})()
 
 	const formSalary = useForm({
 		defaultValues: valueSalary,
 		resolver: yupResolver(schemaSalary)
-	});
+	})
 
 	const onSubmitFormSalary = async (data: any) => {
-		console.log('Submit salary: ', data);
+		console.log('Submit salary: ', data)
 		let cloneDataSubmit = {
-			Salary: parseFloat(data.Salary.replace(/,/g, '')),
+			Salary: data.Salary,
 			UserInformationID: data.UserInformationID,
 			Style: data.Style //1 lương theo tháng , 2 lương theo giờ
-		};
+		}
 
 		setIsLoading({
 			type: 'ADD_DATA',
 			status: true
-		});
-		let res = null;
+		})
+		let res = null
 		try {
-			res = await staffSalaryApi.addData(cloneDataSubmit);
+			res = await staffSalaryApi.addData(cloneDataSubmit)
 			if (res.status == 200) {
-				showNoti('success', 'Thành công');
-				changeVisible();
+				showNoti('success', 'Thành công')
+				changeVisible()
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'ADD_DATA',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	// const formatMoney = (value) => {
 	//   value = parseInt(value);
@@ -125,9 +125,9 @@ const SalaryForm = (props) => {
 				UserInformationID: dataStaff.UserInformationID,
 				FullNameUnicode: dataStaff.FullNameUnicode,
 				Style: 1
-			});
+			})
 		}
-	}, [dataStaff]);
+	}, [dataStaff])
 
 	return (
 		<>
@@ -169,7 +169,7 @@ const SalaryForm = (props) => {
 				</Form>
 			</div>
 		</>
-	);
-};
+	)
+}
 
-export default SalaryForm;
+export default SalaryForm

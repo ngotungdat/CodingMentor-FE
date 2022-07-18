@@ -13,6 +13,7 @@ import { numberWithCommas } from '~/utils/functions'
 import { optionCommonPropTypes } from '~/utils/proptypes'
 import UploadAvatarField from '~/components/FormControl/UploadAvatarField'
 import { useWrap } from './../../../../context/wrap'
+import InputMoneyField from '~/components/FormControl/InputMoneyField'
 
 const CreateCourseOnlineForm = (props) => {
 	const {
@@ -85,7 +86,7 @@ const CreateCourseOnlineForm = (props) => {
 				handleGetCourse(data).then((res) => {
 					if (res) {
 						closeModal()
-						form.reset({ ...defaultValuesInit })
+						// form.reset({ ...defaultValuesInit })
 					}
 				})
 				break
@@ -265,23 +266,21 @@ const CreateCourseOnlineForm = (props) => {
 								<DateField form={form} name="StartDay" label="Ngày mở" isRequired placeholder="Chọn ngày mở" />
 							</div>
 							<div className="col-md-6 col-12">
-								<InputTextField
+								<InputMoneyField
 									form={form}
 									name="Price"
 									label="Giá khóa học"
 									isRequired
 									placeholder="Nhập giá khóa học"
-									handleFormatCurrency={numberWithCommas}
 								/>
 							</div>
 							<div className="col-md-6 col-12">
-								<InputTextField
+								<InputMoneyField
 									form={form}
 									name="SalaryOfLesson"
 									label="Lương/buổi"
 									isRequired
 									placeholder="Nhập lương/buổi học"
-									handleFormatCurrency={numberWithCommas}
 								/>
 							</div>
 							<div className="col-6">

@@ -338,9 +338,11 @@ const ChangeCourseForm = React.memo((props: any) => {
 									<Form.Item name="Paid" label="Thanh toán" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
 										<InputNumber
 											placeholder="Số tiền còn lại cần phải thanh toán"
-											className="ant-input style-input w-100"
-											formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+											className="style-input"
+											style={{ borderRadius: 5 }}
+											formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 											parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+											precision={2}
 											onChange={(value) => setValue('Paid', value)}
 										/>
 									</Form.Item>

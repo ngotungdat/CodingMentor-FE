@@ -33,6 +33,9 @@ type ICOScheduleListToSave = {
 	StudyTimeID: number
 	TeacherID: number
 	SubjectID: number
+	RoomID?: number
+	RoomName?: string
+	isOutside?: boolean
 }
 type ITimeCourse = {
 	StudyTimeID: number
@@ -52,11 +55,25 @@ type ICOStoneDataToSave = {
 	SalaryOfLesson: number
 	Price: number
 	TimeCourse: ITimeCourse[]
-	Avatar: string
+	RoomID?: array
+	Avatar?: string
+	isOutside?: boolean
+	isTutoring?: any
+}
+type ICOScheduleListToShow = {
+	date: string
+	dayOffWeek: string
+	studyTimeName: string
+	teacherName: string
+	StudyTimeID: number
 	RoomID?: number
+	RoomName?: string
+	isValid: boolean
+	isOutside?: boolean
 }
 type ICOSaveCourseInfo = {
 	CourseName: string
+	RoomID?: number
 	AcademicUID: number
 	BranchID: number
 	BranchName: string
@@ -78,7 +95,7 @@ type ICOSaveCourseInfo = {
 	Price: number
 	Schedule: ICOScheduleListToSave[]
 	ImageCourse: string
-	RoomID?: number
+	isTutoring?: boolean
 }
 type ICOCreateForm = {
 	BranchID: number
@@ -93,7 +110,8 @@ type ICOCreateForm = {
 	CourseName: string
 	Avatar: string
 	TimeCourse: ITimeCourse[]
-	RoomID?: number
+	RoomID?: array
+	isTutoring?: any
 }
 
 // EDIT COURSE ONLINE

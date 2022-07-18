@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { List, Spin } from 'antd'
 import { VideoCourseDetailApi } from '~/apiBase/video-course-details'
+import { ChevronDown, ChevronRight } from 'react-feather'
 
 const SHOW_TIME = false
 
 const RenderSubItemContent = (props) => {
 	const { item } = props
 	return (
-		<div className="row m-0 pl-3 pr-3 item sub-item" style={{ borderBottomWidth: 0.5 }}>
+		<div className="row m-0 item sub-item" style={{ borderBottomWidth: 0.5 }}>
 			<div className="row m-0">
-				<i className="fas fa-play-circle mt-1" />
+				<i className="fas fa-play-circle" style={{marginTop: 5}} />
 				<span className="ml-3" style={{ flex: 1 }}>
 					{item?.Title}
 				</span>
@@ -20,7 +21,7 @@ const RenderSubItemContent = (props) => {
 }
 
 const RenderItemContent = (props) => {
-	const { item, data } = props
+	const { item, data , Index} = props
 	const [loading, setLoading] = useState(false)
 	const [show, setShow] = useState(false)
 	const [isFirst, setFirst] = useState(true)
@@ -46,20 +47,23 @@ const RenderItemContent = (props) => {
 
 	// RENDER
 	return (
-		<>
+		<div className="section">
 			<div
 				onClick={() => (isFirst ? getCourseLesson(item.ID) : setShow(!show))}
-				className="row m-0 pl-3 pr-3 item"
+				className={`m-0 item ${show && 'border-bottom'}`}
 				style={{ borderBottomWidth: isFinal() ? 0 : 0.5 }}
 			>
-				<div className="row m-0 ">
-					{loading ? <Spin size="small" /> : <>{show ? <i className="fas fa-sort-up mt-2" /> : <i className="fas fa-sort-down mb-1" />}</>}
-					<span className="ml-3" style={{ flex: 1 }}>
-						{item?.SectionName}
-					</span>
+				<div className="m-0 titles">
+					<p>
+						Section {Index + 1}: {item?.SectionName}
+					</p>
+					<p>
+						{item?.TotalLesson} bài giảng {SHOW_TIME && `• thời lượng ${item.TotalLesson} giây`}
+					</p>
 				</div>
+				{/*  */}
 				<span className="ml-3">
-					{item?.TotalLesson} bài giảng {SHOW_TIME && `• thời lượng ${item.TotalLesson} giây`}
+					{loading ? <Spin size="small" /> : <>{show ? <ChevronDown/> : <ChevronRight/>}</>}
 				</span>
 			</div>
 			{show && (
@@ -71,7 +75,7 @@ const RenderItemContent = (props) => {
 					renderItem={(item) => <RenderSubItemContent item={item} data={lessons} />}
 				/>
 			)}
-		</>
+		</div>
 	)
 }
 
@@ -88,7 +92,7 @@ const CourseDetailsContent = (props) => {
 				footer={null}
 				dataSource={contentData.SectionModels}
 				className="list-content mt-3"
-				renderItem={(item) => <RenderItemContent item={item} data={contentData.SectionModels} />}
+				renderItem={(item, index) => <RenderItemContent Index={index} item={item} data={contentData.SectionModels} />}
 			/>
 		</div>
 	)

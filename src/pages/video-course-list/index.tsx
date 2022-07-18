@@ -16,6 +16,7 @@ import router from 'next/router'
 const { TextArea, Search } = Input
 
 const ItemVideo = ({ item, onRate }) => {
+console.log("🚀 ~ file: index.tsx ~ line 19 ~ ItemVideo ~ onRate", onRate)
 	const [rerender, setRender] = useState('')
 	const { userInformation } = useWrap()
 
@@ -153,9 +154,17 @@ const ItemVideo = ({ item, onRate }) => {
 										}
 									})
 								}}
-								className="btn btn-light ml-2"
+								className="btn btn-light"
 							>
 								Xem chi tiết
+							</button>
+							<button
+								onClick={() => {
+									onRate(item)
+								}}
+								className="btn btn-outline"
+							>
+								Viết đánh giá
 							</button>
 						</div>
 					</div>
@@ -418,9 +427,10 @@ const VideoCourseList = () => {
 					confirmLoading={false}
 					onCancel={() => setShowModal(false)}
 				>
-					<Rate value={parseInt(state.RatingNumber)} onChange={(e) => dispatch({ type: 'RatingNumber', RatingNumber: e })} />
+					<Rate value={parseInt(state.RatingNumber)} 	style={{color: '#FFBA0A' , fontSize: 20}} onChange={(e) => dispatch({ type: 'RatingNumber', RatingNumber: e })} />
 					<TextArea
 						value={state.RatingComment}
+					
 						onChange={(p) => dispatch({ type: 'RatingComment', RatingComment: p.target.value })}
 						rows={4}
 						className="mt-4"

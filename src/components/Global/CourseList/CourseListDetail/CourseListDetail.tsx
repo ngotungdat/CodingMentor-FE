@@ -1,6 +1,6 @@
 import { Spin, Tabs } from 'antd'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Bell, Book, BookOpen, Calendar, CheckCircle, Edit, FileText, Flag, Users, Edit3, UserCheck } from 'react-feather'
 import { courseApi, groupNewsFeedApi } from '~/apiBase'
 import DocumentCourse from '~/components/Global/CourseList/CourseListDetail/Document/DocumentCourse'
@@ -30,6 +30,13 @@ const CourseListDetail = () => {
 	const { showNoti, pageSize } = useWrap()
 	const { slug: ID, type } = router.query
 	const parseIntID = parseInt(ID as string)
+	const ref = useRef(null)
+
+	useEffect(() => {
+		if (window.innerHeight) {
+			console.log('🚀 ~ file: CourseListDetail.tsx ~ line 34 ~ CourseListDetail ~ ref', window.innerWidth)
+		}
+	}, [window.innerHeight])
 
 	const isStudent = () => {
 		let role = userInformation?.RoleID
@@ -92,9 +99,11 @@ const CourseListDetail = () => {
 	}, [router.query.slug])
 
 	return (
-		<div className="course-dt page-no-scroll">
+		<div className="course-dt page-no-scroll" ref={ref}>
 			<Tabs
-				tabPosition="right"
+				defaultActiveKey="1"
+				// tabPosition={'right'}
+				tabPosition={window.innerWidth < 1260 ? 'top' : 'right'}
 				onTabClick={(key) => {
 					if (parseInt(key) === 2) {
 						const url = () => {
@@ -126,38 +135,58 @@ const CourseListDetail = () => {
 					}
 				}}
 				className="list-menu-course"
+				// tabBarExtraContent={
+				// 	<div className="course-mentor">
+				// 		<img src="/images/icons/UserUnknown.svg" alt="user avatar" />
+				// 		<p>Luan Mentor</p>
+				// 	</div>
+				// }
 			>
+				{window.innerWidth > 1260 && (
+					<TabPane
+						tab={
+							<div className="course-mentor">
+								<img src="/images/icons/UserUnknown.svg" alt="user avatar" />
+								<p>Luan Mentor</p>
+							</div>
+						}
+						key="0"
+					>
+						<CourseDetailCalendar courseID={parseIntID} isAdmin={isAdmin || userInformation?.RoleID === 2} />
+					</TabPane>
+				)}
+
 				<TabPane
 					tab={
-						<>
-							<Calendar />
+						<div className="calendar-tab">
+							<img src="/images/calendar.png" alt="calendar icon" />
 							<span title="Lịch học"> Lịch học</span>
-						</>
+						</div>
 					}
 					key="1"
 				>
 					<CourseDetailCalendar courseID={parseIntID} isAdmin={isAdmin || userInformation?.RoleID === 2} />
 				</TabPane>
 
-				<TabPane
+				{/* <TabPane
 					tab={
-						<>
-							<BookOpen />
+						<div className='calendar-tab'>
+							<img src="/images/book.png" alt="calendar icon" />
 							<span title="Giáo trình">Giáo trình</span>
-						</>
+						</div>
 					}
 					key="10"
 				>
 					<LessonDetail disable={true} />
-				</TabPane>
+				</TabPane> */}
 
-				{userInformation?.RoleID !== 6 && (
+				{/* {userInformation?.RoleID !== 6 && (
 					<TabPane
 						tab={
-							<>
-								<Edit />
+							<div className='calendar-tab'>
+								<img src="/images/calendar.png" alt="calendar icon" />
 								<span title="Giáo trình">Kiểm tra</span>
-							</>
+							</div>
 						}
 						key="11"
 					>
@@ -168,10 +197,10 @@ const CourseListDetail = () => {
 				{userInformation?.RoleID !== 6 && (
 					<TabPane
 						tab={
-							<>
-								<Edit />
+							<div className='calendar-tab'>
+								<img src="/images/exercise.png" alt="calendar icon" />
 								<span title="Giáo trình">Bài tập</span>
-							</>
+							</div>
 						}
 						key="12"
 					>
@@ -181,14 +210,14 @@ const CourseListDetail = () => {
 							<Homework courseID={courseDetail?.ID} CurriculumID={courseDetail?.CurriculumID} />
 						)}
 					</TabPane>
-				)}
+				)} */}
 
 				<TabPane
 					tab={
-						<>
-							<i className="far fa-calendar-alt" style={{ fontSize: 22, marginRight: 7 }}></i>
+						<div className="calendar-tab">
+							<img src="/images/courses.png" alt="calendar icon" />
 							<span title="Giáo trình">Các buổi học</span>
-						</>
+						</div>
 					}
 					key="22"
 				>
@@ -199,12 +228,12 @@ const CourseListDetail = () => {
 					? (isAdmin || userInformation?.RoleID == 2 || (userInformation?.RoleID === 3 && courseDetail?.TypeCourse === 3)) && (
 							<TabPane
 								tab={
-									<>
-										<Edit3 />
+									<div className="calendar-tab">
+										<img src="/images/pen-edit.png" alt="calendar icon" />
 										<span title="Chỉnh sửa">
 											{userInformation?.RoleID === 3 && courseDetail?.TypeCourse === 3 ? 'Đăng ký buổi học' : 'Chỉnh sửa'}
 										</span>
-									</>
+									</div>
 								}
 								key="2"
 							>
@@ -217,10 +246,10 @@ const CourseListDetail = () => {
 					  userInformation?.RoleID === 1 && (
 							<TabPane
 								tab={
-									<>
-										<Edit3 />
+									<div className="calendar-tab">
+										<img src="/images/pen-edit.png" alt="calendar icon" />
 										<span title="Chỉnh sửa">Chỉnh sửa</span>
-									</>
+									</div>
 								}
 								key="2"
 							>
@@ -233,10 +262,10 @@ const CourseListDetail = () => {
 				{(isAdmin || userInformation?.RoleID == 2 || userInformation?.RoleID == 6) && (
 					<TabPane
 						tab={
-							<>
-								<Book />
+							<div className="calendar-tab">
+								<img src="/images/male-student.png" alt="calendar icon" />
 								<span title="Học viên"> Học viên</span>
-							</>
+							</div>
 						}
 						key="3"
 					>
@@ -247,10 +276,10 @@ const CourseListDetail = () => {
 				{userInformation?.RoleID !== 6 && (
 					<TabPane
 						tab={
-							<>
-								<CheckCircle />
+							<div className="calendar-tab">
+								<img src="/images/roll-up.png" alt="calendar icon" />
 								<span title="Điểm danh"> Điểm danh</span>
-							</>
+							</div>
 						}
 						key="4"
 					>
@@ -258,11 +287,11 @@ const CourseListDetail = () => {
 					</TabPane>
 				)}
 
-				{userInformation?.RoleID !== 6 && (
+				{/* {userInformation?.RoleID !== 6 && (
 					<TabPane
 						tab={
 							<>
-								<UserCheck />
+								<img src="/images/contract-add-outline.png" alt="calendar icon" />
 								<span title="Điểm danh giáo viên"> Điểm danh giáo viên</span>
 							</>
 						}
@@ -270,15 +299,15 @@ const CourseListDetail = () => {
 					>
 						<TeacherRollUp courseID={parseIntID} isRollUpTeacher={isRollUpTeacher} />
 					</TabPane>
-				)}
+				)} */}
 
 				{userInformation?.RoleID !== 6 && (
 					<TabPane
 						tab={
-							<>
-								<FileText />
+							<div className="calendar-tab">
+								<img src="/images/link.png" alt="calendar icon" />
 								<span title="Tài liệu"> Tài liệu</span>
-							</>
+							</div>
 						}
 						key="6"
 					>
@@ -289,28 +318,14 @@ const CourseListDetail = () => {
 				{!isStudent() && userInformation?.RoleID !== 6 && (
 					<TabPane
 						tab={
-							<>
-								<Flag />
+							<div className="calendar-tab">
+								<img src="/images/customer-feedback.png" alt="calendar icon" />
 								<span title="Phản hồi">Phản hồi buổi học</span>
-							</>
+							</div>
 						}
 						key="7"
 					>
 						<TimelineCourse courseID={parseIntID} />
-					</TabPane>
-				)}
-
-				{userInformation?.RoleID !== 6 && (
-					<TabPane
-						tab={
-							<>
-								<Bell />
-								<span title="Thông báo"> Thông báo qua email</span>
-							</>
-						}
-						key="8"
-					>
-						<NotificationCourse courseID={parseIntID} />
 					</TabPane>
 				)}
 
@@ -319,10 +334,10 @@ const CourseListDetail = () => {
 					(groupID ? (
 						<TabPane
 							tab={
-								<>
+								<div className="calendar-tab">
 									<Users />
 									<span title="Nhóm"> Nhóm</span>
-								</>
+								</div>
 							}
 							key="9"
 						>
@@ -340,6 +355,19 @@ const CourseListDetail = () => {
 							</div>
 						</TabPane>
 					))}
+				{userInformation?.RoleID !== 6 && (
+					<TabPane
+						tab={
+							<div className="calendar-tab">
+								<img src="/images/notification-bell.png" alt="calendar icon" />
+								<span title="Thông báo"> Thông báo qua email</span>
+							</div>
+						}
+						key="8"
+					>
+						<NotificationCourse courseID={parseIntID} />
+					</TabPane>
+				)}
 			</Tabs>
 		</div>
 	)

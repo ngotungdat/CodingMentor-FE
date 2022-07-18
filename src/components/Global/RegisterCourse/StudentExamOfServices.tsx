@@ -1,103 +1,103 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 
-import { Modal, Form, Input, Select, Card, Spin, InputNumber, Button } from 'antd';
-import { branchApi, discountApi } from '~/apiBase';
-import { examServiceApi } from '~/apiBase/options/examServices';
-import { useWrap } from '~/context/wrap';
-import moment from 'moment';
-import { useForm } from 'react-hook-form';
-import { PaymentMethod } from '~/lib/payment-method/payment-method';
+import { Modal, Form, Input, Select, Card, Spin, InputNumber, Button } from 'antd'
+import { branchApi, discountApi } from '~/apiBase'
+import { examServiceApi } from '~/apiBase/options/examServices'
+import { useWrap } from '~/context/wrap'
+import moment from 'moment'
+import { useForm } from 'react-hook-form'
+import { PaymentMethod } from '~/lib/payment-method/payment-method'
 
 const StudentExamOfServices = React.memo((props: any) => {
-	const { Option } = Select;
-	const [branch, setBranch] = useState<IBranch[]>();
-	const [examServices, setExamServices] = useState<IExamServices[]>();
-	const [discount, setDiscount] = useState<IDiscount[]>();
-	const { showNoti } = useWrap();
-	const [form] = Form.useForm();
-	const [detail, setDetail] = useState<IExamServices>();
-	const [isLoading, setIsLoading] = useState(false);
-	const { setValue } = useForm();
-	const [discountPrice, setDiscountPrice] = useState(0);
-	const [debt, setDebt] = useState(0);
-	const [paid, setPaid] = useState(0);
+	const { Option } = Select
+	const [branch, setBranch] = useState<IBranch[]>()
+	const [examServices, setExamServices] = useState<IExamServices[]>()
+	const [discount, setDiscount] = useState<IDiscount[]>()
+	const { showNoti } = useWrap()
+	const [form] = Form.useForm()
+	const [detail, setDetail] = useState<IExamServices>()
+	const [isLoading, setIsLoading] = useState(false)
+	const { setValue } = useForm()
+	const [discountPrice, setDiscountPrice] = useState(0)
+	const [debt, setDebt] = useState(0)
+	const [paid, setPaid] = useState(0)
 
 	const fetchDataSelectList = () => {
-		(async () => {
+		;(async () => {
 			try {
 				const _branch = await branchApi.getAll({
 					pageIndex: 1,
 					pageSize: 99999,
 					Enable: true
-				});
+				})
 				const _examServices = await examServiceApi.getPaged({
 					pageIndex: 1,
 					pageSize: 99999
-				});
+				})
 				const _discount = await discountApi.getAll({
 					pageIndex: 1,
 					pageSize: 99999,
 					Status: 2
-				});
-				_branch.status == 200 && setBranch(_branch.data.data);
-				_examServices.status == 200 && setExamServices(_examServices.data.data);
-				_discount.status == 200 && setDiscount(_discount.data.data);
+				})
+				_branch.status == 200 && setBranch(_branch.data.data)
+				_examServices.status == 200 && setExamServices(_examServices.data.data)
+				_discount.status == 200 && setDiscount(_discount.data.data)
 			} catch (err) {
-				showNoti('danger', err.message);
+				showNoti('danger', err.message)
 			}
-		})();
-	};
+		})()
+	}
 
 	useEffect(() => {
-		fetchDataSelectList();
-	}, []);
+		fetchDataSelectList()
+	}, [])
 
 	const handleChangeExamServices = (value) => {
-		setIsLoading(true);
-		(async () => {
+		setIsLoading(true)
+		;(async () => {
 			try {
-				const _detail = await examServiceApi.getDetail(value);
+				const _detail = await examServiceApi.getDetail(value)
 				//@ts-ignore
-				_detail.status == 200 && setDetail(_detail.data.data);
+				_detail.status == 200 && setDetail(_detail.data.data)
 			} catch (err) {
-				showNoti('danger', err.message);
+				showNoti('danger', err.message)
 			} finally {
-				setIsLoading(false);
+				setIsLoading(false)
 			}
-		})();
-	};
+		})()
+	}
 
 	const handleDiscount = (value) => {
 		if (detail != undefined) {
-			let _dc = [];
+			let _dc = []
 			for (let i = 0; i < discount.length; i++) {
 				if (discount[i].DiscountCode == value) {
-					_dc.push(discount[i]);
+					_dc.push(discount[i])
 				}
 			}
 
 			if (_dc[0].DiscountType == 1) {
-				setDiscountPrice(_dc[0].Discount);
+				setDiscountPrice(_dc[0].Discount)
 			}
 
 			if (_dc[0].DiscountType == 2) {
 				if (_dc[0].MaxDiscountPrice < (detail.Price * _dc[0].Discount) / 100) {
-					showNoti('warning', `Số tiền được giảm tối đa là ${Intl.NumberFormat('ja-JP').format(_dc[0].MaxDiscountPrice)} VNĐ`);
-					setDiscountPrice(_dc[0].MaxDiscountPrice);
+					showNoti('warning', `Số tiền được giảm tối đa là ${Intl.NumberFormat('ja-JP').format(_dc[0].MaxDiscountPrice)} VNĐ`)
+					setDiscountPrice(_dc[0].MaxDiscountPrice)
 				} else {
-					setDiscountPrice((detail.Price * _dc[0].Discount) / 100);
+					setDiscountPrice((detail.Price * _dc[0].Discount) / 100)
 				}
 			}
 		} else {
-			showNoti('warning', 'Vui lòng chọn dịch vụ trước!!');
+			showNoti('warning', 'Vui lòng chọn dịch vụ trước!!')
 		}
-	};
+	}
 
 	useEffect(() => {
 		if (detail != undefined) {
-			setDebt(detail.Price - (paid + discountPrice));
+			setDebt(detail.Price - (paid + discountPrice))
 		}
-	}, [detail, paid, discountPrice]);
+	}, [detail, paid, discountPrice])
 
 	return (
 		<Card title="Học viên đăng ký đợt thi">
@@ -114,12 +114,7 @@ const StudentExamOfServices = React.memo((props: any) => {
 								}
 							]}
 						>
-							<Select
-								className="style-input"
-								showSearch
-								optionFilterProp="children"
-								onChange={(value) => handleChangeExamServices(value)}
-							>
+							<Select className="style-input" showSearch optionFilterProp="children" onChange={(value) => handleChangeExamServices(value)}>
 								{examServices?.map((item, index) => (
 									<Option key={index} value={item.ID}>
 										{item.ServicesName}
@@ -145,11 +140,7 @@ const StudentExamOfServices = React.memo((props: any) => {
 				<div className="row">
 					<div className="col-md-6 col-12">
 						<Form.Item label="Ngày thi">
-							<Input
-								value={detail ? moment(detail.DayOfExam).format('DD/MM/YYYY') : ''}
-								className="style-input"
-								readOnly={true}
-							/>
+							<Input value={detail ? moment(detail.DayOfExam).format('DD/MM/YYYY') : ''} className="style-input" readOnly={true} />
 						</Form.Item>
 					</div>
 					<div className="col-md-6 col-12">
@@ -162,20 +153,12 @@ const StudentExamOfServices = React.memo((props: any) => {
 				<div className="row">
 					<div className="col-md-6 col-12">
 						<Form.Item label="Giá vốn">
-							<Input
-								value={detail ? Intl.NumberFormat('ja-JP').format(detail.InitialPrice) : ''}
-								className="style-input"
-								readOnly={true}
-							/>
+							<Input value={detail ? Intl.NumberFormat('ja-JP').format(detail.InitialPrice) : ''} className="style-input" readOnly={true} />
 						</Form.Item>
 					</div>
 					<div className="col-md-6 col-12">
 						<Form.Item label="Giá bán">
-							<Input
-								value={detail ? Intl.NumberFormat('ja-JP').format(detail.Price) : ''}
-								className="style-input"
-								readOnly={true}
-							/>
+							<Input value={detail ? Intl.NumberFormat('ja-JP').format(detail.Price) : ''} className="style-input" readOnly={true} />
 						</Form.Item>
 					</div>
 				</div>
@@ -252,19 +235,29 @@ const StudentExamOfServices = React.memo((props: any) => {
 						<Form.Item name="Paid" label="Thanh toán" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
 							<InputNumber
 								placeholder="Số tiền thanh toán"
-								className="ant-input style-input w-100"
-								formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+								className="style-input"
+								style={{ borderRadius: 5 }}
+								formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 								parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+								precision={2}
 								onChange={(value: any) => {
-									setValue('Paid', value);
-									setPaid(value);
+									setValue('Paid', value)
+									setPaid(value)
 								}}
 							/>
 						</Form.Item>
 					</div>
 					<div className="col-md-6 col-12">
 						<Form.Item label="Số tiền còn lại">
-							<Input value={Intl.NumberFormat('ja-JP').format(debt)} className="style-input" readOnly={true} />
+							<Input
+								value={Intl.NumberFormat('en-AU', {
+									style: 'currency',
+									currency: 'AUD',
+									minimumFractionDigits: 2
+								}).format(debt)}
+								className="style-input"
+								readOnly={true}
+							/>
 						</Form.Item>
 					</div>
 				</div>
@@ -279,7 +272,7 @@ const StudentExamOfServices = React.memo((props: any) => {
 				</div>
 			</div>
 		</Card>
-	);
-});
+	)
+})
 
-export default StudentExamOfServices;
+export default StudentExamOfServices

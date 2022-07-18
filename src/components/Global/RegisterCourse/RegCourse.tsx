@@ -5,6 +5,7 @@ import { useWrap } from '~/context/wrap'
 import { useForm } from 'react-hook-form'
 import { PaymentMethod } from '~/lib/payment-method/payment-method'
 import moment from 'moment'
+import InputMoneyField from '~/components/FormControl/InputMoneyField'
 
 let someThink = []
 
@@ -300,7 +301,15 @@ const RegCourse = React.memo((props: any) => {
 						<div className="col-md-6 col-12">
 							<Form.Item label="Tổng giá tiền">
 								<Input
-									value={totalPrice || totalPriceProgram ? Intl.NumberFormat('ja-JP').format(totalPrice + totalPriceProgram) : 0}
+									value={
+										totalPrice || totalPriceProgram
+											? Intl.NumberFormat('en-AU', {
+													style: 'currency',
+													currency: 'AUD',
+													minimumFractionDigits: 2
+											  }).format(totalPrice + totalPriceProgram)
+											: 0
+									}
 									className="style-input"
 									readOnly={true}
 								/>
@@ -359,7 +368,15 @@ const RegCourse = React.memo((props: any) => {
 				</div>
 				<div className="col-md-6 col-12">
 					<Form.Item label="Số tiền được giảm">
-						<Input value={Intl.NumberFormat('ja-JP').format(discountPrice)} className="style-input" readOnly={true} />
+						<Input
+							value={Intl.NumberFormat('en-AU', {
+								style: 'currency',
+								currency: 'AUD',
+								minimumFractionDigits: 2
+							}).format(discountPrice)}
+							className="style-input"
+							readOnly={true}
+						/>
 					</Form.Item>
 				</div>
 			</div>
@@ -370,8 +387,10 @@ const RegCourse = React.memo((props: any) => {
 							<InputNumber
 								placeholder="Số tiền thanh toán"
 								className="style-input"
-								formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+								style={{ borderRadius: 5 }}
+								formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 								parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+								precision={2}
 								onChange={(value) => {
 									setValue('Paid', value)
 									handleMoneyLeft(value)
@@ -381,7 +400,15 @@ const RegCourse = React.memo((props: any) => {
 					</div>
 					<div className="col-md-6 col-12">
 						<Form.Item label="Số tiền còn lại">
-							<Input value={Intl.NumberFormat('ja-JP').format(debt)} className="style-input" readOnly={true} />
+							<Input
+								value={Intl.NumberFormat('en-AU', {
+									style: 'currency',
+									currency: 'AUD',
+									minimumFractionDigits: 2
+								}).format(debt)}
+								className="style-input"
+								readOnly={true}
+							/>
 						</Form.Item>
 					</div>
 				</div>

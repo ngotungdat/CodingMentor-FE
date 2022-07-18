@@ -31,13 +31,13 @@ const QuantityOfItems = (props: IItemsQuantity) => {
 	}
 
 	return (
-		<div key={index}>
+		<div className='quantity-btn-wrap' key={index}>
 			<span className="quantity-btn" style={{ userSelect: 'none' }} onClick={_minus}>
-				-
+				<img src="/images/arrow-down.png" alt="arrow" />
 			</span>
-			<span className="cart__item-quantity font-weight-green">{count}</span>
+			<span className="cart__item-quantity">{count}</span>
 			<span className="quantity-btn" style={{ userSelect: 'none' }} onClick={_plus}>
-				+
+				<img src="/images/arrow-up.png" alt="arrow" />
 			</span>
 		</div>
 	)

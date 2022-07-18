@@ -14,7 +14,7 @@ import {
 } from '@ant-design/icons'
 import { User } from 'react-feather'
 import TitlePageHeader from '../Elements/TitlePageHeader'
-import Notifiaction from './notification'
+import Notification from './notification'
 import Cart from './cart'
 
 let countOpen = 0
@@ -157,7 +157,7 @@ export default function Header(props: any) {
 							)}
 
 						<li className="notification">
-							<Notifiaction />
+							<Notification />
 						</li>
 
 						<div className="user">

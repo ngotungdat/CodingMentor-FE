@@ -20,7 +20,7 @@ const CurriculumDetail = (props) => {
 
 	// ------ BASE USESTATE TABLE -------
 	const [dataSource, setDataSource] = useState<ICurriculumDetail[]>([])
-	const { showNoti, pageSize, isAdmin } = useWrap()
+	const { userInformation, showNoti, pageSize, isAdmin } = useWrap()
 	const [isLoading, setIsLoading] = useState({ type: '', status: false })
 	const [examTopic, setExamTopic] = useState({
 		pageIndex: 1,
@@ -253,11 +253,6 @@ const CurriculumDetail = (props) => {
 
 	return (
 		<>
-			<div className="w-100 d-flex mt-2">
-				<Popconfirm title="Bạn muốn thêm buổi học mới?" onConfirm={_insertSubject} okText="Thêm" cancelText="Không">
-					<Button className="btn btn-warning">Thêm buổi học</Button>
-				</Popconfirm>
-			</div>
 			{isNested ? (
 				<NestedTable
 					currentPage={currentPage}
@@ -267,6 +262,15 @@ const CurriculumDetail = (props) => {
 					loading={isLoading}
 					dataSource={dataSource}
 					columns={columns}
+					TitleCard={
+						userInformation?.RoleID != 3 && (
+							<div className="w-100 d-flex mt-2">
+								<Popconfirm title="Bạn muốn thêm buổi học mới?" onConfirm={_insertSubject} okText="Thêm" cancelText="Không">
+									<Button className="btn btn-warning">Thêm buổi học</Button>
+								</Popconfirm>
+							</div>
+						)
+					}
 				/>
 			) : (
 				<PowerTable
@@ -277,6 +281,15 @@ const CurriculumDetail = (props) => {
 					loading={isLoading}
 					dataSource={dataSource}
 					columns={columns}
+					TitleCard={
+						userInformation?.RoleID != 3 && (
+							<div className="w-100 d-flex mt-2">
+								<Popconfirm title="Bạn muốn thêm buổi học mới?" onConfirm={_insertSubject} okText="Thêm" cancelText="Không">
+									<Button className="btn btn-warning">Thêm buổi học</Button>
+								</Popconfirm>
+							</div>
+						)
+					}
 				/>
 			)}
 		</>

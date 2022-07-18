@@ -191,8 +191,8 @@ const CreateSelfCourse = () => {
 
 			const fmValues: ISCPost = {
 				...object,
-				Price: parseInt(Price.replace(/\D/g, '')),
-				SalaryOfLesson: parseInt(SalaryOfLesson.replace(/\D/g, '')),
+				Price: Number(Price),
+				SalaryOfLesson: Number(SalaryOfLesson),
 				StartDay: startDayFm,
 				EndDay: endDayFm,
 				CourseName: CourseNameFinal

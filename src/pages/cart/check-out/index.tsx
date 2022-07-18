@@ -1,5 +1,5 @@
-import { FormOutlined, LockOutlined, LoginOutlined, LogoutOutlined, RedoOutlined, UserOutlined } from '@ant-design/icons'
-import { Form, Input, Popover, Radio, Skeleton, Spin, Select, Card, Button, Avatar, Modal, List } from 'antd'
+import { EllipsisOutlined, FormOutlined, LockOutlined, LoginOutlined, LogoutOutlined, RedoOutlined, UserOutlined } from '@ant-design/icons'
+import { Form, Input, Popover, Radio, Skeleton, Spin, Select, Card, Button, Avatar, Modal, List, Dropdown } from 'antd'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -11,6 +11,8 @@ import { numberWithCommas, parseToMoney } from '~/utils/functions'
 import { useWrap } from './../../../context/wrap'
 import { discountApi } from './../../../apiBase/options/discount'
 import RenderItemTicket from './render-item-ticket'
+import Cart from '~/components/Header/cart'
+import Notification from '~/components/Header/notification'
 
 const CheckOut = () => {
 	const { showNoti } = useWrap()
@@ -28,6 +30,10 @@ const CheckOut = () => {
 
 	const [showDiscount, setShowDiscount] = useState(false)
 	const [discountSelected, setDiscountSelected] = useState<any>('')
+
+	const [dropDownVisible, setDropDownVisible] = useState(false)
+
+	const [checkedMethodIndex, setCheckedMethodIndex] = useState(null)
 
 	const renderPaymentMethodDetail = () => {
 		const isOnePay = () => {
@@ -214,22 +220,34 @@ const CheckOut = () => {
 
 	const renderCartItems = () => {
 		return cartItems?.map((item, index) => (
-			<div className="item d-flex justify-content-between align-items-center row" key={index}>
-				<Link
-					href={{
-						pathname: '/video-course/[slug]',
-						query: { slug: item.VideoCourseID, Thum: item.ImageThumbnails, Sell: item.Price }
-					}}
-				>
-					<Avatar
-						className="avatar"
-						src={item.ImageThumbnails.length ? item.ImageThumbnails : '/images/logo-thumnail.jpg'}
-						alt="img course"
-					/>
-				</Link>
-				<h5>{item.VideoCourseName}</h5>
-				<span className="quantity font-weight-green">{item.Quantity}</span>
-				<p className="font-weight-green">{numberWithCommas(item.Price * item.Quantity)} vnd</p>
+			<div className="course-item" key={index}>
+				<div className="block-one">
+					<Link
+						href={{
+							pathname: '/video-course/[slug]',
+							query: { slug: item.VideoCourseID, Thum: item.ImageThumbnails, Sell: item.Price }
+						}}
+					>
+						<img
+							className="avatar"
+							src={item.ImageThumbnails.length ? item.ImageThumbnails : '/images/logo-thumnail.jpg'}
+							alt="img course"
+						/>
+					</Link>
+					<div className="course-item-name">
+						<p>{item.VideoCourseName}</p>
+						<p>Hạn sử dụng: {item.ExpiryDays}</p>
+					</div>
+				</div>
+
+				<div className="block-two">
+					<div className="course-item-name-mobile">
+						<p>{item.VideoCourseName}</p>
+						<p>Hạn sử dụng: {item.ExpiryDays}</p>
+					</div>
+					<span className="quantity">{item.Quantity}</span>
+					<span className="">{numberWithCommas(item.Price * item.Quantity)} VND</span>
+				</div>
 			</div>
 		))
 	}
@@ -375,22 +393,134 @@ const CheckOut = () => {
 	}
 
 	const [inputDiscount, setInputDiscount] = useState<string>('')
+    console.log("🚀 ~ file: index.tsx ~ line 396 ~ CheckOut ~ inputDiscount", inputDiscount)
+
+	const menuDropdown = () => {
+		return (
+			<>
+				<div className="menu__dropdown d-inline-block d-md-none" style={{ width: 162 }}>
+					<div className="d-inline-block d-md-none ">
+						<div className="user-wrap">
+							<div className="user-info">
+								{!!userInformation ? (
+									<div className="user-wrap">
+										<div className="user-img">
+											<img src={userInformation?.Avatar ? userInformation.Avatar : '/images/icons/UserUnknown.svg'} alt="" />
+										</div>
+										<div className="user-info">
+											<p className="user-name">{userInformation?.FullNameUnicode}</p>
+											<p className="user-position">{userInformation?.RoleName}</p>
+										</div>
+									</div>
+								) : (
+									<p>Tài khoản</p>
+								)}
+							</div>
+						</div>
+
+						<hr />
+
+						{!!userInformation ? (
+							<ul className="user-function">
+								<li>
+									<Link href="/profile">
+										<a href="">
+											<span className="icon">
+												<UserOutlined />
+											</span>
+											<span className="function-name">Trang cá nhân</span>
+										</a>
+									</Link>
+								</li>
+								<li>
+									<Link href="/change-password">
+										<a href="#">
+											<span className="icon inbox">
+												<RedoOutlined />
+											</span>
+											<span className="function-name">Đổi mật khẩu</span>
+										</a>
+									</Link>
+								</li>
+								<li>
+									<a href="#" onClick={() => (signOut(), localStorage.removeItem('dataUserEchinese'))}>
+										<span className="icon logout">
+											<LogoutOutlined />
+										</span>
+										<span className="function-name">Log out</span>
+									</a>
+								</li>
+							</ul>
+						) : (
+							<ul className="user-function">
+								<li>
+									<a href="#" onClick={moveToLogin}>
+										<span className="icon">
+											<LoginOutlined />
+										</span>
+										<span className="function-name">Đăng nhập</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span className="icon inbox">
+											<FormOutlined />
+										</span>
+										<span className="function-name">Đăng kí</span>
+									</a>
+								</li>
+							</ul>
+						)}
+						{/* <Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
+						</Popover> */}
+					</div>
+				</div>
+			</>
+		)
+	}
+
+	const hanleCheckMethod = (index, PaymentCode) => {
+		setCheckedMethodIndex(index)
+		setMethod({ PaymentCode: PaymentCode, transferpayment: '' })
+	}
 
 	return (
 		<div style={{ backgroundColor: '#fff' }}>
 			<header>
 				<div className="shopping__cart-header justify-content-between align-items-center row">
-					<div className="header__logo col-6 col-md-3">
+					<div className="header__logo col-4 col-md-3">
 						<Link href="/">
 							<a href="#">
-								<img className="logo-img" src="/images/logo-square.png" alt="logo branch"></img>
+								<img className="logo-img" src="/images/logo.png" alt="logo branch"></img>
 							</a>
 						</Link>
 					</div>
-					<div className="header__profile col-2">
+
+					<div className="header__profile col-8 col-md-8">
 						<div className="col-setting">
 							<ul className="col-setting-list">
+								<li className="notification cart">
+									<Cart />
+								</li>
+								<li className="notification">
+									<Notification />
+								</li>
+								<li className="vertical"></li>
 								<li className="user">
+									<div className="d-inline-block d-md-none  w-25">
+										<Dropdown overlay={menuDropdown} trigger={['click']} visible={dropDownVisible}>
+											<a
+												className="ant-dropdown-link"
+												onClick={(e) => {
+													e.preventDefault()
+													setDropDownVisible(!dropDownVisible)
+												}}
+											>
+												<EllipsisOutlined />
+											</a>
+										</Dropdown>
+									</div>
+
 									<div className="d-none d-md-inline-block ">
 										<Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
 											<div className="user-wrap">
@@ -419,93 +549,117 @@ const CheckOut = () => {
 				</div>
 			</header>
 
-			<div className="container checkout">
-				<div className="title">
-					<h2>Thanh toán</h2>
-					<Link href="/cart/shopping-cart">
-						<Button className="btn btn-cancel">Quay lại giỏ hàng</Button>
-					</Link>
+			<div className="checkout">
+				<div className="cart-icon-title">
+					<img src="/images/buy-cart.png" alt="cart icon" />
+					<span className="ml-3">Thanh toán</span>
 				</div>
 
-				<div className="row m-0 p-0">
-					<div className="col-12 col-md-8 content mb-4">
-						<Card className="card">
-							<Radio.Group onChange={onChangeRadio} value={method.PaymentCode} className="radio">
-								{paymentMethods &&
-									paymentMethods.map((item, index) => {
-										return (
-											<div className="payment-card type-checkout" key={index}>
-												<Radio value={item.PaymentCode} key={index}>
-													<div className="logo-branch p-1 d-flex justify-content-between align-items-center">
-														<p className="mb-0">{item.PaymentName}</p>
-														<div>
-															<img src={item.PaymentLogo} alt="img branch cc"></img>
-														</div>
-													</div>
-												</Radio>
+				<div className="checkout-wrap-content">
+					<div className="content mb-4">
+						<div className="card">
+							{paymentMethods &&
+								paymentMethods.map((item, index) => {
+									return (
+										<div
+											className={`payment-card type-checkout ${checkedMethodIndex == index ? 'checked' : ''}`}
+											key={index}
+											onClick={() => {
+												hanleCheckMethod(index, item.PaymentCode)
+											}}
+										>
+											<div className="payment-card-left">
+												<img src={item.PaymentLogo} alt="img branch cc"></img>
+												<p className="mb-0">{item.PaymentName}</p>
 											</div>
-										)
-									})}
-							</Radio.Group>
 
-							<div className="payment-method">{renderPaymentMethodDetail()}</div>
+											<div className="payment-card-right">
+												{checkedMethodIndex == index && <img src="/images/checked-icon.png" alt="icon checked"></img>}
+											</div>
+										</div>
+									)
+								})}
 
-							<div className="order-detail mt-4">
-								<h4>Chi tiết mua hàng</h4>
+							<div className="horizontal"></div>
+
+							<div className="order-detail">
+								<div className="course-item">
+									<div className="block-one">
+										<p>Tên khóa học</p>
+									</div>
+
+									<div className="block-two">
+										<span>Số lượng</span>
+										<span>Thành giá</span>
+									</div>
+								</div>
 								{isLoading.loading ? <Skeleton active /> : renderCartItems()}
 							</div>
-						</Card>
+
+							<Link href="/cart/shopping-cart">
+								<a className="cancel-payment">Hủy thanh toán</a>
+							</Link>
+						</div>
 					</div>
 
-					<div className="sumary content col-12 col-md-4">
-						<Card className="card">
-							<h4>Khuyến mãi</h4>
+					<div className="summary content">
+						<div className="card">
+							<h4>Mã giảm giá:</h4>
 
-							<Form form={form}>
-								<div className="mb-4 w-100">
-									<Button onClick={() => setShowDiscount(true)} className="btn btn-light w-100">
-										Chọn mã khuyến mãi
-									</Button>
-									{!!discountSelected && <div className="mt-2">Đã chọn: {discountSelected?.DiscountCode}</div>}
-								</div>
-							</Form>
+							<div className="discount-code">
+								<Input
+									placeholder="Nhập mã khuyến mãi..."
+									prefix={<img src="/images/discount-icon.png" style={{ width: 30, height: 30 }} />}
+									onChange={(e) => setInputDiscount(e.target.value)}
+								/>
+								{
+									inputDiscount.length > 0 && 
+								<button className="btn btn-dark" onClick={() => _changeDiscount({ DiscountCode: inputDiscount })}>
+									Áp dụng
+								</button>
+								}
+							</div>
+
+							<hr />
 
 							<h4>Tổng thanh toán</h4>
-							<div className="row">
+							<div className="row price-pre">
 								<div className="col-6">
 									<h6>Giá gốc</h6>
 								</div>
-								<div className="col-6" style={{ textAlign: 'right' }}>
+								<p className="col-6" style={{ textAlign: 'right' }}>
 									{parseToMoney(dataOrder?.TotalPayment)} VND
-								</div>
+								</p>
 							</div>
 
 							{!!promo && (
-								<div className="row sumary__price">
+								<div className="row summary__price price-pre">
 									<div className="col-6">
 										<h6>Khuyến mãi</h6>
 									</div>
-									<div className="col-6" style={{ textAlign: 'right' }}>
+									<p className="col-6" style={{ textAlign: 'right' }}>
 										- {parseToMoney(promo.DiscountPrice)} VND
-									</div>
+									</p>
 								</div>
 							)}
 
-							<div className="row">
-								<p className="bold col-6">Tổng cộng:</p>
-								<div className="col-6 bold" style={{ textAlign: 'right' }}>
+							<hr />
+
+							<div className="row price-after">
+								<h6 className="col-6">Tổng cộng:</h6>
+								<p className="col-6" style={{ textAlign: 'right' }}>
 									{!!promo?.DiscountPrice
 										? parseToMoney(dataOrder?.TotalPayment - promo?.DiscountPrice)
 										: parseToMoney(dataOrder?.TotalPayment)}
-									VND
-								</div>
+									{' '}VND
+								</p>
 							</div>
 
 							<button className="btn btn-primary w-100" onClick={handleCheckout}>
 								Thanh toán
 								{isLoading.status == 'CHECKOUT' && isLoading.loading && <Spin className="loading-base" />}
 							</button>
-						</Card>
+						</div>
 					</div>
 				</div>
 			</div>

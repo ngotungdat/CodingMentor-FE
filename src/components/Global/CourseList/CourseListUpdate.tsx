@@ -56,7 +56,7 @@ const CourseListUpdate = (props) => {
 	useEffect(() => {
 		let { TeacherLeaderUID } = courseObj
 		const { teacherLeadList } = optionList
-		if (teacherLeadList.length) {
+		if (teacherLeadList?.length) {
 			if (!teacherLeadList.some((o) => o.value === TeacherLeaderUID)) {
 				form.setValue('TeacherLeaderUID', 0)
 			}

@@ -593,6 +593,7 @@ const ModalUpdateInfo = React.memo((props: any) => {
 													className="ant-input style-input w-100"
 													onChange={(e: any) => form.setFieldsValue({ SellPrice: e.target.value })}
 													thousandSeparator={true}
+													decimalScale={2}
 												/>
 											</Form.Item>
 										</div>
@@ -605,6 +606,7 @@ const ModalUpdateInfo = React.memo((props: any) => {
 													className="ant-input style-input w-100"
 													onChange={(e: any) => form.setFieldsValue({ OriginalPrice: e.target.value })}
 													thousandSeparator={true}
+													decimalScale={2}
 												/>
 											</Form.Item>
 										</div>

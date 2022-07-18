@@ -1,3 +1,5 @@
+import { DiffOutlined } from '@ant-design/icons'
+import { Modal, Select, Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { curriculumApi, programApi, subjectApi } from '~/apiBase'
@@ -180,15 +182,18 @@ const Curriculum = (props) => {
 			render: (text, data, index) => (
 				<>
 					{userInformation && userInformation?.RoleID !== 2 && (
-						<CurriculumForm
-							dataProgram={dataProgram}
-							getIndex={() => setIndexRow(index)}
-							index={index}
-							rowData={data}
-							rowID={data.ID}
-							isLoading={isLoading}
-							_onSubmit={(data: any) => _onSubmit(data)}
-						/>
+						<>
+							<CurriculumForm
+								dataProgram={dataProgram}
+								getIndex={() => setIndexRow(index)}
+								index={index}
+								rowData={data}
+								rowID={data.ID}
+								isLoading={isLoading}
+								_onSubmit={(data: any) => _onSubmit(data)}
+							/>
+							<PickAllSubject dataSubject={dataSubject} curriculumID={data.ID} onFetchData={() => setTodoApi({ ...todoApi })} />
+						</>
 					)}
 				</>
 			)
@@ -219,3 +224,78 @@ const Curriculum = (props) => {
 }
 
 export default Curriculum
+
+const PickAllSubject = (props) => {
+	const { Option } = Select
+	const { dataSubject, curriculumID, onFetchData } = props
+	const [isModalVisible, setIsModalVisible] = useState(false)
+	const [valueSubject, setValueSubject] = useState(false)
+	const { showNoti } = useWrap()
+	const [loading, setLoading] = useState(false)
+
+	const showModal = () => {
+		setIsModalVisible(true)
+	}
+
+	const handleOk = async () => {
+		setLoading(true)
+
+		let dataSubmit = {
+			ID: curriculumID,
+			SubjectID: valueSubject
+		}
+
+		try {
+			let res = await curriculumApi.addSubject(dataSubmit)
+			if (res.status === 200) {
+				showNoti('success', 'Thêm môn học thành công')
+				setIsModalVisible(false)
+				onFetchData()
+				setValueSubject(null)
+			} else {
+				showNoti('danger', 'Đường truyền mạng đang không ổn định')
+			}
+		} catch (error) {
+			showNoti('error', error.message)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const handleCancel = () => {
+		setIsModalVisible(false)
+	}
+
+	const handleChange_Subject = (value) => {
+		setValueSubject(value)
+	}
+
+	return (
+		<>
+			<Tooltip title="Thêm môn học cho tất cả các buổi">
+				<button className="btn btn-icon view" onClick={showModal}>
+					<DiffOutlined />
+				</button>
+			</Tooltip>
+
+			<Modal
+				title="Thêm môn học"
+				visible={isModalVisible}
+				okButtonProps={{ loading: loading }}
+				onOk={handleOk}
+				onCancel={handleCancel}
+				okText="Lưu"
+				cancelText="Hủy"
+			>
+				<p className="font-weight-black mb-2">Chọn môn học</p>
+				<Select className="w-100 style-input" onChange={handleChange_Subject}>
+					{dataSubject?.map((item) => (
+						<Option key={item.ID} value={item.ID}>
+							{item.SubjectName}
+						</Option>
+					))}
+				</Select>
+			</Modal>
+		</>
+	)
+}

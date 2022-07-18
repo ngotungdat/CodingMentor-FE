@@ -8,9 +8,10 @@ import { courseOfStudentApi } from '~/apiBase/customer/parents/courses-of-studen
 import { courseOfStudentPriceApi } from '~/apiBase/course/course-of-student-price'
 import { PaymentMethod } from '~/lib/payment-method/payment-method'
 import { numberWithCommas } from '~/utils/functions'
+import { billCourseApi } from '~/apiBase/course/bill-course'
 
 const AddTrialStudentForm = (props) => {
-	const { CourseID, onFetchData, coursePrice } = props
+	const { CourseID, onFetchData, coursePrice, ProgramID } = props
 	const [visible, setVisible] = useState(false)
 	const [isLoading, setIsLoading] = useState({ type: '', status: false })
 	const [branch, setBranch] = useState<IBranch[]>()
@@ -123,6 +124,7 @@ const AddTrialStudentForm = (props) => {
 	const onSelectCourseScheduleEnd = () => {}
 
 	const _onSubmit = async (data) => {
+		console.log('🚀 ~ file: AddTrialStudentForm.tsx ~ line 127 ~ const_onSubmit= ~ data', data)
 		setIsLoading({ type: 'SUBMIT', status: true })
 		if (isTrial) {
 			try {
@@ -140,7 +142,20 @@ const AddTrialStudentForm = (props) => {
 			}
 		} else {
 			try {
-				let res = await courseOfStudentPriceApi.add({ ...data, Course: CourseID, isContract: false, PayDate: '2021/11/01' })
+				let res = await billCourseApi.add({
+					...data,
+					Course: CourseID,
+					DiscountCode: '',
+					StudentID: data.UserInformationID,
+					isContract: false,
+					billCourseDetails: [
+						{
+							BranchID: data.BranchID,
+							CourseID: CourseID,
+							ProgramID: ProgramID
+						}
+					]
+				})
 				if (res.status == 200) {
 					showNoti('success', 'Thêm học viên thành công!')
 					setVisible(false)
@@ -429,9 +444,11 @@ const AddTrialStudentForm = (props) => {
 											<Form.Item name="Paid" label="Thanh toán" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
 												<InputNumber
 													placeholder="Số tiền thanh toán"
-													className="ant-input style-input w-100"
-													formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+													className="style-input"
+													style={{ borderRadius: 5 }}
+													formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 													parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+													precision={2}
 												/>
 											</Form.Item>
 										</div>

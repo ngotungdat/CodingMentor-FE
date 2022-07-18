@@ -125,9 +125,9 @@ export const AdminChildMenu = [
 				SubMenuList: [
 					{
 						TypeItem: 'single',
-						Key: '/course/create-course',
+						Key: '/course/create-course-offline',
 						Icon: '',
-						Route: '/course/create-course',
+						Route: '/course/create-course-offline',
 						Text: 'Tạo khóa Offline'
 					},
 					{

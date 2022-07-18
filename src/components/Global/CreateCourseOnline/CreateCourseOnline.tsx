@@ -378,8 +378,8 @@ const CreateCourseOnline = () => {
 				TeacherID,
 				GradeID,
 				StartDay: StartDate,
-				SalaryOfLesson: +SalaryOfLesson.replace(/\D/g, ''),
-				Price: +Price.replace(/\D/g, ''),
+				SalaryOfLesson: Number(SalaryOfLesson),
+				Price: Number(Price),
 				TimeCourse,
 				Avatar
 			}

@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import DateField from '~/components/FormControl/DateField';
+import InputMoneyField from '~/components/FormControl/InputMoneyField';
 import InputTextField from '~/components/FormControl/InputTextField';
 import SelectField from '~/components/FormControl/SelectField';
 import { numberWithCommas } from '~/utils/functions';
@@ -63,7 +64,7 @@ const CreateSelfCourseForm = (props) => {
 				handleGetCourse(data).then((res) => {
 					if (res) {
 						closeModal();
-						form.reset({ ...defaultValuesInit });
+						// form.reset({ ...defaultValuesInit });
 					}
 				});
 				break;
@@ -152,23 +153,21 @@ const CreateSelfCourseForm = (props) => {
 							</div>
 
 							<div className="col-md-6 col-12">
-								<InputTextField
+								<InputMoneyField
 									form={form}
 									name="Price"
 									isRequired
 									label="Học phí"
 									placeholder="Nhập học phí"
-									handleFormatCurrency={numberWithCommas}
 								/>
 							</div>
 							<div className="col-md-6 col-12">
-								<InputTextField
+								<InputMoneyField
 									form={form}
 									name="SalaryOfLesson"
 									isRequired
 									label="Lương/buổi"
 									placeholder="Nhập lương/buổi"
-									handleFormatCurrency={numberWithCommas}
 								/>
 							</div>
 

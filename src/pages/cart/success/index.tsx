@@ -88,7 +88,7 @@ const SuccessCheckout = () => {
 						</>
 					)}
 				</div>
-				<div className="success__checkout-btn  d-flex justify-content-center ">
+				<div className="success__checkout-btn">
 					<button
 						onClick={() => {
 							router.push('/');

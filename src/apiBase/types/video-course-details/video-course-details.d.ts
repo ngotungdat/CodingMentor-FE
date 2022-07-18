@@ -1,6 +1,8 @@
 type IVideoCourseDetails = IBaseApi<{
 	VideoCourseID: number
 	VideoCourseName: string
+	TeacherName: string
+	Avatar: string
 	CurriculumID: string
 	Slogan: string
 	Requirements: string
@@ -8,6 +10,7 @@ type IVideoCourseDetails = IBaseApi<{
 	ResultsAchieved: string
 	CourseForObject: string
 	TotalRating: number
+	TotalFeedback: number
 	RatingNumber: number
 	TotalStudent: number
 	CourseInFo: any

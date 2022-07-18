@@ -37,7 +37,8 @@ const SaveCreateCourseOffline = (props) => {
 						.map((s, idx) => (
 							<li key={idx}>
 								<span>{s.studyTimeName}</span>
-								<p>Giáo viên: {s.teacherName}</p>
+								<p className="mb-0">Giáo viên: {s.teacherName}</p>
+								<p className="mb-0">Phòng học: {s.RoomName}</p>
 							</li>
 						))}
 				</ul>
@@ -61,7 +62,7 @@ const SaveCreateCourseOffline = (props) => {
 				<Modal
 					style={{ top: 20 }}
 					className={`${!isEdit ? 'create-course-save modal-scroll' : ''}`}
-					title={isEdit ? 'Cập nhật khóa học' : 'Thông tin khóa học'}
+					title={isEdit ? 'Cập nhật lớp học' : 'Thông tin lớp học'}
 					visible={isModalVisible}
 					onCancel={closeModal}
 					footer={
@@ -80,10 +81,20 @@ const SaveCreateCourseOffline = (props) => {
 						<div className="row">
 							{!isEdit && (
 								<>
+									{!!saveInfo?.isTutoring && (
+										<div className="col-md-12 col-12">
+											<div className="item">
+												<p>
+													<span>Loại:</span>
+													<span>Khoá dạy kèm</span>
+												</p>
+											</div>
+										</div>
+									)}
 									<div className="col-md-12 col-12">
 										<div className="item">
 											<p>
-												<span>Tên khóa học:</span>
+												<span>Tên lớp học:</span>
 												<span>{saveInfo.CourseName}</span>
 											</p>
 										</div>
@@ -139,8 +150,8 @@ const SaveCreateCourseOffline = (props) => {
 									<div className="col-md-6 col-12">
 										<div className="item">
 											<p>
-												<span>Giá khóa học:</span>
-												<span>{numberWithCommas(saveInfo.Price)}</span>
+												<span>Giá lớp học:</span>
+												<span>{numberWithCommas(saveInfo.Price)} AUD</span>
 											</p>
 										</div>
 									</div>
@@ -148,7 +159,7 @@ const SaveCreateCourseOffline = (props) => {
 										<div className="item">
 											<p>
 												<span>Lương/buổi:</span>
-												<span>{numberWithCommas(saveInfo.SalaryOfLesson)}</span>
+												<span>{numberWithCommas(saveInfo.SalaryOfLesson)} AUD</span>
 											</p>
 										</div>
 									</div>

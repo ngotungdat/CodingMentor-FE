@@ -81,8 +81,9 @@ const AddGroupFormFromCourseDetail = (props) => {
 				onClick={() => {
 					setShowModal(true);
 				}}
+				className='justify-content-start'
 			>
-				<Users />
+				<img src="/images/group-people.png" alt="calendar icon" />
 				<span title="Nhóm"> Nhóm</span>
 			</div>
 			{courseDetail && (

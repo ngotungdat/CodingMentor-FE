@@ -4,6 +4,22 @@
 	padding: 150px;
 	background-color: $primary-color;
 
+	&-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		@include max-media(420px) {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			gap: 16px;
+			button {
+				width: 100%;
+			}
+		}
+	}
+
 	&-content {
 		height: 100%;
 		padding: 50px;

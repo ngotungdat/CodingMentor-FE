@@ -21,9 +21,12 @@ const initDetails = {
 	Description: '',
 	ResultsAchieved: '',
 	CourseForObject: '',
+	TeacherName: '',
+	Avatar: '',
 	TotalRating: 0,
 	RatingNumber: 0,
 	TotalStudent: 0,
+	TotalFeedback: 0,
 	CreatedBy: ''
 }
 
@@ -62,6 +65,7 @@ const VideoCourseDetail = (props) => {
 
 	const [feedBack, setFeedBack] = useState({})
 	const [feedbackIndex, setIndex] = useState(1)
+	const [loadingFeedback,setLoadingFeedback] = useState(false)
 
 	// CALL API GET CONTENT
 	const getCourseContent = async (param) => {
@@ -93,12 +97,15 @@ const VideoCourseDetail = (props) => {
 
 	// CALL API GET FEEDBACK
 	const getCourseFeedback = async (param) => {
-		// try {
-		// 	const res = await VideoCourseDetailApi.getFeedback(param)
-		// 	res.status == 200 && setFeedBack(res.data.data)
-		// } catch (error) {
-		// 	console.log(error)
-		// }
+		setLoadingFeedback(true)
+		try {
+			const res = await VideoCourseDetailApi.getFeedback(param)
+			res.status == 200 && setFeedBack(res.data.data)
+		} catch (error) {
+			console.log(error)
+		}finally {
+			setLoadingFeedback(false)
+		}
 	}
 
 	// CALL API GET FEEDBACK
@@ -274,24 +281,24 @@ const VideoCourseDetail = (props) => {
 					</div>
 				</div>
 				<div className="center-column">
-					<div className="row m-0 p-0 mt-4 price">
-						{!!router.query.Sell && <h3 className="bold">&nbsp;{parseToMoney(router.query.Sell)}đ&nbsp;</h3>}
-						{!!router.query.Original && <h6 className="old-price">&nbsp;Gốc: {parseToMoney(router.query.Original)}đ&nbsp;</h6>}
+					<div className="price">
+						{!!router.query.Sell && <p className="m-0 p-0">{parseToMoney(router.query.Sell)} VND</p>}
+						{!!router.query.Original && <p className="m-0 p-0">{parseToMoney(router.query.Original)} VND</p>}
 					</div>
-					{showLimitBooking() && <span className="mt-1 size-16">Số lượt đặt lịch: {router.query.LimitBooking}</span>}
+					{/* {showLimitBooking() && <span className="mt-1 size-16">Số lượt đặt lịch: {router.query.LimitBooking}</span>} */}
 					{!!userInformation && (
-						<>
+						<div className="buttons">
 							{isAdmin() && (
 								<>
-									<GotoCourse className="mt-3" />
+									<GotoCourse className="" />
 								</>
 							)}
 
-							{userInformation.UserInformationID.toString() == router.query.TeacherID && <GotoCourse className="mt-3" />}
+							{userInformation.UserInformationID.toString() == router.query.TeacherID && <GotoCourse className="" />}
 
 							{!isAdOrTech() && (
 								<>
-									<div className="mt-3 w-100">
+									<div className=" w-100">
 										{activing ? (
 											<ActiveCourse />
 										) : (
@@ -303,7 +310,7 @@ const VideoCourseDetail = (props) => {
 												{router.query.Active == 'activated' ? (
 													<GotoCourse className="mt-2" />
 												) : (
-													<button onClick={() => setActiving(true)} className="btn btn-warning w-100 mt-2">
+													<button onClick={() => setActiving(true)} className="btn btn-light w-100 mt-2">
 														Kích hoạt
 													</button>
 												)}
@@ -312,7 +319,7 @@ const VideoCourseDetail = (props) => {
 									</div>
 								</>
 							)}
-						</>
+						</div>
 					)}
 				</div>
 				{/*<hr />
@@ -330,7 +337,7 @@ const VideoCourseDetail = (props) => {
 			<>
 				<Card className="card w-100">
 					<div className="header">
-						<h3 className="name">{details.VideoCourseName}</h3>
+						<p className="name">{details.VideoCourseName}</p>
 						<span className="slogan mt-2">{ReactHtmlParser(details.Slogan)}</span>
 						{/* <div className="row-center mt-2 info row-center">
 							<Rate disabled value={details.RatingNumber} className="rate" />
@@ -339,14 +346,53 @@ const VideoCourseDetail = (props) => {
 						{/* <div className="mt-2">
 							{details.TotalStudent} học sinh • {router.query?.TotalVideoViews || 0} lượt xem
 						</div> */}
-						<div className="mt-2 total-student">
-							Tạo bởi: <span>{details.CreatedBy || 'Không rõ'}</span>
+						<div className="mentor">
+							<img src={details.Avatar || '/images/icons/UserUnknown.svg'} />
+							<span>{details.TeacherName || 'Chưa có mentor'}</span>
 						</div>
+						<div className="rating">
+							<div className="stars">
+								<Rate disabled style={{color: '#FFBA0A' , fontSize: 20}} value={(Math.round((details.RatingNumber * 10) / 5) * 5) / 10} className="rate" allowHalf={true} />
+							</div>
+							<p className="rating-text">
+								{(Math.round((details.RatingNumber * 10) / 5) * 5) / 10} stars ({details.TotalFeedback} lượt đánh giá)
+							</p>
+						</div>
+					</div>
+
+					<div className="object-of-course">
+						<p className="text">Đối tượng học</p>
+						<div className="mt-2">{ReactHtmlParser(details.CourseForObject)}</div>
+					</div>
+
+					<hr />
+
+					<div className="contents">
+						<p className="title">Nội dung khóa học</p>
+						<CourseDetailsContent loading={isLoading} contentData={content} />
+					</div>
+
+					<hr />
+
+					<div className="require">
+						<p className="title">Yêu cầu</p>
+						<div className="mt-2">{ReactHtmlParser(details.Requirements)}</div>
 					</div>
 
 					<hr />
 
 					<div className="m-0 mb-3">
+						<p className="title">Đánh giá của học viên</p>
+						<CourseDetailsFeedBack
+							feedBack={feedBack}
+							loadingFeedback={loadingFeedback}
+							onSearchFeedback={onSearchFeedback}
+							onFilterFeedback={onFilterFeedback}
+							getPagination={(e) => onChangeIndex(e)}
+							pageIndex={feedbackIndex}
+						/>
+					</div>
+					{/* <div className="m-0 mb-3">
 						<div className="title">Giới thiệu</div>
 						<div className="mt-2">{ReactHtmlParser(details.Description)}</div>
 						<div className="title">Khóa học này có gì?</div>
@@ -355,32 +401,11 @@ const VideoCourseDetail = (props) => {
 
 					<hr />
 
-					<div className="m-0 mb-3">
-						<div className="title">Đối tượng học</div>
-						<div className="mt-2">{ReactHtmlParser(details.CourseForObject)}</div>
-						<div className="title">Yêu cầu</div>
-						<div className="mt-2">{ReactHtmlParser(details.Requirements)}</div>
-					</div>
+				
 
-					<hr />
-
-					<div className="m-0 mb-3">
-						<div className="title">Nội dung khóa học</div>
-						<CourseDetailsContent loading={isLoading} contentData={content} />
-					</div>
+					<hr /> */}
 
 					{/* <hr /> */}
-
-					{/* <div className="m-0 mb-3">
-						<span className="title">Phản hồi của học sinh</span>
-						<CourseDetailsFeedBack
-							feedBack={feedBack}
-							onSearchFeedback={onSearchFeedback}
-							onFilterFeedback={onFilterFeedback}
-							getPagination={(e) => onChangeIndex(e)}
-							pageIndex={feedbackIndex}
-						/>
-					</div> */}
 				</Card>
 			</>
 		)
@@ -389,11 +414,12 @@ const VideoCourseDetail = (props) => {
 	return (
 		<>
 			<div className="vc-details">
-				<div className="row m-0 p-0 main">
-					<div className="col-md-4 col-12 menu">
+				<div className="m-0 p-0 main">
+					<div className="menu">
 						<MenuContainer />
 					</div>
-					<div className="col-md-8 col-12 details custom-scroll-bar">
+					{/*  custom-scroll-bar */}
+					<div className="details">
 						<DetailsCourse />
 					</div>
 				</div>

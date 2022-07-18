@@ -87,11 +87,24 @@
 	mix-blend-mode: normal;
 	box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.2);
 	border-radius: 10px;
+
+	@include max-media(1400px) {
+		width: 100%;
+	}
+	@include max-media(650px) {
+		display: block;
+		height: 690px;
+	}
 	.course-item-avatar {
 		width: 240px;
 		height: 240px;
 		border-radius: 24px;
 		position: relative;
+
+		@include max-media(650px) {
+			width: 100%;
+			height: 50%;
+		}
 		span {
 			display: flex;
 			flex-direction: row;
@@ -99,7 +112,6 @@
 			padding: 8px 16px;
 			gap: 8px;
 			position: absolute;
-			width: 95px;
 			left: -12px;
 			top: -4.17%;
 			bottom: 87.5%;
@@ -108,6 +120,11 @@
 			font-weight: 400;
 			font-size: 16px;
 			line-height: 24px;
+
+			@include max-media(650px) {
+				display: block;
+				bottom: 91.5%;
+			}
 		}
 		img {
 			width: 100%;
@@ -125,6 +142,20 @@
 		padding: 0px;
 		width: 50%;
 		height: 240px;
+
+		@include max-media(1400px) {
+			width: 66%;
+		}
+		@include max-media(1000px) {
+			width: 66%;
+		}
+		@include max-media(850px) {
+			width: 50%;
+		}
+		@include max-media(650px) {
+			width: 100%;
+			height:50%;
+		}
 		&-name {
 			font-weight: 700;
 			font-size: 24px;
@@ -138,6 +169,11 @@
 			align-items: flex-start;
 			padding: 0px;
 			gap: 8px;
+
+			@include max-media(1400px) {
+				display: none;
+			}
+		
 			span {
 				display: flex;
 				flex-direction: row;
@@ -150,6 +186,10 @@
 				font-size: 13px;
 				line-height: 18px;
 				color: $black-light;
+
+				@include max-media(650px) {
+					bottom: 94.5%;
+				}
 			}
 		}
 		&-description {
@@ -172,6 +212,17 @@
 				color: $red;
 			}
 		}
+		.course-item-price-inline {
+			font-weight: 700;
+			font-size: 24px;
+			line-height: 40px;
+			color: $black-light;
+
+			display: none;
+			@include max-media(1400px) {
+				display: block;
+			}
+		}
 		&-buttons {
 			display: flex;
 			flex-direction: row;
@@ -188,14 +239,16 @@
 			.last-avatar {
 				margin-left: -8px;
 				&::after {
+					text-align: center;
 					content: '...';
+					color: #fff;
+					line-height: 22px;
 					position: absolute;
 					width: 32px;
 					height: 32px;
 					top: 0;
 					right: 0;
 					background-color: #33333354;
-					z-index: 10000;
 					border-radius: 50%;
 				}
 			}
@@ -237,5 +290,8 @@
 		font-size: 24px;
 		line-height: 40px;
 		color: $black-light;
+		@include max-media(1400px) {
+			display: none;
+		}
 	}
 }

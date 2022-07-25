@@ -4,6 +4,7 @@ import { RotateCcw } from 'react-feather'
 import { useForm } from 'react-hook-form'
 import EditorSimple from '~/components/Elements/EditorSimple'
 import { numberWithCommas, parsePriceStrToNumber } from '~/utils/functions'
+import NumberFormat from 'react-number-format'
 
 const ProgramForm = React.memo((props: any) => {
 	const [isModalVisible, setIsModalVisible] = useState(false)
@@ -153,16 +154,15 @@ const ProgramForm = React.memo((props: any) => {
 
 							<div className="col-md-6 col-12">
 								<Form.Item name="Level" label="Level" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
-									<InputNumber
+									<NumberFormat
 										placeholder=""
-										className="style-input"
-										onChange={(e) => {
-											setValue('Level', parsePriceStrToNumber(e))
-										}}
+										className="style-input-x"
+										onChange={(event) => setValue('Level', event.target.value.split(',').join(''))}
+										thousandSeparator={true}
 									/>
 								</Form.Item>
 							</div>
-							
+
 							<div className="col-12">
 								<Form.Item name="Description" label="Mô tả">
 									<EditorSimple

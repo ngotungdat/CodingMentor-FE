@@ -14,7 +14,6 @@
 			background-color: #dedede !important;
 		}
 	}
-
 	.ant-table-cell-scrollbar {
 		box-shadow: none;
 	}
@@ -101,7 +100,7 @@
 		}
 		.ant-dropdown-open {
 			background: rgba(255, 255, 255, 0.7) !important;
-			color:black;
+			color: black;
 		}
 	}
 
@@ -290,8 +289,9 @@
 		justify-content: center;
 	}
 
-	.ant-pagination-prev,.ant-pagination-next {
-		margin-top: 5px!important;
+	.ant-pagination-prev,
+	.ant-pagination-next {
+		margin-top: 5px !important;
 	}
 
 	li {

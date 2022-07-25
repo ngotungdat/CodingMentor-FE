@@ -537,6 +537,13 @@ textarea.ant-input {
 	height: 90px !important;
 }
 
+.style-input-x {
+	width: 100%;
+	border: 1px solid #cccccc !important;
+	height: 36px !important;
+	border-radius: 4px;
+}
+
 .style-input {
 	width: 100%;
 
@@ -1638,7 +1645,6 @@ hr {
 				border-radius: 8px;
 				&:last-child {
 					.ant-tabs-tab-btn {
-
 						@include max-media(1260px) {
 							padding-right: 26px;
 						}
@@ -1664,7 +1670,6 @@ hr {
 						line-height: 24px;
 						color: #c94a4f;
 					}
-				
 				}
 				.calendar-tab {
 					display: flex;
@@ -1721,7 +1726,6 @@ hr {
 						}
 					}
 				}
-				
 			}
 		}
 	}

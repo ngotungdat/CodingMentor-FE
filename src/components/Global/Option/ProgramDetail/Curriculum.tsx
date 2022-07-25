@@ -1,7 +1,8 @@
-import { DiffOutlined } from '@ant-design/icons'
-import { Modal, Select, Tooltip } from 'antd'
+import { DeleteOutlined, DiffOutlined } from '@ant-design/icons'
+import { Button, Modal, Popconfirm, Select, Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { Delete } from 'react-feather'
 import { curriculumApi, programApi, subjectApi } from '~/apiBase'
 import ExpandTable from '~/components/ExpandTable'
 import CurriculumForm from '~/components/Global/Option/CurriculumForm'
@@ -45,6 +46,20 @@ const Curriculum = (props) => {
 				}
 			}
 			res.status == 204 && showNoti('danger', 'Không có dữ liệu') && setDataSource([])
+		} catch (error) {
+			showNoti('danger', error.message)
+		} finally {
+			setIsLoading({ type: 'GET_ALL', status: false })
+		}
+	}
+
+	const deleteCurriculum = async (id) => {
+		setIsLoading({ type: 'GET_ALL', status: true })
+		try {
+			let res = await curriculumApi.update({ ID: id, Enable: false })
+			if (res.status == 200) {
+				getDataSource()
+			}
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -149,16 +164,14 @@ const Curriculum = (props) => {
 		{
 			title: 'ID',
 			dataIndex: 'ID',
-			render: (id) => <p className="font-weight-black">{id}</p>,
-			fixed: 'left'
+			render: (id) => <p className="font-weight-black">{id}</p>
 		},
 		{
 			width: '50%',
 			title: 'Giáo trình',
 			dataIndex: 'CurriculumName',
 			key: 'curriculumname',
-			render: (text) => <p className="font-weight-black">{text}</p>,
-			fixed: 'left'
+			render: (text) => <p className="font-weight-black">{text}</p>
 		},
 		{
 			width: 120,
@@ -174,11 +187,9 @@ const Curriculum = (props) => {
 			key: 'lesson',
 			className: 'text-center'
 		},
-
 		{
-			width: userInformation && userInformation?.RoleID !== 2 ? 180 : 0,
+			align: 'right',
 			key: 'action',
-			align: 'center',
 			render: (text, data, index) => (
 				<>
 					{userInformation && userInformation?.RoleID !== 2 && (
@@ -193,6 +204,13 @@ const Curriculum = (props) => {
 								_onSubmit={(data: any) => _onSubmit(data)}
 							/>
 							<PickAllSubject dataSubject={dataSubject} curriculumID={data.ID} onFetchData={() => setTodoApi({ ...todoApi })} />
+							<Tooltip title="Xoá giáo trình">
+								<Popconfirm title="Bạn muốn xóa giáo trình" cancelText="Huỷ" onConfirm={() => deleteCurriculum(data.ID)}>
+									<button className="btn btn-icon delete">
+										<DeleteOutlined />
+									</button>
+								</Popconfirm>
+							</Tooltip>
 						</>
 					)}
 				</>

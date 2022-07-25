@@ -64,7 +64,7 @@ const CurriculumForm = React.memo((props: any) => {
 							setIsModalVisible(true)
 						}}
 					>
-						<i className="fas fa-edit" style={{ color: '#34c4a4', fontSize: 16, marginBottom: -1 }}></i>
+						<i className="fas fa-edit" style={{ color: '#34c4a4', fontSize: 20, marginTop: 3 }}></i>
 					</button>
 				</Tooltip>
 			) : (
@@ -146,7 +146,7 @@ const CurriculumForm = React.memo((props: any) => {
 										},
 										{
 											pattern: new RegExp(/^[0-9]+$/),
-											message: 'Chỉ được điền số',
+											message: 'Chỉ được điền số'
 										}
 									]}
 								>
@@ -172,7 +172,7 @@ const CurriculumForm = React.memo((props: any) => {
 										},
 										{
 											pattern: new RegExp(/^[0-9]+$/),
-											message: 'Chỉ được điền số',
+											message: 'Chỉ được điền số'
 										}
 									]}
 								>

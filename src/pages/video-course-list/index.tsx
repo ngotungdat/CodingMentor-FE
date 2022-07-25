@@ -16,7 +16,7 @@ import router from 'next/router'
 const { TextArea, Search } = Input
 
 const ItemVideo = ({ item, onRate }) => {
-console.log("🚀 ~ file: index.tsx ~ line 19 ~ ItemVideo ~ onRate", onRate)
+	console.log('🚀 ~ file: index.tsx ~ line 19 ~ ItemVideo ~ onRate', onRate)
 	const [rerender, setRender] = useState('')
 	const { userInformation } = useWrap()
 
@@ -150,7 +150,7 @@ console.log("🚀 ~ file: index.tsx ~ line 19 ~ ItemVideo ~ onRate", onRate)
 											Sell: item.SellPrice,
 											TotalVideo: item.TotalVideoCourseSold,
 											TotalVideoViews: item?.TotalVideoViews,
-											CurriculumID: item?.CurriculumID,
+											CurriculumID: item?.CurriculumID
 										}
 									})
 								}}
@@ -285,55 +285,55 @@ const VideoCourseList = () => {
 			key: 'StudentName'
 		},
 		{
-			title: 'Ngày kích hoạt',
-			dataIndex: 'CreatedOn',
-			key: 'CreatedOn',
-			render: (Action, data, index) => <div>{data.CreatedOn}</div>
-		},
-		{
 			title: 'Điện thoại',
 			dataIndex: 'Phone',
 			key: 'Phone'
 		},
 		{
-			title: 'Đặt lịch còn lại',
-			dataIndex: 'LeftLimitBooking',
-			key: 'LeftLimitBooking',
-			align: 'center'
-		},
-		{
-			title: '',
-			dataIndex: '',
-			key: 'hoho',
-			align: 'center',
-			render: (Action, data, index) => {
-				return (
-					<div>
-						<Popover
-							content={
-								<div className="wrap-calendar-x">
-									<NumberFormat
-										value={num}
-										placeholder="Số lần có thể đặt"
-										className="ant-input style-input w-100"
-										onChange={(e: any) => setNum(e.target.value)}
-										thousandSeparator={true}
-									/>
-									<Button onClick={() => _updateData(data?.ID)} className="btn btn-primary w-100 mt-3">
-										Cập nhật {loading && <Spin className="ml-2" size="small" />}
-									</Button>
-								</div>
-							}
-							title="Cập nhật số lần đặt lịch"
-							trigger="hover"
-							placement="left"
-						>
-							<FontAwesomeIcon className="pen-edit" icon={faPenSquare as IconProp} size="lg" />
-						</Popover>
-					</div>
-				)
-			}
+			title: 'Ngày kích hoạt',
+			dataIndex: 'CreatedOn',
+			key: 'CreatedOn',
+			render: (Action, data, index) => <div>{data.CreatedOn}</div>
 		}
+		// {
+		// 	title: 'Đặt lịch còn lại',
+		// 	dataIndex: 'LeftLimitBooking',
+		// 	key: 'LeftLimitBooking',
+		// 	align: 'center'
+		// },
+		// {
+		// 	title: '',
+		// 	dataIndex: '',
+		// 	key: 'hoho',
+		// 	align: 'center',
+		// 	render: (Action, data, index) => {
+		// 		return (
+		// 			<div>
+		// 				<Popover
+		// 					content={
+		// 						<div className="wrap-calendar-x">
+		// 							<NumberFormat
+		// 								value={num}
+		// 								placeholder="Số lần có thể đặt"
+		// 								className="ant-input style-input w-100"
+		// 								onChange={(e: any) => setNum(e.target.value)}
+		// 								thousandSeparator={true}
+		// 							/>
+		// 							<Button onClick={() => _updateData(data?.ID)} className="btn btn-primary w-100 mt-3">
+		// 								Cập nhật {loading && <Spin className="ml-2" size="small" />}
+		// 							</Button>
+		// 						</div>
+		// 					}
+		// 					title="Cập nhật số lần đặt lịch"
+		// 					trigger="hover"
+		// 					placement="left"
+		// 				>
+		// 					<FontAwesomeIcon className="pen-edit" icon={faPenSquare as IconProp} size="lg" />
+		// 				</Popover>
+		// 			</div>
+		// 		)
+		// 	}
+		// }
 	]
 
 	useEffect(() => {
@@ -393,7 +393,12 @@ const VideoCourseList = () => {
 									total: totalPage,
 									size: 'small',
 									current: pageIndex,
-									showTotal: () => totalPage && <p className="font-weight-black" style={{marginTop: 2, color: '#000'}}>Tổng cộng: {totalPage}</p>
+									showTotal: () =>
+										totalPage && (
+											<p className="font-weight-black" style={{ marginTop: 2, color: '#000' }}>
+												Tổng cộng: {totalPage}
+											</p>
+										)
 								}}
 								loading={loading}
 								itemLayout="horizontal"
@@ -427,10 +432,13 @@ const VideoCourseList = () => {
 					confirmLoading={false}
 					onCancel={() => setShowModal(false)}
 				>
-					<Rate value={parseInt(state.RatingNumber)} 	style={{color: '#FFBA0A' , fontSize: 20}} onChange={(e) => dispatch({ type: 'RatingNumber', RatingNumber: e })} />
+					<Rate
+						value={parseInt(state.RatingNumber)}
+						style={{ color: '#FFBA0A', fontSize: 20 }}
+						onChange={(e) => dispatch({ type: 'RatingNumber', RatingNumber: e })}
+					/>
 					<TextArea
 						value={state.RatingComment}
-					
 						onChange={(p) => dispatch({ type: 'RatingComment', RatingComment: p.target.value })}
 						rows={4}
 						className="mt-4"

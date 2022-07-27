@@ -328,7 +328,7 @@ const CourseOfStudentPrice = () => {
 			const { Price } = data
 			const newData = {
 				...data,
-				Price: parseInt(Price.replace(/\D/g, ''))
+				Price:Price
 			}
 			const res = await refundsApi.add(newData)
 			if (res.status === 200) {
@@ -391,7 +391,7 @@ const CourseOfStudentPrice = () => {
 			title: 'Số tiền còn lại',
 			dataIndex: 'PriceLeft',
 			align: 'center',
-			render: (price) => <p className="font-weight-primary">{numberWithCommas(price)}</p>
+			render: (price) => <p className="font-weight-primary">{numberWithCommas(Math.round(price*100)/100)}</p>
 		},
 		{
 			title: 'Hình thức',

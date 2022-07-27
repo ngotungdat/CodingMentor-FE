@@ -2,6 +2,7 @@ import { Button, DatePicker, Form, Input, Modal, Radio, Spin, Tooltip } from 'an
 import moment from 'moment'
 import React, { useState } from 'react'
 import { DollarSign } from 'react-feather'
+import NumberFormat from 'react-number-format'
 import { courseOfStudentApi } from '~/apiBase/customer/parents/courses-of-student'
 import { useWrap } from '~/context/wrap'
 import { numberWithCommas, parsePriceStrToNumber } from '~/utils/functions'
@@ -122,7 +123,7 @@ const UpdatePriceForm = (props) => {
 
 						<div className="col-12 col-md-6">
 							<Form.Item label="Số tiền thanh toán thêm" name="Price">
-								<Input
+								{/* <Input
 									name="Price"
 									className="style-input"
 									placeholder="Nhập số tiên yêu cầu"
@@ -131,7 +132,19 @@ const UpdatePriceForm = (props) => {
 									}}
 									value={numberWithCommas(inputField.Price)}
 									defaultValue={numberWithCommas(inputField.Price)}
+								/> */}
+								<NumberFormat
+									placeholder="Nhập số tiên yêu cầu"
+									className="ant-input style-input w-100"
+									onChange={(event) => {
+										setInputField({ ...inputField, Price: event.target.value })
+									}}
+									value={inputField.Price}
+									defaultValue={inputField.Price}
+									thousandSeparator={true}
+									decimalScale={2}
 								/>
+
 								<p className="font-weight-primary">{inputField.Mess}</p>
 							</Form.Item>
 						</div>
@@ -141,7 +154,7 @@ const UpdatePriceForm = (props) => {
 								name="Paid"
 								// rules={[{ required: true, message: 'Vui lòng điền số tiền học viên thanh toán!' }]}
 							>
-								<Input
+								{/* <Input
 									className="style-input"
 									placeholder="Nhập số tiền học viên trả trước"
 									name="Paid"
@@ -151,6 +164,17 @@ const UpdatePriceForm = (props) => {
 									}}
 									value={numberWithCommas(inputField.Paid)}
 									defaultValue={numberWithCommas(inputField.Paid)}
+								/> */}
+								<NumberFormat
+									placeholder="Nhập số tiên yêu cầu"
+									className="ant-input style-input w-100"
+									onChange={(event) => {
+										setInputField({ ...inputField, Paid: event.target.value })
+									}}
+									value={inputField.Paid}
+									defaultValue={inputField.Paid}
+									thousandSeparator={true}
+									decimalScale={2}
 								/>
 								<p className="font-weight-primary">{inputField.Mess}</p>
 							</Form.Item>

@@ -104,7 +104,7 @@ const EditCourse = (props) => {
 		// SPLIT SCHEDULE TO 2 OBJECT TO CALL 2 API
 		// paramsArr = [ {Schedule-*: [{params teacher}, {params room}]} ]
 		const paramsArr = arrSchedule.map((sch, idx) => {
-			const { BranchID, SubjectID, StudyTimeID, RoomID, CourseID } = sch
+			const { BranchID, SubjectID, StudyTimeID, RoomID, CourseID, ProgramID } = sch
 			const dateFm = moment(dataModalCalendar.dateString).format('YYYY/MM/DD')
 			return {
 				[`Schedule-${idx + 1}`]: [
@@ -113,7 +113,9 @@ const EditCourse = (props) => {
 						BranchID,
 						SubjectID,
 						StudyTimeID,
-						Date: dateFm
+						Date: dateFm,
+						ProgramID,
+						CourseID
 					},
 					// ROOM
 					{
@@ -121,7 +123,8 @@ const EditCourse = (props) => {
 						Rooms: RoomID,
 						StudyTimeID,
 						Date: dateFm,
-						CourseID
+						CourseID,
+						ProgramID
 					}
 				]
 			}
@@ -131,7 +134,9 @@ const EditCourse = (props) => {
 			// promises = [ {checkTeacher promise}, {checkRoom promise} ]
 			const promises = paramsArr
 				.map((obj, idx1) => {
-					return obj[`Schedule-${idx1 + 1}`].map((p, idx2) => (idx2 % 2 === 0 ? checkTeacherApi.getAll(p) : checkRoomApi.getAll(p)))
+					return obj[`Schedule-${idx1 + 1}`].map((p, idx2) =>
+						idx2 % 2 === 0 ? checkTeacherApi.getAllTeacherAvailable(p) : checkRoomApi.getAll(p)
+					)
 				})
 				.flat(1)
 			await Promise.all(promises)
@@ -159,7 +164,7 @@ const EditCourse = (props) => {
 						}
 						//
 						if (teacherList.status === 200) {
-							const newOptionTeacherList = [...rs.optionTeacherList, ...fmSelectArr(teacherList.data.data, 'name', 'id', ['name'])]
+							const newOptionTeacherList = [...rs.optionTeacherList, ...fmSelectArr(teacherList.data.data, 'FullNameUnicode', 'UserInformationID', ['name'])]
 							const clearDuplicate = clearOptionsDuplicate(newOptionTeacherList)
 							rs.optionTeacherList = clearDuplicate
 						}

@@ -47,7 +47,7 @@ const CourseOfStudentDetail = (props) => {
 		{
 			title: 'Giáo viên',
 			render: (data) =>
-				data.Teacher.map((item, index) => (
+				data?.Teacher.map((item, index) => (
 					<p className="font-weight-black d-block" key={index}>
 						{item.TeacherName}
 					</p>

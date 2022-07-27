@@ -34,8 +34,12 @@ const RegisterCourse = (props: any) => {
 	const [isFetchDataCourses, setIsFetchDataCourses] = useState(false)
 	const [selectedCourse, setSelectedCourse] = useState(null)
 
+	const [totalPrice, setTotalPrice] = useState(0)
+	const [totalPriceProgram, setTotalPriceProgram] = useState(0)
+	const [debt, setDebt] = useState(0)
+
 	const fetchDataUser = () => {
-		; (async () => {
+		;(async () => {
 			try {
 				const res = await studentApi.getAll({
 					pageIndex: 1,
@@ -49,7 +53,7 @@ const RegisterCourse = (props: any) => {
 	}
 
 	useEffect(() => {
-		setOption(3);
+		setOption(3)
 		fetchDataUser()
 	}, [])
 
@@ -59,17 +63,17 @@ const RegisterCourse = (props: any) => {
 
 	const handleChangeUser = (value) => {
 		setIsLoading(true)
-			; (async () => {
-				try {
-					const _detail = await studentApi.getWithID(value)
-					_detail.status == 200 &&
-						(setUserDetail(_detail.data.data), form.setFieldsValue({ UserInformationID: _detail.data.data.UserInformationID }))
-				} catch (err) {
-					showNoti('danger', err.message)
-				} finally {
-					setIsLoading(false)
-				}
-			})()
+		;(async () => {
+			try {
+				const _detail = await studentApi.getWithID(value)
+				_detail.status == 200 &&
+					(setUserDetail(_detail.data.data), form.setFieldsValue({ UserInformationID: _detail.data.data.UserInformationID }))
+			} catch (err) {
+				showNoti('danger', err.message)
+			} finally {
+				setIsLoading(false)
+			}
+		})()
 	}
 
 	const resetForm = () => {
@@ -80,9 +84,8 @@ const RegisterCourse = (props: any) => {
 	}
 
 	const onSubmit = async (data: any) => {
-    console.log("🚀 ~ file: index.tsx ~ line 83 ~ onSubmit ~ data", data)
 		let temp = []
-		
+
 		if (selectedCourse) {
 			for (let i = 0; i < selectedCourse.length; i++) {
 				temp.push(selectedCourse[i])
@@ -90,10 +93,10 @@ const RegisterCourse = (props: any) => {
 		}
 		if (data?.ProgramID !== undefined) {
 			for (let i = 0; i < data.ProgramID.length; i++) {
-				temp.push({ BranchID: data.BranchID, ProgramID: data.ProgramID[i] , CourseID: 0})
+				temp.push({ BranchID: data.BranchID, ProgramID: data.ProgramID[i], CourseID: 0 })
 			}
 		}
-		
+
 		setDataSubmit(data)
 		setLoading(true)
 		if (option == 1) {
@@ -104,9 +107,11 @@ const RegisterCourse = (props: any) => {
 					billCourseDetails: temp,
 					StudentID: userDetail.UserInformationID
 				})
-				showNoti('success', res?.data.message)
-				setLoading(false)
-				resetForm()
+				if (res.status === 200) {
+					showNoti('success', res?.data.message)
+					setLoading(false)
+					resetForm()
+				}
 			} catch (error) {
 				showNoti('danger', error.message)
 				setLoading(false)
@@ -151,6 +156,9 @@ const RegisterCourse = (props: any) => {
 						resetForm()
 						setIsFetchDataCourses(!isFetchDataCourses)
 						form.resetFields()
+						setDebt(0)
+						setTotalPrice(0)
+						setTotalPriceProgram(0)
 					}
 				} catch (error) {
 					showNoti('danger', error.message)
@@ -194,7 +202,7 @@ const RegisterCourse = (props: any) => {
 									<Form.Item label="Loại đăng ký">
 										<Select onChange={onChange} className="style-input w-100 sl-register" placeholder="Đăng ký học">
 											{/* <Option value={1}>Đăng ký đợt thi</Option> */}
-											<Option value={3} >Đăng ký khóa học</Option>
+											<Option value={3}>Đăng ký khóa học</Option>
 											{/* <Option value={4}>Thanh toán</Option> */}
 										</Select>
 									</Form.Item>
@@ -319,6 +327,12 @@ const RegisterCourse = (props: any) => {
 								isFetchDataCourses={isFetchDataCourses}
 								form={form}
 								setSelectedCourse={setSelectedCourse}
+								setTotalPrice={setTotalPrice}
+								totalPrice={totalPrice}
+								setTotalPriceProgram={setTotalPriceProgram}
+								totalPriceProgram={totalPriceProgram}
+								debt={debt}
+								setDebt={setDebt}
 							/>
 						)}
 						{option == 4 && <RegCoursePayment userID={userDetail ? userDetail.UserInformationID : null} />}

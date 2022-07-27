@@ -269,7 +269,9 @@ function ProfileCustomer(props) {
 	}, [isUpdateInfo])
 
 	return (
-		<div className="page-no-scroll">
+		<div
+		//  className="page-no-scroll"
+		>
 			<div className="row">
 				<div className="col-md-3 col-12">
 					<Card className="info-profile-left">

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { DollarSign } from 'react-feather'
 import { useForm } from 'react-hook-form'
 import CheckboxField from '~/components/FormControl/CheckboxField'
+import InputMoneyField from '~/components/FormControl/InputMoneyField'
 import InputTextField from '~/components/FormControl/InputTextField'
 import RadioField from '~/components/FormControl/RadioField'
 import TextAreaField from '~/components/FormControl/TextAreaField'
@@ -140,12 +141,11 @@ function RequestRefundsForm(props) {
 								</div>
 							)}
 							<div className="col-12">
-								<InputTextField
+								<InputMoneyField
 									form={form}
 									name="Price"
 									label="Số tiền hoàn"
 									placeholder="Nhập số tiền hoàn"
-									handleFormatCurrency={numberWithCommas}
 								/>
 							</div>
 							<div className="col-12">

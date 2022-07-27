@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Collapse } from 'antd'
+import { Collapse, Form } from 'antd'
 import Checkbox from 'antd/lib/checkbox/Checkbox'
 import moment from 'moment'
 import PropTypes from 'prop-types'
@@ -118,44 +118,51 @@ const ScheduleItem = (props) => {
 			}
 		>
 			<div className="info-course-select">
-				<div className="row">
-					<div className="col-6">
-						<SelectField
-							form={form}
-							name="RoomID"
-							isLoading={isLoading.type === 'CHECK_SCHEDULE' && isLoading.status}
-							placeholder="Chọn phòng"
-							optionList={optionRoomAndTeacherForADay.optionRoomList}
-							onChangeSelect={(value) => {
-								checkHandleChangeValueSchedule(ID, 'RoomID', value)
-							}}
-						/>
+				<Form layout='vertical'>
+					<div className="row">
+						<div className="col-12 mt-2">
+							<SelectField
+								form={form}
+								name="StudyTimeID"
+								label="Ca học"
+								placeholder="Chọn ca"
+								optionList={optionStudyTime}
+								onChangeSelect={(value) => {
+									setSiblingsFieldToDefault()
+									checkHandleChangeValueSchedule(ID, 'CaID', value)
+								}}
+							/>
+						</div>
+
+						<div className="col-12">
+							<SelectField
+								form={form}
+								name="RoomID"
+								label="Phòng học"
+								isLoading={isLoading.type === 'CHECK_SCHEDULE' && isLoading.status}
+								placeholder="Chọn phòng"
+								optionList={optionRoomAndTeacherForADay.optionRoomList}
+								onChangeSelect={(value) => {
+									checkHandleChangeValueSchedule(ID, 'RoomID', value)
+								}}
+							/>
+						</div>
+
+						<div className="col-12 mt-2">
+							<SelectField
+								form={form}
+								label="Giáo viên"
+								name="TeacherID"
+								isLoading={isLoading.type === 'CHECK_SCHEDULE' && isLoading.status}
+								placeholder="Chọn giáo viên"
+								optionList={optionRoomAndTeacherForADay.optionTeacherList}
+								onChangeSelect={(value) => {
+									checkHandleChangeValueSchedule(ID, 'TeacherID', value)
+								}}
+							/>
+						</div>
 					</div>
-					<div className="col-6">
-						<SelectField
-							form={form}
-							name="StudyTimeID"
-							placeholder="Chọn ca"
-							optionList={optionStudyTime}
-							onChangeSelect={(value) => {
-								setSiblingsFieldToDefault()
-								checkHandleChangeValueSchedule(ID, 'CaID', value)
-							}}
-						/>
-					</div>
-					<div className="col-12 mt-2">
-						<SelectField
-							form={form}
-							name="TeacherID"
-							isLoading={isLoading.type === 'CHECK_SCHEDULE' && isLoading.status}
-							placeholder="Chọn giáo viên"
-							optionList={optionRoomAndTeacherForADay.optionTeacherList}
-							onChangeSelect={(value) => {
-								checkHandleChangeValueSchedule(ID, 'TeacherID', value)
-							}}
-						/>
-					</div>
-				</div>
+				</Form>
 			</div>
 		</Panel>
 	)

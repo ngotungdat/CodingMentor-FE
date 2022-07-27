@@ -4,6 +4,7 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Move } from 'react-feather'
 import { useForm } from 'react-hook-form'
+import NumberFormat from 'react-number-format'
 import { branchApi, courseApi, studentChangeCourseApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 import { PaymentMethod } from '~/lib/payment-method/payment-method'
@@ -30,12 +31,6 @@ const ChangeCourseForm = React.memo((props: any) => {
 	const [courseAfterDetail, setCourseAfterDetail] = useState<ICourseDetail>()
 	const [requestMoney, setRequestMoney] = useState()
 	const [branch, setBranch] = useState<IBranch[]>()
-
-	// console.log('=========================');
-	// console.log('=========================');
-	// console.log('=========================');
-	// console.log('=========================');
-	// console.log('infoDetail: ', infoDetail);
 
 	const fetchDataPrice = () => {
 		// setIsLoading(true);
@@ -101,7 +96,7 @@ const ChangeCourseForm = React.memo((props: any) => {
 	const onSubmit = async (data: any) => {
 		console.log(data)
 		if (infoId) {
-			if (courseAfterDetail?.Price > infoDetail?.Price) {
+			if (courseAfterDetail?.Price < infoDetail?.Price) {
 				showNoti('danger', 'Không được chuyển qua khóa rẻ hơn')
 			} else {
 				setLoading(true)
@@ -254,7 +249,15 @@ const ChangeCourseForm = React.memo((props: any) => {
 											<Input
 												className="style-input w-100"
 												readOnly={true}
-												value={courseAfterDetail != null ? Intl.NumberFormat('ja-JP').format(courseAfterDetail.Price) : ''}
+												value={
+													courseAfterDetail != null
+														? Intl.NumberFormat('en-AU', {
+																// style: 'currency',
+																// currency: 'AUD',
+																minimumFractionDigits: 2
+														  }).format(courseAfterDetail.Price)
+														: ''
+												}
 											/>
 										</Form.Item>
 									</div>
@@ -264,8 +267,16 @@ const ChangeCourseForm = React.memo((props: any) => {
 											<Input
 												className="style-input w-100"
 												readOnly={true}
-												// value={requestMoney != null ? Intl.NumberFormat('ja-JP').format(requestMoney) : ''}
-												value={parseToMoney('' + infoDetail?.Price)}
+												value={
+													infoDetail?.Price != null
+														? Intl.NumberFormat('en-AU', {
+																// style: 'currency',
+																// currency: 'AUD',
+																minimumFractionDigits: 2
+														  }).format(infoDetail?.Price)
+														: ''
+												}
+												// value={parseToMoney('' + infoDetail?.Price)}
 											/>
 										</Form.Item>
 									</div>
@@ -278,7 +289,13 @@ const ChangeCourseForm = React.memo((props: any) => {
 												className="style-input w-100"
 												readOnly={true}
 												value={
-													courseAfterDetail?.Price !== undefined ? parseToMoney('' + (infoDetail?.Price - courseAfterDetail?.Price)) : 0
+													courseAfterDetail?.Price !== undefined
+														? Intl.NumberFormat('en-AU', {
+																// style: 'currency',
+																// currency: 'AUD',
+																minimumFractionDigits: 2
+														  }).format(courseAfterDetail?.Price)
+														: 0
 												}
 											/>
 										</Form.Item>
@@ -336,7 +353,7 @@ const ChangeCourseForm = React.memo((props: any) => {
 							<div className="row">
 								<div className="col-12">
 									<Form.Item name="Paid" label="Thanh toán" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
-										<InputNumber
+										{/* <InputNumber
 											placeholder="Số tiền còn lại cần phải thanh toán"
 											className="style-input"
 											style={{ borderRadius: 5 }}
@@ -344,6 +361,16 @@ const ChangeCourseForm = React.memo((props: any) => {
 											parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
 											precision={2}
 											onChange={(value) => setValue('Paid', value)}
+										/> */}
+
+										<NumberFormat
+											placeholder="Số tiền còn lại cần phải thanh toán"
+											className="ant-input style-input w-100"
+											onChange={(value) => {
+												setValue('Paid', value.target.value)
+											}}
+											thousandSeparator={true}
+											decimalScale={2}
 										/>
 									</Form.Item>
 								</div>

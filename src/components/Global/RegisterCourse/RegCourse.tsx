@@ -1,15 +1,16 @@
+import { Card, DatePicker, Form, Input, InputNumber, Select, Spin } from 'antd'
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Select, Card, Spin, InputNumber, DatePicker } from 'antd'
+import { useForm } from 'react-hook-form'
 import { branchApi, courseApi, discountApi, programApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
-import { useForm } from 'react-hook-form'
 import { PaymentMethod } from '~/lib/payment-method/payment-method'
-import moment from 'moment'
-import InputMoneyField from '~/components/FormControl/InputMoneyField'
 
 let someThink = []
 
 const RegCourse = React.memo((props: any) => {
+	const {totalPriceProgram,setTotalPriceProgram,setTotalPrice,totalPrice,debt,setDebt} = props
+
 	const { TextArea } = Input
 	const { Option } = Select
 	const { userInformation } = useWrap()
@@ -19,9 +20,7 @@ const RegCourse = React.memo((props: any) => {
 	const [discount, setDiscount] = useState<IDiscount[]>()
 	const { showNoti } = useWrap()
 	const { setValue } = useForm()
-	const [totalPrice, setTotalPrice] = useState(0)
-	const [totalPriceProgram, setTotalPriceProgram] = useState(0)
-	const [debt, setDebt] = useState(0)
+	
 	const [discountPrice, setDiscountPrice] = useState(0)
 	const [paid, setPaid] = useState(0)
 	const [discountStyle, setDiscountStyle] = useState(1)
@@ -221,6 +220,15 @@ const RegCourse = React.memo((props: any) => {
 		setDebt(totalPrice + totalPriceProgram - (paid + discountPrice))
 	}, [totalPrice, totalPriceProgram, paid, discountPrice])
 
+	useEffect(() => {
+		if(debt < 0) {
+			showNoti('danger', 'Số tiền thanh toán lớn hơn tổng tiền!')
+			setDisabledSubmit(true)
+		}else {
+			setDisabledSubmit(false)
+		}
+	}, [debt])
+
 	const returnNameCourse = (data) => {
 		let name = data.CourseName
 		let percent = data.DonePercent.toString() + '% '
@@ -249,6 +257,11 @@ const RegCourse = React.memo((props: any) => {
 							allowClear={true}
 							onChange={(value: any) => {
 								setBranchID(value)
+								setTotalPrice(null)
+								setDiscountPrice(null)
+								setDebt(null)
+								setPaid(null)
+								setTotalPriceProgram(null)
 							}}
 						>
 							{branch?.map((item, index) => (
@@ -271,6 +284,9 @@ const RegCourse = React.memo((props: any) => {
 								className="style-input"
 								onChange={(value: any) => {
 									handleChangeCourse({ value: value, type: 1 })
+									if(value.length == 0) {
+										setDebt(0)
+									}
 								}}
 							>
 								{course?.map((item, index) => (
@@ -316,8 +332,8 @@ const RegCourse = React.memo((props: any) => {
 									value={
 										totalPrice || totalPriceProgram
 											? Intl.NumberFormat('en-AU', {
-													style: 'currency',
-													currency: 'AUD',
+													// style: 'currency',
+													// currency: 'AUD',
 													minimumFractionDigits: 2
 											  }).format(totalPrice + totalPriceProgram)
 											: 0
@@ -406,12 +422,6 @@ const RegCourse = React.memo((props: any) => {
 								onChange={(value) => {
 									setValue('Paid', value)
 									handleMoneyLeft(value)
-									if(value > debt) {
-										showNoti('danger', 'Số tiền thanh toán lớn hơn tổng tiền!')
-										setDisabledSubmit(true)
-									}else {
-										setDisabledSubmit(false)
-									}
 								}}
 							/>
 						</Form.Item>
@@ -475,9 +485,6 @@ const RegCourse = React.memo((props: any) => {
 			<div className="row mt-5">
 				<div className="col-12 mt-3 text-center text-left-mobile">
 					<button type="submit" className="btn btn-primary" disabled={disabledSubmit} onClick={()=>{
-						if(disabledSubmit) {
-							showNoti('danger', 'Vui lòng nhập đúng số tiền thành toán!')
-						}
 					}}>
 						Xác nhận
 						{props.loading == true && <Spin className="loading-base" />}

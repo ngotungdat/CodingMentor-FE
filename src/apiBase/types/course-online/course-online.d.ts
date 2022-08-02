@@ -94,7 +94,7 @@ type ICOSaveCourseInfo = {
 	SalaryOfLesson: number
 	Price: number
 	Schedule: ICOScheduleListToSave[]
-	ImageCourse: string
+	Avatar: string
 	isTutoring?: boolean
 }
 type ICOCreateForm = {

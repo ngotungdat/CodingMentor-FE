@@ -418,7 +418,7 @@ const TeacherForm = (props: ITeacherForm) => {
 									/>
 									<InputTextField form={form} name="FullNameUnicode" label="Họ và tên" placeholder="Nhập họ và tên" isRequired={true} />
 									<InputTextField form={form} name="Email" label="Email" placeholder="Nhập email" isRequired={true} />
-									<DateField form={form} name="Jobdate" label="Ngày nhận việc" placeholder="Chọn ngày nhận việc" isRequired={true} />
+									<DateField form={form} name="Jobdate" label="Ngày nhận việc" placeholder="Chọn ngày nhận việc" isRequired={false} />
 								</div>
 								<div className="col-md-6 col-12">
 									<SelectField

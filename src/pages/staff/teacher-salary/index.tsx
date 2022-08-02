@@ -221,15 +221,14 @@ const SalaryReview = () => {
 			title: 'Lương tháng',
 			width: 150,
 			dataIndex: 'Salary',
-			align: 'center',
 			render: (price, record: ITeacherSalary) => <SalaryOfTeacherDetail price={price} record={record} />
 		},
-		{
-			title: 'Lương chấm bài',
-			width: 150,
-			dataIndex: 'SalaryFixExam',
-			render: (price, record: ITeacherSalary) => <TeacherFixExam price={price} record={record} />
-		},
+		// {
+		// 	title: 'Lương chấm bài',
+		// 	width: 150,
+		// 	dataIndex: 'SalaryFixExam',
+		// 	render: (price, record: ITeacherSalary) => <TeacherFixExam price={price} record={record} />
+		// },
 		{
 			title: 'Tổng lương',
 			width: 150,
@@ -239,7 +238,6 @@ const SalaryReview = () => {
 		{
 			title: 'Cập nhật',
 			width: 100,
-			align: 'right',
 			render: (text, record) => (
 				<>
 					<ConfirmForm record={record} setParams={setParams} params={params} />

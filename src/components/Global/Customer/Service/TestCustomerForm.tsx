@@ -30,24 +30,24 @@ const TestCustomerForm = (props) => {
 		TeacherID: null
 	}
 
-	;(function returnSchemaFunc() {
-		returnSchema = { ...defaultValuesInit }
-		Object.keys(returnSchema).forEach(function (key) {
-			switch (key) {
-				case 'Email':
-					returnSchema[key] = yup.string().email('Email nhập sai cú pháp').required('Bạn không được để trống')
-					break
+		; (function returnSchemaFunc() {
+			returnSchema = { ...defaultValuesInit }
+			Object.keys(returnSchema).forEach(function (key) {
+				switch (key) {
+					case 'Email':
+						returnSchema[key] = yup.string().email('Email nhập sai cú pháp').required('Bạn không được để trống')
+						break
 
-				default:
-					if (key !== 'Note') {
-						returnSchema[key] = yup.mixed().required('Bạn không được để trống')
-					}
-					break
-			}
-		})
+					default:
+						if (key !== 'Note') {
+							returnSchema[key] = yup.mixed().required('Bạn không được để trống')
+						}
+						break
+				}
+			})
 
-		schema = yup.object().shape(returnSchema)
-	})()
+			schema = yup.object().shape(returnSchema)
+		})()
 
 	const form = useForm({
 		defaultValues: defaultValuesInit,
@@ -108,7 +108,7 @@ const TestCustomerForm = (props) => {
 						</div>
 						{/*  */}
 
-						<div className="row">
+						<div className="row d-none">
 							<div className="col-12">
 								<SelectField form={form} name="TeacherID" label="Giáo viên chấm bài" optionList={listData.Teacher} />
 							</div>

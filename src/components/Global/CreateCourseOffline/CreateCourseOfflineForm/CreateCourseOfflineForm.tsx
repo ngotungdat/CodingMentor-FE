@@ -13,6 +13,7 @@ import SelectField from '~/components/FormControl/SelectField'
 import { useWrap } from '~/context/wrap'
 import { numberWithCommas } from '~/utils/functions'
 import { optionCommonPropTypes } from '~/utils/proptypes'
+import UploadAvatarField from '~/components/FormControl/UploadAvatarField'
 
 const CreateCourseOfflineForm = (props) => {
 	const {
@@ -148,7 +149,7 @@ const CreateCourseOfflineForm = (props) => {
 									placeholder="Chọn phòng học"
 									isLoading={isLoading.type === 'RoomID' && isLoading.status}
 									optionList={optionListForForm.roomList}
-									// onChangeSelect={checkHandleFetchProgramByGrade}
+								// onChangeSelect={checkHandleFetchProgramByGrade}
 								/>
 							</div>
 
@@ -301,6 +302,9 @@ const CreateCourseOfflineForm = (props) => {
 									label="Tên khóa học"
 									placeholder="[Trung tâm][Chương trình học][Giáo trình][Ca học] - Ngày học"
 								/>
+							</div>
+							<div className="col-12">
+								<UploadAvatarField form={form} name="Avatar" label="Ảnh đại diện khóa học" />
 							</div>
 							<div className="col-md-12 col-12 mt-3 " style={{ textAlign: 'center' }}>
 								<button

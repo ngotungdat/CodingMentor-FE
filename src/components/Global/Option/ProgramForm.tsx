@@ -32,6 +32,7 @@ const ProgramForm = React.memo((props: any) => {
 
 		if (!isNaN(value)) {
 			form.setFieldsValue({ Price: numberWithCommas(value) })
+
 			setValue('Price', value)
 		} else {
 			form.setFieldsValue({ Price: '' })
@@ -123,6 +124,12 @@ const ProgramForm = React.memo((props: any) => {
 							<div className="col-md-12 col-12">
 								<Form.Item name="ProgramName" label="Tên chương trình học" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
 									<Input placeholder="" className="style-input" onChange={(e) => setValue('ProgramName', e.target.value)} />
+								</Form.Item>
+							</div>
+
+							<div className="col-md-12 col-12">
+								<Form.Item name="Price" label="Học phí" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
+									<Input placeholder="" className="style-input " onChange={(e) => formatNumber(e)} />
 								</Form.Item>
 							</div>
 

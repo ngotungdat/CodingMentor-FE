@@ -451,12 +451,12 @@ export const DetailsModal = (props) => {
 													)}
 
 													{!enableEdit ? (
-														<Input className="item-info" prefix="Đề kiểm tra:" value={selected?.ExamTopicName} disabled={!enableEdit} />
+														<Input className="item-info d-none" prefix="Đề kiểm tra:" value={selected?.ExamTopicName} disabled={!enableEdit} />
 													) : (
 														<Select
 															defaultValue={!!selected.ExamTopicID ? `${selected?.ExamTopicName}` : null}
 															onChange={(e: any, a: any) => dispatch({ type: 'ExamTopicID', data: a.key })}
-															className="ml-3 select"
+															className="ml-3 select d-none"
 															placeholder="Chọn đề kiểm tra"
 														>
 															{dataExamTopic?.map((item, index) => {

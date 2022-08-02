@@ -312,6 +312,14 @@ const Programs = () => {
 			}
 		},
 		{
+			title: 'Loại chương trình',
+			dataIndex: 'TypeName',
+			...FilterColumn('TypeName', onSearch, handleReset, 'text'),
+			render: (text) => {
+				return <p className="font-weight-primary">{text}</p>
+			}
+		},
+		{
 			title: 'Trạng thái',
 			dataIndex: 'Enable',
 			render: (Enable, record) => (
@@ -336,7 +344,6 @@ const Programs = () => {
 		// 	render: (date: any) => moment(date).format('DD/MM/YYYY')
 		// },
 		{
-			align: 'right',
 			render: (value, data, index) => (
 				<>
 					<Link

@@ -27,7 +27,8 @@ import {
 	faUserSecret,
 	faBookAtlas,
 	faCalendarCheck,
-	faUsersGear
+	faUsersGear,
+	faMapLocation
 } from '@fortawesome/free-solid-svg-icons'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
@@ -286,13 +287,13 @@ export const AdminChildMenu = [
 						Text: 'Học viên chuyển giao',
 						Icon: ''
 					},
-					{
-						ItemType: 'single',
-						Key: '/package/package-payment',
-						Route: '/package/package-payment',
-						Text: 'Học viên mua bộ đề',
-						Icon: ''
-					},
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/package/package-payment',
+					// 	Route: '/package/package-payment',
+					// 	Text: 'Học viên mua bộ đề',
+					// 	Icon: ''
+					// },
 					{
 						ItemType: 'single',
 						Key: '/customer/contract/contract-customer-list',
@@ -558,28 +559,28 @@ export const AdminChildMenu = [
 		MenuTitle: 'Cấu hình',
 		MenuKey: '/option',
 		MenuItem: [
-			// {
-			// 	ItemType: 'sub-menu',
-			// 	Key: 'sub-tab-option-1',
-			// 	Icon: !!SHOW_ICON && <FontAwesomeIcon icon={faMapLocation as IconProp} size="lg" />,
-			// 	TitleSub: 'Địa chỉ',
-			// 	SubMenuList: [
-			// 		{
-			// 			ItemType: 'single',
-			// 			Key: '/option/provincial',
-			// 			Route: '/option/provincial',
-			// 			Text: 'Tỉnh/Tp',
-			// 			Icon: ''
-			// 		},
-			// 		{
-			// 			ItemType: 'single',
-			// 			Key: '/option/district',
-			// 			Route: '/option/district',
-			// 			Text: 'Quận huyện',
-			// 			Icon: ''
-			// 		}
-			// 	]
-			// },
+			{
+				ItemType: 'sub-menu',
+				Key: 'sub-tab-option-1',
+				Icon: '',
+				TitleSub: 'Địa chỉ',
+				SubMenuList: [
+					{
+						ItemType: 'single',
+						Key: '/option/provincial',
+						Route: '/option/provincial',
+						Text: 'Tỉnh/Tp',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/option/district',
+						Route: '/option/district',
+						Text: 'Quận huyện',
+						Icon: ''
+					}
+				]
+			},
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-4',
@@ -627,6 +628,13 @@ export const AdminChildMenu = [
 						Key: '/option/zoom/config-zoom',
 						Route: '/option/zoom/config-zoom',
 						Text: 'Tài khoản Zoom',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/option/meeting/meeting-zoom',
+						Route: '/option/meeting/meeting-zoom',
+						Text: 'Phòng học Zoom',
 						Icon: ''
 					},
 					{

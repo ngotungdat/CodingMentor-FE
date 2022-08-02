@@ -179,31 +179,31 @@ const CurriculumDetail = (props) => {
 				</>
 			)
 		},
-		{
-			title: 'Trạng thái',
-			dataIndex: 'StatusName',
-			key: 'statusname',
-			className: 'text-center',
-			render: (text, data) => (
-				<div>
-					{isAdmin ? (
-						isFixed ? (
-							<Switch
-								checked={data.IsExam}
-								checkedChildren="Kiểm tra"
-								unCheckedChildren="Kiểm tra"
-								onChange={(checked) => onChange_typeLesson(data.ID, checked)}
-								loading={loadingCheck.id == data.ID && loadingCheck.status}
-							/>
-						) : (
-							<p>{data?.IsExam ? 'Kiểm tra' : 'Buổi học'}</p>
-						)
-					) : (
-						<p>{data?.IsExam ? 'Kiểm tra' : 'Buổi học'}</p>
-					)}
-				</div>
-			)
-		},
+		// {
+		// 	title: 'Trạng thái',
+		// 	dataIndex: 'StatusName',
+		// 	key: 'statusname',
+		// 	className: 'text-center',
+		// 	render: (text, data) => (
+		// 		<div>
+		// 			{isAdmin ? (
+		// 				isFixed ? (
+		// 					<Switch
+		// 						checked={data.IsExam}
+		// 						checkedChildren="Kiểm tra"
+		// 						unCheckedChildren="Kiểm tra"
+		// 						onChange={(checked) => onChange_typeLesson(data.ID, checked)}
+		// 						loading={loadingCheck.id == data.ID && loadingCheck.status}
+		// 					/>
+		// 				) : (
+		// 					<p>{data?.IsExam ? 'Kiểm tra' : 'Buổi học'}</p>
+		// 				)
+		// 			) : (
+		// 				<p>{data?.IsExam ? 'Kiểm tra' : 'Buổi học'}</p>
+		// 			)}
+		// 		</div>
+		// 	)
+		// },
 		{
 			title: 'Buổi học',
 			dataIndex: 'LessonNumber',

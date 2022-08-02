@@ -276,7 +276,7 @@ export default function ServiceAppointmentTest(props) {
 	// ----------- GET DATA SOURCE ---------------
 	const getDataAll = (arrApi) => {
 		arrApi.forEach((item, index) => {
-			;(async () => {
+			; (async () => {
 				let res = null
 				try {
 					if (item.name == 'Counselors') {
@@ -446,8 +446,8 @@ export default function ServiceAppointmentTest(props) {
 			dataIndex == 'FullNameUnicode'
 				? { FullNameUnicode: valueSearch }
 				: dataIndex == 'Mobile'
-				? { Mobile: valueSearch }
-				: { Email: valueSearch }
+					? { Mobile: valueSearch }
+					: { Email: valueSearch }
 
 		setTodoApi({
 			...todoApi,
@@ -574,9 +574,9 @@ export default function ServiceAppointmentTest(props) {
 			...FilterColumn('Email', onSearch, handleReset, 'text')
 		},
 		{
+			width: 170,
 			title: 'Số điện thoại',
 			dataIndex: 'Mobile',
-			fixed: 'left',
 			render: (a) => <p className="font-weight-primary">{a}</p>,
 			...FilterColumn('Mobile', onSearch, handleReset, 'text')
 		},
@@ -587,22 +587,22 @@ export default function ServiceAppointmentTest(props) {
 
 			render: (a) => <p className="font-weight-black">{a}</p>
 		},
-		{
-			width: 170,
-			title: 'Đề test',
-			dataIndex: 'ExamTopicnName',
-			render: (text, data: any) => (
-				<Link
-					href={{
-						pathname: `/question-bank/exam-list/exam-detail/${data.ExamTopicID}`
-					}}
-				>
-					<a href="" className="font-weight-link">
-						{text}
-					</a>
-				</Link>
-			)
-		},
+		// {
+		// 	width: 170,
+		// 	title: 'Đề test',
+		// 	dataIndex: 'ExamTopicnName',
+		// 	render: (text, data: any) => (
+		// 		<Link
+		// 			href={{
+		// 				pathname: `/question-bank/exam-list/exam-detail/${data.ExamTopicID}`
+		// 			}}
+		// 		>
+		// 			<a href="" className="font-weight-link">
+		// 				{text}
+		// 			</a>
+		// 		</Link>
+		// 	)
+		// },
 		{
 			title: 'Ngày hẹn',
 			dataIndex: 'AppointmentDate',
@@ -614,11 +614,11 @@ export default function ServiceAppointmentTest(props) {
 			dataIndex: 'Time',
 			align: 'center'
 		},
-		{
-			width: 170,
-			title: 'Giáo viên chấm bài',
-			dataIndex: 'TeacherName'
-		},
+		// {
+		// 	width: 170,
+		// 	title: 'Giáo viên chấm bài',
+		// 	dataIndex: 'TeacherName'
+		// },
 		{
 			width: 190,
 			title: 'Tư vấn viên',
@@ -679,7 +679,7 @@ export default function ServiceAppointmentTest(props) {
 						_onSubmit={(data: any) => _onSubmit(data)}
 						dataExam={dataExam}
 					/>
-					<TestAddExam dataExam={dataExam} dataRow={data} onFetchData={() => setTodoApi({ ...todoApi })} />
+					{/* <TestAddExam dataExam={dataExam} dataRow={data} onFetchData={() => setTodoApi({ ...todoApi })} /> */}
 					{data.Status == 0 && <CancelTest onUpdateData={onUpdateData} dataRow={data} />}
 				</div>
 			)

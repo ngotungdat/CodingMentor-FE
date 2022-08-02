@@ -123,7 +123,7 @@ const CreateCourseOffline = () => {
 		Price: 0,
 		Schedule: [],
 		RoomID: 0,
-		ImageCourse: ''
+		Avatar: ''
 	})
 	// CALENDAR MODAL
 	const [dataModalCalendar, setDataModalCalendar] = useState<ICODataModal>({
@@ -316,7 +316,7 @@ const CreateCourseOffline = () => {
 		})
 		setListRoomID(object.RoomID)
 		try {
-			const { CourseName, SalaryOfLesson, Price, TimeCourse, RoomID } = object
+			const { CourseName, SalaryOfLesson, Price, TimeCourse, RoomID, Avatar } = object
 			const { BranchID, CurriculumID, StartDay: StartDate, ProgramID, TeacherID, GradeID } = object
 
 			stoneDataToSave.current = {
@@ -332,7 +332,7 @@ const CreateCourseOffline = () => {
 				SalaryOfLesson: Number(SalaryOfLesson),
 				Price: Number(Price),
 				TimeCourse,
-				Avatar: ''
+				Avatar
 			}
 
 			const lessonParams = {
@@ -485,43 +485,43 @@ const CreateCourseOffline = () => {
 			case 'CaID':
 				const newTeacher = isHasTeacher
 					? {
-							TeacherID: stoneDataToSave.current.TeacherID,
-							TeacherName: optionListForForm.teacherList[0].title
-					  }
+						TeacherID: stoneDataToSave.current.TeacherID,
+						TeacherName: optionListForForm.teacherList[0].title
+					}
 					: {
-							TeacherID: 0,
-							TeacherName: 'Giáo viên trống'
-					  }
+						TeacherID: 0,
+						TeacherName: 'Giáo viên trống'
+					}
 				const newRoomList = isRoomAvailable
 					? {
-							RoomID: stoneDataToSave.current.RoomID[0],
-							RoomName: optionListForForm.roomList[0].title
-					  }
+						RoomID: stoneDataToSave.current.RoomID[0],
+						RoomName: optionListForForm.roomList[0].title
+					}
 					: {
-							RoomID: 0,
-							RoomName: 'Không có phòng trống'
-					  }
+						RoomID: 0,
+						RoomName: 'Không có phòng trống'
+					}
 				return { ...newTeacher, ...newRoomList, CaName, [key]: vl }
 			case 'RoomID':
 				const RoomIndex = optionListForForm.roomList.findIndex((item) => item.value == vl)
 				const _newTeacher = isHasTeacher
 					? {
-							TeacherID: stoneDataToSave.current.TeacherID,
-							TeacherName: optionListForForm.teacherList[0].title
-					  }
+						TeacherID: stoneDataToSave.current.TeacherID,
+						TeacherName: optionListForForm.teacherList[0].title
+					}
 					: {
-							TeacherID: 0,
-							TeacherName: 'Giáo viên trống'
-					  }
+						TeacherID: 0,
+						TeacherName: 'Giáo viên trống'
+					}
 				const _newRoomList = isRoomAvailable
 					? {
-							RoomID: vl,
-							RoomName: optionListForForm.roomList[RoomIndex].title
-					  }
+						RoomID: vl,
+						RoomName: optionListForForm.roomList[RoomIndex].title
+					}
 					: {
-							RoomID: 0,
-							RoomName: 'Không có phòng trống'
-					  }
+						RoomID: 0,
+						RoomName: 'Không có phòng trống'
+					}
 				return { ..._newTeacher, ..._newRoomList, CaName, CaID, [key]: vl }
 			default:
 				break
@@ -734,6 +734,7 @@ const CreateCourseOffline = () => {
 			: `[${BranchName}][${ProgramName}][${CurriculumName}][${StudyTimeName}] - ${moment(StartDay).format('DD/MM/YYYY')}`
 
 		setScheduleShow(fmScheduleShowToObject)
+
 		setSaveCourseInfo({
 			...saveCourseInfo,
 			...stoneDataToSave.current,
@@ -748,10 +749,12 @@ const CreateCourseOffline = () => {
 			StudyTimeID: studyTimeListString,
 			EndDay: moment(endDate).format('YYYY/MM/DD'),
 			Schedule: save,
-			RoomID
+			RoomID,
+			Avatar: stoneDataToSave.current.Avatar
 		})
 	}
 	const onSaveCourse = async () => {
+
 		setIsLoading({
 			type: 'SAVE_COURSE',
 			status: true

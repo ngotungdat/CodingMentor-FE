@@ -209,7 +209,7 @@ export const AddCurriculumForm = (props) => {
 											/>
 										</Form.Item>
 									</div>
-									<div className="col-md-6 col-12">
+									<div className="col-md-3 col-12">
 										<Form.Item label="Link tài liệu" name="LinkDocument">
 											<Upload onChange={onChangeUploadLinkDocument} showUploadList={showListUploadDoc} maxCount={1}>
 												<Button icon={<UploadOutlined />}>Bấm để tải file</Button>
@@ -223,7 +223,7 @@ export const AddCurriculumForm = (props) => {
 										</Form.Item>
 									</div>
 
-									<div className="col-md-6 col-12">
+									<div className="col-md-6 col-12 d-none">
 										<Form.Item label="Bài tập" name="ExamTopicID">
 											<Select
 												disabled={false}
@@ -245,7 +245,7 @@ export const AddCurriculumForm = (props) => {
 											</Select>
 										</Form.Item>
 									</div>
-									<div className="col-md-6 col-12">
+									<div className="col-md-3 col-12">
 										<Form.Item label="Link HTML" name="LinkHtml">
 											<Upload onChange={onChangeUploadLinkHTML} showUploadList={showListUploadHtml} maxCount={1}>
 												<Button icon={<UploadOutlined />}>Bấm để tải file</Button>
@@ -264,7 +264,7 @@ export const AddCurriculumForm = (props) => {
 										</p>
 									</div>
 								</div>
-								<div className="row">
+								<div className="row d-none">
 									<div className="col-12">
 										<Form.Item label="" name="isPreview">
 											<Checkbox onChange={(e) => setLesson({ ...lesson, IsPreview: e.target.checked })}>Cho xem trước video</Checkbox>

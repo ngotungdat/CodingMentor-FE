@@ -1,49 +1,63 @@
-import { time } from "console";
-import React, { useState, useEffect } from "react";
-
-// import './styles.module.scss';
+import React, { useState, useEffect } from 'react'
 
 const CountDown = (props) => {
-  const add_minutes = props.addMinutes;
+	const add_minutes = props.addMinutes
 
-  const calculateTimeLeft = () => {
-    let timeLeft = {};
-    let difference = +add_minutes - +new Date();
+	const [isSubmited, setSubmited] = useState(false)
 
-    let calSeconds = Math.floor((difference / 1000) % 60);
-    let calMinutes = Math.floor((difference / 1000 / 60) % 60);
+	const calculateTimeLeft = () => {
+		let timeLeft = {}
+		let difference = +add_minutes - +new Date()
 
-    if (difference >= 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: calMinutes < 10 ? "0" + calMinutes : calMinutes,
-        seconds: calSeconds < 10 ? "0" + calSeconds : calSeconds,
-      };
-    } else {
-      // setShowPopup(true);
-      props.onFinish && props.onFinish();
-    }
+		let calSeconds = Math.floor((difference / 1000) % 60)
+		let calMinutes = Math.floor((difference / 1000 / 60) % 60)
+		let calHours = Math.floor((difference / (1000 * 60 * 60)) % 24)
 
-    return timeLeft;
-  };
+		if (difference >= 0) {
+			timeLeft = {
+				days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+				hours: calHours < 10 ? '0' + calHours : calHours + '',
+				minutes: calMinutes < 10 ? '0' + calMinutes : calMinutes + '',
+				seconds: calSeconds < 10 ? '0' + calSeconds : calSeconds
+			}
+		}
 
-  const [timeLeft, setTimeLeft] = useState<any>(calculateTimeLeft());
+		return timeLeft
+	}
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-    return () => clearTimeout(timer);
-  });
+	const [timeLeft, setTimeLeft] = useState<any>(calculateTimeLeft())
 
-  return (
-    <div className="countdown">
-      {timeLeft.hours > 0 && <span className="hours">{timeLeft.hours}</span>}
-      <span className="minutes">{timeLeft.minutes}</span>
-      <span className="seconds">{timeLeft.seconds}</span>
-    </div>
-  );
-};
+	const isCounter = () => {
+		const daysNumber = parseInt(timeLeft.days)
+		const hoursNumber = parseInt(timeLeft.hours)
+		if (daysNumber != 0 || hoursNumber != 0 || parseInt(timeLeft.minutes) != 0 || parseInt(timeLeft.seconds) != 0) {
+			return true
+		} else {
+			return false
+		}
+	}
 
-export default CountDown;
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (isCounter()) {
+				setTimeLeft(calculateTimeLeft())
+			} else {
+				if (!isSubmited) {
+					props.onFinish && props.onFinish()
+					setSubmited(true)
+				}
+			}
+		}, 1000)
+		return () => clearTimeout(timer)
+	})
+
+	return (
+		<div className="countdown">
+			{timeLeft.hours > 0 && <span className="hours">{timeLeft.hours}</span>}
+			<span className="minutes">{timeLeft.minutes}</span>
+			<span className="seconds">{timeLeft.seconds}</span>
+		</div>
+	)
+}
+
+export default CountDown

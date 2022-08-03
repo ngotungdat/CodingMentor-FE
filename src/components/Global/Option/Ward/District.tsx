@@ -1,9 +1,9 @@
-import { EyeOutlined } from '@ant-design/icons'
 import { Tooltip } from 'antd'
 import moment from 'moment'
+import { route } from 'next/dist/next-server/server/router'
 import router from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
-import { areaApi, districtApi } from '~/apiBase'
+import { areaApi, wardApi } from '~/apiBase'
 import DeleteTableRow from '~/components/Elements/DeleteTableRow/DeleteTableRow'
 import SortBox from '~/components/Elements/SortBox'
 import PowerTable from '~/components/PowerTable'
@@ -12,17 +12,13 @@ import { useWrap } from '~/context/wrap'
 import { fmSelectArr } from '~/utils/functions'
 import DistrictForm from './DistrictForm'
 
-const District = () => {
-	const [districtList, setDistrictList] = useState<IDistrict[]>([])
-	const [isLoading, setIsLoading] = useState({
-		type: '',
-		status: false
-	})
+const Ward = () => {
+	const [districtList, setDistrictList] = useState<IWard[]>([])
+	const [isLoading, setIsLoading] = useState({ type: '', status: false })
 	const [totalPage, setTotalPage] = useState(null)
 	const { showNoti, pageSize } = useWrap()
 	const [areaList, setAreaList] = useState([])
 	const [activeColumnSearch, setActiveColumnSearch] = useState('')
-	const area = router.query.area
 	// FILTER
 	const listFieldInit = {
 		pageIndex: 1,
@@ -125,7 +121,7 @@ const District = () => {
 			status: true
 		})
 		try {
-			let res = await districtApi.getAll({ ...filters, areaID: area })
+			let res = await wardApi.getAll({ ...filters, districtID: router.query.dis })
 			if (res.status === 200) {
 				if (res.data.totalRow && res.data.data.length) {
 					setDistrictList(res.data.data)
@@ -147,16 +143,13 @@ const District = () => {
 	useEffect(() => {
 		fetchDistrictList()
 	}, [filters])
-
 	const fetchAreaList = async () => {
 		setIsLoading({
 			type: 'GET_ALL',
 			status: true
 		})
 		try {
-			let res = await areaApi.getAll({
-				selectAll: true
-			})
+			let res = await areaApi.getAll({})
 			if (res.status === 200) {
 				const newAreaList = fmSelectArr(res.data.data, 'AreaName', 'AreaID')
 				setAreaList(newAreaList)
@@ -182,7 +175,7 @@ const District = () => {
 		})
 		let res
 		try {
-			res = await districtApi.add({
+			res = await wardApi.add({
 				...data,
 				Enable: true
 			})
@@ -206,7 +199,7 @@ const District = () => {
 		})
 		let res
 		try {
-			res = await districtApi.update(newObj)
+			res = await wardApi.update({ ...newObj })
 			if (res.status === 200) {
 				const newDistrictList = [...districtList]
 				newDistrictList.splice(idx, 1, {
@@ -235,7 +228,7 @@ const District = () => {
 			})
 			try {
 				const delObj = districtList[idx]
-				const res = await districtApi.delete({
+				const res = await wardApi.delete({
 					...delObj,
 					Enable: false
 				})
@@ -269,14 +262,14 @@ const District = () => {
 	// COLUMN FOR TABLE
 	const columns = [
 		{
-			title: 'Tên tỉnh/thành phố',
-			dataIndex: 'AreaName',
-			...FilterColumn('AreaID', onSearch, onResetSearch, 'select', areaList),
-			className: activeColumnSearch === 'AreaID' ? 'active-column-search' : ''
-		},
-		{
 			title: 'Tên quận',
 			dataIndex: 'DistrictName',
+			...FilterColumn('DistrictName', onSearch, onResetSearch, 'text'),
+			className: activeColumnSearch === 'DistrictName' ? 'active-column-search' : ''
+		},
+		{
+			title: 'Tên phường / xã',
+			dataIndex: 'WardName',
 			...FilterColumn('DistrictName', onSearch, onResetSearch, 'text'),
 			className: activeColumnSearch === 'DistrictName' ? 'active-column-search' : ''
 		},
@@ -289,7 +282,6 @@ const District = () => {
 			title: 'Được tạo bởi',
 			dataIndex: 'ModifiedBy'
 		},
-
 		{
 			align: 'center',
 			render: (value, _, idx) => (
@@ -303,23 +295,6 @@ const District = () => {
 						handleUpdateDistrict={onUpdateDistrict}
 					/>
 					<DeleteTableRow handleDelete={onDeleteDistrict(idx)} />
-
-					<Tooltip title="Xem danh sách quận / huyện">
-						<button
-							onClick={() =>
-								router.push({
-									pathname: '/option/ward',
-									query: {
-										dis: _.ID
-									}
-								})
-							}
-							type="button"
-							className="btn btn-icon delete"
-						>
-							<EyeOutlined />
-						</button>
-					</Tooltip>
 				</div>
 			)
 		}
@@ -332,8 +307,8 @@ const District = () => {
 			getPagination={getPagination}
 			loading={isLoading}
 			addClass="basic-header"
-			TitlePage="Danh sách quận - huyện"
-			TitleCard={<DistrictForm optionAreaList={areaList} isLoading={isLoading} isUpdate={false} handleCreateDistrict={onCreateDistrict} />}
+			TitlePage="Danh sách phường - xã"
+			// TitleCard={<DistrictForm optionAreaList={areaList} isLoading={isLoading} isUpdate={false} handleCreateDistrict={onCreateDistrict} />}
 			dataSource={districtList}
 			columns={columns}
 			Extra={
@@ -345,4 +320,4 @@ const District = () => {
 	)
 }
 
-export default District
+export default Ward

@@ -1,4 +1,7 @@
+import { EyeOutlined } from '@ant-design/icons'
+import { Popconfirm, Tooltip } from 'antd'
 import moment from 'moment'
+import router from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 import { areaApi } from '~/apiBase'
 import DeleteTableRow from '~/components/Elements/DeleteTableRow/DeleteTableRow'
@@ -247,6 +250,22 @@ const Area = () => {
 				<div onClick={(e) => e.stopPropagation()}>
 					<AreaForm isLoading={isLoading} isUpdate={true} updateObj={value} indexUpdateObj={idx} handleUpdateArea={onUpdateArea} />
 					<DeleteTableRow handleDelete={onDeleteArea(idx)} />
+					<Tooltip title="Xem danh sách quận / huyện">
+						<button
+							onClick={() =>
+								router.push({
+									pathname: '/option/district',
+									query: {
+										area: _.AreaID
+									}
+								})
+							}
+							type="button"
+							className="btn btn-icon delete"
+						>
+							<EyeOutlined />
+						</button>
+					</Tooltip>
 				</div>
 			)
 		}

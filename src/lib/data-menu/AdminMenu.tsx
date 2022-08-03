@@ -569,16 +569,23 @@ export const AdminChildMenu = [
 						ItemType: 'single',
 						Key: '/option/provincial',
 						Route: '/option/provincial',
-						Text: 'Tỉnh/Tp',
-						Icon: ''
-					},
-					{
-						ItemType: 'single',
-						Key: '/option/district',
-						Route: '/option/district',
-						Text: 'Quận huyện',
+						Text: 'Tỉnh / Thành phố',
 						Icon: ''
 					}
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/option/district',
+					// 	Route: '/option/district',
+					// 	Text: 'Quận / Huyện',
+					// 	Icon: ''
+					// },
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/option/ward',
+					// 	Route: '/option/ward',
+					// 	Text: 'Phường / Xã',
+					// 	Icon: ''
+					// }
 				]
 			},
 			{

@@ -136,7 +136,7 @@ const CreateCourseOnline = () => {
 		TypeCourse: 2,
 		SalaryOfLesson: 0,
 		Price: 0,
-		Schedule: [],
+		Schedule: [], // @ts-ignore
 		ImageCourse: ''
 	})
 	// CALENDAR MODAL

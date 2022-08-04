@@ -1,13 +1,13 @@
-import { Spin } from 'antd';
-import Modal from 'antd/lib/modal/Modal';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useWrap } from '~/context/wrap';
-moment.locale('vi');
-const localizer = momentLocalizer(moment);
+import { Spin } from 'antd'
+import Modal from 'antd/lib/modal/Modal'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import { useWrap } from '~/context/wrap'
+moment.locale('vi')
+const localizer = momentLocalizer(moment)
 
 const CreateCourseCalendar = (props) => {
 	const {
@@ -18,34 +18,34 @@ const CreateCourseCalendar = (props) => {
 		dataModalCalendar,
 		//
 		unAvailableList
-	} = props;
-	const isSmDown = window.matchMedia('(max-width: 767px)').matches;
-	const [isVisible, setIsVisible] = useState(false);
-	const { showNoti } = useWrap();
-	const openModal = () => setIsVisible(true);
-	const closeModal = () => setIsVisible(false);
-	const { dateString, limit, scheduleInDay, scheduleList } = dataModalCalendar;
+	} = props
+	const isSmDown = window.matchMedia('(max-width: 767px)').matches
+	const [isVisible, setIsVisible] = useState(false)
+	const { showNoti } = useWrap()
+	const openModal = () => setIsVisible(true)
+	const closeModal = () => setIsVisible(false)
+	const { dateString, limit, scheduleInDay, scheduleList } = dataModalCalendar
 	const checkHandleSetDataModalCalendar = (obj) => {
-		if (!handleSetDataModalCalendar) return;
-		handleSetDataModalCalendar(obj);
-	};
+		if (!handleSetDataModalCalendar) return
+		handleSetDataModalCalendar(obj)
+	}
 	const styleEvent = ({ event }) => {
-		const { dateString, limit, scheduleList, valid } = event.resource;
-		const scheduleInDay = scheduleList.length;
+		const { dateString, limit, scheduleList, valid } = event.resource
+		const scheduleInDay = scheduleList.length
 		return (
 			<>
 				<div
 					onClick={(e) => {
-						e.stopPropagation();
+						e.stopPropagation()
 						checkHandleSetDataModalCalendar({
 							dateString,
 							limit,
 							scheduleInDay,
 							scheduleList
-						});
-						openModal();
+						})
+						openModal()
 						if (valid) {
-							showNoti('success', `Ngày ${moment(dateString).format('DD/MM/YYYY')}- hãy chọn ${limit - scheduleInDay} ca`);
+							showNoti('success', `Ngày ${moment(dateString).format('DD/MM/YYYY')}- hãy chọn ${limit - scheduleInDay} ca`)
 						}
 					}}
 				>
@@ -54,29 +54,29 @@ const CreateCourseCalendar = (props) => {
 					<strong>Đã xếp: {scheduleInDay}</strong>
 				</div>
 			</>
-		);
-	};
+		)
+	}
 	const customEventPropGetter = (event, start, end, isSelected) => {
-		let cls;
+		let cls
 		if (event.resource.limit !== event.resource.scheduleList.length) {
-			cls = 'create-course-event create-course-event-green';
+			cls = 'create-course-event create-course-event-green'
 		}
 		if (event.resource.limit === event.resource.scheduleList.length) {
-			cls = 'create-course-event';
+			cls = 'create-course-event'
 		}
 		if (event.resource.scheduleList.length === 0) {
-			cls = 'create-course-event create-course-event-gray';
+			cls = 'create-course-event create-course-event-gray'
 		}
 		if (event.resource.dateString === dateString) {
 			return {
 				className: 'create-course-event create-course-event-active'
-			};
+			}
 		} else {
 			return {
 				className: cls
-			};
+			}
 		}
-	};
+	}
 	return (
 		<div className="wrap-calendar">
 			<Spin spinning={!isLoaded} size="large" wrapperClassName="calendar-loading">
@@ -149,8 +149,8 @@ const CreateCourseCalendar = (props) => {
 				</div>
 			</Modal>
 		</div>
-	);
-};
+	)
+}
 CreateCourseCalendar.propTypes = {
 	eventList: PropTypes.arrayOf(
 		PropTypes.shape({
@@ -179,7 +179,7 @@ CreateCourseCalendar.propTypes = {
 	unAvailableList: PropTypes.node,
 	//
 	children: PropTypes.node
-};
+}
 CreateCourseCalendar.defaultProps = {
 	eventList: [],
 	isLoaded: false,
@@ -193,5 +193,5 @@ CreateCourseCalendar.defaultProps = {
 	},
 	//
 	unAvailableList: null
-};
-export default CreateCourseCalendar;
+}
+export default CreateCourseCalendar

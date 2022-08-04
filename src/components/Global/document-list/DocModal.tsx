@@ -8,17 +8,17 @@ import { documentCategoryApi } from '~/apiBase/course-detail/document-category'
 import { useWrap } from '~/context/wrap'
 
 const IconList = [
-	{ icon: '/Images/1-listening.png' },
-	{ icon: '/Images/2-reading.png' },
-	{ icon: '/Images/3-speaking.png' },
-	{ icon: '/Images/4-writing.png' },
-	{ icon: '/Images/5-vocabulary.png' },
-	{ icon: '/Images/6-grammar.png' },
-	{ icon: '/Images/7-paraphrase.png' },
-	{ icon: '/Images/8-blog.png' },
-	{ icon: '/Images/9-goc-hoc-tap.png' },
-	{ icon: '/Images/10-goc-dong-luc.png' },
-	{ icon: '/Images/11-goc-review.png' }
+	{ icon: '/images/1-listening.png' },
+	{ icon: '/images/2-reading.png' },
+	{ icon: '/images/3-speaking.png' },
+	{ icon: '/images/4-writing.png' },
+	{ icon: '/images/5-vocabulary.png' },
+	{ icon: '/images/6-grammar.png' },
+	{ icon: '/images/7-paraphrase.png' },
+	{ icon: '/images/8-blog.png' },
+	{ icon: '/images/9-goc-hoc-tap.png' },
+	{ icon: '/images/10-goc-dong-luc.png' },
+	{ icon: '/images/11-goc-review.png' }
 ]
 
 const DocModal = (props) => {
@@ -30,7 +30,6 @@ const DocModal = (props) => {
 	const { Option } = Select
 
 	const addDocument = async (data) => {
-		console.log('add category', data)
 		setSubmitLoading({ type: 'UPLOADING', loading: true })
 		try {
 			let res = await documentCategoryApi.add({ ...data, CurriculumnID: curriculumID })

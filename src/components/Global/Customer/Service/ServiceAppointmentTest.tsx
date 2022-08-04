@@ -14,8 +14,10 @@ import { useWrap } from '~/context/wrap'
 import TestCustomerPoint from '~/components/Global/Customer/Service/TestCustomerPoint'
 import ExamAppointmentPoint from '../../ExamAppointment/ExamAppointmentPoint'
 import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons'
-import { Modal, Tooltip } from 'antd'
+import { Card, Modal, Tooltip } from 'antd'
 import Link from 'next/link'
+import ScoreModal from './ScoreModal'
+import { parseToMoney } from '~/utils/functions'
 
 let pageIndex = 1
 
@@ -276,7 +278,7 @@ export default function ServiceAppointmentTest(props) {
 	// ----------- GET DATA SOURCE ---------------
 	const getDataAll = (arrApi) => {
 		arrApi.forEach((item, index) => {
-			; (async () => {
+			;(async () => {
 				let res = null
 				try {
 					if (item.name == 'Counselors') {
@@ -446,8 +448,8 @@ export default function ServiceAppointmentTest(props) {
 			dataIndex == 'FullNameUnicode'
 				? { FullNameUnicode: valueSearch }
 				: dataIndex == 'Mobile'
-					? { Mobile: valueSearch }
-					: { Email: valueSearch }
+				? { Mobile: valueSearch }
+				: { Email: valueSearch }
 
 		setTodoApi({
 			...todoApi,
@@ -527,24 +529,99 @@ export default function ServiceAppointmentTest(props) {
 		}
 	}
 
+	// const expandedRowRender = (record) => {
+	// 	// return record.Note ? record.Note : "Không có ghi chú";
+	// 	// return (
+	// 	// 	<>
+	// 	// 		<div className="box-note mt-2">
+	// 	// 			<h6 className="d-block text-underline">Ghi chú:</h6>
+	// 	// 			<p>{record.Note}</p>
+	// 	// 		</div>
+	// 	// 		<TestCustomerPoint ID={record.ID} />
+	// 	// 	</>
+	// 	// );
+	// 	return (
+	// 		<>
+	// 			<p style={{ fontWeight: 500 }} className="mt-3 mb-2">
+	// 				Ghi chú
+	// 			</p>
+	// 			<p>{record.Note}</p>
+	// 			<ExamAppointmentPoint infoID={record.ID} userID={record.UserInformationID} />
+	// 		</>
+	// 	)
+	// }
+
 	const expandedRowRender = (record) => {
-		// return record.Note ? record.Note : "Không có ghi chú";
-		// return (
-		// 	<>
-		// 		<div className="box-note mt-2">
-		// 			<h6 className="d-block text-underline">Ghi chú:</h6>
-		// 			<p>{record.Note}</p>
-		// 		</div>
-		// 		<TestCustomerPoint ID={record.ID} />
-		// 	</>
-		// );
+		const getWidth = () => {
+			let box = document.querySelector('.ant-table-wrapper')
+			return box?.clientWidth ? box.clientWidth - 150 : 0
+		}
+
 		return (
 			<>
-				<p style={{ fontWeight: 500 }} className="mt-3 mb-2">
-					Ghi chú
-				</p>
-				<p>{record.Note}</p>
-				<ExamAppointmentPoint infoID={record.ID} userID={record.UserInformationID} />
+				<Card style={{ marginRight: -15 }}>
+					<div className="my-custom-table">
+						<table>
+							<thead>
+								<tr>
+									<th>Số điện thoại</th>
+									<th>Email</th>
+									<th>Đề</th>
+									<th>Ngày tạo</th>
+								</tr>
+							</thead>
+							<tr>
+								<td>{record?.Mobile}</td>
+								<td>{record?.Email}</td>
+								<td>{record?.ExamTopicnName}</td>
+								<td>{moment(record?.CreatedOn).format('DD/MM/YYYY')}</td>
+							</tr>
+						</table>
+					</div>
+
+					{record.Status > 1 && (
+						<>
+							<h2 className="result-test">KẾT QUẢ</h2>
+
+							<div className="my-custom-table">
+								<table>
+									<thead>
+										<tr>
+											<th>Người TV</th>
+											<th>Listening</th>
+											<th>Reading</th>
+											<th>Writting</th>
+											<th>Speaking</th>
+											<th>Vocab</th>
+											<th>Học phí tư vấn</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>{record?.CounselorsName}</td>
+										<td>{record?.ListeningPoint}</td>
+										<td>{record?.ReadingPoint}</td>
+										<td>{record?.WritingPoint}</td>
+										<td>{record?.SpeakingPoint}</td>
+										<td>{record?.Vocab}</td>
+										<td>{parseToMoney(record?.Tuitionfee)}</td>
+									</tr>
+
+									{record?.Note && (
+										<tr className="note">
+											<td
+												// @ts-ignore
+												colspan="7"
+												style={{ width: getWidth(), borderTopWidth: 1, borderColor: 'rgba(0,0,0,0.1)', borderTopStyle: 'solid' }}
+											>
+												{record?.Note}
+											</td>
+										</tr>
+									)}
+								</table>
+							</div>
+						</>
+					)}
+				</Card>
 			</>
 		)
 	}
@@ -667,22 +744,32 @@ export default function ServiceAppointmentTest(props) {
 		},
 		{
 			title: '',
-			render: (text, data, index) => (
-				<div onClick={(e) => e.stopPropagation()}>
-					<TestCustomerForm
-						getIndex={() => setIndexRow(index)}
-						index={index}
-						rowData={data}
-						rowID={data.ID}
-						listData={listDataForm}
-						isLoading={isLoading}
-						_onSubmit={(data: any) => _onSubmit(data)}
-						dataExam={dataExam}
-					/>
-					{/* <TestAddExam dataExam={dataExam} dataRow={data} onFetchData={() => setTodoApi({ ...todoApi })} /> */}
-					{data.Status == 0 && <CancelTest onUpdateData={onUpdateData} dataRow={data} />}
-				</div>
-			)
+			render: (text, data, index) => {
+				const showScoreInput = () => {
+					if (!data?.ExamTopicnName) {
+						return true
+					} else {
+						return false
+					}
+				}
+
+				return (
+					<div onClick={(e) => e.stopPropagation()}>
+						<TestCustomerForm
+							getIndex={() => setIndexRow(index)}
+							index={index}
+							rowData={data}
+							rowID={data.ID}
+							listData={listDataForm}
+							isLoading={isLoading}
+							_onSubmit={(data: any) => _onSubmit(data)}
+							dataExam={dataExam}
+						/>
+						{data.Status == 0 && <CancelTest onUpdateData={onUpdateData} dataRow={data} />}
+						{showScoreInput() && <ScoreModal data={data} onRefresh={getDataSource} />}
+					</div>
+				)
+			}
 		}
 	]
 
@@ -694,30 +781,32 @@ export default function ServiceAppointmentTest(props) {
 				isOk={() => setisOpenNoti(false)}
 				content="Chưa đến giờ làm đề test"
 			/>
-			<ExpandTable
-				currentPage={currentPage}
-				totalPage={totalPage && totalPage}
-				getPagination={(pageNumber: number) => getPagination(pageNumber)}
-				loading={isLoading}
-				addClass="basic-header"
-				TitlePage="Danh sách KHÁCH HẸN TEST"
-				// TitleCard={
-				//   <StudentAdviseForm
-				//     listData={listDataForm}
-				//     isLoading={isLoading}
-				//     _onSubmit={(data: any) => _onSubmit(data)}
-				//   />
-				// }
-				dataSource={dataSource}
-				columns={columns}
-				Extra={
-					<div className="extra-table">
-						<FilterBase dataFilter={dataFilter} handleFilter={(listFilter: any) => handleFilter(listFilter)} handleReset={handleReset} />
-						<SortBox handleSort={(value) => handleSort(value)} dataOption={dataOption} />
-					</div>
-				}
-				expandable={{ expandedRowRender }}
-			/>
+			<div className="test-customer">
+				<ExpandTable
+					currentPage={currentPage}
+					totalPage={totalPage && totalPage}
+					getPagination={(pageNumber: number) => getPagination(pageNumber)}
+					loading={isLoading}
+					addClass="basic-header"
+					TitlePage="Danh sách KHÁCH HẸN TEST"
+					// TitleCard={
+					//   <StudentAdviseForm
+					//     listData={listDataForm}
+					//     isLoading={isLoading}
+					//     _onSubmit={(data: any) => _onSubmit(data)}
+					//   />
+					// }
+					dataSource={dataSource}
+					columns={columns}
+					Extra={
+						<div className="extra-table">
+							<FilterBase dataFilter={dataFilter} handleFilter={(listFilter: any) => handleFilter(listFilter)} handleReset={handleReset} />
+							<SortBox handleSort={(value) => handleSort(value)} dataOption={dataOption} />
+						</div>
+					}
+					expandable={{ expandedRowRender }}
+				/>
+			</div>
 		</>
 	)
 }

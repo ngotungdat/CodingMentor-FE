@@ -410,51 +410,6 @@ const ModalUpdateInfo = React.memo((props: any) => {
 
 										<div className="col-md-6 col-12">
 											<Form.Item
-												name="LimitBooking"
-												label="Số lượt book Zoom 1-1"
-												rules={[{ required: true, message: 'Bạn không được để trống' }]}
-											>
-												<NumberFormat
-													defaultValue={rowData?.LimitBooking}
-													placeholder="Số lượt book: 5"
-													className="ant-input style-input w-100"
-													onChange={(e: any) => form.setFieldsValue({ LimitBooking: e.target.value })}
-												/>
-											</Form.Item>
-										</div>
-
-										<div className="col-md-6 col-12">
-											<Form.Item
-												name="RequestPoint"
-												label="Số điểm cần để được học"
-												rules={[{ required: true, message: 'Bạn không được để trống' }]}
-											>
-												<NumberFormat
-													defaultValue={rowData?.RequestPoint}
-													placeholder="Số điểm: 8"
-													className="ant-input style-input w-100"
-													onChange={(e: any) => form.setFieldsValue({ RequestPoint: e.target.value })}
-												/>
-											</Form.Item>
-										</div>
-
-										<div className="col-md-6 col-12">
-											<Form.Item
-												name="LimitMinutes"
-												label="Số phút / lượt"
-												rules={[{ required: true, message: 'Bạn không được để trống' }]}
-											>
-												<NumberFormat
-													defaultValue={rowData?.LimitMinutes}
-													placeholder="Số phút: 60"
-													className="ant-input style-input w-100"
-													onChange={(e: any) => form.setFieldsValue({ LimitMinutes: e.target.value })}
-												/>
-											</Form.Item>
-										</div>
-
-										<div className="col-md-6 col-12">
-											<Form.Item
 												name="ExpiryDays"
 												label=" " // CHỔ NÀY BÙA ĐỀ HIỆN CÁI TOOLTIP. XÓA KHOẢN TRẮNG MẤT LUÔN TOOLTIP
 												tooltip={{

@@ -61,8 +61,8 @@ const DayOffSchedule = () => {
 			<TitlePage title="Lịch nghỉ" />
 			<Card
 				title={
-					<div>
-						<DatePicker className="style-input" onChange={onChangeDate} />
+					<div style={{ width: 300 }}>
+						<DatePicker placeholder="Chọn ngày" className="style-input" onChange={onChangeDate} />
 					</div>
 				}
 			>

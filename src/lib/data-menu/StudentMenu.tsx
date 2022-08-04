@@ -1,26 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-	faHouse,
-	faFileContract,
-	faCubes,
-	faInfoCircle,
-	faVideo,
-	faShoppingCart,
-	faCheckCircle,
-	faQuestionCircle,
-	faComments,
-	faStore,
-	faFileLines,
-	faCalendarCheck,
-	faCalendarMinus,
-	faUserTie,
-	faFileVideo,
-	faBook
-} from '@fortawesome/free-solid-svg-icons'
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import Icon from './icons.json'
-
-const SHOW_ICON = true
 
 export const StudentParentMenu = [
 	{
@@ -29,24 +7,9 @@ export const StudentParentMenu = [
 		Icon: Icon.home
 	},
 	{
-		TabName: '1-1',
-		Title: 'Đặt lịch với giáo viên',
-		Icon: Icon.calendar
-	},
-	{
-		TabName: 'video',
-		Title: 'Khoá video',
-		Icon: Icon.video
-	},
-	{
 		TabName: 'tab-package',
 		Title: 'Bộ đề',
 		Icon: Icon.store
-	},
-	{
-		TabName: 'tab-document',
-		Title: 'Thư viện tài liệu',
-		Icon: Icon.document
 	}
 ]
 
@@ -65,6 +28,13 @@ export const StudentChildMenu = [
 			},
 			{
 				TypeItem: 'single',
+				Key: '/course/schedule-study-student',
+				Icon: Icon.calendar,
+				Route: '/course/schedule-study-student',
+				Text: 'Lịch học'
+			},
+			{
+				TypeItem: 'single',
 				Key: '/customer/service/service-test-student',
 				Route: '/customer/service/service-test-student',
 				Icon: Icon.appointment_info,
@@ -76,6 +46,42 @@ export const StudentChildMenu = [
 				Route: '/course/course-list',
 				Icon: Icon.course_list,
 				Text: 'Khóa học của bạn'
+			},
+			{
+				ItemType: 'sub-menu',
+				Key: 'video-course',
+				Icon: Icon.video,
+				TitleSub: 'Khóa học video',
+				SubMenuList: [
+					{
+						ItemType: 'single',
+						Key: '/video-course',
+						Route: '/video-course',
+						Text: 'Danh sách khóa học',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/video-course-student',
+						Route: '/video-course-student',
+						Text: 'Danh sách đơn hàng',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/video-course-list',
+						Route: '/video-course-list',
+						Text: 'Khóa học đã sở hữu',
+						Icon: ''
+					}
+				]
+			},
+			{
+				ItemType: 'single',
+				Key: '/option/services',
+				Route: '/option/services',
+				Text: 'Dịch vụ đã mua',
+				Icon: Icon.buy
 			},
 			{
 				ItemType: 'single',
@@ -111,34 +117,6 @@ export const StudentChildMenu = [
 				Route: '/course/calendar',
 				Icon: Icon.calendar,
 				Text: 'Lịch của tôi'
-			}
-		]
-	},
-	{
-		MenuName: 'video',
-		MenuTitle: 'Khóa video',
-		MenuKey: '/video',
-		MenuItem: [
-			{
-				ItemType: 'single',
-				Key: '/video-course',
-				Route: '/video-course',
-				Text: 'Danh sách khóa học',
-				Icon: Icon.video
-			},
-			{
-				ItemType: 'single',
-				Key: '/video-course-student',
-				Route: '/video-course-student',
-				Text: 'Danh sách đơn hàng',
-				Icon: Icon.buy
-			},
-			{
-				ItemType: 'single',
-				Key: '/video-course-list',
-				Route: '/video-course-list',
-				Text: 'Khóa học đã sở hữu',
-				Icon: Icon.videoActivated
 			}
 		]
 	},

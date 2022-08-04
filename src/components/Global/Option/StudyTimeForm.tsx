@@ -101,6 +101,7 @@ const StudyTimeForm = (props) => {
                     allowClear={true}
                   /> */}
 									<TimePicker
+										showNow={false}
 										className="style-input"
 										format="HH:mm"
 										onChange={(time, timeString) => {

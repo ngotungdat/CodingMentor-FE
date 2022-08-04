@@ -16,6 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import Icon from './icons.json'
+import { icons } from 'antd/lib/image/PreviewGroup'
 
 const SHOW_ICON = true
 
@@ -36,14 +37,14 @@ export const TeacherParentMenu = [
 		Icon: Icon.customer
 	},
 	{
-		TabName: 'tab-document',
-		Title: 'Thư viện tài liệu',
-		Icon: Icon.document
+		TabName: 'tab-staff',
+		Title: 'Phân công',
+		Icon: Icon.staff
 	},
 	{
-		TabName: 'tab-question-bank',
-		Title: 'Ngân hàng đề',
-		Icon: Icon.question
+		TabName: 'tab-document',
+		Title: 'Tài liệu',
+		Icon: Icon.document
 	}
 ]
 
@@ -62,10 +63,24 @@ export const TeacherChildMenu = [
 			},
 			{
 				TypeItem: 'single',
+				Key: '/course/schedule-study-teacher',
+				Icon: Icon.calendar,
+				Route: '/course/schedule-study-teacher',
+				Text: 'Lịch dạy '
+			},
+			{
+				TypeItem: 'single',
+				Key: '/teacher/day-off-schedule',
+				Icon: Icon['calendar-x'],
+				Route: '/teacher/day-off-schedule',
+				Text: 'Lịch nghỉ'
+			},
+			{
+				TypeItem: 'single',
 				Key: '/staff/salary-of-teacher',
 				Route: '/staff/salary-of-teacher',
 				Icon: Icon.secMoney,
-				Text: 'Bảng lương'
+				Text: 'Bảng lương giáo viên'
 			}
 		]
 	},
@@ -76,10 +91,17 @@ export const TeacherChildMenu = [
 		MenuItem: [
 			{
 				TypeItem: 'single',
-				Key: '/course/calendar',
-				Route: '/course/calendar',
-				Icon: Icon.calendar,
-				Text: 'Quản lý lịch dạy'
+				Key: '/course/course-list',
+				Icon: '',
+				Route: '/course/course-list',
+				Text: 'Danh sách khóa học'
+			},
+			{
+				TypeItem: 'single',
+				Key: '/course/schedule-study',
+				Icon: '',
+				Route: '/course/schedule-study',
+				Text: 'Kiểm tra lịch'
 			}
 		]
 	},
@@ -90,17 +112,45 @@ export const TeacherChildMenu = [
 		MenuItem: [
 			{
 				ItemType: 'single',
-				Key: '/package/package-result-teacher',
-				Route: '/package/package-result-teacher',
-				Text: 'Chấm đề thi',
-				Icon: Icon.edit
+				Key: '/customer/report/report-customer-warning',
+				Route: '/customer/report/report-customer-warning',
+				Text: 'Cảnh báo học viên',
+				Icon: Icon.userEclips
 			},
 			{
 				ItemType: 'single',
-				Key: '/customer/student/course-exam',
-				Route: '/customer/student/course-exam',
-				Text: 'Chấm bài kiểm tra',
-				Icon: Icon.question
+				Key: '/feedback',
+				Route: '/feedback',
+				Text: 'Phản hồi',
+				Icon: Icon.feedback
+			},
+			{
+				TypeItem: 'single',
+				Key: '/customer/service/service-test-teacher',
+				Route: '/customer/service/service-test-teacher',
+				Icon: Icon.edit,
+				Text: 'Chấm bài hẹn test'
+			},
+			{
+				ItemType: 'single',
+				Key: '/package/package-result-teacher',
+				Route: '/package/package-result-teacher',
+				Text: 'Chấm đề thi',
+				Icon: Icon['edit-2']
+			}
+		]
+	},
+	{
+		MenuName: 'tab-staff',
+		MenuTitle: 'Phân công',
+		MenuKey: '/staff',
+		MenuItem: [
+			{
+				ItemType: 'single',
+				Key: '/staff/manage-task',
+				Route: '/staff/manage-task',
+				Text: 'Quản lý công việc',
+				Icon: Icon.todo
 			}
 		]
 	},
@@ -115,27 +165,6 @@ export const TeacherChildMenu = [
 				Route: '/document-list',
 				Text: 'Danh sách tài liệu',
 				Icon: Icon.document
-			}
-		]
-	},
-	{
-		MenuName: 'tab-question-bank',
-		MenuTitle: 'Ngân hàng đề thi',
-		MenuKey: '/question-bank',
-		MenuItem: [
-			{
-				ItemType: 'single',
-				Key: '/question-bank/question-list',
-				Route: '/question-bank/question-list',
-				Text: 'Danh sách câu hỏi',
-				Icon: Icon.firstList
-			},
-			{
-				ItemType: 'single',
-				Key: '/question-bank/exam-list',
-				Route: '/question-bank/exam-list',
-				Text: 'Danh sách đề',
-				Icon: Icon.secList
 			}
 		]
 	}

@@ -1,17 +1,19 @@
-import { instance } from '~/apiBase/instance';
+import { instance } from '~/apiBase/instance'
 
-const url = '/api/ExamAppointment/';
+const url = '/api/ExamAppointment/'
 class TestCustomerApi {
 	getAll = (todoApi: object) =>
 		instance.get<IApiResultData<ITestCustomer[]>>(url, {
 			params: todoApi
-		});
+		})
 
-	getWithID = (ID: number) => instance.get<IApiResult<ITestCustomer>>(url + ID);
+	getWithID = (ID: number) => instance.get<IApiResult<ITestCustomer>>(url + ID)
 
-	add = (data: IStudent) => instance.post(url, data, {});
+	add = (data: IStudent) => instance.post(url, data, {})
 
-	update = (data: any) => instance.put(url, data, {});
+	update = (data: any) => instance.put(url, data, {})
+
+	updateResult = (data: any) => instance.put(url + 'UpdateResult', data)
 }
 
-export const testCustomerApi = new TestCustomerApi();
+export const testCustomerApi = new TestCustomerApi()

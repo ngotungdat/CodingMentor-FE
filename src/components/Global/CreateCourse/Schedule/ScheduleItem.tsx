@@ -118,9 +118,9 @@ const ScheduleItem = (props) => {
 			}
 		>
 			<div className="info-course-select">
-				<Form layout='vertical'>
+				<Form layout="vertical">
 					<div className="row">
-						<div className="col-12 mt-2">
+						<div className="col-6">
 							<SelectField
 								form={form}
 								name="StudyTimeID"
@@ -134,7 +134,7 @@ const ScheduleItem = (props) => {
 							/>
 						</div>
 
-						<div className="col-12">
+						<div className="col-6">
 							<SelectField
 								form={form}
 								name="RoomID"

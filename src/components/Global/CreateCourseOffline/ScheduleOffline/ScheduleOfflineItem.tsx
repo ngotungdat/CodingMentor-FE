@@ -76,7 +76,7 @@ const ScheduleOfflineItem = (props) => {
 	}
 	const checkHandleChangeValueSchedule = (uid, key, vl, CaID) => {
 		if (!handleChangeValueSchedule) return
-		handleChangeValueSchedule(uid, key, vl,CaID)
+		handleChangeValueSchedule(uid, key, vl, CaID)
 	}
 	const setSiblingsFieldToDefault = () => {
 		form.setValue('TeacherID', 0)
@@ -185,7 +185,7 @@ const ScheduleOfflineItem = (props) => {
 									checkHandleChangeValueSchedule(ID, 'CaID', value, scheduleObj.CaID)
 								}}
 								disabled={isLockSchedule}
-								/>
+							/>
 						</div>
 						<div className="col-12">
 							<SelectField

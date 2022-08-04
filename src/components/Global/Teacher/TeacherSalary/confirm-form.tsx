@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Select, Spin, Tooltip } from 'antd'
+import { Form, Input, InputNumber, Modal, Select, Spin, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { teacherSalaryApi } from '~/apiBase/staff-manage/teacher-salary'
 import { useWrap } from '~/context/wrap'
@@ -41,9 +41,12 @@ const ConfirmForm = ({ record, setParams, params }) => {
 	}, [isVisible])
 
 	const _onSubmit = async () => {
+		const DATA_SUBMIT = { ...dataForm, StatusID: reConfirm.StatusID == 1 ? 3 : reConfirm.StatusID == 3 ? 3 : 5 }
+		console.log('DATA_SUBMIT: ', DATA_SUBMIT)
+
 		setSubmitLoading({ type: 'UPLOADING', loading: true })
 		try {
-			let res = await teacherSalaryApi.update({ ...dataForm, StatusID: reConfirm.StatusID == 1 ? 3 : reConfirm.StatusID == 3 ? 3 : 5 })
+			let res = await teacherSalaryApi.update(DATA_SUBMIT)
 			if (res.status == 200) {
 				form.resetFields()
 				params && setParams({ ...params })
@@ -119,25 +122,45 @@ const ConfirmForm = ({ record, setParams, params }) => {
 							<>
 								<div className="col-12">
 									<Form.Item label="Trừ tạm ứng" name="AdvanceSalary">
-										<Input
+										{/* <Input
 											onChange={(event) => setDataForm({ ...dataForm, AdvanceSalary: parsePriceStrToNumber(event.target.value) })}
 											name="AdvanceSalary"
 											placeholder="Trừ  lương tạm ứng"
 											className="style-input"
 											value={numberWithCommas(dataForm.AdvanceSalary)}
 											defaultValue={numberWithCommas(dataForm.AdvanceSalary)}
+										/> */}
+
+										<InputNumber
+											placeholder=""
+											className="style-input"
+											style={{ borderRadius: 5 }}
+											formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+											parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+											precision={2}
+											onChange={(value) => setDataForm({ ...dataForm, AdvanceSalary: value })}
 										/>
 									</Form.Item>
 								</div>
 								<div className="col-12">
 									<Form.Item label="Thưởng" name="Bonus">
-										<Input
+										{/* <Input
 											onChange={(event) => setDataForm({ ...dataForm, Bonus: parsePriceStrToNumber(event.target.value) })}
 											name="Bonus"
 											placeholder="Thêm tiền thưởng"
 											className="style-input"
 											value={numberWithCommas(dataForm.Bonus)}
 											defaultValue={numberWithCommas(dataForm.Bonus)}
+										/> */}
+
+										<InputNumber
+											placeholder=""
+											className="style-input"
+											style={{ borderRadius: 5 }}
+											formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+											parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+											precision={2}
+											onChange={(value) => setDataForm({ ...dataForm, Bonus: value })}
 										/>
 									</Form.Item>
 								</div>

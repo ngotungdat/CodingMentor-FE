@@ -14,6 +14,7 @@ import { optionCommonPropTypes } from '~/utils/proptypes'
 import UploadAvatarField from '~/components/FormControl/UploadAvatarField'
 import { useWrap } from './../../../../context/wrap'
 import InputMoneyField from '~/components/FormControl/InputMoneyField'
+import { staffApi } from '~/apiBase'
 
 const CreateCourseOnlineForm = (props) => {
 	const {
@@ -78,6 +79,29 @@ const CreateCourseOnlineForm = (props) => {
 			form.setValue('TeacherID', null)
 		}
 	}, [optionListForForm])
+
+	const { showNoti } = useWrap()
+
+	const [academics, setAcademics] = useState([])
+
+	useEffect(() => {
+		getAcademics()
+	}, [])
+
+	async function getAcademics() {
+		try {
+			const response = await staffApi.getAll({ roleID: 7, selectAll: true })
+			if (response.status === 200) {
+				let temp = []
+				response.data.data.forEach((data) => {
+					temp.push({ value: data?.UserInformationID, title: data?.FullNameUnicode })
+					setAcademics(temp)
+				})
+			}
+		} catch (error) {
+			showNoti('danger', error?.message)
+		}
+	}
 
 	const createCourseSwitchFunc = (data) => {
 		switch (isUpdate) {
@@ -263,25 +287,24 @@ const CreateCourseOnlineForm = (props) => {
 								/>
 							</div>
 							<div className="col-md-6 col-12">
+								<SelectField
+									form={form}
+									disabled={userInformation && userInformation.RoleID === 2}
+									name="AcademicUID"
+									label="Học vụ"
+									isLoading={isLoading.type === 'ProgramID' && isLoading.status}
+									placeholder="Chọn học vụ"
+									optionList={academics}
+								/>
+							</div>
+							<div className="col-md-6 col-12">
 								<DateField form={form} name="StartDay" label="Ngày mở" isRequired placeholder="Chọn ngày mở" />
 							</div>
 							<div className="col-md-6 col-12">
-								<InputMoneyField
-									form={form}
-									name="Price"
-									label="Giá khóa học"
-									isRequired
-									placeholder="Nhập giá khóa học"
-								/>
+								<InputMoneyField form={form} name="Price" label="Giá khóa học" isRequired placeholder="Nhập giá khóa học" />
 							</div>
 							<div className="col-md-6 col-12">
-								<InputMoneyField
-									form={form}
-									name="SalaryOfLesson"
-									label="Lương/buổi"
-									isRequired
-									placeholder="Nhập lương/buổi học"
-								/>
+								<InputMoneyField form={form} name="SalaryOfLesson" label="Lương/buổi" isRequired placeholder="Nhập lương/buổi học" />
 							</div>
 							<div className="col-6">
 								<InputTextField

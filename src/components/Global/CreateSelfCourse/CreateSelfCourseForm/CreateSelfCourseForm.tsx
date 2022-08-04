@@ -1,16 +1,18 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Form, Modal, Spin } from 'antd';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import DateField from '~/components/FormControl/DateField';
-import InputMoneyField from '~/components/FormControl/InputMoneyField';
-import InputTextField from '~/components/FormControl/InputTextField';
-import SelectField from '~/components/FormControl/SelectField';
-import { numberWithCommas } from '~/utils/functions';
-import { optionCommonPropTypes } from '~/utils/proptypes';
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Form, Modal, Spin } from 'antd'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { staffApi } from '~/apiBase'
+import DateField from '~/components/FormControl/DateField'
+import InputMoneyField from '~/components/FormControl/InputMoneyField'
+import InputTextField from '~/components/FormControl/InputTextField'
+import SelectField from '~/components/FormControl/SelectField'
+import { useWrap } from '~/context/wrap'
+import { numberWithCommas } from '~/utils/functions'
+import { optionCommonPropTypes } from '~/utils/proptypes'
 
 const CreateSelfCourseForm = (props) => {
 	const {
@@ -22,11 +24,11 @@ const CreateSelfCourseForm = (props) => {
 		handleGetCourse,
 		handleFetchProgramByGrade,
 		handleFetchCurriculumByProgram
-	} = props;
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	} = props
+	const [isModalVisible, setIsModalVisible] = useState(false)
 
-	const openModal = () => setIsModalVisible(true);
-	const closeModal = () => setIsModalVisible(false);
+	const openModal = () => setIsModalVisible(true)
+	const closeModal = () => setIsModalVisible(false)
 
 	const schema = yup.object().shape({
 		BranchID: yup.number().nullable().required('Bạn không được để trống'),
@@ -41,7 +43,7 @@ const CreateSelfCourseForm = (props) => {
 		CourseName: yup.string(),
 		Price: yup.string().required('Bạn không được để trống'),
 		SalaryOfLesson: yup.string().required('Bạn không được để trống')
-	});
+	})
 	const defaultValuesInit = {
 		BranchID: null,
 		GradeID: null,
@@ -52,38 +54,61 @@ const CreateSelfCourseForm = (props) => {
 		CourseName: '',
 		Price: '',
 		SalaryOfLesson: ''
-	};
+	}
 	const form = useForm({
 		defaultValues: defaultValuesInit,
 		resolver: yupResolver(schema)
-	});
+	})
 	const createCourseSwitchFunc = (data) => {
 		switch (isUpdate) {
 			case false:
-				if (!handleGetCourse) return;
+				if (!handleGetCourse) return
 				handleGetCourse(data).then((res) => {
 					if (res) {
-						closeModal();
+						closeModal()
 						// form.reset({ ...defaultValuesInit });
 					}
-				});
-				break;
+				})
+				break
 			default:
-				break;
+				break
 		}
-	};
+	}
 	// ONCHANGE OF GRADE FIELD
 	const checkHandleFetchProgramByGrade = (value) => {
-		if (!handleFetchProgramByGrade) return;
-		form.setValue('ProgramID', undefined);
-		handleFetchProgramByGrade(value);
-	};
+		if (!handleFetchProgramByGrade) return
+		form.setValue('ProgramID', undefined)
+		handleFetchProgramByGrade(value)
+	}
 	// ONCHANGE STUDY TIME AND PROGRAM
 	const checkHandleFetchCurriculumByProgram = (value: number) => {
-		if (!handleFetchCurriculumByProgram) return;
-		form.setValue('CurriculumID', undefined);
-		handleFetchCurriculumByProgram(value);
-	};
+		if (!handleFetchCurriculumByProgram) return
+		form.setValue('CurriculumID', undefined)
+		handleFetchCurriculumByProgram(value)
+	}
+
+	const { showNoti } = useWrap()
+
+	const [academics, setAcademics] = useState([])
+
+	useEffect(() => {
+		getAcademics()
+	}, [])
+
+	async function getAcademics() {
+		try {
+			const response = await staffApi.getAll({ roleID: 7, selectAll: true })
+			if (response.status === 200) {
+				let temp = []
+				response.data.data.forEach((data) => {
+					temp.push({ value: data?.UserInformationID, title: data?.FullNameUnicode })
+					setAcademics(temp)
+				})
+			}
+		} catch (error) {
+			showNoti('danger', error?.message)
+		}
+	}
 
 	return (
 		<>
@@ -134,9 +159,9 @@ const CreateSelfCourseForm = (props) => {
 									placeholder="Chọn chương trình học"
 									optionList={optionListForForm.programList}
 									onChangeSelect={(value) => {
-										const price = optionListForForm.programList.find((p) => p.value === value)?.options.Price || 0;
-										form.setValue('Price', numberWithCommas(price));
-										checkHandleFetchCurriculumByProgram(value);
+										const price = optionListForForm.programList.find((p) => p.value === value)?.options.Price || 0
+										form.setValue('Price', numberWithCommas(price))
+										checkHandleFetchCurriculumByProgram(value)
 									}}
 								/>
 							</div>
@@ -153,22 +178,10 @@ const CreateSelfCourseForm = (props) => {
 							</div>
 
 							<div className="col-md-6 col-12">
-								<InputMoneyField
-									form={form}
-									name="Price"
-									isRequired
-									label="Học phí"
-									placeholder="Nhập học phí"
-								/>
+								<InputMoneyField form={form} name="Price" isRequired label="Học phí" placeholder="Nhập học phí" />
 							</div>
 							<div className="col-md-6 col-12">
-								<InputMoneyField
-									form={form}
-									name="SalaryOfLesson"
-									isRequired
-									label="Lương/buổi"
-									placeholder="Nhập lương/buổi"
-								/>
+								<InputMoneyField form={form} name="SalaryOfLesson" isRequired label="Lương/buổi" placeholder="Nhập lương/buổi" />
 							</div>
 
 							<div className="col-md-6 col-12">
@@ -176,6 +189,16 @@ const CreateSelfCourseForm = (props) => {
 							</div>
 							<div className="col-md-6 col-12">
 								<DateField form={form} name="EndDay" isRequired label="Ngày đóng" placeholder="Chọn ngày đóng" />
+							</div>
+							<div className="col-md-6 col-12">
+								<SelectField
+									form={form}
+									name="AcademicUID"
+									label="Học vụ"
+									isLoading={isLoading.type === 'ProgramID' && isLoading.status}
+									placeholder="Chọn học vụ"
+									optionList={academics}
+								/>
 							</div>
 							<div className="col-12">
 								<InputTextField
@@ -186,11 +209,7 @@ const CreateSelfCourseForm = (props) => {
 								/>
 							</div>
 							<div className="col-md-12 col-12 mt-3" style={{ textAlign: 'center' }}>
-								<button
-									type="submit"
-									className="btn btn-primary"
-									disabled={isLoading.type == 'ADD_DATA' && isLoading.status}
-								>
+								<button type="submit" className="btn btn-primary" disabled={isLoading.type == 'ADD_DATA' && isLoading.status}>
 									Tạo khóa học
 									{isLoading.type == 'ADD_DATA' && isLoading.status && <Spin className="loading-base" />}
 								</button>
@@ -200,8 +219,8 @@ const CreateSelfCourseForm = (props) => {
 				</div>
 			</Modal>
 		</>
-	);
-};
+	)
+}
 CreateSelfCourseForm.propTypes = {
 	isUpdate: PropTypes.bool,
 	isLoading: PropTypes.shape({
@@ -219,7 +238,7 @@ CreateSelfCourseForm.propTypes = {
 	handleGetCourse: PropTypes.func,
 	handleFetchProgramByGrade: PropTypes.func,
 	handleFetchCurriculumByProgram: PropTypes.func
-};
+}
 CreateSelfCourseForm.defaultProps = {
 	isUpdate: false,
 	isLoading: { type: '', status: false },
@@ -233,5 +252,5 @@ CreateSelfCourseForm.defaultProps = {
 	handleGetCourse: null,
 	handleFetchProgramByGrade: null,
 	handleFetchCurriculumByProgram: null
-};
-export default CreateSelfCourseForm;
+}
+export default CreateSelfCourseForm

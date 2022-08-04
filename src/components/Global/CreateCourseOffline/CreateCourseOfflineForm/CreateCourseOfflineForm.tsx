@@ -14,6 +14,7 @@ import { useWrap } from '~/context/wrap'
 import { numberWithCommas } from '~/utils/functions'
 import { optionCommonPropTypes } from '~/utils/proptypes'
 import UploadAvatarField from '~/components/FormControl/UploadAvatarField'
+import { staffApi } from '~/apiBase'
 
 const CreateCourseOfflineForm = (props) => {
 	const {
@@ -72,6 +73,29 @@ const CreateCourseOfflineForm = (props) => {
 
 	const form = useForm<ICOCreateForm>({ defaultValues: defaultValuesInit, resolver: yupResolver(schema) })
 	const { fields, append, remove } = useFieldArray({ control: form.control, name: 'TimeCourse' })
+
+	const { showNoti } = useWrap()
+
+	const [academics, setAcademics] = useState([])
+
+	useEffect(() => {
+		getAcademics()
+	}, [])
+
+	async function getAcademics() {
+		try {
+			const response = await staffApi.getAll({ roleID: 7, selectAll: true })
+			if (response.status === 200) {
+				let temp = []
+				response.data.data.forEach((data) => {
+					temp.push({ value: data?.UserInformationID, title: data?.FullNameUnicode })
+					setAcademics(temp)
+				})
+			}
+		} catch (error) {
+			showNoti('danger', error?.message)
+		}
+	}
 
 	const createCourseSwitchFunc = async (data: any) => {
 		switch (isUpdate) {
@@ -149,7 +173,7 @@ const CreateCourseOfflineForm = (props) => {
 									placeholder="Chọn phòng học"
 									isLoading={isLoading.type === 'RoomID' && isLoading.status}
 									optionList={optionListForForm.roomList}
-								// onChangeSelect={checkHandleFetchProgramByGrade}
+									// onChangeSelect={checkHandleFetchProgramByGrade}
 								/>
 							</div>
 
@@ -276,6 +300,17 @@ const CreateCourseOfflineForm = (props) => {
 									isLoading={isLoading.type === 'ProgramID' && isLoading.status}
 									placeholder="Chọn giáo viên"
 									optionList={optionListForForm.teacherList}
+								/>
+							</div>
+							<div className="col-md-6 col-12">
+								<SelectField
+									form={form}
+									disabled={userInformation && userInformation.RoleID === 2}
+									name="AcademicUID"
+									label="Học vụ"
+									isLoading={isLoading.type === 'ProgramID' && isLoading.status}
+									placeholder="Chọn học vụ"
+									optionList={academics}
 								/>
 							</div>
 							<div className="col-md-6 col-12">

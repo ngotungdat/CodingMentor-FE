@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import PowerTable from '~/components/PowerTable';
+import React, { useEffect, useState } from 'react'
+import PowerTable from '~/components/PowerTable'
 
-import SortBox from '~/components/Elements/SortBox';
-import { Switch } from 'antd';
-import StudyTimeForm from '~/components/Global/Option/StudyTimeForm';
-import LayoutBase from '~/components/LayoutBase';
-import { useWrap } from '~/context/wrap';
-import { studyTimeApi } from '~/apiBase';
-import FilterStudyTime from '~/components/Global/Option/FilterTable/FilterStudyTime';
+import SortBox from '~/components/Elements/SortBox'
+import { Switch } from 'antd'
+import StudyTimeForm from '~/components/Global/Option/StudyTimeForm'
+import LayoutBase from '~/components/LayoutBase'
+import { useWrap } from '~/context/wrap'
+import { studyTimeApi } from '~/apiBase'
+import FilterStudyTime from '~/components/Global/Option/FilterTable/FilterStudyTime'
 
-let pageIndex = 1;
+let pageIndex = 1
 
 const dataOption = [
 	{
@@ -26,128 +26,109 @@ const dataOption = [
 		},
 		text: 'Time tăng dần '
 	}
-];
+]
 
 const StudyTime = () => {
 	// ------ BASE USESTATE TABLE -------
-	const [dataSource, setDataSource] = useState<IStudyTime[]>([]);
-	const { showNoti, pageSize } = useWrap();
+	const [dataSource, setDataSource] = useState<IStudyTime[]>([])
+	const { showNoti, pageSize } = useWrap()
 	const [isLoading, setIsLoading] = useState({
 		type: '',
 		status: false
-	});
-	const [totalPage, setTotalPage] = useState(null);
-	const [indexRow, setIndexRow] = useState(null);
-	const [currentPage, setCurrentPage] = useState(1);
+	})
+	const [totalPage, setTotalPage] = useState(null)
+	const [indexRow, setIndexRow] = useState(null)
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const listTodoApi = {
 		pageSize: pageSize,
 		pageIndex: pageIndex,
 		sort: null,
 		sortType: null
-	};
-	const [todoApi, setTodoApi] = useState(listTodoApi);
+	}
+	const [todoApi, setTodoApi] = useState(listTodoApi)
 
 	// GET DATA COURSE
 	const getDataSource = async () => {
 		setIsLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 
 		try {
-			let res = await studyTimeApi.getAll(todoApi);
-			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow));
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu') && setDataSource([]);
+			let res = await studyTimeApi.getAll(todoApi)
+			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow))
+			res.status == 204 && showNoti('danger', 'Không có dữ liệu') && setDataSource([])
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
-
-	// ---------------- AFTER SUBMIT -----------------
-	const afterPost = (mes) => {
-		showNoti('success', mes);
-		setTodoApi({
-			...listTodoApi,
-			pageIndex: 1
-		});
-		setCurrentPage(1);
-	};
+	}
 
 	// ----------------- ON SUBMIT --------------------
 	const _onSubmit = async (dataSubmit: any) => {
-		setIsLoading({
-			type: 'ADD_DATA',
-			status: true
-		});
+		setIsLoading({ type: 'ADD_DATA', status: true })
 
-		let res = null;
+		let res = null
 
 		if (dataSubmit.ID) {
 			try {
-				res = await studyTimeApi.update(dataSubmit);
-
+				res = await studyTimeApi.update(dataSubmit)
 				if (res.status == 200) {
-					let newDataSource = [...dataSource];
-					newDataSource.splice(indexRow, 1, dataSubmit);
-					setDataSource(newDataSource);
-					showNoti('success', res.data.message);
+					getDataSource()
+					showNoti('success', res.data.message)
 				}
 			} catch (error) {
-				console.log('error: ', error);
-				showNoti('danger', error.message);
+				console.log('error: ', error)
+				showNoti('danger', error.message)
 			} finally {
 				setIsLoading({
 					type: 'ADD_DATA',
 					status: false
-				});
+				})
 			}
 		} else {
 			try {
-				res = await studyTimeApi.add(dataSubmit);
-				res?.status == 200 && afterPost(res.data.message);
+				res = await studyTimeApi.add(dataSubmit)
+				res?.status == 200 && getDataSource()
 			} catch (error) {
-				showNoti('danger', error.message);
+				showNoti('danger', error.message)
 			} finally {
-				setIsLoading({
-					type: 'ADD_DATA',
-					status: false
-				});
+				setIsLoading({ type: 'ADD_DATA', status: false })
 			}
 		}
 
-		return res;
-	};
+		return res
+	}
 
 	// ----------------- TURN OF ------------------------
 	const changeStatus = async (checked: boolean, idRow: number) => {
 		setIsLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 
 		let dataChange = {
 			ID: idRow,
 			Enable: checked
-		};
+		}
 
 		try {
-			let res = await studyTimeApi.update(dataChange);
-			res.status == 200 && setTodoApi({ ...todoApi });
+			let res = await studyTimeApi.update(dataChange)
+			res.status == 200 && setTodoApi({ ...todoApi })
 		} catch (error) {
-			showNoti('danger', error.Message);
+			showNoti('danger', error.Message)
 		} finally {
 			setIsLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	// --------------- HANDLE SORT ----------------------
 	const handleSort = async (option) => {
@@ -156,9 +137,9 @@ const StudyTime = () => {
 			pageIndex: 1,
 			sort: option.title.sort,
 			sortType: option.title.sortType
-		};
-		setCurrentPage(1), setTodoApi(newTodoApi);
-	};
+		}
+		setCurrentPage(1), setTodoApi(newTodoApi)
+	}
 
 	// HANDLE RESET
 
@@ -166,23 +147,23 @@ const StudyTime = () => {
 		setTodoApi({
 			...listTodoApi,
 			pageIndex: 1
-		});
-		setCurrentPage(1);
-	};
+		})
+		setCurrentPage(1)
+	}
 
 	// -------------- HANDLE FILTER -------------------
 	const handleFilter = (value) => {
-		console.log('Value in here: ', value);
+		console.log('Value in here: ', value)
 		setTodoApi({
 			...listTodoApi,
 			...value
-		});
-	};
+		})
+	}
 
 	// ============== USE EFFECT - FETCH DATA ===================
 	useEffect(() => {
-		getDataSource();
-	}, [todoApi]);
+		getDataSource()
+	}, [todoApi])
 
 	const columns = [
 		{
@@ -228,17 +209,17 @@ const StudyTime = () => {
 				</>
 			)
 		}
-	];
+	]
 
 	// -------------- GET PAGE_NUMBER -----------------
 	const getPagination = (pageNumber: number) => {
-		pageIndex = pageNumber;
-		setCurrentPage(pageNumber);
+		pageIndex = pageNumber
+		setCurrentPage(pageNumber)
 		setTodoApi({
 			...todoApi,
 			pageIndex: pageIndex
-		});
-	};
+		})
+	}
 
 	return (
 		<PowerTable
@@ -258,7 +239,8 @@ const StudyTime = () => {
 				</div>
 			}
 		/>
-	);
-};
-StudyTime.layout = LayoutBase;
-export default StudyTime;
+	)
+}
+
+StudyTime.layout = LayoutBase
+export default StudyTime

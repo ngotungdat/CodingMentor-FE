@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import TeacherProfile from '../TeacherProfile'
-import { useWrap } from '~/context/wrap'
 import { teacherApi } from '~/apiBase'
+import { useWrap } from '~/context/wrap'
+import TeacherProfile from '../TeacherProfile'
 
 const TeacherDetail = () => {
 	const router = useRouter()
@@ -24,28 +24,36 @@ const TeacherDetail = () => {
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
-			setIsLoading({ type: 'GET_BYID', status: false })
+			setIsLoading({
+				type: 'GET_BYID',
+				status: false
+			})
 		}
 	}
 
 	const updateTeacherID = async (data) => {
-		setIsLoading({ type: 'UPDATE_BYID', status: true })
+		setIsLoading({
+			type: 'UPDATE_BYID',
+			status: true
+		})
 		try {
 			let res = await teacherApi.update(data)
 			res?.status == 200 && showNoti('success', 'Cập nhật thành công'), fetchTeacherByID()
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
-			setIsLoading({ type: 'UPDATE_BYID', status: false })
+			setIsLoading({
+				type: 'UPDATE_BYID',
+				status: false
+			})
 		}
 	}
 
 	const fetchTeacherForSubject = async () => {
-		setIsLoading({ type: 'GET_BYID', status: true })
 		try {
-			let res = await teacherApi.getCurriculum(Number(slug))
+			let res = await teacherApi.getAllTeacherForSubject(Number(slug))
 			if (res.status === 200) {
-				setDataSubject(res.data.Data)
+				setDataSubject(res.data.data)
 			} else if (res.status === 204) {
 				showNoti('danger', 'Không tìm thấy')
 			}
@@ -84,5 +92,4 @@ const TeacherDetail = () => {
 		/>
 	)
 }
-
 export default TeacherDetail

@@ -95,7 +95,7 @@ const RenderItemCard = (props) => {
 								}}
 							>
 								{item.ImageThumbnails === '' || item.ImageThumbnails === null || item.ImageThumbnails === undefined ? (
-									<img src="/images/logo-thumnail.jpg" />
+									<img src="/images/logo-thumnailx.jpg" />
 								) : (
 									<img src={item.ImageThumbnails} />
 								)}
@@ -131,7 +131,7 @@ const RenderItemCard = (props) => {
 								<button className="mr-2 btn btn-light">Thêm vào giỏ hàng</button>
 								 */}
 								{userInformation?.RoleID == 1 || userInformation?.RoleID == 2 ? (
-									<div style={{ zIndex: 99999 }} className='d-flex w-100' >
+									<div style={{ zIndex: 99999 }} className="d-flex w-100">
 										{userInformation?.RoleID == 1 && (
 											<button
 												type="button"
@@ -157,9 +157,7 @@ const RenderItemCard = (props) => {
 													}
 												}}
 											>
-												<button className="btn btn-dark">
-													Xem khóa học
-												</button>
+												<button className="btn btn-dark">Xem khóa học</button>
 											</Link>
 										)}
 									</div>

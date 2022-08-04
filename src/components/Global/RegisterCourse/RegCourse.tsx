@@ -9,7 +9,7 @@ import { PaymentMethod } from '~/lib/payment-method/payment-method'
 let someThink = []
 
 const RegCourse = React.memo((props: any) => {
-	const {totalPriceProgram,setTotalPriceProgram,setTotalPrice,totalPrice,debt,setDebt} = props
+	const { totalPriceProgram, setTotalPriceProgram, setTotalPrice, totalPrice, debt, setDebt } = props
 
 	const { TextArea } = Input
 	const { Option } = Select
@@ -20,13 +20,13 @@ const RegCourse = React.memo((props: any) => {
 	const [discount, setDiscount] = useState<IDiscount[]>()
 	const { showNoti } = useWrap()
 	const { setValue } = useForm()
-	
+
 	const [discountPrice, setDiscountPrice] = useState(0)
 	const [paid, setPaid] = useState(0)
 	const [discountStyle, setDiscountStyle] = useState(1)
 	const [branchID, setBranchID] = useState(0)
 	const [program, setProgram] = useState<IProgram[]>()
-	const [disabledSubmit, setDisabledSubmit]= useState(false)
+	const [disabledSubmit, setDisabledSubmit] = useState(false)
 
 	const fetchDataSelectList = () => {
 		;(async () => {
@@ -217,14 +217,18 @@ const RegCourse = React.memo((props: any) => {
 	}
 
 	useEffect(() => {
-		setDebt(totalPrice + totalPriceProgram - (paid + discountPrice))
+		if (totalPrice + totalPriceProgram == 0) {
+			setDebt(0)
+		} else {
+			setDebt(totalPrice + totalPriceProgram - (paid + discountPrice))
+		}
 	}, [totalPrice, totalPriceProgram, paid, discountPrice])
 
 	useEffect(() => {
-		if(debt < 0) {
+		if (debt < 0) {
 			showNoti('danger', 'Số tiền thanh toán lớn hơn tổng tiền!')
 			setDisabledSubmit(true)
-		}else {
+		} else {
 			setDisabledSubmit(false)
 		}
 	}, [debt])
@@ -284,7 +288,7 @@ const RegCourse = React.memo((props: any) => {
 								className="style-input"
 								onChange={(value: any) => {
 									handleChangeCourse({ value: value, type: 1 })
-									if(value.length == 0) {
+									if (value.length == 0) {
 										setDebt(0)
 									}
 								}}
@@ -484,8 +488,7 @@ const RegCourse = React.memo((props: any) => {
 			</div>
 			<div className="row mt-5">
 				<div className="col-12 mt-3 text-center text-left-mobile">
-					<button type="submit" className="btn btn-primary" disabled={disabledSubmit} onClick={()=>{
-					}}>
+					<button type="submit" className="btn btn-primary" disabled={disabledSubmit} onClick={() => {}}>
 						Xác nhận
 						{props.loading == true && <Spin className="loading-base" />}
 					</button>

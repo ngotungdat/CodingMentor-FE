@@ -11,6 +11,7 @@ import LayoutBase from '~/components/LayoutBase'
 import PowerTable from '~/components/PowerTable'
 import FilterColumn from '~/components/Tables/FilterColumn'
 import { useWrap } from '~/context/wrap'
+import { numberWithCommas, parsePriceStrToNumber } from '~/utils/functions'
 
 let pageIndex = 1
 
@@ -312,11 +313,19 @@ const Programs = () => {
 			}
 		},
 		{
+			width: 180,
 			title: 'Loại chương trình',
 			dataIndex: 'TypeName',
 			...FilterColumn('TypeName', onSearch, handleReset, 'text'),
 			render: (text) => {
 				return <p className="font-weight-primary">{text}</p>
+			}
+		},
+		{
+			title: 'Giá',
+			dataIndex: 'Price',
+			render: (text) => {
+				return <p className="font-weight-primary">{numberWithCommas(text)}</p>
 			}
 		},
 		{

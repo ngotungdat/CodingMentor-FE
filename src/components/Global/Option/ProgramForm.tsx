@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Form, Input, Spin, Tooltip, Select, InputNumber } from 'antd'
-import { RotateCcw } from 'react-feather'
 import { useForm } from 'react-hook-form'
 import EditorSimple from '~/components/Elements/EditorSimple'
 import { numberWithCommas, parsePriceStrToNumber } from '~/utils/functions'
@@ -43,7 +42,6 @@ const ProgramForm = React.memo((props: any) => {
 	// HANDLE SELECT
 	const onChangeSelect = (name: any) => (value: any) => {
 		setValue(name, value)
-		console.log('Value: ', value)
 	}
 
 	// IS VISIBLE MODAL
@@ -129,7 +127,19 @@ const ProgramForm = React.memo((props: any) => {
 
 							<div className="col-md-12 col-12">
 								<Form.Item name="Price" label="Học phí" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
-									<Input placeholder="" className="style-input " onChange={(e) => formatNumber(e)} />
+									{/* <Input placeholder="" className="style-input " onChange={(e) => formatNumber(e)} /> */}
+
+									<InputNumber
+										placeholder=""
+										className="style-input"
+										style={{ borderRadius: 5 }}
+										formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+										parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+										precision={2}
+										onChange={(value) => {
+											setValue('Price', value)
+										}}
+									/>
 								</Form.Item>
 							</div>
 

@@ -419,11 +419,26 @@ export const AdminChildMenu = [
 				Icon: Icon.firstList
 			},
 			{
-				ItemType: 'single',
-				Key: '/staff/teacher-salary',
-				Route: '/staff/teacher-salary',
-				Text: 'Bảng lương giáo viên',
-				Icon: Icon.secMoney
+				ItemType: 'sub-menu',
+				Key: 'sub-list-staff-child-3',
+				Icon: Icon.secMoney,
+				TitleSub: 'Tư vấn viên',
+				SubMenuList: [
+					{
+						ItemType: 'single',
+						Key: '/staff/teacher-salary',
+						Route: '/staff/teacher-salary',
+						Text: 'Bảng lương giáo viên',
+						Icon: ''
+					},
+					{
+						ItemType: 'single',
+						Key: '/staff/admin-salary-staff',
+						Route: '/staff/admin-salary-staff',
+						Text: 'Bảng lương nhân viên',
+						Icon: ''
+					}
+				]
 			},
 			{
 				ItemType: 'single',

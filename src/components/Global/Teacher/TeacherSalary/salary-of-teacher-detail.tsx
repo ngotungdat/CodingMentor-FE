@@ -52,7 +52,7 @@ const SalaryOfTeacherDetail = ({ price, record }) => {
 
 	const getDataSource = async () => {
 		try {
-			let res = await teacherSalaryApi.salaryOfTeacherId(defaultParams)
+			let res = await teacherSalaryApi.getDetail(defaultParams)
 			console.log(res.data.data)
 			if (res.status == 200) {
 				setDataSource(res.data.data)

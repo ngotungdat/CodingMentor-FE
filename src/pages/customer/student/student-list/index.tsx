@@ -259,7 +259,7 @@ const StudentData = () => {
 	// ----------- GET DATA SOURCE ---------------
 	const getDataStudentForm = (arrApi) => {
 		arrApi.forEach((item, index) => {
-			; (async () => {
+			;(async () => {
 				let res = null
 				try {
 					if (item.name == 'Counselors') {
@@ -350,10 +350,10 @@ const StudentData = () => {
 			dataIndex == 'FullNameUnicode'
 				? { FullNameUnicode: valueSearch }
 				: dataIndex == 'ChineseName'
-					? { ChineseName: valueSearch }
-					: dataIndex == 'Mobile'
-						? { Mobile: valueSearch }
-						: { Email: valueSearch }
+				? { ChineseName: valueSearch }
+				: dataIndex == 'Mobile'
+				? { Mobile: valueSearch }
+				: { Email: valueSearch }
 		setCurrentPage(1)
 		setTodoApi({
 			...todoApi,
@@ -501,8 +501,8 @@ const StudentData = () => {
 									dataSubmit.Branch == ''
 										? []
 										: dataSubmit.Branch.split(',').map((item) => ({
-											ID: parseInt(item)
-										}))
+												ID: parseInt(item)
+										  }))
 							})
 							setDataSource(newDataSource)
 						}}
@@ -539,19 +539,7 @@ const StudentData = () => {
 		setLoadingExport(true)
 		try {
 			const response = await downloadApi.StudentExcel()
-			console.log('response.data.data: ', response.data)
-
 			if (response.status == 200) {
-				// const url = window.URL.createObjectURL(new Blob([response.data]))
-				// const link = document.createElement('a')
-
-				// link.href = url
-				// link.setAttribute('download', `coding-mentor-students-${Date.now()}.xlsx`)
-
-				// document.body.appendChild(link)
-				// link.click()
-
-				// link.remove()
 				let temp = []
 				response.data.data.forEach((item, index) =>
 					temp.push({

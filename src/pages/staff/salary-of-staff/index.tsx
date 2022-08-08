@@ -321,7 +321,7 @@ const SalaryStaffReview = () => {
 			status: true
 		})
 		try {
-			let res = await staffSalaryApi.postSalaryClosing(workDays.days)
+			let res = await staffSalaryApi.postSalaryClosing()
 			if (res.status == 200) {
 				setDropDownVisible(false)
 				setParams({ ...params })

@@ -169,10 +169,32 @@ const SalaryReview = () => {
 			...FilterColumn('TeacherName', onSearch, handleReset, 'text')
 		},
 		{
+			title: 'Năm',
+			width: 80,
+			dataIndex: 'Year',
+			render: (price, record: ITeacherSalary) => <p>{price}</p>
+		},
+		{
+			title: 'Tháng',
+			width: 80,
+			dataIndex: 'Month',
+			render: (price, record: ITeacherSalary) => <p>{price}</p>
+		},
+		{
 			title: 'Thưởng',
 			width: 150,
 			dataIndex: 'Bonus',
 			render: (price, record: ITeacherSalary) => <p className="font-weight-green">{numberWithCommas(price)}</p>
+		},
+		{
+			title: 'Ghi Chú',
+			width: 107,
+			dataIndex: 'NoteBonus',
+			render: (price, record: any) => (
+				<Tooltip title={price} className="limit-text">
+					<p>{price}</p>
+				</Tooltip>
+			)
 		},
 		{
 			title: 'Trạng Thái',
@@ -183,30 +205,25 @@ const SalaryReview = () => {
 					value: 1
 				},
 				{
-					text: 'Đã gửi yêu cầu xác nhận',
+					text: 'Đã chốt lương',
+					value: 2
+				},
+				{
+					text: 'Đã thanh toán',
 					value: 3
-				},
-				{
-					text: 'Đã xác nhận',
-					value: 4
-				},
-				{
-					text: 'Đã nhận lương',
-					value: 5
 				}
 			],
 			onFilter: (value, record) => record.StatusID === value,
-			render: (price, record: any) => (
+			render: (statusName, record: any) => (
 				<>
-					{record.StatusID == 1 && <span className="tag red">{price}</span>}
-					{record.StatusID == 3 && <span className="tag yellow">{price}</span>}
-					{record.StatusID == 4 && <span className="tag blue">{price}</span>}
-					{record.StatusID == 5 && <span className="tag green">{price}</span>}
+					{record.StatusID == 1 && <span className="tag red">{statusName}</span>}
+					{record.StatusID == 2 && <span className="tag yellow">{statusName}</span>}
+					{record.StatusID == 3 && <span className="tag green">{statusName}</span>}
 				</>
 			)
 		},
 		{
-			title: 'Khấu trừ',
+			title: 'Trừ tạm ứng',
 			width: 150,
 			dataIndex: 'AdvanceSalary',
 			render: (price, record: ITeacherSalary) => <p className="font-weight-primary">{numberWithCommas(price)}</p>
@@ -218,30 +235,29 @@ const SalaryReview = () => {
 			render: (price, record: ITeacherSalary) => <p className="font-weight-green">{numberWithCommas(price)}</p>
 		},
 		{
-			title: 'Lương tháng',
+			title: 'Lương Tháng',
 			width: 150,
 			dataIndex: 'Salary',
+			align: 'center',
 			render: (price, record: ITeacherSalary) => <SalaryOfTeacherDetail price={price} record={record} />
 		},
-		// {
-		// 	title: 'Lương chấm bài',
-		// 	width: 150,
-		// 	dataIndex: 'SalaryFixExam',
-		// 	render: (price, record: ITeacherSalary) => <TeacherFixExam price={price} record={record} />
-		// },
 		{
-			title: 'Tổng lương',
+			title: 'Lương Tổng',
 			width: 150,
 			dataIndex: 'TotalSalary',
 			render: (price, record: ITeacherSalary) => <p className="font-weight-green">{numberWithCommas(price)}</p>
 		},
 		{
-			title: 'Cập nhật',
+			title: 'Cập Nhật',
 			width: 100,
 			render: (text, record) => (
-				<>
-					<ConfirmForm record={record} setParams={setParams} params={params} />
-				</>
+				<ConfirmForm
+					isLoading={isLoading}
+					record={record}
+					userInformationID={userInformation?.UserInformationID}
+					setParams={setParams}
+					params={params}
+				/>
 			)
 		}
 	]
@@ -268,7 +284,7 @@ const SalaryReview = () => {
 	const postSalaryOfTeacherClosing = async () => {
 		setIsLoading({ type: 'GET_ALL', status: true })
 		try {
-			let res = await teacherSalaryApi.salaryTeacher()
+			let res = await teacherSalaryApi.postSalaryClosing()
 			if (res.status == 200) {
 				setParams({ ...params })
 				showNoti('success', 'Thành công!')

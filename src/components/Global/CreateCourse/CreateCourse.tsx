@@ -144,6 +144,7 @@ const CreateCourseOffline = () => {
 		Price: 0,
 		Schedule: [],
 		RoomID: 0,
+		// @ts-ignore
 		ImageCourse: ''
 	})
 	// CALENDAR MODAL

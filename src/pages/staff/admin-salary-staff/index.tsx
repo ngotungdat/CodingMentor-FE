@@ -213,12 +213,6 @@ const SalaryReview = () => {
 			render: (price, record: any) => <p>{price}</p>
 		},
 		{
-			title: 'Lương ngày nghỉ',
-			width: 150,
-			dataIndex: 'SalaryOff',
-			render: (price, record: any) => <p className="font-weight-primary">{numberWithCommas(price)}</p>
-		},
-		{
 			title: 'Trạng Thái',
 			width: 200,
 			dataIndex: 'StatusName',
@@ -314,7 +308,7 @@ const SalaryReview = () => {
 			status: true
 		})
 		try {
-			let res = await staffSalaryApi.postSalaryClosing(workDays.days)
+			let res = await staffSalaryApi.postSalaryClosing()
 			setParams({ ...params })
 			if (res.status == 200) {
 				showNoti('success', 'Thành công!')
@@ -506,29 +500,6 @@ const SalaryReview = () => {
 				<>
 					<div className="d-none d-xl-inline-block">
 						<div className="d-flex justify-content-end align-items-center ">
-							{userInformation && (userInformation.RoleID === 1 || userInformation.RoleID === 2) && (
-								<button
-									className="btn btn-success mr-1"
-									style={{ width: 130 }}
-									disabled={isLoading.type === 'EXCEL' && isLoading.status}
-									onClick={() => {
-										exportExcelFile()
-									}}
-								>
-									{isLoading.type === 'EXCEL' && isLoading.status ? <Spin /> : 'Xuất file Excel'}
-								</button>
-							)}
-
-							<Input
-								onChange={(event) => {
-									setWorkDays({ ...workDays, days: Number(event.target.value) })
-								}}
-								className="style-input"
-								style={{ width: 150, marginRight: 5 }}
-								name="wordDays"
-								placeholder="Nhập ngày công"
-							/>
-
 							<Popconfirm
 								title={renderTitle}
 								visible={visible}
@@ -536,7 +507,7 @@ const SalaryReview = () => {
 								onCancel={handleCancel}
 								okButtonProps={{ loading: isLoading.status }}
 							>
-								<button onClick={showPopconfirm} className="btn btn-warning add-new">
+								<button style={{ width: 210 }} onClick={showPopconfirm} className="btn btn-warning add-new">
 									Tính lương tháng trước
 								</button>
 							</Popconfirm>

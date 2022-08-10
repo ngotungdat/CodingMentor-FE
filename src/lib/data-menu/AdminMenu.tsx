@@ -420,9 +420,9 @@ export const AdminChildMenu = [
 			},
 			{
 				ItemType: 'sub-menu',
-				Key: 'sub-list-staff-child-3',
+				Key: 'list-salary',
 				Icon: Icon.secMoney,
-				TitleSub: 'Tư vấn viên',
+				TitleSub: 'Bảng lương',
 				SubMenuList: [
 					{
 						ItemType: 'single',

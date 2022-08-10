@@ -215,30 +215,36 @@ const CurriculumDetail = (props) => {
 			dataIndex: 'StatusName',
 			key: 'statusname',
 			className: 'text-center',
-			render: (text, data) => (
-				<>
-					{!data.IsExam ? (
-						<DetailsModal
-							isAdmin={isAdmin}
-							curriculumDetailID={data.ID}
-							dataExamTopic={dataExamTopic}
-							dataCurriculumDetail={dataSource}
-							onFetchData={() => setTodoApi({ ...todoApi })}
-							courseID={courseID}
-							dataRow={data}
-							isFixed={isFixed}
-						/>
-					) : (
-						<AddExamForm
-							disable={props.disable}
-							dataExamTopic={dataExamTopic}
-							dataRow={data}
-							onFetchData={() => (setTodoApi({ ...todoApi }), setCurrentCheckID(null))}
-							currentCheckID={currentCheckID}
-						/>
-					)}
-				</>
-			)
+			render: (text, data) => {
+				return (
+					<>
+						{router.query?.type == 'Video' && (
+							<>
+								{!data.IsExam ? (
+									<DetailsModal
+										isAdmin={isAdmin}
+										curriculumDetailID={data.ID}
+										dataExamTopic={dataExamTopic}
+										dataCurriculumDetail={dataSource}
+										onFetchData={() => setTodoApi({ ...todoApi })}
+										courseID={courseID}
+										dataRow={data}
+										isFixed={isFixed}
+									/>
+								) : (
+									<AddExamForm
+										disable={props.disable}
+										dataExamTopic={dataExamTopic}
+										dataRow={data}
+										onFetchData={() => (setTodoApi({ ...todoApi }), setCurrentCheckID(null))}
+										currentCheckID={currentCheckID}
+									/>
+								)}
+							</>
+						)}
+					</>
+				)
+			}
 		}
 	]
 

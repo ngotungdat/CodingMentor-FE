@@ -111,6 +111,8 @@ const ShoppingCart = () => {
 			let res = await shoppingCartApi.getAll()
 			if (res.status == 200) {
 				setCartItems(res.data.data)
+			} else {
+				setCartItems([])
 			}
 		} catch (error) {
 		} finally {
@@ -410,19 +412,29 @@ const ShoppingCart = () => {
 								<div className="price">
 									<div className="price-item">
 										<p className="">Tổng cộng: </p>
-										<p className="">{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.OriginalPrice * b.Quantity), 0))} VND</p>
+										<p className="">
+											{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.OriginalPrice * b.Quantity), 0))} VND
+										</p>
 									</div>
 
 									<div className="price-item">
 										<p className="">Giảm: </p>
-										<p className="price-red">{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.OriginalPrice * b.Quantity), 0) - cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))} VND</p>
+										<p className="price-red">
+											{numberWithCommas(
+												cartItems?.reduce((a, b) => Number(a) + Number(b.OriginalPrice * b.Quantity), 0) -
+													cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0)
+											)}{' '}
+											VND
+										</p>
 									</div>
 
 									<div className="horizontal"></div>
 
 									<div className="price-item">
 										<p className="">Thanh toán: </p>
-										<p className="price-red">{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))} VND</p>
+										<p className="price-red">
+											{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))} VND
+										</p>
 									</div>
 
 									<Link href="/cart/check-out">

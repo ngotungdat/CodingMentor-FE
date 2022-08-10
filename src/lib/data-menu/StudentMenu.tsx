@@ -5,12 +5,12 @@ export const StudentParentMenu = [
 		TabName: 'tab-home',
 		Title: 'Trang chủ',
 		Icon: Icon.home
-	},
-	{
-		TabName: 'tab-package',
-		Title: 'Bộ đề',
-		Icon: Icon.store
 	}
+	// {
+	// 	TabName: 'tab-package',
+	// 	Title: 'Bộ đề',
+	// 	Icon: Icon.store
+	// }
 ]
 
 export const StudentChildMenu = [

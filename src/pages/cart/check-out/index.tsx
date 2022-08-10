@@ -114,6 +114,9 @@ const CheckOut = () => {
 	const handleCheckout = async () => {
 		setIsLoading({ status: 'CHECKOUT', loading: true })
 		let res = null
+
+		console.log('method: ', method)
+
 		try {
 			switch (method.PaymentCode) {
 				case 'momo':
@@ -393,7 +396,7 @@ const CheckOut = () => {
 	}
 
 	const [inputDiscount, setInputDiscount] = useState<string>('')
-    console.log("🚀 ~ file: index.tsx ~ line 396 ~ CheckOut ~ inputDiscount", inputDiscount)
+	console.log('🚀 ~ file: index.tsx ~ line 396 ~ CheckOut ~ inputDiscount', inputDiscount)
 
 	const menuDropdown = () => {
 		return (
@@ -612,12 +615,11 @@ const CheckOut = () => {
 									prefix={<img src="/images/discount-icon.png" style={{ width: 30, height: 30 }} />}
 									onChange={(e) => setInputDiscount(e.target.value)}
 								/>
-								{
-									inputDiscount.length > 0 && 
-								<button className="btn btn-dark" onClick={() => _changeDiscount({ DiscountCode: inputDiscount })}>
-									Áp dụng
-								</button>
-								}
+								{inputDiscount.length > 0 && (
+									<button className="btn btn-dark" onClick={() => _changeDiscount({ DiscountCode: inputDiscount })}>
+										Áp dụng
+									</button>
+								)}
 							</div>
 
 							<hr />
@@ -650,8 +652,8 @@ const CheckOut = () => {
 								<p className="col-6" style={{ textAlign: 'right' }}>
 									{!!promo?.DiscountPrice
 										? parseToMoney(dataOrder?.TotalPayment - promo?.DiscountPrice)
-										: parseToMoney(dataOrder?.TotalPayment)}
-									{' '}VND
+										: parseToMoney(dataOrder?.TotalPayment)}{' '}
+									VND
 								</p>
 							</div>
 

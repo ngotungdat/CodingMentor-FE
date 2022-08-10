@@ -123,21 +123,21 @@ export const TeacherChildMenu = [
 				Route: '/feedback',
 				Text: 'Phản hồi',
 				Icon: Icon.feedback
-			},
-			{
-				TypeItem: 'single',
-				Key: '/customer/service/service-test-teacher',
-				Route: '/customer/service/service-test-teacher',
-				Icon: Icon.edit,
-				Text: 'Chấm bài hẹn test'
-			},
-			{
-				ItemType: 'single',
-				Key: '/package/package-result-teacher',
-				Route: '/package/package-result-teacher',
-				Text: 'Chấm đề thi',
-				Icon: Icon['edit-2']
 			}
+			// {
+			// 	TypeItem: 'single',
+			// 	Key: '/customer/service/service-test-teacher',
+			// 	Route: '/customer/service/service-test-teacher',
+			// 	Icon: Icon.edit,
+			// 	Text: 'Chấm bài hẹn test'
+			// },
+			// {
+			// 	ItemType: 'single',
+			// 	Key: '/package/package-result-teacher',
+			// 	Route: '/package/package-result-teacher',
+			// 	Text: 'Chấm đề thi',
+			// 	Icon: Icon['edit-2']
+			// }
 		]
 	},
 	{

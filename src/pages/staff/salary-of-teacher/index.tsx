@@ -82,12 +82,12 @@ const SalaryReview = () => {
 			dataIndex: 'Salary',
 			render: (price, record: ITeacherSalary) => <SalaryOfTeacherDetail price={price} record={record} />
 		},
-		{
-			title: 'Lương chấm bài',
-			width: 150,
-			dataIndex: 'SalaryFixExam',
-			render: (price, record: ITeacherSalary) => <TeacherFixExam price={price} record={record} />
-		},
+		// {
+		// 	title: 'Lương chấm bài',
+		// 	width: 150,
+		// 	dataIndex: 'SalaryFixExam',
+		// 	render: (price, record: ITeacherSalary) => <TeacherFixExam price={price} record={record} />
+		// },
 		{
 			title: 'Thưởng',
 			width: 150,
@@ -118,12 +118,12 @@ const SalaryReview = () => {
 			width: 150,
 			dataIndex: 'TotalSalary',
 			render: (price, record: ITeacherSalary) => <p>{numberWithCommas(price)}</p>
-		},
-		{
-			title: 'Cập nhật',
-			align: 'right',
-			render: (text, record) => <ConfirmForm record={record} setParams={setParams} params={params} />
 		}
+		// {
+		// 	title: 'Cập nhật',
+		// 	align: 'right',
+		// 	render: (text, record) => <ConfirmForm record={record} setParams={setParams} params={params} />
+		// }
 	]
 
 	const expandedRowRender = (data, index) => {

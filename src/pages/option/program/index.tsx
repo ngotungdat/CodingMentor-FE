@@ -358,7 +358,7 @@ const Programs = () => {
 					<Link
 						href={{
 							pathname: '/option/program/program-detail/[slug]',
-							query: { slug: data.ID }
+							query: { slug: data.ID, type: data.TypeName }
 						}}
 					>
 						<Tooltip title="Chi tiết chương trình">

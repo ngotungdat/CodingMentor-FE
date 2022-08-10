@@ -774,7 +774,8 @@ const NewsFeed = () => {
 						</div>
 					)}
 				</div>
-				{userInformation?.RoleID !== 9 && (
+
+				{userInformation?.RoleID !== 9 && userInformation?.RoleID !== 2 && (
 					<div className="col-md-4 col-12">
 						<SideBarNewsFeed
 							optionList={optionList}

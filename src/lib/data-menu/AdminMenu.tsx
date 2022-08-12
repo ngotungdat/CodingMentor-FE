@@ -577,7 +577,7 @@ export const AdminChildMenu = [
 			{
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-1',
-				Icon: '',
+				Icon: Icon.location,
 				TitleSub: 'Địa chỉ',
 				SubMenuList: [
 					{

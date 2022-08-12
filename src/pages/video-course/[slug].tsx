@@ -282,8 +282,8 @@ const VideoCourseDetail = (props) => {
 				</div>
 				<div className="center-column">
 					<div className="price">
-						{!!router.query.Sell && <p className="m-0 p-0">{parseToMoney(router.query.Sell)} VND</p>}
-						{!!router.query.Original && <p className="m-0 p-0">{parseToMoney(router.query.Original)} VND</p>}
+						{!!router.query.Sell && <p className="m-0 p-0">{parseToMoney(router.query.Sell)} </p>}
+						{!!router.query.Original && <p className="m-0 p-0">{parseToMoney(router.query.Original)} </p>}
 					</div>
 					{/* {showLimitBooking() && <span className="mt-1 size-16">Số lượt đặt lịch: {router.query.LimitBooking}</span>} */}
 					{!!userInformation && (

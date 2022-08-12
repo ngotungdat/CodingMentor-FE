@@ -27,6 +27,7 @@ const CourseListDetail = () => {
 	const [isReloadRollUp, setIsReloadRollUp] = useState(false)
 	const [groupID, setGroupID] = useState({ groupID: null, groupInfo: null })
 	const [courseDetail, setCourseDetail] = useState<ICourseDetail>()
+    console.log("🚀 ~ file: CourseListDetail.tsx ~ line 30 ~ CourseListDetail ~ courseDetail", courseDetail)
 	const { showNoti, pageSize } = useWrap()
 	const { slug: ID, type } = router.query
 	const parseIntID = parseInt(ID as string)
@@ -34,7 +35,6 @@ const CourseListDetail = () => {
 
 	useEffect(() => {
 		if (window.innerHeight) {
-			console.log('🚀 ~ file: CourseListDetail.tsx ~ line 34 ~ CourseListDetail ~ ref', window.innerWidth)
 		}
 	}, [window.innerHeight])
 
@@ -81,7 +81,7 @@ const CourseListDetail = () => {
 			if (res.status === 200) {
 				setCourseDetail(res.data.data)
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				setCourseDetail(null)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -269,7 +269,7 @@ const CourseListDetail = () => {
 						}
 						key="3"
 					>
-						<StudentsList courseID={parseIntID} coursePrice={courseDetail?.Price} />
+						<StudentsList courseID={parseIntID} coursePrice={courseDetail?.Price} typeCourse={courseDetail.TypeCourse}/>
 					</TabPane>
 				)}
 

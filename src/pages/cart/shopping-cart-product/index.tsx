@@ -240,7 +240,7 @@ const ShoppingCartProduct = () => {
 				</div>
 
 				<div className="cart__item-price d-none d-sm-inline-block">
-					<p className="font-weight-primary">{numberWithCommas(item.Price * item.Quantity)} VND</p>
+					<p className="font-weight-primary">{numberWithCommas(item.Price * item.Quantity)} </p>
 				</div>
 
 				<div className="cart__item-remove d-none d-sm-inline-block col-sm-1">
@@ -252,7 +252,7 @@ const ShoppingCartProduct = () => {
 					</div>
 
 					<div className="cart__item-price">
-						<p className="font-weight-primary">{numberWithCommas(item.Price * item.Quantity)} VND</p>
+						<p className="font-weight-primary">{numberWithCommas(item.Price * item.Quantity)} </p>
 					</div>
 
 					<div className="row mt-3">
@@ -480,7 +480,7 @@ const ShoppingCartProduct = () => {
 								<h5 className="col-5">Tổng cộng: </h5>
 								<h5 className="font-weight-primary col-7">
 									{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))}
-									<span className="ml-2">VND</span>
+									<span className="ml-2"></span>
 								</h5>
 							</div>
 							<button

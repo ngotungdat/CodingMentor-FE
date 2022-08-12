@@ -249,7 +249,7 @@ const CheckOut = () => {
 						<p>Hạn sử dụng: {item.ExpiryDays}</p>
 					</div>
 					<span className="quantity">{item.Quantity}</span>
-					<span className="">{numberWithCommas(item.Price * item.Quantity)} VND</span>
+					<span className="">{numberWithCommas(item.Price * item.Quantity)} </span>
 				</div>
 			</div>
 		))
@@ -630,7 +630,7 @@ const CheckOut = () => {
 									<h6>Giá gốc</h6>
 								</div>
 								<p className="col-6" style={{ textAlign: 'right' }}>
-									{parseToMoney(dataOrder?.TotalPayment)} VND
+									{parseToMoney(dataOrder?.TotalPayment)} 
 								</p>
 							</div>
 
@@ -640,7 +640,7 @@ const CheckOut = () => {
 										<h6>Khuyến mãi</h6>
 									</div>
 									<p className="col-6" style={{ textAlign: 'right' }}>
-										- {parseToMoney(promo.DiscountPrice)} VND
+										- {parseToMoney(promo.DiscountPrice)} 
 									</p>
 								</div>
 							)}
@@ -653,7 +653,7 @@ const CheckOut = () => {
 									{!!promo?.DiscountPrice
 										? parseToMoney(dataOrder?.TotalPayment - promo?.DiscountPrice)
 										: parseToMoney(dataOrder?.TotalPayment)}{' '}
-									VND
+									
 								</p>
 							</div>
 

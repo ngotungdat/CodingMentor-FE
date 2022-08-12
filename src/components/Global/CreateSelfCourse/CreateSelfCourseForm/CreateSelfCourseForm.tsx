@@ -10,6 +10,7 @@ import DateField from '~/components/FormControl/DateField'
 import InputMoneyField from '~/components/FormControl/InputMoneyField'
 import InputTextField from '~/components/FormControl/InputTextField'
 import SelectField from '~/components/FormControl/SelectField'
+import UploadAvatarField from '~/components/FormControl/UploadAvatarField'
 import { useWrap } from '~/context/wrap'
 import { numberWithCommas } from '~/utils/functions'
 import { optionCommonPropTypes } from '~/utils/proptypes'
@@ -198,6 +199,13 @@ const CreateSelfCourseForm = (props) => {
 									isLoading={isLoading.type === 'ProgramID' && isLoading.status}
 									placeholder="Chọn học vụ"
 									optionList={academics}
+								/>
+							</div>
+							<div className="col-md-6 col-12">
+								<UploadAvatarField
+									form={form}
+									name="Avatar"
+									label="Ảnh khóa học"
 								/>
 							</div>
 							<div className="col-12">

@@ -473,14 +473,15 @@ const EditSelfCourse = (props) => {
 				showNoti('danger', 'Đã xảy ra lỗi. Xin kiểm tra lại')
 				return
 			}
-			if (!scheduleListToSave.length) {
-				showNoti('danger', 'Bạn chưa đăng ký buổi học nào')
-				return
-			}
+			// if (!scheduleListToSave.length) {
+			// 	showNoti('danger', 'Bạn chưa đăng ký buổi học nào')
+			// 	return
+			// }
 			const res = await Promise.all(scheduleListToSave.map((s) => updateScheduleSelfCourse(s)))
 			if (res.every((r) => r.status === 200)) {
 				fetchAvailableSchedule()
 				showNoti('success', 'Đăng ký thành công!')
+				router.push('/course/course-list')
 			} else {
 				showNoti('danger', 'Có lỗi xảy ra')
 			}
@@ -639,7 +640,6 @@ const EditSelfCourse = (props) => {
 		}
 	}, [])
 
-	console.log('calendarList: ', calendarList)
 
 	return (
 		<div className="create-course edit-course">

@@ -11,7 +11,8 @@ import { numberWithCommas } from '~/utils/functions'
 import { billCourseApi } from '~/apiBase/course/bill-course'
 
 const AddTrialStudentForm = (props) => {
-	const { CourseID, onFetchData, coursePrice, ProgramID } = props
+	const { CourseID, onFetchData, coursePrice, ProgramID, typeCourse } = props
+	console.log('🚀 ~ file: AddTrialStudentForm.tsx ~ line 15 ~ AddTrialStudentForm ~ typeCourse', typeCourse)
 	const [visible, setVisible] = useState(false)
 	const [isLoading, setIsLoading] = useState({ type: '', status: false })
 	const [branch, setBranch] = useState<IBranch[]>()
@@ -124,7 +125,6 @@ const AddTrialStudentForm = (props) => {
 	const onSelectCourseScheduleEnd = () => {}
 
 	const _onSubmit = async (data) => {
-		console.log('🚀 ~ file: AddTrialStudentForm.tsx ~ line 127 ~ const_onSubmit= ~ data', data)
 		setIsLoading({ type: 'SUBMIT', status: true })
 		if (isTrial) {
 			try {
@@ -195,18 +195,21 @@ const AddTrialStudentForm = (props) => {
 					<div className="row">
 						{!isTrial && (
 							<div className="col-12">
-								<p className="font-weight-green">Giá khóa học: {numberWithCommas(coursePrice)}vnd</p>
+								<p className="font-weight-green">Giá khóa học: {numberWithCommas(coursePrice)}</p>
 							</div>
 						)}
-						<div className="row m-0" style={{ width: '100%' }}>
-							<div className="col-md-6 col-12">
-								<Form.Item name="isTrial" label="" required={false} style={{ height: 30, marginTop: isTrial ? 0 : 20 }}>
-									<Checkbox checked={isTrial} onChange={() => setIsTrial(!isTrial)}>
-										Học thử
-									</Checkbox>
-								</Form.Item>
+
+						{typeCourse != 3 && (
+							<div className="row m-0" style={{ width: '100%' }}>
+								<div className="col-md-6 col-12">
+									<Form.Item name="isTrial" label="" required={false} style={{ height: 30, marginTop: isTrial ? 0 : 20 }}>
+										<Checkbox checked={isTrial} onChange={() => setIsTrial(!isTrial)}>
+											Học thử
+										</Checkbox>
+									</Form.Item>
+								</div>
 							</div>
-						</div>
+						)}
 						<div className="row m-0" style={{ width: '100%' }}>
 							<div className="col-md-6 col-12">
 								<Form.Item

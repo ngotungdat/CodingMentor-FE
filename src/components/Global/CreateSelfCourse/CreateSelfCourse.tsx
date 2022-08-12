@@ -116,7 +116,8 @@ const CreateSelfCourse = () => {
 				GradeID: id
 			});
 			if (res.status === 200) {
-				const newProgramList = fmSelectArr(res.data.data, 'ProgramName', 'ID', ['Price']);
+				let temp = res.data.data.filter((item)=> item.Type == 4)
+				const newProgramList = fmSelectArr(temp, 'ProgramName', 'ID', ['Price']);
 				setOptionListForForm((preState) => ({
 					...preState,
 					programList: newProgramList

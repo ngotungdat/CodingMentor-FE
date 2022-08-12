@@ -80,7 +80,7 @@ export const ItemCourse = (props) => {
 					</div>
 					{/*  */}
 					<div className="course-item-price-inline">
-						<p>{numberWithCommas(Item.Price)} VND</p>
+						<p>{numberWithCommas(Item.Price)}</p>
 					</div>
 					{/*  */}
 					<div className="course-item-content-buttons">
@@ -98,7 +98,7 @@ export const ItemCourse = (props) => {
 				</div>
 				{/*  */}
 				<div className="course-item-price">
-					<p>{numberWithCommas(Item.Price)} VND</p>
+					<p>{numberWithCommas(Item.Price)}</p>
 				</div>
 			</div>
 		</>

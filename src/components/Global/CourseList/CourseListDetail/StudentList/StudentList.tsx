@@ -11,14 +11,15 @@ import ModalDegreeForStudent from './ModalDegreeForStudent'
 
 StudentsList.propTypes = {
 	courseID: PropTypes.number,
-	coursePrice: PropTypes.number
+	coursePrice: PropTypes.number,
+	typeCourse: PropTypes.number,
 }
 StudentsList.defaultProps = {
 	courseID: 0
 }
 
 function StudentsList(props) {
-	const { courseID: ID, coursePrice } = props
+	const { courseID: ID, coursePrice,typeCourse } = props
 	const { showNoti, userInformation } = useWrap()
 	const [studentList, setStudentList] = useState<IStudentListInCourse[]>([])
 	const [isLoading, setIsLoading] = useState({
@@ -89,7 +90,8 @@ function StudentsList(props) {
 					showNoti('success', res.data.message)
 				}
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				setStudentList([])
+				setTotalPage(0)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -119,6 +121,7 @@ function StudentsList(props) {
 						userInformation?.RoleID == 6) && (
 						<AddTrialStudentForm
 							CourseID={ID}
+							typeCourse={typeCourse}
 							coursePrice={coursePrice}
 							onFetchData={() => {
 								setFilters({ ...filters })

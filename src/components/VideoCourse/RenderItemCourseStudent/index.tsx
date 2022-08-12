@@ -123,8 +123,8 @@ const RenderItemCard = (props) => {
 								</div>
 							</>
 							<div className="price">
-								<p>{numberWithCommas(item.SellPrice)} VND</p>
-								<p>{numberWithCommas(item.OriginalPrice)} VND</p>
+								<p>{numberWithCommas(item.SellPrice)}</p>
+								<p>{numberWithCommas(item.OriginalPrice)}</p>
 							</div>
 							<div className=" buttons d-flex justify-content-start align-items-center">
 								{/* <button className="mr-2 btn btn-primary">Mua ngay</button>
@@ -257,8 +257,8 @@ const RenderItemCard = (props) => {
 						</div>
 
 						<div className="price">
-							<p>{numberWithCommas(item.SellPrice)} VND</p>
-							<p>{numberWithCommas(item.OriginalPrice)} VND</p>
+							<p>{numberWithCommas(item.SellPrice)}</p>
+							<p>{numberWithCommas(item.OriginalPrice)}</p>
 						</div>
 					</div>
 

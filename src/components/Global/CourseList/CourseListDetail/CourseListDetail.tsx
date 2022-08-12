@@ -27,7 +27,6 @@ const CourseListDetail = () => {
 	const [isReloadRollUp, setIsReloadRollUp] = useState(false)
 	const [groupID, setGroupID] = useState({ groupID: null, groupInfo: null })
 	const [courseDetail, setCourseDetail] = useState<ICourseDetail>()
-    console.log("🚀 ~ file: CourseListDetail.tsx ~ line 30 ~ CourseListDetail ~ courseDetail", courseDetail)
 	const { showNoti, pageSize } = useWrap()
 	const { slug: ID, type } = router.query
 	const parseIntID = parseInt(ID as string)
@@ -269,7 +268,7 @@ const CourseListDetail = () => {
 						}
 						key="3"
 					>
-						<StudentsList courseID={parseIntID} coursePrice={courseDetail?.Price} typeCourse={courseDetail.TypeCourse}/>
+						<StudentsList courseID={parseIntID} coursePrice={courseDetail?.Price} typeCourse={courseDetail?.TypeCourse}/>
 					</TabPane>
 				)}
 

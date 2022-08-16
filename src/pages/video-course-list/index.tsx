@@ -16,7 +16,6 @@ import router from 'next/router'
 const { TextArea, Search } = Input
 
 const ItemVideo = ({ item, onRate }) => {
-	console.log('🚀 ~ file: index.tsx ~ line 19 ~ ItemVideo ~ onRate', onRate)
 	const [rerender, setRender] = useState('')
 	const { userInformation } = useWrap()
 
@@ -236,7 +235,7 @@ const VideoCourseList = () => {
 			res.status == 204 && setData([])
 			setRender(res + '')
 		} catch (err) {
-			showNoti('danger', err)
+			showNoti('danger', err?.message)
 		} finally {
 			setLoading(false)
 		}
@@ -258,20 +257,6 @@ const VideoCourseList = () => {
 	}
 
 	const [num, setNum] = useState('')
-
-	const _updateData = async (ID: number) => {
-		setLoading(true)
-		try {
-			const res = await VideoCourseListApi.updateLimitBooking({ ID: ID, LimitBooking: num })
-			if (res.status == 200) {
-				setNum('')
-				getAllArea()
-				showNoti('success', res.data?.message)
-			}
-		} catch (error) {
-			showNoti('danger', error?.message)
-		}
-	}
 
 	const columnsVideoCourse = [
 		{
@@ -295,45 +280,6 @@ const VideoCourseList = () => {
 			key: 'CreatedOn',
 			render: (Action, data, index) => <div>{data.CreatedOn}</div>
 		}
-		// {
-		// 	title: 'Đặt lịch còn lại',
-		// 	dataIndex: 'LeftLimitBooking',
-		// 	key: 'LeftLimitBooking',
-		// 	align: 'center'
-		// },
-		// {
-		// 	title: '',
-		// 	dataIndex: '',
-		// 	key: 'hoho',
-		// 	align: 'center',
-		// 	render: (Action, data, index) => {
-		// 		return (
-		// 			<div>
-		// 				<Popover
-		// 					content={
-		// 						<div className="wrap-calendar-x">
-		// 							<NumberFormat
-		// 								value={num}
-		// 								placeholder="Số lần có thể đặt"
-		// 								className="ant-input style-input w-100"
-		// 								onChange={(e: any) => setNum(e.target.value)}
-		// 								thousandSeparator={true}
-		// 							/>
-		// 							<Button onClick={() => _updateData(data?.ID)} className="btn btn-primary w-100 mt-3">
-		// 								Cập nhật {loading && <Spin className="ml-2" size="small" />}
-		// 							</Button>
-		// 						</div>
-		// 					}
-		// 					title="Cập nhật số lần đặt lịch"
-		// 					trigger="hover"
-		// 					placement="left"
-		// 				>
-		// 					<FontAwesomeIcon className="pen-edit" icon={faPenSquare as IconProp} size="lg" />
-		// 				</Popover>
-		// 			</div>
-		// 		)
-		// 	}
-		// }
 	]
 
 	useEffect(() => {
@@ -450,5 +396,4 @@ const VideoCourseList = () => {
 }
 
 VideoCourseList.layout = LayoutBase
-
 export default VideoCourseList

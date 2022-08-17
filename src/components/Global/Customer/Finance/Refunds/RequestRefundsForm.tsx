@@ -121,7 +121,7 @@ function RequestRefundsForm(props) {
 															<ul className="list">
 																<li className="price">
 																	Giá:
-																	{c.Price && <span>{numberWithCommas(c.Price)} VNĐ</span>}
+																	{c.Price && <span>{numberWithCommas(c.Price)} AUD</span>}
 																</li>
 																<li className="date-start">
 																	Ngày bắt đầu:
@@ -141,12 +141,7 @@ function RequestRefundsForm(props) {
 								</div>
 							)}
 							<div className="col-12">
-								<InputMoneyField
-									form={form}
-									name="Price"
-									label="Số tiền hoàn"
-									placeholder="Nhập số tiền hoàn"
-								/>
+								<InputMoneyField form={form} name="Price" label="Số tiền hoàn" placeholder="Nhập số tiền hoàn" />
 							</div>
 							<div className="col-12">
 								<RadioField form={form} name="PaymentMethodsID" label="Phương thức hoàn tiền" radioList={paymentMethodOptionList} />

@@ -28,7 +28,7 @@ const CourseListDetail = () => {
 	const [groupID, setGroupID] = useState({ groupID: null, groupInfo: null })
 	const [courseDetail, setCourseDetail] = useState<ICourseDetail>()
 	const { showNoti, pageSize } = useWrap()
-	const { slug: ID, type } = router.query
+	const { slug: ID, type, TeacherName } = router.query
 	const parseIntID = parseInt(ID as string)
 	const ref = useRef(null)
 
@@ -146,7 +146,7 @@ const CourseListDetail = () => {
 						tab={
 							<div className="course-mentor">
 								<img src="/images/icons/UserUnknown.svg" alt="user avatar" />
-								<p>Luan Mentor</p>
+								{TeacherName !== '' ? <p>{TeacherName}</p> : <p>Chưa có mentor</p>}
 							</div>
 						}
 						key="0"
@@ -268,7 +268,7 @@ const CourseListDetail = () => {
 						}
 						key="3"
 					>
-						<StudentsList courseID={parseIntID} coursePrice={courseDetail?.Price} typeCourse={courseDetail?.TypeCourse}/>
+						<StudentsList courseID={parseIntID} coursePrice={courseDetail?.Price} typeCourse={courseDetail?.TypeCourse} />
 					</TabPane>
 				)}
 

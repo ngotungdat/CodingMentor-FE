@@ -103,7 +103,7 @@ const ItemVideo = ({ item, onRate }) => {
 				</Link>
 				<div className="video-course__hover">
 					<div className="content">
-						<p>
+						{/* <p>
 							Tiến độ: {item.Complete}/{item.TotalLesson}
 						</p>
 						<Progress
@@ -111,7 +111,7 @@ const ItemVideo = ({ item, onRate }) => {
 							percent={(item.Complete / item.TotalLesson) * 100} // 10 - CHANGE TO TOTALESSION
 							status="active"
 							showInfo={false}
-						/>
+						/> */}
 						<div className="buttons">
 							<button
 								onClick={() => {
@@ -121,7 +121,8 @@ const ItemVideo = ({ item, onRate }) => {
 											ID: userInformation.RoleID == 3 ? item.ID : item.VideoCourseID,
 											course: item.VideoCourseID,
 											complete: item.Complete + '/' + item.TotalLesson,
-											name: item.VideoCourseName
+											name: item.VideoCourseName,
+											teacherName: item.TeacherName
 										}
 									})
 								}}

@@ -82,7 +82,7 @@ const StudentExamOfServices = React.memo((props: any) => {
 
 			if (_dc[0].DiscountType == 2) {
 				if (_dc[0].MaxDiscountPrice < (detail.Price * _dc[0].Discount) / 100) {
-					showNoti('warning', `Số tiền được giảm tối đa là ${Intl.NumberFormat('ja-JP').format(_dc[0].MaxDiscountPrice)} VNĐ`)
+					showNoti('warning', `Số tiền được giảm tối đa là ${Intl.NumberFormat('ja-JP').format(_dc[0].MaxDiscountPrice)} AUD`)
 					setDiscountPrice(_dc[0].MaxDiscountPrice)
 				} else {
 					setDiscountPrice((detail.Price * _dc[0].Discount) / 100)
@@ -225,11 +225,15 @@ const StudentExamOfServices = React.memo((props: any) => {
 					</div>
 					<div className="col-md-6 col-12">
 						<Form.Item label="Số tiền được giảm">
-							<Input value={Intl.NumberFormat('en-AU', {
+							<Input
+								value={Intl.NumberFormat('en-AU', {
 									// style: 'currency',
 									// currency: 'AUD',
 									minimumFractionDigits: 2
-								}).format(discountPrice)} className="style-input" readOnly={true} />
+								}).format(discountPrice)}
+								className="style-input"
+								readOnly={true}
+							/>
 						</Form.Item>
 					</div>
 				</div>

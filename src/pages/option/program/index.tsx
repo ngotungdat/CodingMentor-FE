@@ -325,7 +325,9 @@ const Programs = () => {
 			title: 'Giá',
 			dataIndex: 'Price',
 			render: (text) => {
-				return <p className="font-weight-primary">{numberWithCommas(text)}</p>
+				return (
+					<p className="font-weight-primary">{numberWithCommas(text) === '' ? numberWithCommas(text) : numberWithCommas(text) + ' AUD'}</p>
+				)
 			}
 		},
 		{

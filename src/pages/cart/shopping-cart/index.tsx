@@ -211,8 +211,8 @@ const ShoppingCart = () => {
 							</div>
 
 							<div className="price">
-								<p className="">{numberWithCommas(item.Price * item.Quantity)} </p>
-								<p className="">{numberWithCommas(item.OriginalPrice * item.Quantity)} </p>
+								<p className="">{numberWithCommas(item.Price * item.Quantity)} AUD</p>
+								<p className="">{numberWithCommas(item.OriginalPrice * item.Quantity)} AUD</p>
 							</div>
 
 							<div className="cart__item-action-mobile">
@@ -413,7 +413,7 @@ const ShoppingCart = () => {
 									<div className="price-item">
 										<p className="">Tổng cộng: </p>
 										<p className="">
-											{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.OriginalPrice * b.Quantity), 0))} 
+											{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.OriginalPrice * b.Quantity), 0))} AUD
 										</p>
 									</div>
 
@@ -424,7 +424,7 @@ const ShoppingCart = () => {
 												cartItems?.reduce((a, b) => Number(a) + Number(b.OriginalPrice * b.Quantity), 0) -
 													cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0)
 											)}{' '}
-											
+											AUD
 										</p>
 									</div>
 
@@ -433,7 +433,7 @@ const ShoppingCart = () => {
 									<div className="price-item">
 										<p className="">Thanh toán: </p>
 										<p className="price-red">
-											{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))} 
+											{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))} AUD
 										</p>
 									</div>
 

@@ -77,7 +77,7 @@ function TopPackageNewsFeed(props: any) {
 									<h6 className="title in-1-line">{item?.VideoCourseName}</h6>
 									<ul className="list">
 										<li className="price">
-											Giá:<span>{numberWithCommas(item?.SellPrice)} VNĐ</span>
+											Giá:<span>{numberWithCommas(item?.SellPrice)} AUD</span>
 										</li>
 									</ul>
 									<Link href={{ pathname: '/video-course/[slug]', query: params }}>

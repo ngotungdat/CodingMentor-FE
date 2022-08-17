@@ -38,11 +38,39 @@ const useBeforeUnload = (fn) => {
 const VideoLearning = () => {
 	const router = useRouter()
 	const { userInformation, showNoti } = useWrap()
+	const [subVideosByVideo, setSubVideosByVideo] = useState([])
 
 	const videoStudy = useRef(null)
 	const [currentVideo, setCurrentVideo] = useState(null)
 	const [videos, setVideos] = useState([])
 	const [currentLession, setCurrentLession] = useState({ ID: '', Title: '', Description: '', Type: 0, SectionID: '', Second: 0 })
+
+	const getSubVideosByVideo = async () => {
+		const getData = await Promise.all(
+			videos.map(async (item) => {
+				try {
+					const temp = { SectionID: item.ID, VideoCourseOfStudentID: router.query.course }
+					const res = await VideoCourses.ListLesson(temp)
+					if (res.status === 200) {
+						return {
+							ID: item.ID,
+							subVideos: res.data.data
+						}
+					}
+				} catch (error) {
+					console.log(error)
+				}
+			})
+		)
+		setSubVideosByVideo(getData)
+	}
+
+	useEffect(() => {
+		const getData = async () => {
+			getSubVideosByVideo()
+		}
+		getData()
+	}, [videos])
 
 	useEffect(() => {
 		if (router.query.course !== undefined) {
@@ -102,7 +130,7 @@ const VideoLearning = () => {
 
 	// // DRAWER VIDEO LIST STATE
 	const [visible, setVisible] = useState(false)
-    console.log("🚀 ~ file: index.tsx ~ line 105 ~ VideoLearning ~ visible", visible)
+	console.log('🚀 ~ file: index.tsx ~ line 105 ~ VideoLearning ~ visible', visible)
 
 	function Iframe(props) {
 		const { src } = props
@@ -151,6 +179,8 @@ const VideoLearning = () => {
 								p.Type === 0 ? setCurrentVideo(p.LinkVideo) : setCurrentVideo(p.LinkHtml)
 							}}
 							videos={videos}
+							subVideosByVideo={subVideosByVideo}
+							getSubVideosByVideo={getSubVideosByVideo}
 						/>
 					</Card>
 				</div>
@@ -175,6 +205,8 @@ const VideoLearning = () => {
 							setCurrentVideo(p?.LinkVideo)
 						}}
 						videos={videos}
+						subVideosByVideo={subVideosByVideo}
+						getSubVideosByVideo={getSubVideosByVideo}
 					/>
 				</div>
 			</Drawer>

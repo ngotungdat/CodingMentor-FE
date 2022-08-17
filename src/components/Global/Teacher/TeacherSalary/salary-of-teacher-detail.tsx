@@ -73,7 +73,7 @@ const SalaryOfTeacherDetail = ({ price, record }) => {
 		<>
 			<button className="font-weight-primary btn btn-icon edit" onClick={() => setVisible(true)}>
 				<Tooltip title="Xem chi tiết">
-					<button className="custom-btn-shit">{!!price ? numberWithCommas(price) : 0}</button>
+					<button className="custom-btn-shit">{!!price ? numberWithCommas(price) : 0} AUD</button>
 				</Tooltip>
 			</button>
 

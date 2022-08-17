@@ -282,7 +282,7 @@ const PackageStore = () => {
 												<ul className="set-list">
 													{!!Price && (
 														<li className="price">
-															Giá:<span>{numberWithCommas(Price)} VNĐ</span>
+															Giá:<span>{numberWithCommas(Price)} AUD</span>
 														</li>
 													)}
 													<div className="desc" style={{ fontWeight: 600 }}>

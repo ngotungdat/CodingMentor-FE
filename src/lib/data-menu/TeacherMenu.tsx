@@ -36,11 +36,11 @@ export const TeacherParentMenu = [
 		Title: 'Học viên',
 		Icon: Icon.customer
 	},
-	{
-		TabName: 'tab-staff',
-		Title: 'Phân công',
-		Icon: Icon.staff
-	},
+	// {
+	// 	TabName: 'tab-staff',
+	// 	Title: 'Phân công',
+	// 	Icon: Icon.staff
+	// },
 	{
 		TabName: 'tab-document',
 		Title: 'Tài liệu',
@@ -92,14 +92,14 @@ export const TeacherChildMenu = [
 			{
 				TypeItem: 'single',
 				Key: '/course/course-list',
-				Icon: '',
+				Icon: Icon.document,
 				Route: '/course/course-list',
 				Text: 'Danh sách khóa học'
 			},
 			{
 				TypeItem: 'single',
 				Key: '/course/schedule-study',
-				Icon: '',
+				Icon: Icon.calendar,
 				Route: '/course/schedule-study',
 				Text: 'Kiểm tra lịch'
 			}
@@ -140,20 +140,20 @@ export const TeacherChildMenu = [
 			// }
 		]
 	},
-	{
-		MenuName: 'tab-staff',
-		MenuTitle: 'Phân công',
-		MenuKey: '/staff',
-		MenuItem: [
-			{
-				ItemType: 'single',
-				Key: '/staff/manage-task',
-				Route: '/staff/manage-task',
-				Text: 'Quản lý công việc',
-				Icon: Icon.todo
-			}
-		]
-	},
+	// {
+	// 	MenuName: 'tab-staff',
+	// 	MenuTitle: 'Phân công',
+	// 	MenuKey: '/staff',
+	// 	MenuItem: [
+	// 		{
+	// 			ItemType: 'single',
+	// 			Key: '/staff/manage-task',
+	// 			Route: '/staff/manage-task',
+	// 			Text: 'Quản lý công việc',
+	// 			Icon: Icon.todo
+	// 		}
+	// 	]
+	// },
 	{
 		MenuName: 'tab-document',
 		MenuTitle: 'Thư viện tài liệu',

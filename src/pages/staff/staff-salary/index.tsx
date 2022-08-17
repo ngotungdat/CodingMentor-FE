@@ -80,30 +80,30 @@ const StaffSalary = () => {
 			type: 'GET_ALL',
 			status: true
 		})
-			; (async () => {
-				try {
-					let res = await staffSalaryApi.getAll(todoApi)
-					if (res.status == 204) {
-						showNoti('danger', 'Không có dữ liệu')
-						//handleReset()
-						setDataTable([])
-					}
-					if (res.status == 200) {
-						setDataTable(res.data.data)
-						if (res.data.data.length < 1) {
-							handleReset()
-						}
-						setTotalPage(res.data.totalRow)
-					}
-				} catch (error) {
-					showNoti('danger', error.message)
-				} finally {
-					setIsLoading({
-						type: 'GET_ALL',
-						status: false
-					})
+		;(async () => {
+			try {
+				let res = await staffSalaryApi.getAll(todoApi)
+				if (res.status == 204) {
+					showNoti('danger', 'Không có dữ liệu')
+					//handleReset()
+					setDataTable([])
 				}
-			})()
+				if (res.status == 200) {
+					setDataTable(res.data.data)
+					if (res.data.data.length < 1) {
+						handleReset()
+					}
+					setTotalPage(res.data.totalRow)
+				}
+			} catch (error) {
+				showNoti('danger', error.message)
+			} finally {
+				setIsLoading({
+					type: 'GET_ALL',
+					status: false
+				})
+			}
+		})()
 	}
 
 	// ADD DATA
@@ -200,13 +200,13 @@ const StaffSalary = () => {
 				if (dataTable.length === 1) {
 					listTodoApi.pageIndex === 1
 						? setTodoApi({
-							...listTodoApi,
-							pageIndex: 1
-						})
+								...listTodoApi,
+								pageIndex: 1
+						  })
 						: setTodoApi({
-							...listTodoApi,
-							pageIndex: listTodoApi.pageIndex - 1
-						})
+								...listTodoApi,
+								pageIndex: listTodoApi.pageIndex - 1
+						  })
 					return
 				}
 				getDataTable()
@@ -279,7 +279,7 @@ const StaffSalary = () => {
 			title: 'Mức lương',
 			dataIndex: 'Salary',
 			render: (salary) => {
-				return <p className="font-weight-primary">{Intl.NumberFormat('ja-JP').format(salary)}</p>
+				return <p className="font-weight-primary">{Intl.NumberFormat('ja-JP').format(salary)} AUD</p>
 			}
 		},
 		// {

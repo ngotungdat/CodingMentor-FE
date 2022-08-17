@@ -74,7 +74,9 @@ const SalaryReview = () => {
 			title: 'Lương cơ bản',
 			width: 150,
 			dataIndex: 'BasicSalary',
-			render: (price, record: ITeacherSalary) => <p>{numberWithCommas(price)}</p>
+			render: (price, record: ITeacherSalary) => (
+				<p className="font-weight-green">{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
+			)
 		},
 		{
 			title: 'Lương tháng',
@@ -92,7 +94,9 @@ const SalaryReview = () => {
 			title: 'Thưởng',
 			width: 150,
 			dataIndex: 'Bonus',
-			render: (price, record: ITeacherSalary) => <p>{numberWithCommas(price)}</p>
+			render: (price, record: ITeacherSalary) => (
+				<p className="font-weight-green">{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
+			)
 		},
 		{
 			title: 'Trạng thái',
@@ -111,13 +115,17 @@ const SalaryReview = () => {
 			title: 'Khấu trừ',
 			width: 150,
 			dataIndex: 'AdvanceSalary',
-			render: (price, record: ITeacherSalary) => <p>{numberWithCommas(price)}</p>
+			render: (price, record: ITeacherSalary) => (
+				<p>{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
+			)
 		},
 		{
 			title: 'Lương tổng',
 			width: 150,
 			dataIndex: 'TotalSalary',
-			render: (price, record: ITeacherSalary) => <p>{numberWithCommas(price)}</p>
+			render: (price, record: ITeacherSalary) => (
+				<p>{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
+			)
 		}
 		// {
 		// 	title: 'Cập nhật',

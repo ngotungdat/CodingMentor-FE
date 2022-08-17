@@ -231,7 +231,7 @@ const PackageStudent = () => {
 													<ul className="set-list">
 														{!!Price && (
 															<li className="price">
-																Giá:<span>{numberWithCommas(Price)} VNĐ</span>
+																Giá:<span>{numberWithCommas(Price)} AUD</span>
 															</li>
 														)}
 													</ul>

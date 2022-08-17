@@ -205,7 +205,7 @@ const RegCourse = React.memo((props: any) => {
 			}
 			if (_dc[0].DiscountType == 2) {
 				if (_dc[0].MaxDiscountPrice < ((totalPrice + totalPriceProgram) * _dc[0].Discount) / 100) {
-					showNoti('warning', `Số tiền được giảm tối đa là ${Intl.NumberFormat('ja-JP').format(_dc[0].MaxDiscountPrice)} VNĐ`)
+					showNoti('warning', `Số tiền được giảm tối đa là ${Intl.NumberFormat('ja-JP').format(_dc[0].MaxDiscountPrice)} AUD`)
 					setDiscountPrice(_dc[0].MaxDiscountPrice)
 				} else {
 					setDiscountPrice(((totalPrice + totalPriceProgram) * _dc[0].Discount) / 100)

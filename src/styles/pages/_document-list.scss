@@ -87,3 +87,17 @@
 .category-document-list-wrap {
 	background-color: #fafafa;
 }
+
+.category__list-active {
+	.category__list-menu {
+		color: #c94a4f;
+	}
+	svg {
+		color: #c94a4f;
+		font-size: 18px;
+	}
+	background-color: #fdecef !important;
+	color: #c94a4f;
+	border-radius: 10px;
+	font-weight: 500;
+}

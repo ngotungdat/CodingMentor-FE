@@ -1,27 +1,27 @@
-import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
-import { Check } from 'react-feather';
-import { branchApi, refundsApi, voucherApi } from '~/apiBase';
-import { ExpandRefundRow } from '~/components/Elements/ExpandBox';
-import SortBox from '~/components/Elements/SortBox';
-import ExpandTable from '~/components/ExpandTable';
-import RefundForm from '~/components/Global/Customer/Finance/Refunds/RefundsForm';
-import FilterColumn from '~/components/Tables/FilterColumn';
-import { useWrap } from '~/context/wrap';
-import { fmSelectArr, numberWithCommas } from '~/utils/functions';
-import InvoiceVoucherFilter from '../InvoiceVoucher/InvoiceVoucherFilter';
+import moment from 'moment'
+import React, { useEffect, useRef, useState } from 'react'
+import { Check } from 'react-feather'
+import { branchApi, refundsApi, voucherApi } from '~/apiBase'
+import { ExpandRefundRow } from '~/components/Elements/ExpandBox'
+import SortBox from '~/components/Elements/SortBox'
+import ExpandTable from '~/components/ExpandTable'
+import RefundForm from '~/components/Global/Customer/Finance/Refunds/RefundsForm'
+import FilterColumn from '~/components/Tables/FilterColumn'
+import { useWrap } from '~/context/wrap'
+import { fmSelectArr, numberWithCommas } from '~/utils/functions'
+import InvoiceVoucherFilter from '../InvoiceVoucher/InvoiceVoucherFilter'
 
 const FinanceRefund = () => {
-	const [refundList, setRefundList] = useState<IRefunds[]>([]);
-	const { showNoti, pageSize } = useWrap();
+	const [refundList, setRefundList] = useState<IRefunds[]>([])
+	const { showNoti, pageSize } = useWrap()
 	const [isLoading, setIsLoading] = useState({
 		type: 'GET_ALL',
 		status: false
-	});
-	const [activeColumnSearch, setActiveColumnSearch] = useState('');
-	const [totalPage, setTotalPage] = useState(null);
-	const [optionBrachList, setOptionBranchList] = useState<IOptionCommon[]>([]);
-	const [infoVoucherList, setInfoVoucherList] = useState<IVoucher[]>([]);
+	})
+	const [activeColumnSearch, setActiveColumnSearch] = useState('')
+	const [totalPage, setTotalPage] = useState(null)
+	const [optionBrachList, setOptionBranchList] = useState<IOptionCommon[]>([])
+	const [infoVoucherList, setInfoVoucherList] = useState<IVoucher[]>([])
 	// STATUS
 	const optionStatusList = [
 		{
@@ -36,7 +36,7 @@ const FinanceRefund = () => {
 			title: 'Không duyệt',
 			value: 3
 		}
-	];
+	]
 	// SORT
 	const sortOptionList = [
 		{
@@ -71,7 +71,7 @@ const FinanceRefund = () => {
 			value: 4,
 			text: 'Số tiền tăng dần '
 		}
-	];
+	]
 
 	// FILTER
 	const listFieldInit = {
@@ -82,14 +82,14 @@ const FinanceRefund = () => {
 
 		FullNameUnicode: null,
 		StatusID: null
-	};
+	}
 	let refValue = useRef({
 		pageIndex: 1,
 		pageSize: 10,
 		sort: -1,
 		sortType: false
-	});
-	const [filters, setFilters] = useState(listFieldInit);
+	})
+	const [filters, setFilters] = useState(listFieldInit)
 
 	// FILTER
 	const onFilter = (obj) => {
@@ -100,51 +100,51 @@ const FinanceRefund = () => {
 			...obj,
 			fromDate: moment(obj.fromDate).format('YYYY/MM/DD'),
 			toDate: moment(obj.toDate).format('YYYY/MM/DD')
-		});
-	};
+		})
+	}
 	// PAGINATION
 	const getPagination = (pageIndex: number, pageSize: number) => {
-		if (!pageSize) pageSize = 10;
+		if (!pageSize) pageSize = 10
 		refValue.current = {
 			...refValue.current,
 			pageSize,
 			pageIndex
-		};
+		}
 		setFilters({
 			...filters,
 			...refValue.current
-		});
-	};
+		})
+	}
 	// SORT
 	const onSort = (option) => {
 		refValue.current = {
 			...refValue.current,
 			sort: option.title.sort,
 			sortType: option.title.sortType
-		};
+		}
 		setFilters({
 			...listFieldInit,
 			...refValue.current
-		});
-	};
+		})
+	}
 	// RESET SEARCH
 	const onResetSearch = () => {
-		setActiveColumnSearch('');
+		setActiveColumnSearch('')
 		setFilters({
 			...listFieldInit,
 			pageSize: refValue.current.pageSize
-		});
-	};
+		})
+	}
 	// ACTION SEARCH
 	const onSearch = (valueSearch, dataIndex) => {
-		setActiveColumnSearch(dataIndex);
+		setActiveColumnSearch(dataIndex)
 		setFilters({
 			...listFieldInit,
 			...refValue.current,
 			pageIndex: 1,
 			[dataIndex]: valueSearch
-		});
-	};
+		})
+	}
 
 	// GET DATA TABLE
 	const fetchRefundList = async () => {
@@ -152,51 +152,51 @@ const FinanceRefund = () => {
 			setIsLoading({
 				type: 'GET_ALL',
 				status: true
-			});
-			let res = await refundsApi.getAll(filters);
+			})
+			let res = await refundsApi.getAll(filters)
 			if (res.status === 200) {
-				setRefundList(res.data.data);
-				setTotalPage(res.data.totalRow);
+				setRefundList(res.data.data)
+				setTotalPage(res.data.totalRow)
 			}
 			if (res.status == 204) {
-				setRefundList([]);
+				setRefundList([])
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 	useEffect(() => {
-		fetchRefundList();
-	}, [filters]);
+		fetchRefundList()
+	}, [filters])
 
 	const fetchBranchList = async () => {
 		try {
 			setIsLoading({
 				type: 'GET_ALL',
 				status: true
-			});
-			const res = await branchApi.getAll({ pageIndex: 1, pageSize: 9999 });
+			})
+			const res = await branchApi.getAll({ pageIndex: 1, pageSize: 9999 })
 			if (res.status === 200) {
-				const fmOpTionBranchList = fmSelectArr(res.data.data, 'BranchName', 'ID');
-				setOptionBranchList(fmOpTionBranchList);
+				const fmOpTionBranchList = fmSelectArr(res.data.data, 'BranchName', 'ID')
+				setOptionBranchList(fmOpTionBranchList)
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 	useEffect(() => {
-		fetchBranchList();
-	}, []);
+		fetchBranchList()
+	}, [])
 
 	const onUpdateRefund = (ID: number, idx: number) => {
 		return async (data: { StatusID: number }) => {
@@ -204,34 +204,34 @@ const FinanceRefund = () => {
 				setIsLoading({
 					type: 'ADD_DATA',
 					status: true
-				});
-				const { StatusID } = data;
+				})
+				const { StatusID } = data
 				const newRefund = {
 					StatusID,
 					ID
-				};
-				const res = await refundsApi.update(newRefund);
+				}
+				const res = await refundsApi.update(newRefund)
 				if (res.status === 200) {
-					const newRefundList = [...refundList];
+					const newRefundList = [...refundList]
 					newRefundList.splice(idx, 1, {
 						...newRefundList[idx],
 						StatusID,
 						StatusName: optionStatusList.find((s) => s.value === StatusID).title
-					});
-					setRefundList(newRefundList);
-					showNoti('success', 'Cập nhật thành công');
-					return true;
+					})
+					setRefundList(newRefundList)
+					showNoti('success', 'Cập nhật thành công')
+					return true
 				}
 			} catch (error) {
-				showNoti('danger', error.message);
+				showNoti('danger', error.message)
 			} finally {
 				setIsLoading({
 					type: 'ADD_DATA',
 					status: false
-				});
+				})
 			}
-		};
-	};
+		}
+	}
 
 	const columns = [
 		{
@@ -257,7 +257,11 @@ const FinanceRefund = () => {
 			width: 200,
 			dataIndex: 'Price',
 			render: (Price) => {
-				return <p className="font-weight-primary">{numberWithCommas(Price)}</p>;
+				return (
+					<p className="font-weight-primary">
+						{numberWithCommas(Price) === '' ? numberWithCommas(Price) : numberWithCommas(Price) + ' AUD'}
+					</p>
+				)
 			}
 		},
 		{
@@ -268,12 +272,12 @@ const FinanceRefund = () => {
 			render: (fnStatus) => {
 				switch (fnStatus) {
 					case 'Chờ duyệt':
-						return <span className="tag green">{fnStatus}</span>;
+						return <span className="tag green">{fnStatus}</span>
 					case 'Không duyệt':
-						return <span className="tag red">{fnStatus}</span>;
+						return <span className="tag red">{fnStatus}</span>
 					case 'Đã duyệt':
-						return <span className="tag yellow">{fnStatus}</span>;
-						break;
+						return <span className="tag yellow">{fnStatus}</span>
+						break
 				}
 			},
 			...FilterColumn('StatusID', onSearch, onResetSearch, 'select', optionStatusList)
@@ -284,7 +288,7 @@ const FinanceRefund = () => {
 			width: 240,
 			align: 'center',
 			render: (isExpulsion) => {
-				return <p>{isExpulsion ? <Check color="#0da779" /> : ''}</p>;
+				return <p>{isExpulsion ? <Check color="#0da779" /> : ''}</p>
 			}
 		},
 		{
@@ -300,7 +304,7 @@ const FinanceRefund = () => {
 				/>
 			)
 		}
-	];
+	]
 
 	//
 	const fetchInfoVoucherList = async (ID: number) => {
@@ -308,25 +312,25 @@ const FinanceRefund = () => {
 			setIsLoading({
 				type: 'FETCH_INFO_VOUCHER',
 				status: true
-			});
+			})
 			const res = await voucherApi.getAll({
 				RefundsID: ID
-			});
+			})
 			if (res.status === 200) {
-				setInfoVoucherList(res.data.data);
+				setInfoVoucherList(res.data.data)
 			}
 			if (res.status === 204) {
-				setInfoVoucherList(null);
+				setInfoVoucherList(null)
 			}
 		} catch (error) {
-			console.log(fetchInfoVoucherList, error.message);
+			console.log(fetchInfoVoucherList, error.message)
 		} finally {
 			setIsLoading({
 				type: 'FETCH_INFO_VOUCHER',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	const expandableObj = {
 		expandedRowRender: (record) => (
@@ -334,10 +338,10 @@ const FinanceRefund = () => {
 		),
 		onExpand: (expanded, record) => {
 			if (expanded) {
-				fetchInfoVoucherList(record.ID);
+				fetchInfoVoucherList(record.ID)
 			}
 		}
-	};
+	}
 
 	return (
 		<ExpandTable
@@ -357,6 +361,6 @@ const FinanceRefund = () => {
 				</div>
 			}
 		/>
-	);
-};
-export default FinanceRefund;
+	)
+}
+export default FinanceRefund

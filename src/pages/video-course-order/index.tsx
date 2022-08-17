@@ -106,14 +106,14 @@ const VideoCourseList = () => {
 			dataIndex: 'TotalPayment',
 			key: 'TotalPayment',
 			align: 'left',
-			render: (Action, data, index) => <div>{parseToMoney(data.TotalPayment)}</div>
+			render: (Action, data, index) => <div>{parseToMoney(data.TotalPayment)} AUD</div>
 		},
 		{
 			title: 'Đã thanh toán',
 			dataIndex: 'PaidPayment',
 			key: 'PaidPayment',
 			align: 'left',
-			render: (Action, data, index) => !!data.PaidPayment && <div>{parseToMoney(data.PaidPayment)}</div>
+			render: (Action, data, index) => !!data.PaidPayment && <div>{parseToMoney(data.PaidPayment)} AUD</div>
 		},
 		{
 			title: 'Giảm giá',
@@ -121,7 +121,7 @@ const VideoCourseList = () => {
 			key: 'DiscountPrice',
 			align: 'center',
 			width: 120,
-			render: (Action, data, index) => !!data.DiscountPrice && <div>{parseToMoney(data.DiscountPrice)}</div>
+			render: (Action, data, index) => !!data.DiscountPrice && <div>{parseToMoney(data.DiscountPrice)} AUD</div>
 		},
 		{
 			title: 'Ngày mua',

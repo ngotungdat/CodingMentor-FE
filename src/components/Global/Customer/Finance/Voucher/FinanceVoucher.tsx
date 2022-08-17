@@ -231,7 +231,7 @@ function FinanceVoucher() {
 			title: 'Số tiền',
 			dataIndex: 'Price',
 			render: (a) => {
-				return <p className="font-weight-black">{numberWithCommas(a)}</p>
+				return <p className="font-weight-black"> {numberWithCommas(a) === '' ? numberWithCommas(a) : numberWithCommas(a) + ' AUD'}</p>
 			}
 		},
 		{

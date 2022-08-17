@@ -24,19 +24,19 @@ export const ItemCourse = (props) => {
 		}
 	}, [Item])
 
-	const returnPathName = (ID, TypeCourse, CourseName) => {
+	const returnPathName = (ID, TypeCourse, CourseName, TeacherName) => {
 		if (!userInformation) return ''
 		let role = userInformation?.RoleID
 		let path = null
 		if (role == 1 || role == 5) {
 			path = {
 				pathname: '/course/course-list/course-list-detail/[slug]',
-				query: { slug: ID, type: TypeCourse, CourseName }
+				query: { slug: ID, type: TypeCourse, CourseName, TeacherName }
 			}
 		} else {
 			path = {
 				pathname: '/course/course-list/course-list-detail/[slug]',
-				query: { slug: ID, courseID: ID, CourseName }
+				query: { slug: ID, courseID: ID, CourseName, TeacherName }
 			}
 		}
 		return path
@@ -80,14 +80,14 @@ export const ItemCourse = (props) => {
 					</div>
 					{/*  */}
 					<div className="course-item-price-inline">
-						<p>{numberWithCommas(Item.Price)}</p>
+						<p>{numberWithCommas(Item.Price) === '' ? `${numberWithCommas(Item.Price)}` : `${numberWithCommas(Item.Price)} AUD`}</p>
 					</div>
 					{/*  */}
 					<div className="course-item-content-buttons">
 						<button
 							className="btn btn-primary"
 							onClick={() => {
-								let temp = returnPathName(Item?.ID, Item?.TypeCourse, Item?.CourseName)
+								let temp = returnPathName(Item?.ID, Item?.TypeCourse, Item?.CourseName, Item?.TeacherName)
 								router.push(temp)
 							}}
 						>
@@ -97,9 +97,14 @@ export const ItemCourse = (props) => {
 					</div>
 				</div>
 				{/*  */}
-				<div className="course-item-price">
-					<p>{numberWithCommas(Item.Price)}</p>
-				</div>
+				{userInformation.RoleID === 3 ? (
+					<></>
+				) : (
+					<div className="course-item-price">
+						{console.log(numberWithCommas(Item.Price))}
+						<p>{numberWithCommas(Item.Price) === '' ? `${numberWithCommas(Item.Price)}` : `${numberWithCommas(Item.Price)} AUD`}</p>
+					</div>
+				)}
 			</div>
 		</>
 	)

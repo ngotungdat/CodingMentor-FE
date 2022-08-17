@@ -8,7 +8,6 @@ import { useWrap } from '~/context/wrap'
 import { fmSelectArr } from '~/utils/functions'
 import CourseListUpdate from './CourseListUpdate'
 
-
 const statusList = [
 	{
 		title: 'Sắp diễn ra',

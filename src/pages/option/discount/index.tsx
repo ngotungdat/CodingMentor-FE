@@ -209,7 +209,7 @@ const Discount = () => {
 				if (record.DiscountType == 2) {
 					return <p className="font-weight-primary">{text}%</p>
 				} else {
-					return <p className="font-weight-primary">{Intl.NumberFormat('ja-JP').format(text)}</p>
+					return <p className="font-weight-primary">{Intl.NumberFormat('ja-JP').format(text)} AUD</p>
 				}
 			}
 		},
@@ -242,14 +242,14 @@ const Discount = () => {
 			align: 'center',
 			width: 200,
 			dataIndex: 'MinimumOrder',
-			render: (data: string, value) => <>{parseToMoney(data)}đ</>
+			render: (data: string, value) => <>{parseToMoney(data)} AUD</>
 		},
 		{
 			title: 'Giảm tối đa',
 			align: 'center',
 			width: 200,
 			dataIndex: 'MaxDiscountPrice',
-			render: (data: string, value) => <>{parseToMoney(data)}đ</>
+			render: (data: string, value) => <>{parseToMoney(data)} AUD</>
 		},
 		{
 			title: 'Số lượng',

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useMemo, useState } from 'react'
 import 'antd/dist/antd.css'
 import { List, Radio } from 'antd'
 import { VideoCourses } from '~/apiBase/video-learning'
@@ -28,10 +28,12 @@ type props = {
 	watching: any
 	playing: number
 	setPlaying: Function
+	subVideosByVideo: any[]
+	getSubVideosByVideo: Function
 }
 
 // RENDER ITEM LIST VIDEOS
-const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlaying }) => {
+const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlaying, subVideosByVideo, getSubVideosByVideo }) => {
 	const router = useRouter()
 	const [isShow, setShow] = useState(false)
 	const [subVideos, setSubVideos] = useState([])
@@ -85,11 +87,24 @@ const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlay
 		//
 	}
 
+	const countVideoSeen = useMemo(() => {
+		let getVideoSeen
+		const data = subVideosByVideo.find((video) => {
+			if (video.ID === item.ID) {
+				getVideoSeen = video.subVideos.filter((sub) => sub.IsSeen === true)
+				return getVideoSeen
+			}
+		})
+		if (data) {
+			return { ID: data.ID, subVideos: getVideoSeen }
+		}
+	}, [subVideosByVideo])
+
 	// RENDER
 	return (
 		<div className="mb-3 wrap-video-item">
 			<div className="p-3 wrap-render-item bottom-borde" onClick={() => handleClick('none')}>
-				<Radio disabled={false} checked={item?.TotalLesson == item?.TotalLessonComplete ? true : false} />
+				<Radio disabled={false} checked={countVideoSeen?.subVideos.length === item?.TotalLesson ? true : false} />
 				<div className="title none-selection">
 					<div className="left mr-2">
 						<div className="row m-0 p-0">
@@ -97,7 +112,7 @@ const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlay
 						</div>
 						<div className="row m-0 p-0 date none-selection">
 							<div>
-								Đã hoàn thành: {item?.TotalLessonComplete}/{item?.TotalLesson}
+								Đã hoàn thành: {countVideoSeen ? `${countVideoSeen.subVideos.length}/${item?.TotalLesson}` : `0/${item?.TotalLesson}`}
 							</div>
 						</div>
 					</div>
@@ -122,6 +137,7 @@ const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlay
 							<RenderItemSub
 								onPress={(p) => _playVideo(p)}
 								fetchData={getVideos}
+								fetchSubVideosByVideo={getSubVideosByVideo}
 								videoWatching={playing}
 								data={data}
 								item={i}

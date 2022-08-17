@@ -205,7 +205,7 @@ const DocumentList = (props) => {
 								return (
 									<div
 										className={`d-flex mb-2 justify-content-between category-document-item-wrap ${
-											activeID == cate.ID && 'doc__list-active'
+											activeID == cate.ID && 'category__list-active'
 										}`}
 									>
 										<div
@@ -218,14 +218,14 @@ const DocumentList = (props) => {
 												setCategoryID(cate.ID)
 											}}
 										>
-											<div className="title doc__list-menu">
-												<div className="text-uppercase">
+											<div className="title">
+												<div className="d-flex align-items-center text-uppercase">
 													<img
 														className="mr-3"
 														style={{ width: 30, height: 30 }}
 														src={!!cate?.Icon && cate.Icon.length > 0 ? cate.Icon : '/Images/1-listening.png'}
 													/>
-													{cate.CategoryName}
+													<span>{cate.CategoryName}</span>
 												</div>
 											</div>
 

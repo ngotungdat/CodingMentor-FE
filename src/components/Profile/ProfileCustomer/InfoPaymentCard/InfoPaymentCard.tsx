@@ -47,7 +47,7 @@ function InfoPaymentCard(props) {
 	return (
 		<div>
 			<div className="pt-3 mb-3">
-				<h5>Học phí còn nợ: {numberWithCommas(totalDebt)} VNĐ</h5>
+				<h5>Học phí còn nợ: {numberWithCommas(totalDebt)} AUD</h5>
 			</div>
 			<PaymentCourseTable studentID={studentID} />
 			<Divider />

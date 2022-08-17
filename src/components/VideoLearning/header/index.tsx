@@ -175,10 +175,10 @@ const HeaderVideo: FC<hProps> = ({ params, handleShowDrawer }): JSX.Element => {
 			</div>
 
 			<div className="row p-0 video-header__header-right">
-				<div className="progress-group">
+				{/* <div className="progress-group">
 					<span className="">Tiến độ {params.complete}</span>
 					<Progress className="progress mr-3" strokeColor="#ffffffb3" percent={Number(params.complete?.split('/')[0])} showInfo={false} />
-				</div>
+				</div> */}
 				<div className="user-group">
 					<div className="user">
 						<div className="d-inline-block d-md-none  w-25">

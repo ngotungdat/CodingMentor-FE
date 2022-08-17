@@ -328,7 +328,7 @@ const CourseOfStudentPrice = () => {
 			const { Price } = data
 			const newData = {
 				...data,
-				Price:Price
+				Price: Price
 			}
 			const res = await refundsApi.add(newData)
 			if (res.status === 200) {
@@ -366,7 +366,7 @@ const CourseOfStudentPrice = () => {
 			width: 180,
 			title: 'Tổng thanh toán',
 			dataIndex: 'Price',
-			render: (price) => <p>{numberWithCommas(price)}</p>
+			render: (price) => <p>{numberWithCommas(price)} AUD</p>
 		},
 		{
 			width: 180,
@@ -378,20 +378,22 @@ const CourseOfStudentPrice = () => {
 			width: 180,
 			title: 'Giảm giá',
 			dataIndex: 'Reduced',
-			render: (price) => <p>{numberWithCommas(price)}</p>
+			render: (price) => {
+				return <p>{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
+			}
 		},
 		{
 			width: 180,
 			title: 'Đã thanh toán',
 			dataIndex: 'Paid',
-			render: (price) => <p>{numberWithCommas(price)}</p>
+			render: (price) => <p>{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
 		},
 		{
 			width: 150,
 			title: 'Số tiền còn lại',
 			dataIndex: 'PriceLeft',
 			align: 'center',
-			render: (price) => <p className="font-weight-primary">{numberWithCommas(Math.round(price*100)/100)}</p>
+			render: (price) => <p className="font-weight-primary">{numberWithCommas(Math.round(price * 100) / 100)} AUD</p>
 		},
 		{
 			title: 'Hình thức',

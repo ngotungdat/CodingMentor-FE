@@ -124,7 +124,7 @@ const UpdatePriceFormTwo = (props) => {
 									<p className="name font-weight-black">{data.CourseName}</p>
 									<ul className="list">
 										<li className="price">
-											Giá: <span> {numberWithCommas(data.Price)} VNĐ</span>
+											Giá: <span> {numberWithCommas(data.Price)} AUD</span>
 										</li>
 										<li className="date-start">
 											Ngày bắt đầu:

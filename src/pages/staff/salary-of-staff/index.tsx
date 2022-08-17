@@ -219,13 +219,17 @@ const SalaryStaffReview = () => {
 			title: 'Lương ngày nghỉ',
 			width: 150,
 			dataIndex: 'SalaryOff',
-			render: (price, record: any) => <p className="font-weight-primary">{numberWithCommas(price)}</p>
+			render: (price, record: any) => (
+				<p className="font-weight-primary">{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
+			)
 		},
 		{
 			title: 'Thưởng',
 			width: 150,
 			dataIndex: 'Bonus',
-			render: (price, record: IStaffSalary) => <p className="font-weight-green">{numberWithCommas(price)}</p>
+			render: (price, record: IStaffSalary) => (
+				<p className="font-weight-green">{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
+			)
 		},
 		{
 			title: 'Ghi Chú',
@@ -256,32 +260,40 @@ const SalaryStaffReview = () => {
 				}
 			],
 			onFilter: (value, record) => record.StatusID === value,
-			render: (price, record: any) => (
-				<>
-					{record.StatusID == 1 && <span className="tag red">{price}</span>}
-					{record.StatusID == 3 && <span className="tag yellow">{price}</span>}
-					{record.StatusID == 4 && <span className="tag blue">{price}</span>}
-					{record.StatusID == 5 && <span className="tag green">{price}</span>}
-				</>
-			)
+			render: (price, record: any) => {
+				return (
+					<>
+						{record.StatusID == 1 && <span className="tag red">{price}</span>}
+						{record.StatusID == 3 && <span className="tag yellow">{price}</span>}
+						{record.StatusID == 4 && <span className="tag blue">{price}</span>}
+						{record.StatusID == 5 && <span className="tag green">{price}</span>}
+					</>
+				)
+			}
 		},
 		{
 			title: 'Lương cơ bản',
 			width: 150,
 			dataIndex: 'BasicSalary',
-			render: (price, record: IStaffSalary) => <p className="font-weight-green">{numberWithCommas(price)}</p>
+			render: (price, record: IStaffSalary) => (
+				<p className="font-weight-green">{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
+			)
 		},
 		{
 			title: 'Trừ tạm ứng',
 			width: 150,
 			dataIndex: 'AdvanceSalary',
-			render: (price, record: IStaffSalary) => <p className="font-weight-primary">{numberWithCommas(price)}</p>
+			render: (price, record: IStaffSalary) => (
+				<p className="font-weight-primary">{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
+			)
 		},
 		{
 			title: 'Lương Tổng',
-			width: 150,
+			width: 170,
 			dataIndex: 'TotalSalary',
-			render: (price, record: IStaffSalary) => <p className="font-weight-green">{numberWithCommas(price)}</p>
+			render: (price, record: IStaffSalary) => (
+				<p className="font-weight-green">{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + ' AUD'}</p>
+			)
 		},
 		{
 			title: 'Cập Nhật',

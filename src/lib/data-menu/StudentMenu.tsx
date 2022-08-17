@@ -76,13 +76,13 @@ export const StudentChildMenu = [
 					}
 				]
 			},
-			{
-				ItemType: 'single',
-				Key: '/option/services',
-				Route: '/option/services',
-				Text: 'Dịch vụ đã mua',
-				Icon: Icon.buy
-			},
+			// {
+			// 	ItemType: 'single',
+			// 	Key: '/option/services',
+			// 	Route: '/option/services',
+			// 	Text: 'Dịch vụ đã mua',
+			// 	Icon: Icon.buy
+			// },
 			{
 				ItemType: 'single',
 				Key: '/option/faq',

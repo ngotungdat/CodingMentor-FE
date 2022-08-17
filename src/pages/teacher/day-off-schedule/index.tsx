@@ -6,6 +6,7 @@ import { Checkbox, DatePicker } from 'antd'
 import { Check } from 'react-feather'
 import { teacherOffScheduleApi } from '~/apiBase/teacher/teacher-off-schedule'
 import { useWrap } from '~/context/wrap'
+import moment from 'moment'
 
 const DayOffSchedule = () => {
 	const [dataSchedule, setDataSchedule] = useState<ITeacherOff[]>()
@@ -22,7 +23,11 @@ const DayOffSchedule = () => {
 		try {
 			let res = await teacherOffScheduleApi.getAll(params)
 			if (res.status == 200) {
-				setDataSchedule(res.data.data)
+				const convertDate = moment(new Date()).format('DD/MM/YYYY')
+				const getDate = res.data.data.filter((item) => {
+					return item.Day > convertDate
+				})
+				setDataSchedule(getDate)
 			}
 			if (res.status == 204) {
 				setDataSchedule([])

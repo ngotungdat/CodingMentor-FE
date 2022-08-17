@@ -27,6 +27,7 @@ type props = {
 	section: any
 	videoWatching: any
 	fetchData: Function
+	fetchSubVideosByVideo: Function
 	subVideos: any
 }
 
@@ -79,7 +80,7 @@ const GroupMenu = (props: any) => {
 }
 
 // RENDER SUB ITEM LIST
-const RenderItemSub: FC<props> = ({ item, onPress, fetchData, videoWatching, section, subVideos }) => {
+const RenderItemSub: FC<props> = ({ item, onPress, fetchData, videoWatching, section, subVideos, fetchSubVideosByVideo }) => {
 	const router = useRouter()
 	const { showNoti, userInformation } = useWrap()
 	const [type, setType] = useState(0)
@@ -127,20 +128,23 @@ const RenderItemSub: FC<props> = ({ item, onPress, fetchData, videoWatching, sec
 	}
 
 	const _checkSeen = async (e) => {
-		e.stopPropagation()
-		const submitData = {
-			VideoCourseOfStudentID: router.query.course,
-			SectionID: section?.ID,
-			LessonID: item?.ID,
-			IsSeen: !item?.IsSeen
-		}
-		try {
-			const response = await VideoCourseOfStudent.UpdateSeenAndTimeWatchedVideo(submitData)
-			if (response.status == 200) {
-				fetchData()
+		if (item.IsSeen === false) {
+			e.stopPropagation()
+			const submitData = {
+				VideoCourseOfStudentID: router.query.course,
+				SectionID: section?.ID,
+				LessonID: item?.ID,
+				IsSeen: !item?.IsSeen
 			}
-		} catch (error) {
-			showNoti('danger', error.message)
+			try {
+				const response = await VideoCourseOfStudent.UpdateSeenAndTimeWatchedVideo(submitData)
+				if (response.status == 200) {
+					fetchData()
+					fetchSubVideosByVideo()
+				}
+			} catch (error) {
+				showNoti('danger', error.message)
+			}
 		}
 	}
 

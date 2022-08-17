@@ -65,7 +65,7 @@ const VideoCourseDetail = (props) => {
 
 	const [feedBack, setFeedBack] = useState({})
 	const [feedbackIndex, setIndex] = useState(1)
-	const [loadingFeedback,setLoadingFeedback] = useState(false)
+	const [loadingFeedback, setLoadingFeedback] = useState(false)
 
 	// CALL API GET CONTENT
 	const getCourseContent = async (param) => {
@@ -103,7 +103,7 @@ const VideoCourseDetail = (props) => {
 			res.status == 200 && setFeedBack(res.data.data)
 		} catch (error) {
 			console.log(error)
-		}finally {
+		} finally {
 			setLoadingFeedback(false)
 		}
 	}
@@ -282,8 +282,8 @@ const VideoCourseDetail = (props) => {
 				</div>
 				<div className="center-column">
 					<div className="price">
-						{!!router.query.Sell && <p className="m-0 p-0">{parseToMoney(router.query.Sell)} </p>}
-						{!!router.query.Original && <p className="m-0 p-0">{parseToMoney(router.query.Original)} </p>}
+						{!!router.query.Sell && <p className="m-0 p-0">{parseToMoney(router.query.Sell)} AUD</p>}
+						{!!router.query.Original && <p className="m-0 p-0">{parseToMoney(router.query.Original)} AUD</p>}
 					</div>
 					{/* {showLimitBooking() && <span className="mt-1 size-16">Số lượt đặt lịch: {router.query.LimitBooking}</span>} */}
 					{!!userInformation && (
@@ -352,7 +352,13 @@ const VideoCourseDetail = (props) => {
 						</div>
 						<div className="rating">
 							<div className="stars">
-								<Rate disabled style={{color: '#FFBA0A' , fontSize: 20}} value={(Math.round((details.RatingNumber * 10) / 5) * 5) / 10} className="rate" allowHalf={true} />
+								<Rate
+									disabled
+									style={{ color: '#FFBA0A', fontSize: 20 }}
+									value={(Math.round((details.RatingNumber * 10) / 5) * 5) / 10}
+									className="rate"
+									allowHalf={true}
+								/>
 							</div>
 							<p className="rating-text">
 								{(Math.round((details.RatingNumber * 10) / 5) * 5) / 10} stars ({details.TotalFeedback} lượt đánh giá)

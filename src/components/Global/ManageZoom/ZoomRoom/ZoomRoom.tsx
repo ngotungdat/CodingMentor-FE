@@ -216,7 +216,7 @@ const ZoomRoom = () => {
 			align: 'center',
 			title: 'Trạng thái',
 			dataIndex: 'IsRoomStart',
-			render: (IsRoomStart) => (IsRoomStart ? <span className="tag blue">Hoạt động</span> : <span className="tag gray">Dừng</span>),
+			render: (IsRoomStart) => (IsRoomStart ? <span className="tag blue">Hoạt động</span> : <span className="tag black">Dừng</span>),
 			...FilterColumn('IsRoomStart', onSearch, onResetSearch, 'select', optionActiveList)
 		},
 		{

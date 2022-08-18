@@ -237,7 +237,7 @@ export default function CustomerServiceResult() {
 				if (a) {
 					return <span className="tag blue">{a}</span>
 				} else {
-					return <span className="tag gray">...</span>
+					return <span className="tag black">...</span>
 				}
 			}
 		},
@@ -248,7 +248,7 @@ export default function CustomerServiceResult() {
 				if (a) {
 					return <span className="tag blue">{a}</span>
 				} else {
-					return <span className="tag gray">...</span>
+					return <span className="tag black">...</span>
 				}
 			}
 		},
@@ -259,7 +259,7 @@ export default function CustomerServiceResult() {
 				if (a) {
 					return <span className="tag blue">{a}</span>
 				} else {
-					return <span className="tag gray">...</span>
+					return <span className="tag black">...</span>
 				}
 			}
 		},
@@ -270,7 +270,7 @@ export default function CustomerServiceResult() {
 				if (a) {
 					return <span className="tag blue">{a}</span>
 				} else {
-					return <span className="tag gray">...</span>
+					return <span className="tag black">...</span>
 				}
 			}
 		},

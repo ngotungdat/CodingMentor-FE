@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { teacherApi } from '~/apiBase';
-import { payrollFixApi } from '~/apiBase/package/payroll-fix';
-import FilterBase from '~/components/Elements/FilterBase/FilterBase';
-import SortBox from '~/components/Elements/SortBox';
-import PowerTable from '~/components/PowerTable';
-import FilterColumn from '~/components/Tables/FilterColumn';
-import { useWrap } from '~/context/wrap';
-import { numberWithCommas } from '~/utils/functions';
+import React, { useEffect, useState } from 'react'
+import { teacherApi } from '~/apiBase'
+import { payrollFixApi } from '~/apiBase/package/payroll-fix'
+import FilterBase from '~/components/Elements/FilterBase/FilterBase'
+import SortBox from '~/components/Elements/SortBox'
+import PowerTable from '~/components/PowerTable'
+import FilterColumn from '~/components/Tables/FilterColumn'
+import { useWrap } from '~/context/wrap'
+import { numberWithCommas } from '~/utils/functions'
 
 const PayrollFix = () => {
 	let listFieldFilter = {
@@ -17,7 +17,7 @@ const PayrollFix = () => {
 		StatusID: null,
 		Month: null,
 		Year: null
-	};
+	}
 	const dataOption = [
 		{
 			dataSort: {
@@ -47,37 +47,37 @@ const PayrollFix = () => {
 			},
 			text: 'Level Z-A'
 		}
-	];
+	]
 
 	let listFieldSearch = {
 		pageIndex: 1,
 		TeacherName: null
-	};
+	}
 
 	// ------ LIST FILTER -------
 	function generateArrayOfYears() {
-		var max = new Date().getFullYear();
-		var min = max - 9;
-		var years = [];
+		var max = new Date().getFullYear()
+		var min = max - 9
+		var years = []
 
 		for (var i = max; i >= min; i--) {
 			years.push({
 				title: i,
 				value: i
-			});
+			})
 		}
-		return years;
+		return years
 	}
 
 	function listMonth() {
-		let months = [];
+		let months = []
 		for (let i = 1; i < 13; i++) {
 			months.push({
 				title: `Tháng ${i}`,
 				value: i
-			});
+			})
 		}
-		return months;
+		return months
 	}
 
 	const [dataFilter, setDataFilter] = useState([
@@ -128,18 +128,18 @@ const PayrollFix = () => {
 			type: 'date-range',
 			value: null
 		}
-	]);
+	])
 
-	const [dataTeacher, setDataTeacher] = useState<ITeacher[]>([]);
+	const [dataTeacher, setDataTeacher] = useState<ITeacher[]>([])
 	// ------ BASE USESTATE TABLE -------
-	const [dataSource, setDataSource] = useState<IPayrollFix[]>([]);
-	const { showNoti, pageSize, userInformation } = useWrap();
+	const [dataSource, setDataSource] = useState<IPayrollFix[]>([])
+	const { showNoti, pageSize, userInformation } = useWrap()
 	const [isLoading, setIsLoading] = useState({
 		type: '',
 		status: false
-	});
-	const [totalPage, setTotalPage] = useState(null);
-	const [currentPage, setCurrentPage] = useState(1);
+	})
+	const [totalPage, setTotalPage] = useState(null)
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const listTodoApi = {
 		pageSize: pageSize,
@@ -153,64 +153,64 @@ const PayrollFix = () => {
 		Month: null,
 		Year: null,
 		TeacherName: null
-	};
-	const [todoApi, setTodoApi] = useState(listTodoApi);
+	}
+	const [todoApi, setTodoApi] = useState(listTodoApi)
 
 	// GET DATA TEACHER
 	const getDataTeacher = async () => {
 		try {
-			let res = await teacherApi.getAll({ selectAll: true, StatusID: 0, RoleID: 2 });
+			let res = await teacherApi.getAll({ selectAll: true, StatusID: 0, RoleID: 2 })
 			if (res.status == 200) {
 				const newData = res.data.data.map((item) => ({
 					title: item.FullNameUnicode,
 					value: item.UserInformationID
-				}));
-				setDataFunc('TeacherID', newData);
+				}))
+				setDataFunc('TeacherID', newData)
 			}
 		} catch (error) {
-			console.log('Error Teacher: ', error.message);
+			console.log('Error Teacher: ', error.message)
 		}
-	};
+	}
 
 	// GET DATA SOURCE
 	const getDataSource = async () => {
 		setIsLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 
 		try {
-			let res = await payrollFixApi.getAll(todoApi);
-			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow));
+			let res = await payrollFixApi.getAll(todoApi)
+			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow))
 
-			res.status == 204 && (showNoti('danger', 'Không có dữ liệu'), setDataSource([]));
+			res.status == 204 && (showNoti('danger', 'Không có dữ liệu'), setDataSource([]))
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	const onFetchData = () => {
-		setCurrentPage(1);
-		setTodoApi(listTodoApi);
-	};
+		setCurrentPage(1)
+		setTodoApi(listTodoApi)
+	}
 
 	const onUpdateData = (index) => {
-		setTodoApi({ ...todoApi });
-	};
+		setTodoApi({ ...todoApi })
+	}
 
 	// -------------- GET PAGE_NUMBER -----------------
 	const getPagination = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
+		setCurrentPage(pageNumber)
 		setTodoApi({
 			...todoApi,
 			pageIndex: pageNumber
-		});
-	};
+		})
+	}
 
 	// --------------- HANDLE SORT ----------------------
 	const handleSort = (option) => {
@@ -219,70 +219,70 @@ const PayrollFix = () => {
 			pageIndex: 1,
 			sort: option.title.sort,
 			sortType: option.title.sortType
-		};
-		setCurrentPage(1), setTodoApi(newTodoApi);
-	};
+		}
+		setCurrentPage(1), setTodoApi(newTodoApi)
+	}
 
 	const setDataFunc = (name, data) => {
 		dataFilter.every((item, index) => {
 			if (item.name == name) {
-				item.optionList = data;
-				return false;
+				item.optionList = data
+				return false
 			}
-			return true;
-		});
-		setDataFilter([...dataFilter]);
-	};
+			return true
+		})
+		setDataFilter([...dataFilter])
+	}
 
 	// -------------- HANDLE FILTER ------------------
 	const handleFilter = (listFilter) => {
-		console.log('List Filter: ', listFilter);
-		let newListFilter = { ...listFieldFilter };
+		console.log('List Filter: ', listFilter)
+		let newListFilter = { ...listFieldFilter }
 		listFilter.forEach((item, index) => {
-			let key = item.name;
+			let key = item.name
 			Object.keys(newListFilter).forEach((keyFilter) => {
 				if (keyFilter == key) {
-					newListFilter[key] = item.value;
+					newListFilter[key] = item.value
 				}
-			});
-		});
-		setTodoApi({ ...listTodoApi, ...newListFilter, pageIndex: 1 });
-	};
+			})
+		})
+		setTodoApi({ ...listTodoApi, ...newListFilter, pageIndex: 1 })
+	}
 
 	const handleReset = () => {
 		setTodoApi({
 			...listTodoApi,
 			pageIndex: 1
-		});
-		setCurrentPage(1);
-	};
+		})
+		setCurrentPage(1)
+	}
 
 	// -------------- CHECK FIELD ---------------------
 	const checkField = (valueSearch, dataIndex) => {
-		let newList = { ...listFieldSearch };
+		let newList = { ...listFieldSearch }
 		Object.keys(newList).forEach(function (key) {
-			console.log('key: ', key);
+			console.log('key: ', key)
 			if (key != dataIndex) {
 				if (key != 'pageIndex') {
-					newList[key] = null;
+					newList[key] = null
 				}
 			} else {
-				newList[key] = valueSearch;
+				newList[key] = valueSearch
 			}
-		});
+		})
 
-		return newList;
-	};
+		return newList
+	}
 
 	// ------------ ON SEARCH -----------------------
 	const onSearch = (valueSearch, dataIndex) => {
-		let clearKey = checkField(valueSearch, dataIndex);
+		let clearKey = checkField(valueSearch, dataIndex)
 
 		setTodoApi({
 			...todoApi,
 			...clearKey
-		});
-	};
+		})
+	}
 
 	const columns = [
 		{
@@ -312,22 +312,22 @@ const PayrollFix = () => {
 			render: (status) => {
 				return (
 					<>
-						{status == 1 && <span className="tag gray">Chưa chốt lương</span>}
+						{status == 1 && <span className="tag black">Chưa chốt lương</span>}
 						{status == 2 && <span className="tag green">Đã chốt lương</span>}
 					</>
-				);
+				)
 			}
 		},
 		{
 			title: 'Thời gian thanh toán',
 			dataIndex: 'PaymentDate'
 		}
-	];
+	]
 
 	useEffect(() => {
-		getDataSource();
-		getDataTeacher();
-	}, [todoApi]);
+		getDataSource()
+		getDataTeacher()
+	}, [todoApi])
 
 	return (
 		<>
@@ -343,17 +343,13 @@ const PayrollFix = () => {
 				columns={columns}
 				Extra={
 					<div className="extra-table">
-						<FilterBase
-							dataFilter={dataFilter}
-							handleFilter={(listFilter: any) => handleFilter(listFilter)}
-							handleReset={handleReset}
-						/>
+						<FilterBase dataFilter={dataFilter} handleFilter={(listFilter: any) => handleFilter(listFilter)} handleReset={handleReset} />
 						<SortBox handleSort={(value) => handleSort(value)} dataOption={dataOption} />
 					</div>
 				}
 			/>
 		</>
-	);
-};
+	)
+}
 
-export default PayrollFix;
+export default PayrollFix

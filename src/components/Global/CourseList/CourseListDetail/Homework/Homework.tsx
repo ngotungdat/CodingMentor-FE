@@ -197,7 +197,7 @@ function Homework(props) {
 			dataIndex: 'StatusName',
 			align: 'center',
 			render: (value) => (
-				<>{value == 'Chưa bắt đầu' ? <span className="tag gray">{value}</span> : <span className="tag green">{value}</span>}</>
+				<>{value == 'Chưa bắt đầu' ? <span className="tag black">{value}</span> : <span className="tag green">{value}</span>}</>
 			)
 		},
 		{

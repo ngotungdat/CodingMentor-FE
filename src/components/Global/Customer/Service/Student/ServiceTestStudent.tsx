@@ -586,7 +586,7 @@ export default function ServiceTestStudent(props) {
 						{status == 1 && <span className="tag blue">Đang chấm bài</span>}
 						{status == 2 && <span className="tag yellow">Chờ đăng kí khóa học</span>}
 						{status == 3 && <span className="tag green">Đã đăng kí khóa học</span>}
-						{status == 4 && <span className="tag gray">Đã hủy hẹn test</span>}
+						{status == 4 && <span className="tag black">Đã hủy hẹn test</span>}
 					</>
 				)
 			}

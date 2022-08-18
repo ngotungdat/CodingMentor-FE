@@ -329,11 +329,7 @@ function CDCalendar(props) {
 							<span>Khóa học:</span> {e?.CourseName}
 						</li>
 					)}
-					{StudyTimeName && (
-						<li>
-							<span>Ca:</span> {e?.StudyTimeName}
-						</li>
-					)}
+					{StudyTimeName && <li className="text-center">{e?.StudyTimeName}</li>}
 					{SubjectName && (
 						<li>
 							<span>Môn học:</span> {e?.SubjectName}
@@ -405,7 +401,7 @@ function CDCalendar(props) {
 							: checkDate == -1
 							? '#C94A4F'
 							: '#0A89FF',
-					color:'#fff',
+					color: '#fff'
 				}}
 			>
 				<Popover
@@ -416,7 +412,7 @@ function CDCalendar(props) {
 					trigger={window.matchMedia('(max-width: 1199px)').matches ? 'click' : 'hover'}
 				>
 					<div className="course-dt-event">
-						<div className="time">Ca: {StudyTimeName}</div>
+						<div className="time text-center">{StudyTimeName}</div>
 					</div>
 				</Popover>
 			</div>
@@ -445,7 +441,7 @@ function CDCalendar(props) {
 		const dataDetail = event.resource
 		return (
 			<div className="course-dt-event">
-				<div className="time">Ca: {StudyTimeName}</div>
+				<div className="time text-center">{StudyTimeName}</div>
 				<div className="course-dt-event-info">
 					<ul>
 						{CourseName && (
@@ -612,11 +608,7 @@ function CDCalendar(props) {
 							<span>Khóa học:</span> {e?.CourseName}
 						</li>
 					)}
-					{StudyTimeName && (
-						<li>
-							<span>Ca:</span> {e?.StudyTimeName}
-						</li>
-					)}
+					{StudyTimeName && <li className="text-center">{e?.StudyTimeName}</li>}
 					{SubjectName && (
 						<li>
 							<span>Môn học:</span> {e?.SubjectName}
@@ -680,7 +672,7 @@ function CDCalendar(props) {
 					trigger={window.matchMedia('(max-width: 1199px)').matches ? 'click' : 'hover'}
 				>
 					<div className="course-dt-event">
-						<div className="time">Ca: {StudyTimeName}</div>
+						<div className="time text-center">{StudyTimeName}</div>
 					</div>
 				</Popover>
 			</div>

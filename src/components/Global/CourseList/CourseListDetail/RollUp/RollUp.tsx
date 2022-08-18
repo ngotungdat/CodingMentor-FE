@@ -132,7 +132,7 @@ function RollUp(props) {
 				newStudentList.splice(idx, 1, student)
 				setDataRollUp({ ...dataRollUp, StudentList: newStudentList })
 				setFilters({
-					...filters,
+					...filters
 				})
 				showNoti('success', res.data.message)
 			}
@@ -337,7 +337,6 @@ function RollUp(props) {
 			}
 		}
 	]
-
 	return (
 		<PowerTable
 			loading={isLoading}

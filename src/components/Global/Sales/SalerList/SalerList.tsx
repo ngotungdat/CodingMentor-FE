@@ -297,7 +297,7 @@ const SalerList = () => {
 			dataIndex: 'StatusID',
 			width: 140,
 			...FilterColumn('StatusID', onSearch, onResetSearch, 'select', optionStatusList),
-			render: (status) => (status ? <span className="tag gray">Khóa</span> : <span className="tag green">Hoạt động</span>)
+			render: (status) => (status ? <span className="tag black">Khóa</span> : <span className="tag green">Hoạt động</span>)
 		},
 		{
 			align: 'center',

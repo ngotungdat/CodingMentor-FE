@@ -1,42 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { studentApi } from '~/apiBase';
-import NestedTable from '~/components/Elements/NestedTable';
-import { useWrap } from '~/context/wrap';
+import React, { useEffect, useState } from 'react'
+import { studentApi } from '~/apiBase'
+import NestedTable from '~/components/Elements/NestedTable'
+import { useWrap } from '~/context/wrap'
 
 const CourseOfStudentDetail = (props) => {
-	const { studentID } = props;
-	const { showNoti } = useWrap();
-	const [dataSource, setDataSource] = useState<any>();
+	const { studentID } = props
+	const { showNoti } = useWrap()
+	const [dataSource, setDataSource] = useState<any>()
 	const [loading, setLoading] = useState({
 		type: 'GET_ALL',
 		status: false
-	});
+	})
 
 	const getDataSource = async () => {
 		setLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await studentApi.getCourseOfStudentDetail(studentID);
+			let res = await studentApi.getCourseOfStudentDetail(studentID)
 			if (res.status === 200) {
-				setDataSource(res.data.data);
+				setDataSource(res.data.data)
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	useEffect(() => {
 		if (studentID) {
-			getDataSource();
+			getDataSource()
 		}
-	}, [studentID]);
+	}, [studentID])
 
 	const columns = [
 		{
@@ -46,20 +46,25 @@ const CourseOfStudentDetail = (props) => {
 		},
 		{
 			title: 'Giáo viên',
-			render: (data) =>
-				data?.Teacher.map((item, index) => (
-					<p className="font-weight-black d-block" key={index}>
-						{item.TeacherName}
-					</p>
-				))
+			render: (data) => {
+				if (data.Teacher) {
+					return data?.Teacher.map((item, index) => (
+						<p className="font-weight-black d-block" key={index}>
+							{item.TeacherName}
+						</p>
+					))
+				} else {
+					return <p className="font-weight-black d-block">Chưa có mentor</p>
+				}
+			}
 		}
-	];
+	]
 
 	return (
 		<>
 			<NestedTable loading={loading} addClass="basic-header" dataSource={dataSource} columns={columns} haveBorder={true} />
 		</>
-	);
-};
+	)
+}
 
-export default CourseOfStudentDetail;
+export default CourseOfStudentDetail

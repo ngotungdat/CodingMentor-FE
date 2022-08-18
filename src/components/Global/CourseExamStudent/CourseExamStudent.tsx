@@ -139,7 +139,7 @@ const CourseExamStudent = (props) => {
 			render: (type) => (
 				<>
 					{type == true && <span className="tag green">Đã chấm xong</span>}
-					{type == false && <span className="tag gray">Chưa chấm xong</span>}
+					{type == false && <span className="tag black">Chưa chấm xong</span>}
 				</>
 			)
 		},

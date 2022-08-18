@@ -454,7 +454,7 @@ const Teacher = () => {
 			width: 150,
 			dataIndex: 'StatusID',
 			...FilterColumn('StatusID', onSearch, onResetSearch, 'select', optionStatusList),
-			render: (status) => (status ? <span className="tag gray tx-black">Khóa</span> : <span className="tag green">Hoạt động</span>)
+			render: (status) => (status ? <span className="tag black tx-black">Khóa</span> : <span className="tag green">Hoạt động</span>)
 		},
 		{
 			width: 140,

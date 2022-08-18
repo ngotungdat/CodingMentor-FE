@@ -479,7 +479,7 @@ const StudentData = () => {
 			dataIndex: 'StatusID',
 			align: 'center',
 			render: (status) => {
-				return <>{status == 0 ? <span className="tag green">Hoạt động</span> : <span className="tag gray">Đã khóa</span>}</>
+				return <>{status == 0 ? <span className="tag green">Hoạt động</span> : <span className="tag black">Đã khóa</span>}</>
 			}
 		},
 		{

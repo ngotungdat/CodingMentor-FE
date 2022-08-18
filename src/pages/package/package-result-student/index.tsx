@@ -392,7 +392,7 @@ const PackageResultStudent = (props: IPackageResult) => {
 			align: 'center',
 			render: (status) => (
 				<Fragment>
-					{status == 1 && <span className="tag gray">Đã nộp bài</span>}
+					{status == 1 && <span className="tag black">Đã nộp bài</span>}
 					{status == 2 && <span className="tag yellow">Đang chấm bài</span>}
 					{status == 3 && <span className="tag green">Đã chấm bài</span>}
 					{status == 4 && <span className="tag yellow">Đang chấm bài lại</span>}

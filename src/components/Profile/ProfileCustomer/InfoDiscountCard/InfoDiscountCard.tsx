@@ -67,7 +67,7 @@ const InfoDiscountCard = (props) => {
 			dataIndex: 'DiscountType',
 			render: (type) => (
 				<>
-					{type == 1 && <span className="tag gray">Tính theo tiền</span>}
+					{type == 1 && <span className="tag black">Tính theo tiền</span>}
 					{type == 2 && <span className="tag yellow">Tính theo phần trăm</span>}
 				</>
 			)

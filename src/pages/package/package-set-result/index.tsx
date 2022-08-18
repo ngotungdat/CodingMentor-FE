@@ -56,7 +56,7 @@ const PackageResultPage = () => {
 			render: (type) => (
 				<>
 					{type == true && <span className="tag green">Đã chấm tất cả</span>}
-					{type == false && <span className="tag gray">Có bài chưa chấm</span>}
+					{type == false && <span className="tag black">Có bài chưa chấm</span>}
 				</>
 			)
 		}

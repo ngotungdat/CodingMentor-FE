@@ -304,6 +304,7 @@ function RollUp(props) {
 		{
 			title: 'Môn học',
 			dataIndex: 'SubjectName',
+			width: 100,
 			render: (text) => <p className="">{text}</p>
 		},
 		{
@@ -317,6 +318,7 @@ function RollUp(props) {
 		{
 			title: 'Điểm danh',
 			dataIndex: 'StatusID',
+			width: 100,
 			render: (status: any, item: any, idx: number) => {
 				return <div>{item?.StatusName}</div>
 			}
@@ -343,7 +345,7 @@ function RollUp(props) {
 			currentPage={filters.pageIndex}
 			totalPage={totalPage}
 			getPagination={getPagination}
-			dataSource={defaultSelect !== 0 ? dataRollUp.RollUp : []}
+			dataSource={defaultSelect !== 0 ? dataRollUp.RollUp : dataRollUp.StudentList}
 			columns={userInformation.RoleID == 3 ? columnsStudent : columns}
 			TitleCard={
 				userInformation !== null &&

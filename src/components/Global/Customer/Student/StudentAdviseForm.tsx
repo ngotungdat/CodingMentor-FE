@@ -14,6 +14,8 @@ const StudentAdviseForm = React.memo((props: any) => {
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const { isLoading, rowID, _onSubmit, getIndex, index, rowData, listData, dataProgram } = props
 
+	console.log('listData: ', listData)
+
 	const { showNoti, userInformation } = useWrap()
 
 	// -----  HANDLE ALL IN FORM -------------
@@ -29,39 +31,39 @@ const StudentAdviseForm = React.memo((props: any) => {
 		CounselorsID: null
 	}
 
-		; (function returnSchemaFunc() {
-			returnSchema = { ...defaultValuesInit }
-			Object.keys(returnSchema).forEach(function (key) {
-				switch (key) {
-					case 'Email':
-						returnSchema[key] = yup.string().email('Email nhập sai cú pháp').required('Bạn không được để trống')
-						break
-					case 'CustomerName':
-						returnSchema[key] = yup.mixed().required('Bạn không được để trống')
-						break
-					case 'SourceInformationID':
-						returnSchema[key] = yup.mixed()
-						break
-					case 'CustomerConsultationStatusID':
-						returnSchema[key] = yup.mixed().required('Bạn không được để trống')
-						break
-					case 'ProgramID':
-						returnSchema[key] = yup.mixed()
-						break
-					case 'Number':
-						returnSchema[key] = yup.mixed().required('Bạn không được để trống')
-						break
-					// case 'CounselorsID':
-					// 	returnSchema[key] = yup.mixed().required('Bạn không được để trống');
-					// 	break;
-					default:
-						// returnSchema[key] = yup.mixed().required("Bạn không được để trống");
-						break
-				}
-			})
+	;(function returnSchemaFunc() {
+		returnSchema = { ...defaultValuesInit }
+		Object.keys(returnSchema).forEach(function (key) {
+			switch (key) {
+				case 'Email':
+					returnSchema[key] = yup.string().email('Email nhập sai cú pháp').required('Bạn không được để trống')
+					break
+				case 'CustomerName':
+					returnSchema[key] = yup.mixed().required('Bạn không được để trống')
+					break
+				case 'SourceInformationID':
+					returnSchema[key] = yup.mixed()
+					break
+				case 'CustomerConsultationStatusID':
+					returnSchema[key] = yup.mixed().required('Bạn không được để trống')
+					break
+				case 'ProgramID':
+					returnSchema[key] = yup.mixed()
+					break
+				case 'Number':
+					returnSchema[key] = yup.mixed().required('Bạn không được để trống')
+					break
+				// case 'CounselorsID':
+				// 	returnSchema[key] = yup.mixed().required('Bạn không được để trống');
+				// 	break;
+				default:
+					// returnSchema[key] = yup.mixed().required("Bạn không được để trống");
+					break
+			}
+		})
 
-			schema = yup.object().shape(returnSchema)
-		})()
+		schema = yup.object().shape(returnSchema)
+	})()
 
 	const form = useForm({
 		defaultValues: defaultValuesInit,
@@ -136,11 +138,7 @@ const StudentAdviseForm = React.memo((props: any) => {
 							</div>
 
 							<div className="col-md-6 col-12">
-								<SelectField
-									form={form}
-									name="Potential"
-									label="Mức độ tiềm năng"
-									optionList={listData.Potential} />
+								<SelectField form={form} name="Potential" label="Mức độ tiềm năng" optionList={listData.Potential} />
 							</div>
 
 							<div className="col-md-6 col-12">

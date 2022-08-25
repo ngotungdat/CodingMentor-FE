@@ -8,6 +8,7 @@ import TextAreaField from '~/components/FormControl/TextAreaField'
 import { studentAdviseApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 import { SendOutlined } from '@ant-design/icons'
+import EditorField from '~/components/FormControl/EditorField'
 
 let returnSchema = {}
 let schema = null
@@ -150,6 +151,7 @@ const StudentAdvisoryMail = (props) => {
 				visible={isModalVisible}
 				onOk={handleOk}
 				onCancel={handleCancel}
+				width={800}
 			>
 				{listSendEmail?.length < 1 ? (
 					<p className="font-weight-black">Vui lòng chọn khách để gửi mail!</p>
@@ -160,7 +162,8 @@ const StudentAdvisoryMail = (props) => {
 								<InputTextField form={form} name="title" label="Tiêu đề" placeholder="" />
 							</div>
 							<div className="col-12  mb-5">
-								<TextAreaField form={form} name="content" label="Nội dung" placeholder="" />
+								{/* <TextAreaField form={form} name="content" label="Nội dung" placeholder="" /> */}
+								<EditorField form={form} name="content" label="Nội dung" />
 							</div>
 							<div className="col-12 mt-3">
 								<button type="submit" className="btn btn-primary w-100">

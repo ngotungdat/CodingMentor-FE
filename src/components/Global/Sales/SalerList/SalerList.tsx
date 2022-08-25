@@ -270,6 +270,7 @@ const SalerList = () => {
 		{
 			title: 'Tỉnh/Thành phố',
 			dataIndex: 'AreaName',
+			width: 150,
 			...FilterColumn('AreaID', onSearch, onResetSearch, 'select', optionAreaSystemList.areaList),
 			className: activeColumnSearch === 'AreaID' ? 'active-column-search' : '',
 			render: (text) => <p className="font-weight-black">{text}</p>
@@ -277,11 +278,13 @@ const SalerList = () => {
 		{
 			title: 'Giới tính',
 			dataIndex: 'Gender',
+			width: 80,
 			render: (genderID) => optionGenderList.find((o) => o.value === genderID).title
 		},
 		{
 			title: 'Số điện thoại',
-			dataIndex: 'Mobile'
+			dataIndex: 'Mobile',
+			width: 120
 		},
 		{
 			title: 'Email',
@@ -290,6 +293,7 @@ const SalerList = () => {
 		{
 			title: 'Ngày nhận việc',
 			dataIndex: 'Jobdate',
+			width: 150,
 			render: (date) => date && moment(date).format('DD/MM/YYYY')
 		},
 		{

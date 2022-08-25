@@ -282,11 +282,13 @@ const CreateCourseOffline = () => {
 	}
 	const fetchCurriculum = async () => {
 		setIsLoading({ type: 'ProgramID', status: true })
+		console.log('dataToFetchCurriculum: ', dataToFetchCurriculum)
 		try {
 			const res = await curriculumApi.getAll({
 				StudyTimeID: dataToFetchCurriculum.StudyTimeID,
 				ProgramID: dataToFetchCurriculum.ProgramID
 			})
+			console.log('DAta: ', dataToFetchCurriculum)
 			if (res.status === 200) {
 				const newCurriculum = fmSelectArr(res.data.data, 'CurriculumName', 'ID')
 				setOptionListForForm((prevState) => ({ ...prevState, curriculumList: newCurriculum }))
@@ -485,43 +487,43 @@ const CreateCourseOffline = () => {
 			case 'CaID':
 				const newTeacher = isHasTeacher
 					? {
-						TeacherID: stoneDataToSave.current.TeacherID,
-						TeacherName: optionListForForm.teacherList[0].title
-					}
+							TeacherID: stoneDataToSave.current.TeacherID,
+							TeacherName: optionListForForm.teacherList[0].title
+					  }
 					: {
-						TeacherID: 0,
-						TeacherName: 'Giáo viên trống'
-					}
+							TeacherID: 0,
+							TeacherName: 'Giáo viên trống'
+					  }
 				const newRoomList = isRoomAvailable
 					? {
-						RoomID: stoneDataToSave.current.RoomID[0],
-						RoomName: optionListForForm.roomList[0].title
-					}
+							RoomID: stoneDataToSave.current.RoomID[0],
+							RoomName: optionListForForm.roomList[0].title
+					  }
 					: {
-						RoomID: 0,
-						RoomName: 'Không có phòng trống'
-					}
+							RoomID: 0,
+							RoomName: 'Không có phòng trống'
+					  }
 				return { ...newTeacher, ...newRoomList, CaName, [key]: vl }
 			case 'RoomID':
 				const RoomIndex = optionListForForm.roomList.findIndex((item) => item.value == vl)
 				const _newTeacher = isHasTeacher
 					? {
-						TeacherID: stoneDataToSave.current.TeacherID,
-						TeacherName: optionListForForm.teacherList[0].title
-					}
+							TeacherID: stoneDataToSave.current.TeacherID,
+							TeacherName: optionListForForm.teacherList[0].title
+					  }
 					: {
-						TeacherID: 0,
-						TeacherName: 'Giáo viên trống'
-					}
+							TeacherID: 0,
+							TeacherName: 'Giáo viên trống'
+					  }
 				const _newRoomList = isRoomAvailable
 					? {
-						RoomID: vl,
-						RoomName: optionListForForm.roomList[RoomIndex].title
-					}
+							RoomID: vl,
+							RoomName: optionListForForm.roomList[RoomIndex].title
+					  }
 					: {
-						RoomID: 0,
-						RoomName: 'Không có phòng trống'
-					}
+							RoomID: 0,
+							RoomName: 'Không có phòng trống'
+					  }
 				return { ..._newTeacher, ..._newRoomList, CaName, CaID, [key]: vl }
 			default:
 				break
@@ -754,7 +756,6 @@ const CreateCourseOffline = () => {
 		})
 	}
 	const onSaveCourse = async () => {
-
 		setIsLoading({
 			type: 'SAVE_COURSE',
 			status: true

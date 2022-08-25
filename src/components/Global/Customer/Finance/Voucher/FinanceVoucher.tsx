@@ -290,6 +290,7 @@ function FinanceVoucher() {
 					<SortBox handleSort={onSort} dataOption={sortOptionList} />
 				</div>
 			}
+			TitleCard={<button className="btn btn-warning add-new">Tạo phiếu chi</button>}
 		/>
 	)
 }

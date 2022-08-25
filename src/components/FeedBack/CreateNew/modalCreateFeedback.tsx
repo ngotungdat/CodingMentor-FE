@@ -1,57 +1,57 @@
-import { Modal, Select, Input, Checkbox } from 'antd';
-import PropTypes from 'prop-types';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { FeedbackCategoryApi } from '~/apiBase/feed-back-category';
-import { useWrap } from '~/context/wrap';
-import EditorSimple from '~/components/Elements/EditorSimple';
-import { FeedbackApi } from '~/apiBase';
+import { Modal, Select, Input, Checkbox } from 'antd'
+import PropTypes from 'prop-types'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { FeedbackCategoryApi } from '~/apiBase/feed-back-category'
+import { useWrap } from '~/context/wrap'
+import EditorSimple from '~/components/Elements/EditorSimple'
+import { FeedbackApi } from '~/apiBase'
 
-const { Option } = Select;
+const { Option } = Select
 
 ModalCreateFeedback.propTypes = {
 	visible: PropTypes.bool,
 	onClose: PropTypes.func,
 	handleCancel: PropTypes.func,
 	created: PropTypes.func
-};
+}
 
 ModalCreateFeedback.defaultProps = {
 	visible: false,
 	onClose: null,
 	handleCancel: null,
 	created: null
-};
+}
 
 function ModalCreateFeedback(props) {
-	const { visible, onClose, created } = props;
-	const { showNoti, userInformation } = useWrap();
-	const [categories, setCategories] = useState([]);
-	const [isReset, setIsReset] = useState(false);
-	const [textError, setTextError] = useState('');
+	const { visible, onClose, created } = props
+	const { showNoti, userInformation } = useWrap()
+	const [categories, setCategories] = useState([])
+	const [isReset, setIsReset] = useState(false)
+	const [textError, setTextError] = useState('')
 
 	// Data submit
-	const [type, setType] = useState(-1);
-	const [title, setTitle] = useState('');
-	const [content, setContent] = useState('');
-	const [isPrioritized, setPrioritized] = useState(false);
+	const [type, setType] = useState(-1)
+	const [title, setTitle] = useState('')
+	const [content, setContent] = useState('')
+	const [isPrioritized, setPrioritized] = useState(false)
 
 	useLayoutEffect(() => {
-		getFeedBackCategory();
-	}, []);
+		getFeedBackCategory()
+	}, [])
 
 	// GET DATA
 	const getFeedBackCategory = async () => {
 		const temp = {
 			pageIndex: 1,
 			pageSize: 20
-		};
-		try {
-			const res = await FeedbackCategoryApi.getAll(temp);
-			res.status == 200 && setCategories(res.data.data);
-		} catch (error) {
-			console.log(error);
 		}
-	};
+		try {
+			const res = await FeedbackCategoryApi.getAll(temp)
+			res.status == 200 && setCategories(res.data.data)
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	// POST DATA
 	const handleCreate = async () => {
@@ -61,50 +61,62 @@ function ModalCreateFeedback(props) {
 			Title: title,
 			ContentFeedBack: content,
 			isPrioritized: isPrioritized
-		};
-		try {
-			const res = await FeedbackApi.add(temp);
-			// res.status == 200 && setCategories(res.data.data);
-			setIsReset(true);
-			created();
-			setIsReset(false);
-		} catch (error) {
-			console.log(error);
 		}
-	};
+		try {
+			const res = await FeedbackApi.add(temp)
+			// res.status == 200 && setCategories(res.data.data);
+			setIsReset(true)
+			created()
+			setIsReset(false)
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	// SELECT TYPE
 	function handleChangeType(value) {
-		setType(value);
+		setType(value)
 	}
 
 	// PRESS OK BUTTON
 	const handleOk = () => {
 		if (type === -1) {
-			setTextError('Vui lòng chọn loại');
+			showNoti('danger', 'Vui lòng chọn loại')
 		} else {
 			if (title === '') {
-				setTextError('Vui lòng nhập tiêu đề');
+				showNoti('danger', 'Vui lòng nhập tiêu đề')
 			} else {
-				handleCreate();
-				onClose();
+				if (content === '' || content === '<p><br></p>') {
+					showNoti('danger', 'Vui lòng nhập nội dung')
+				} else {
+					handleCreate()
+					onClose()
+				}
 			}
 		}
-	};
+	}
 
 	// PRESS CANCEL
 	const handleCancel = () => {
-		onClose();
-	};
+		onClose()
+	}
 
 	function onPressCheckbox() {
-		setPrioritized(!isPrioritized);
+		setPrioritized(!isPrioritized)
 	}
 
 	// RENDER
 	return (
 		<>
-			<Modal width={800} title="Tạo phản hồi" visible={visible} onOk={handleOk} onCancel={handleCancel}>
+			<Modal
+				width={800}
+				title="Tạo phản hồi"
+				visible={visible}
+				onOk={handleOk}
+				onCancel={handleCancel}
+				okText={'Tạo phản hồi'}
+				cancelText={'Hủy'}
+			>
 				<div className="c-feedback">
 					<div className="row m-0 st-fb-center">
 						<div className="row m-0 st-fb-center st-fb-fw">
@@ -122,18 +134,13 @@ function ModalCreateFeedback(props) {
 					</div>
 					<div className="row m-0 mt-3 st-fb-center">
 						<span className="c-feedback__title mr-5">Tiêu đề:</span>
-						<Input
-							value={title}
-							onChange={(e) => setTitle(e.target.value)}
-							className="c-feedback__i-title"
-							placeholder="Nhập tiêu đề"
-						/>
+						<Input value={title} onChange={(e) => setTitle(e.target.value)} className="c-feedback__i-title" placeholder="Nhập tiêu đề" />
 					</div>
 
 					<div className="mb-0" style={{ paddingTop: 15 }}>
 						<EditorSimple
 							handleChange={(value) => {
-								setContent(value);
+								setContent(value)
 							}}
 							// isTranslate={true}
 							isReset={isReset}
@@ -145,7 +152,7 @@ function ModalCreateFeedback(props) {
 				</div>
 			</Modal>
 		</>
-	);
+	)
 }
 
-export default ModalCreateFeedback;
+export default ModalCreateFeedback

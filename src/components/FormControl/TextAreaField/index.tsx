@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form'
 import PropTypes from 'prop-types'
 
 const TextAreaField = (props) => {
-	const { form, name, rows, label, placeholder, disabled, style, className, allowClear, autoSize, maxLength } = props
+	const { form, name, rows, label, placeholder, disabled, style, className, allowClear, autoSize, maxLength, isRequired } = props
 	const { errors } = form.formState
 	const hasError = errors[name]
 	const [isChange, setIsChange] = useState(false)
@@ -19,7 +19,12 @@ const TextAreaField = (props) => {
 	}
 
 	return (
-		<Form.Item style={style} label={label} className={`${className} ${hasError ? 'ant-form-item-with-help ant-form-item-has-error' : ''}`}>
+		<Form.Item
+			required={isRequired}
+			style={style}
+			label={label}
+			className={`${className} ${hasError ? 'ant-form-item-with-help ant-form-item-has-error' : ''}`}
+		>
 			<Controller
 				name={name}
 				control={form.control}
@@ -58,7 +63,8 @@ TextAreaField.propTypes = {
 	className: PropTypes.string,
 	allowClear: PropTypes.bool,
 	autoSize: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-	maxLength: PropTypes.number
+	maxLength: PropTypes.number,
+	isRequired: PropTypes.bool
 }
 TextAreaField.defaultProps = {
 	rows: 2,
@@ -69,6 +75,7 @@ TextAreaField.defaultProps = {
 	className: '',
 	allowClear: true,
 	autoSize: false,
-	maxLength: null
+	maxLength: null,
+	isRequired: false
 }
 export default TextAreaField

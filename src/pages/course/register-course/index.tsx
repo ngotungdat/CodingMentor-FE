@@ -96,7 +96,6 @@ const RegisterCourse = (props: any) => {
 				temp.push({ BranchID: data.BranchID, ProgramID: data.ProgramID[i], CourseID: 0 })
 			}
 		}
-
 		setDataSubmit(data)
 		setLoading(true)
 		if (option == 1) {
@@ -153,12 +152,12 @@ const RegisterCourse = (props: any) => {
 						showNoti('success', res?.data.message)
 						setLoading(false)
 						setVisibleModalConfirm(false)
-						resetForm()
 						setIsFetchDataCourses(!isFetchDataCourses)
-						form.resetFields()
-						setDebt(0)
+						// form.resetFields()
 						setTotalPrice(0)
 						setTotalPriceProgram(0)
+						resetForm()
+						setDebt(0)
 					}
 				} catch (error) {
 					showNoti('danger', error.message)

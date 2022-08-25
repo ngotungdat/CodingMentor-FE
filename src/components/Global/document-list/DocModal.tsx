@@ -64,7 +64,6 @@ const DocModal = (props) => {
 	}
 
 	const _onSubmit = (value) => {
-		console.log('value', value)
 		if (type == 'ADD_DOC') {
 			addDocument(value)
 		}

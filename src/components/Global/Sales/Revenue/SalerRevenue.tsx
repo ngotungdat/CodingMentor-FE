@@ -286,35 +286,29 @@ function SalerRevenue(props) {
 		}
 	}
 
-	// Fake Data
-	// const dataSource = [
-	// 	{
-	// 		CounselorsName: 'Tư vấn viên 1',
-	// 		InvoiceNumber: 5,
-	// 		CustomersNumber: 5,
-	// 		Revenue: 1000000
-	// 	}
-	// ]
-
 	const columns = [
 		{
 			title: 'Tư vấn viên',
 			dataIndex: 'CounselorsName',
+			width: 150,
 			render: (text) => <p className="font-weight-black">{text}</p>,
 			...FilterColumn('CounselorsID', onSearch, onResetSearch, 'select', salerList),
 			className: activeColumnSearch === 'CounselorsID' ? 'active-column-search' : ''
 		},
 		{
 			title: 'Tổng số hóa đơn',
-			dataIndex: 'InvoiceNumber'
+			dataIndex: 'InvoiceNumber',
+			width: 150
 		},
 		{
 			title: 'Tổng số khách hàng',
-			dataIndex: 'CustomersNumber'
+			dataIndex: 'CustomersNumber',
+			width: 150
 		},
 		{
 			title: 'Doanh thu',
 			dataIndex: 'Revenue',
+			width: 150,
 			render: (price) => numberWithCommas(price)
 		}
 	]
@@ -358,17 +352,6 @@ function SalerRevenue(props) {
 				)
 				createExcelFile1(temp)
 			}
-			// let temp = []
-			// dataSource.forEach((item, index) =>
-			// 	temp.push({
-			// 		A: index + 1,
-			// 		B: item.CounselorsName,
-			// 		C: item.InvoiceNumber,
-			// 		D: item.CustomersNumber,
-			// 		E: numberWithCommas(item.Revenue)
-			// 	})
-			// )
-			// createExcelFile1(temp)
 		} catch (error) {
 			showNoti('danger', error?.message)
 		} finally {

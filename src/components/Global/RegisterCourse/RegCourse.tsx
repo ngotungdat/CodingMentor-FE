@@ -223,7 +223,6 @@ const RegCourse = React.memo((props: any) => {
 			setDebt(totalPrice + totalPriceProgram - (paid + discountPrice))
 		}
 	}, [totalPrice, totalPriceProgram, paid, discountPrice])
-
 	useEffect(() => {
 		if (debt < 0) {
 			showNoti('danger', 'Số tiền thanh toán lớn hơn tổng tiền!')

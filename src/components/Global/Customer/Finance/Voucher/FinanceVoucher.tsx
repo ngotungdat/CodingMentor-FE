@@ -1,21 +1,30 @@
-import { Tooltip } from 'antd'
+import { Tooltip, Modal, Form, Input } from 'antd'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
 import React, { useEffect, useRef, useState } from 'react'
 import { File } from 'react-feather'
 import { branchApi, voucherApi } from '~/apiBase'
 import SortBox from '~/components/Elements/SortBox'
+import InputMoneyField from '~/components/FormControl/InputMoneyField'
 import InvoiceVoucherForm from '~/components/Global/Customer/Finance/InvoiceVoucher/InvoiceVoucherForm'
 import PowerTable from '~/components/PowerTable'
 import FilterColumn from '~/components/Tables/FilterColumn'
 import { useWrap } from '~/context/wrap'
 import { fmSelectArr, numberWithCommas } from '~/utils/functions'
 import InvoiceVoucherFilter from '../InvoiceVoucher/InvoiceVoucherFilter'
+import SelectField from '~/components/FormControl/SelectField'
+import TextAreaField from '~/components/FormControl/TextAreaField'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useToggle } from '~/context/useToggle'
 voucherApi
 function FinanceVoucher() {
 	const [voucherList, setVoucherList] = useState<IVoucher[]>([])
 	const { showNoti, pageSize } = useWrap()
+	const [openModal, ToggleOpenModal] = useToggle()
+	const [isSendingData, setIsSendingData] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState({
 		type: '',
 		status: false
@@ -23,6 +32,36 @@ function FinanceVoucher() {
 	const [totalPage, setTotalPage] = useState(null)
 	const [activeColumnSearch, setActiveColumnSearch] = useState('')
 	const [optionBrachList, setOptionBranchList] = useState<IOptionCommon[]>([])
+	const paymentOptions = [
+		{
+			title: 'Tiền mặt',
+			value: 1
+		},
+		{
+			title: 'Chuyển khoản',
+			value: 2
+		}
+	]
+	const schema = yup.object().shape({
+		Price: yup.number().required('Bạn không được để trống'),
+		Reason: yup.string().required('Bạn không được để trống'),
+		PaymentMethodsID: yup.number().required('Bạn không được để trống'),
+		BranchID: yup.number().required('Bạn không được để trống')
+	})
+	const defaultValues = {
+		BranchID: null,
+		Price: 0,
+		Reason: '',
+		PaymentMethodsID: null
+	}
+	const form = useForm<IVoucher>({
+		defaultValues,
+		resolver: yupResolver(schema)
+	})
+	const optionList = [
+		{ value: 1, title: 'Tiền mặt' },
+		{ value: 2, title: 'Chuyển khoản' }
+	]
 	// SORT
 	const sortOptionList = [
 		{
@@ -211,35 +250,59 @@ function FinanceVoucher() {
 		}
 	}
 
+	const createVoucher = async (data) => {
+		setIsSendingData(true)
+		try {
+			const res = await voucherApi.add(data)
+			if (res.status === 200) {
+				showNoti('success', 'Tạo phiếu chi thành công')
+				fetchInvoiceList()
+			} else {
+				showNoti('danger', res)
+			}
+		} catch (error) {
+			showNoti('danger', error.message)
+		} finally {
+			setIsSendingData(false)
+			ToggleOpenModal()
+		}
+	}
+
 	const columns = [
 		{
 			title: 'Học viên',
 			dataIndex: 'FullNameUnicode',
+			width: 150,
 			render: (a) => <p className="font-weight-black">{a}</p>,
 			...FilterColumn('FullNameUnicode', onSearch, onResetSearch, 'text'),
 			className: activeColumnSearch === 'FullNameUnicode' ? 'active-column-search' : ''
 		},
 		{
 			title: 'Trung tâm',
-			dataIndex: 'BranchName'
+			dataIndex: 'BranchName',
+			width: 150
 		},
 		{
 			title: 'Số điện thoại',
-			dataIndex: 'Mobile'
+			dataIndex: 'Mobile',
+			width: 150
 		},
 		{
 			title: 'Số tiền',
 			dataIndex: 'Price',
+			width: 150,
 			render: (a) => {
 				return <p className="font-weight-black"> {numberWithCommas(a) === '' ? numberWithCommas(a) : numberWithCommas(a) + ' AUD'}</p>
 			}
 		},
 		{
 			title: 'Lý do',
+			width: 150,
 			dataIndex: 'Reason'
 		},
 		{
 			title: 'Ngày tạo',
+			width: 150,
 			dataIndex: 'CreatedOn',
 			render: (a) => <p>{moment(a).format('DD/MM/YYYY')}</p>
 		},
@@ -290,7 +353,34 @@ function FinanceVoucher() {
 					<SortBox handleSort={onSort} dataOption={sortOptionList} />
 				</div>
 			}
-			TitleCard={<button className="btn btn-warning add-new">Tạo phiếu chi</button>}
+			TitleCard={
+				<>
+					<button onClick={ToggleOpenModal} className="btn btn-warning add-new">
+						Tạo phiếu chi
+					</button>
+					<Modal title="Tạo phiếu chi" visible={openModal} onCancel={ToggleOpenModal} footer={null}>
+						<Form layout="vertical" onFinish={form.handleSubmit(createVoucher)}>
+							<div className="row">
+								<div className="col-12 mt-2">
+									<SelectField form={form} name="BranchID" label="Trung tâm" optionList={optionBrachList} isRequired />
+								</div>
+								<div className="col-12">
+									<InputMoneyField isRequired form={form} name="Price" label="Số tiền" placeholder="nhập số tiền phiếu chi" />
+								</div>
+								<div className={`col-12 validate-text-area ${form.formState?.errors?.Reason ? '' : 'mb-5'}`}>
+									<TextAreaField placeholder=" nhập lí do ..." isRequired form={form} name="Reason" label="Lý do" />
+								</div>
+								<div className="col-12 mt-2">
+									<SelectField form={form} name="PaymentMethodsID" label="Phương thức thanh toán" optionList={paymentOptions} isRequired />
+								</div>
+								<button type="submit" className="mx-auto btn btn-dark">
+									Tạo phiếu chi
+								</button>
+							</div>
+						</Form>
+					</Modal>
+				</>
+			}
 		/>
 	)
 }

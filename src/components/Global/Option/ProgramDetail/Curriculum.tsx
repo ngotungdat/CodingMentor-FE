@@ -41,11 +41,9 @@ const Curriculum = (props) => {
 					console.log(res.data.data)
 					setDataSource(res.data.data)
 					setTotalPage(res.data.totalRow)
-				} else {
-					showNoti('danger', 'Không có dữ liệu')
 				}
 			}
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu') && setDataSource([])
+			res.status == 204 && setDataSource([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

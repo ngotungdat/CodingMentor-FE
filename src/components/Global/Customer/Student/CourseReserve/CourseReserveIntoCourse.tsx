@@ -30,19 +30,19 @@ const CourseReserveIntoCourse = React.memo((props: any) => {
 	const [requestMoney, setRequestMoney] = useState<any>('')
 	const [courseStudentPrice, setCourseStudentPrice] = useState(null)
 
-	const fetchDataPrice = () => {
-		setIsLoading(true)
-		;(async () => {
-			try {
-				const _courseStudentPrice = await courseStudentPriceApi.getDetail(infoDetail.CourseOfStudentPriceID)
-				_courseStudentPrice.status == 200 && setCourseStudentPrice(_courseStudentPrice.data.data)
-			} catch (err) {
-				showNoti('danger', err.message)
-			} finally {
-				setIsLoading(false)
-			}
-		})()
-	}
+	// const fetchDataPrice = () => {
+	// 	setIsLoading(true)
+	// 	;(async () => {
+	// 		try {
+	// 			const _courseStudentPrice = await courseStudentPriceApi.getDetail(infoDetail.CourseOfStudentPriceID)
+	// 			_courseStudentPrice.status == 200 && setCourseStudentPrice(_courseStudentPrice.data.data)
+	// 		} catch (err) {
+	// 			showNoti('danger', err.message)
+	// 		} finally {
+	// 			setIsLoading(false)
+	// 		}
+	// 	})()
+	// }
 
 	const fetchDataCourse = () => {
 		setIsLoading(true)
@@ -107,7 +107,7 @@ const CourseReserveIntoCourse = React.memo((props: any) => {
 	useEffect(() => {
 		if (isModalVisible) {
 			fetchDataCourse()
-			fetchDataPrice()
+			// fetchDataPrice()
 		}
 	}, [isModalVisible])
 
@@ -120,7 +120,7 @@ const CourseReserveIntoCourse = React.memo((props: any) => {
 	useEffect(() => {
 		if (isModalVisible == true) {
 			// setRequestMoney(courseAfterDetail.Price - (courseStudentPrice.Paid + courseStudentPrice.Reduced));
-			setRequestMoney(courseAfterDetail.Price - infoDetail.ProgramPrice)
+			setRequestMoney(courseAfterDetail?.Price - infoDetail.ProgramPrice)
 		}
 	}, [courseAfterDetail])
 
@@ -284,8 +284,8 @@ const CourseReserveIntoCourse = React.memo((props: any) => {
 
 						{/*  */}
 						<div className="row ">
-							<div className="col-12">
-								<button type="submit" className="btn btn-primary w-100">
+							<div className="col-12 mt-5">
+								<button type="submit" className="btn btn-primary w-100 mt-3">
 									Lưu
 									{loading == true && <Spin className="loading-base" />}
 								</button>

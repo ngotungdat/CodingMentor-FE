@@ -335,7 +335,11 @@ function RollUp(props) {
 			dataIndex: 'Warning',
 			align: 'center',
 			render: (warning, item: IStudentRollUp, idx) => {
-				return <Checkbox disabled={warning || (userInformation?.RoleID === 2 && currentDate !== selectedDate)} checked={warning} />
+				if (userInformation?.RoleID === 3) {
+					return <Checkbox disabled={true} checked={warning} />
+				} else {
+					return <Checkbox disabled={warning || (userInformation?.RoleID === 2 && currentDate !== selectedDate)} checked={warning} />
+				}
 			}
 		}
 	]

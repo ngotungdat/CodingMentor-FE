@@ -8,7 +8,7 @@ import NumberFormat from 'react-number-format'
 import { branchApi, courseApi, studentChangeCourseApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 import { PaymentMethod } from '~/lib/payment-method/payment-method'
-import { parseToMoney } from '~/utils/functions'
+import { parsePriceStrToNumber } from '~/utils/functions'
 
 const ChangeCourseForm = React.memo((props: any) => {
 	const { Option } = Select
@@ -94,26 +94,26 @@ const ChangeCourseForm = React.memo((props: any) => {
 	}
 
 	const onSubmit = async (data: any) => {
-		console.log(data)
 		if (infoId) {
-			if (courseAfterDetail?.Price < infoDetail?.Price) {
-				showNoti('danger', 'Không được chuyển qua khóa rẻ hơn')
-			} else {
-				setLoading(true)
-				try {
-					let res = await studentChangeCourseApi.changeCourse({
-						...data,
-						CourseOfStudentID: infoId,
-						AdditionalPayment: infoDetail?.Price - courseAfterDetail?.Price
-					})
-					reloadData(currentPage)
-					afterSubmit(res?.data.message)
-					form.resetFields()
-				} catch (error) {
-					showNoti('danger', error.message)
-					setLoading(false)
-				}
+			// if (courseAfterDetail?.Price < infoDetail?.Price) {
+			// 	showNoti('danger', 'Không được chuyển qua khóa rẻ hơn')
+			// } else {
+			setLoading(true)
+			try {
+				let res = await studentChangeCourseApi.changeCourse({
+					...data,
+					Paid: parsePriceStrToNumber(data.Paid),
+					CourseOfStudentID: infoId,
+					AdditionalPayment: courseAfterDetail?.Price - infoDetail?.Price
+				})
+				reloadData(currentPage)
+				afterSubmit(res?.data.message)
+				form.resetFields()
+			} catch (error) {
+				showNoti('danger', error.message)
+				setLoading(false)
 			}
+			// }
 		}
 	}
 
@@ -284,7 +284,13 @@ const ChangeCourseForm = React.memo((props: any) => {
 
 								<div className="row">
 									<div className="col-md-6 col-12">
-										<Form.Item label="Số tiền phải trả thêm">
+										<Form.Item
+											label={
+												<div>
+													<span>Số tiền phải trả thêm</span>
+												</div>
+											}
+										>
 											<Input
 												className="style-input w-100"
 												readOnly={true}
@@ -294,10 +300,11 @@ const ChangeCourseForm = React.memo((props: any) => {
 																// style: 'currency',
 																// currency: 'AUD',
 																minimumFractionDigits: 2
-														  }).format(courseAfterDetail?.Price)
+														  }).format(courseAfterDetail?.Price - infoDetail?.Price)
 														: 0
 												}
 											/>
+											{courseAfterDetail?.Price - infoDetail?.Price < 0 && <span style={{ color: '#c94a4f' }}>Không hoàn trả</span>}
 										</Form.Item>
 									</div>
 

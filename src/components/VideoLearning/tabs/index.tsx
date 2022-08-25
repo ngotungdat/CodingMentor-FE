@@ -17,9 +17,9 @@ const titlePages = {
 	page2: 'Nội dung',
 	page3: 'Luyện tập',
 	page4: 'Hỏi và đáp',
-	page5: 'Ghi chú',
-	page6: 'Thông báo',
-	page7: 'Lịch sử làm bài'
+	// page5: 'Ghi chú',
+	page6: 'Thông báo'
+	// page7: 'Lịch sử làm bài'
 }
 
 const VideoTabs = (props: any) => {
@@ -36,7 +36,7 @@ const VideoTabs = (props: any) => {
 				<VideoInfomation />
 			</TabPane>
 
-			{!!userInformation && userInformation.RoleID == 3 && (
+			{/* {!!userInformation && userInformation.RoleID == 3 && (
 				<>
 					<TabPane tab={titlePages.page5} key="3">
 						<VocabularyTab lession={lession} />
@@ -45,7 +45,7 @@ const VideoTabs = (props: any) => {
 						<PackageResultStudent lession={lession} />
 					</TabPane>
 				</>
-			)}
+			)} */}
 
 			{/* <TabPane tab={titlePages.page4} key="5">
 				<VideoQuestion lession={lession} />

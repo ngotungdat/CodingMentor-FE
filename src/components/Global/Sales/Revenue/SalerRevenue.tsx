@@ -287,14 +287,14 @@ function SalerRevenue(props) {
 	}
 
 	// Fake Data
-	const dataSource = [
-		{
-			CounselorsName: 'Tư vấn viên 1',
-			InvoiceNumber: 5,
-			CustomersNumber: 5,
-			Revenue: 1000000
-		}
-	]
+	// const dataSource = [
+	// 	{
+	// 		CounselorsName: 'Tư vấn viên 1',
+	// 		InvoiceNumber: 5,
+	// 		CustomersNumber: 5,
+	// 		Revenue: 1000000
+	// 	}
+	// ]
 
 	const columns = [
 		{
@@ -344,31 +344,31 @@ function SalerRevenue(props) {
 				CounselorsName: null,
 				CounselorsID: null
 			}
-			// const res = await salerTotalRevenueApi.getAll(params)
-			// if (res.status == 200) {
-			// 	let temp = []
-			// 	res.data.data.forEach((item, index) =>
-			// 		temp.push({
-			// 			A: index + 1,
-			// 			B: item.CounselorsName,
-			// 			C: item.InvoiceNumber,
-			// 			D: item.CustomersNumber,
-			// 			E: numberWithCommas(item.Revenue)
-			// 		})
-			// 	)
-			// 	createExcelFile1(temp)
-			// }
-			let temp = []
-			dataSource.forEach((item, index) =>
-				temp.push({
-					A: index + 1,
-					B: item.CounselorsName,
-					C: item.InvoiceNumber,
-					D: item.CustomersNumber,
-					E: numberWithCommas(item.Revenue)
-				})
-			)
-			createExcelFile1(temp)
+			const res = await salerTotalRevenueApi.getAll(params)
+			if (res.status == 200) {
+				let temp = []
+				res.data.data.forEach((item, index) =>
+					temp.push({
+						A: index + 1,
+						B: item.CounselorsName,
+						C: item.InvoiceNumber,
+						D: item.CustomersNumber,
+						E: numberWithCommas(item.Revenue)
+					})
+				)
+				createExcelFile1(temp)
+			}
+			// let temp = []
+			// dataSource.forEach((item, index) =>
+			// 	temp.push({
+			// 		A: index + 1,
+			// 		B: item.CounselorsName,
+			// 		C: item.InvoiceNumber,
+			// 		D: item.CustomersNumber,
+			// 		E: numberWithCommas(item.Revenue)
+			// 	})
+			// )
+			// createExcelFile1(temp)
 		} catch (error) {
 			showNoti('danger', error?.message)
 		} finally {

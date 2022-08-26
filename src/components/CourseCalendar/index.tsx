@@ -120,7 +120,7 @@ const CourseCalendar = (props: any) => {
 			setLoading(true)
 			try {
 				const res: any = await CalendarApi.update({ ...param, ID: ID })
-				if (res.status == 200 || res.status == 204) {
+				if (res.status == 200) {
 					showNoti('success', 'Thành công')
 					getData()
 					teacherChangeData({ Teacher: userInformation.UserInformationID, ID: ID })

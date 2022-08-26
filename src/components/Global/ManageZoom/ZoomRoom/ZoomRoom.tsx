@@ -151,7 +151,7 @@ const ZoomRoom = () => {
 			if (res.status === 204) {
 				setRoomList([])
 				setTotalPage(0)
-				showNoti('danger', 'Danh sách trống')
+				// showNoti('danger', 'Danh sách trống')
 			}
 		} catch (error) {
 			console.log('fetchRoomList', error.message)

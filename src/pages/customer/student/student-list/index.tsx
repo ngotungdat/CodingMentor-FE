@@ -295,7 +295,7 @@ const StudentData = () => {
 		})
 		try {
 			let res = await studentApi.getAll(todoApi)
-			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow), showNoti('success', 'Thành công'))
+			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow))
 			res.status == 204 && setDataSource([])
 		} catch (error) {
 			showNoti('danger', error.message)

@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-ru-RU'
 import { PlusOutlined } from '@ant-design/icons'
+import { useWrap } from '~/context/wrap'
 
 type dataTranslate = Array<{
 	noteID: number
@@ -19,7 +20,9 @@ type dataTranslate = Array<{
 
 const EditorSummernote = (props) => {
 	const { getDataEditor, questionContent, isReset, isTranslate, defaultValue, isSimpleTool, height, isFull } = props
+	const { showNoti } = useWrap()
 	let inputTranslate = useRef(null)
+	let inputEditor = useRef(null)
 
 	const [valueEditor, setValueEditor] = useState(questionContent)
 	const [textSelect, setTextSelect] = useState(null)
@@ -161,9 +164,11 @@ const EditorSummernote = (props) => {
 		try {
 			let res = await studentApi.uploadImage(fileList[0])
 			if (res.status == 200) {
-				ReactSummernote.insertImage(res.data.data)
+				inputEditor.current.insertImage(res.data.data)
 			}
-		} catch (error) {}
+		} catch (error) {
+			showNoti('danger', error.message)
+		}
 	}
 
 	useLayoutEffect(() => {
@@ -305,6 +310,7 @@ const EditorSummernote = (props) => {
 				)}
 
 				<ReactSummernote
+					ref={inputEditor}
 					value={valueEditor}
 					children={ReactHtmlParser(valueEditor)}
 					options={{

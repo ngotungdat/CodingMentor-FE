@@ -64,8 +64,8 @@ const Grade = () => {
 
 		try {
 			let res = await gradeApi.getAll(todoApi)
-			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow), showNoti('success', 'Thành công'))
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu') && setDataSource([])
+			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow))
+			res.status == 204 && setDataSource([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

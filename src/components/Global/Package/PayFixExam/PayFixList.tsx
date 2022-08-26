@@ -118,7 +118,7 @@ const PayFixList = (props) => {
 				setDataStudent(newData)
 			}
 
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu học sinh này!')
+			res.status == 204 && setDataStudent([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -154,7 +154,7 @@ const PayFixList = (props) => {
 			let res = await payFixListApi.getAll(todoApi)
 			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow))
 
-			res.status == 204 && (showNoti('danger', 'Không có dữ liệu'), setDataSource([]))
+			res.status == 204 && setDataSource([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

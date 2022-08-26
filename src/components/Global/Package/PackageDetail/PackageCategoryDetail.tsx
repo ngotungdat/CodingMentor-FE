@@ -75,7 +75,8 @@ export default function PackageCategoryDetail(props) {
 					setTotalPage(res.data.totalRow)
 				}
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				// showNoti('danger', 'Không tìm thấy')
+				setDataSource([])
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

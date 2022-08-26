@@ -354,7 +354,7 @@ const ParentsList = () => {
 
 					res.status == 200 && getDataTolist(res.data.data, item.name)
 
-					res.status == 204 && console.log(item.text + ' Không có dữ liệu')
+					// res.status == 204 && console.log(item.text + ' Không có dữ liệu')
 				} catch (error) {
 					console.log(error)
 				} finally {
@@ -372,8 +372,8 @@ const ParentsList = () => {
 
 		try {
 			let res = await parentsApi.getAll(todoApi)
-			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow), showNoti('success', 'Thành công'))
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu') && setDataSource([])
+			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow))
+			res.status == 204 && setDataSource([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

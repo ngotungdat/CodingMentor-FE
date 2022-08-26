@@ -79,6 +79,7 @@ function SideBarNewsFeed(props) {
 				setIsLoading({ type: 'GET_ALL', status: false })
 			}
 		} catch (err) {
+			showNoti('danger', err.message)
 		} finally {
 			setIsLoading({ type: 'GET_ALL', status: false })
 		}

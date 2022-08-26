@@ -85,7 +85,7 @@ const UpdatePriceFormTwo = (props) => {
 			try {
 				let res = await courseOfStudentApi.updatePrice(data)
 				if (res.status == 200) {
-					showNoti('success', 'Thêm thành công!')
+					showNoti('success', res.data.message)
 				}
 			} catch (error) {
 			} finally {

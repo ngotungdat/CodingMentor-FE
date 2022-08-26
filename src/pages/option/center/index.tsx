@@ -71,7 +71,7 @@ const Center = () => {
 		try {
 			let res = await branchApi.getAll(todoApi)
 			res.status == 200 && (setCenter(res.data.data), setTotalPage(res.data.totalRow))
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu') && setCenter([])
+			res.status == 204 && setCenter([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -81,7 +81,7 @@ const Center = () => {
 
 	//GET DATA AREA
 	const getAllArea = () => {
-		; (async () => {
+		;(async () => {
 			try {
 				const res = await areaApi.getAll({ pageIndex: 1, pageSize: 9999 })
 				res.status == 200 && setDataArea(res.data.data)

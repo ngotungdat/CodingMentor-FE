@@ -48,11 +48,12 @@ const CurriculumDetail = (props) => {
 				if (res.data.data.length > 0) {
 					setDataSource(res.data.data)
 					setTotalPage(res.data.totalRow)
-				} else {
-					showNoti('danger', 'Không có dữ liệu')
 				}
+				// else {
+				// 	showNoti('danger', 'Không có dữ liệu')
+				// }
 			}
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu') && setDataSource([])
+			res.status == 204 && setDataSource([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -125,9 +126,11 @@ const CurriculumDetail = (props) => {
 			if (res.status == 200) {
 				setDataExamTopic(res.data.data)
 			} else if (res.status == 204) {
+				setDataExamTopic([])
 			}
 		} catch (error) {
 			console.log('GetLessonID: ', error)
+			showNoti('danger', error.message)
 		}
 	}
 

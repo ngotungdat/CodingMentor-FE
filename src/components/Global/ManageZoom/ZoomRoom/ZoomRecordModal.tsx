@@ -2,8 +2,10 @@ import { List, Modal } from 'antd'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { zoomRoomApi } from '~/apiBase'
+import { useWrap } from '~/context/wrap'
 
 const ZoomRecordModal = (props) => {
+	const { showNoti } = useWrap()
 	const { scheduleID, isOpenModal, onCloseModal } = props
 	const [isLoading, setIsLoading] = useState(false)
 	const [recordList, setRecordList] = useState<IZoomRecord[]>([])
@@ -22,6 +24,7 @@ const ZoomRecordModal = (props) => {
 			if (error.status === 400) {
 				setRecordList([])
 			}
+			showNoti('danger', error.message)
 			console.log('getRecordList', error.message)
 		} finally {
 			setIsLoading(false)

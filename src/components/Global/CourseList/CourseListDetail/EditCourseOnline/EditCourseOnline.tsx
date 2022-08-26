@@ -182,7 +182,7 @@ const EditCourseOnline = (props) => {
 			res = await courseDetailApi.update(scheduleListToSave)
 			if (res.status === 200) {
 				setSaveBeforeAheadSchedule(true)
-				showNoti('success', res.data.message)
+				// showNoti('success', res.data.message)
 				router.push(`/course/course-list/course-list-detail/${courseID}?type=2`)
 			}
 		} catch (error) {
@@ -606,7 +606,12 @@ const EditCourseOnline = (props) => {
 				return true
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Không có ca trống')
+				setIsShowSaveBtnGroup(true)
+				setIsLoading({
+					type: 'FETCH_SCHEDULE',
+					status: false
+				})
+				setCalendarList([])
 			}
 		} catch (error) {
 			showNoti('error', error.message)

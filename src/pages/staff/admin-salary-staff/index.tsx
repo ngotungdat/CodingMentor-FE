@@ -302,6 +302,7 @@ const SalaryReview = () => {
 				setDropDownVisible(false)
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'GET_ALL',
@@ -443,10 +444,11 @@ const SalaryReview = () => {
 				)
 				createExcelFile1(temp)
 			}
-			if (res.status === 204) {
-				showNoti('danger', 'Không có dữ liệu lương!')
-			}
+			// if (res.status === 204) {
+			// 	showNoti('danger', 'Không có dữ liệu lương!')
+			// }
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ type: 'EXCEL', status: false })
 		}

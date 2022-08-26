@@ -35,7 +35,7 @@ const BookEvent = (props: any) => {
 				const res: any = await (Sta == 3
 					? CalendarApi.update({ ID: ID, Status: Sta, Title: reason, StudentRequest: request })
 					: CalendarApi.update({ ID: ID, Status: Sta, Reason: reason }))
-				if (res.status == 200 || res.status == 204) {
+				if (res.status == 200) {
 					showNoti('success', 'Thành công')
 					getData()
 					studentChangeData({ ID: ID })

@@ -1,63 +1,63 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { FeedbackApi } from '~/apiBase';
-import { useWrap } from '~/context/wrap';
-import MenuFeedBack from '~/components/FeedBack/Menu/MenuFeedBack';
-import ModalCreateFeedback from '~/components/FeedBack/CreateNew/modalCreateFeedback';
-import MainFeedback from '~/components/FeedBack/Main/MainFeedback';
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { FeedbackApi } from '~/apiBase'
+import { useWrap } from '~/context/wrap'
+import MenuFeedBack from '~/components/FeedBack/Menu/MenuFeedBack'
+import ModalCreateFeedback from '~/components/FeedBack/CreateNew/modalCreateFeedback'
+import MainFeedback from '~/components/FeedBack/Main/MainFeedback'
 
 const StudentFeedbackList = (props) => {
-	const { userInformation, getTitlePage } = useWrap();
-	const [currentTab, setCurrentTab] = useState(1);
-	const [currentFeedback, setCurrentFeedback] = useState({});
-	const [feedbackAll, setFeedbackAll] = useState([]);
-	const [feedbackImportan, setFeedbackImportan] = useState([]);
-	const [newFeedback, setNewFeedback] = useState([]);
-	const [waitingFeedback, setWaitingFeedback] = useState([]);
-	const [doneFeedback, setDoneFeedback] = useState([]);
-	const [loading, setLoading] = useState(true);
+	const { userInformation, getTitlePage, showNoti } = useWrap()
+	const [currentTab, setCurrentTab] = useState(1)
+	const [currentFeedback, setCurrentFeedback] = useState({})
+	const [feedbackAll, setFeedbackAll] = useState([])
+	const [feedbackImportan, setFeedbackImportan] = useState([])
+	const [newFeedback, setNewFeedback] = useState([])
+	const [waitingFeedback, setWaitingFeedback] = useState([])
+	const [doneFeedback, setDoneFeedback] = useState([])
+	const [loading, setLoading] = useState(true)
 
-	const [modalCreate, setModalCreate] = useState(false);
+	const [modalCreate, setModalCreate] = useState(false)
 
 	React.useEffect(() => {
-		getTitlePage('Phản hồi');
-	}, []);
+		getTitlePage('Phản hồi')
+	}, [])
 
 	useLayoutEffect(() => {
 		if (userInformation !== null) {
-			getAllData();
+			getAllData()
 		}
-	}, [userInformation]);
+	}, [userInformation])
 
 	useLayoutEffect(() => {
 		if (feedbackAll.length !== 0) {
-			setCurrentFeedback(feedbackAll[0]); // SET DEFAULT ITEM SELECT
-			setTypeData();
+			setCurrentFeedback(feedbackAll[0]) // SET DEFAULT ITEM SELECT
+			setTypeData()
 		}
-	}, [feedbackAll]);
+	}, [feedbackAll])
 
 	// GET DATA FOCUS STATUS
 	const setTypeData = () => {
-		let tempNew = [];
-		let tempWaiting = [];
-		let tempDone = [];
+		let tempNew = []
+		let tempWaiting = []
+		let tempDone = []
 
 		// 1-Mới gửi, 2-Đang xữ lý, 3-Đã xong
 		for (let i = 0; i < feedbackAll.length; i++) {
 			if (feedbackAll[i].StatusID === 1) {
-				tempNew.push(feedbackAll[i]);
+				tempNew.push(feedbackAll[i])
 			}
 			if (feedbackAll[i].StatusID === 2) {
-				tempWaiting.push(feedbackAll[i]);
+				tempWaiting.push(feedbackAll[i])
 			}
 			if (feedbackAll[i].StatusID === 3) {
-				tempDone.push(feedbackAll[i]);
+				tempDone.push(feedbackAll[i])
 			}
 		}
 
-		setNewFeedback(tempNew);
-		setWaitingFeedback(tempWaiting);
-		setDoneFeedback(tempDone);
-	};
+		setNewFeedback(tempNew)
+		setWaitingFeedback(tempWaiting)
+		setDoneFeedback(tempDone)
+	}
 
 	// GET ALL DATA WHEN OPEN
 	const getAllData = async () => {
@@ -65,21 +65,25 @@ const StudentFeedbackList = (props) => {
 			pageIndex: 1,
 			pageSize: 20,
 			UID: userInformation.UserInformationID
-		};
-		await getAllFeedBack(temp);
-		getDataPrioritized();
-		setLoading(false);
-	};
+		}
+		await getAllFeedBack(temp)
+		getDataPrioritized()
+		setLoading(false)
+	}
 
 	// GET DATA
 	const getAllFeedBack = async (param) => {
 		try {
-			const res = await FeedbackApi.getAll(param);
-			res.status == 200 && setFeedbackAll(res.data.data);
+			const res = await FeedbackApi.getAll(param)
+			res.status == 200 && setFeedbackAll(res.data.data)
+			if (res.status === 204) {
+				setFeedbackAll([])
+			}
 		} catch (error) {
-			console.log(error);
+			showNoti('danger', error.message)
+			console.log(error)
 		}
-	};
+	}
 
 	// GET DATA PRIORITIZED
 	const getDataPrioritized = async () => {
@@ -88,12 +92,17 @@ const StudentFeedbackList = (props) => {
 			pageSize: 20,
 			UID: userInformation.UserInformationID,
 			isPrioritized: true
-		};
+		}
 		try {
-			const res = await FeedbackApi.getAll(temp);
-			res.status == 200 && setFeedbackImportan(res.data.data);
-		} catch (error) {}
-	};
+			const res = await FeedbackApi.getAll(temp)
+			res.status == 200 && setFeedbackImportan(res.data.data)
+			if (res.status === 204) {
+				setFeedbackImportan([])
+			}
+		} catch (error) {
+			showNoti('danger', error?.message)
+		}
+	}
 
 	// RENDER
 	return (
@@ -113,15 +122,15 @@ const StudentFeedbackList = (props) => {
 							: doneFeedback
 					}
 					handleClickMenu={(e) => {
-						console.log(e);
-						setCurrentTab(e);
+						console.log(e)
+						setCurrentTab(e)
 					}}
 					handleClickItem={(e) => {
-						console.log(e);
-						setCurrentFeedback(e);
+						console.log(e)
+						setCurrentFeedback(e)
 					}}
 					handleCreateNew={() => {
-						setModalCreate(true);
+						setModalCreate(true)
 					}}
 					allDataLength={{
 						all: feedbackAll.length,
@@ -140,13 +149,13 @@ const StudentFeedbackList = (props) => {
 			<ModalCreateFeedback
 				visible={modalCreate}
 				onClose={() => {
-					setModalCreate(false);
+					setModalCreate(false)
 				}}
 				created={getAllData}
 			/>
 		</div>
-	);
-};
+	)
+}
 
 // FeedbackList.layout = LayoutBase;
-export default StudentFeedbackList;
+export default StudentFeedbackList

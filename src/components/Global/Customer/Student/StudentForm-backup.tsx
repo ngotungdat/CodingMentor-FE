@@ -72,11 +72,12 @@ const StudentForm = (props) => {
 			let res = await studentAdviseApi.getWithID(parseInt(customerID as string))
 			if (res.status === 200) {
 				handleDataRow(res.data.data)
-			} else {
-				showNoti('error', 'Đường truyền mạng đang không ổn định')
 			}
+			// else {
+			// 	showNoti('error', 'Đường truyền mạng đang không ổn định')
+			// }
 		} catch (error) {
-			showNoti('error', 'Đường truyền mạng đang không ổn định')
+			showNoti('error', error.message)
 		} finally {
 			setLoadingCustomer(false)
 		}
@@ -363,14 +364,9 @@ const StudentForm = (props) => {
 		try {
 			let res = await studentApi.getAll({ Email: valueEmail })
 
-			res?.status == 200 && (showNoti('success', 'Tìm kiếm thành công'), handleDataRow(res.data.data[0]), setIsSearch(true))
+			res?.status == 200 && (handleDataRow(res.data.data[0]), setIsSearch(true))
 
-			res?.status == 204 &&
-				(showNoti('danger', 'Không tìm thấy email'),
-				form.reset(defaultValuesInit),
-				form.setValue('Email', valueEmail),
-				setIsSearch(false),
-				setImageUrl(''))
+			res?.status == 204 && (form.reset(defaultValuesInit), form.setValue('Email', valueEmail), setIsSearch(false), setImageUrl(''))
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -392,7 +388,6 @@ const StudentForm = (props) => {
 			console.log('student info', res.data.data)
 			res?.status == 200 &&
 				(form.setValue('CustomerConsultationID', res.data.data[0].ID),
-				showNoti('success', 'Tìm kiếm thành công'),
 				handleDataRow(res.data.data[0]),
 				setIsSearch(true),
 				setIsLoading({

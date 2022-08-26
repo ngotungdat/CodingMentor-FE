@@ -88,7 +88,7 @@ const ProfileBase = (props) => {
 		try {
 			res = await userApi.update({ ...data, Mobile: form.getValues('Mobile') })
 			res?.status == 200 &&
-				(showNoti('success', 'Cập nhật thành công'), form.reset(data), setDataForm(res.data.data), getDataUser(res.data.data))
+				(showNoti('success', res.data.message), form.reset(data), setDataForm(res.data.data), getDataUser(res.data.data))
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

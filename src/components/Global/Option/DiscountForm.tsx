@@ -93,7 +93,7 @@ const DiscountForm = (props) => {
 	const uploadFile = async (file) => {
 		try {
 			let res = await newsFeedApi.uploadFile(file.originFileObj)
-			if (res.status == 200 || res.status == 204) {
+			if (res.status == 200) {
 				return res.data.data
 			}
 		} catch (error) {

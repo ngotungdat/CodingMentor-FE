@@ -2,9 +2,11 @@ import { Skeleton } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { statisticalApi } from '~/apiBase/statistical/statistical-total'
 import { dataPie } from '~/lib/dashboard/data'
+import { useWrap } from '~/context/wrap'
 import RateChart from './RateChart'
 
 const StatisticalRate = () => {
+	const { showNoti } = useWrap()
 	const [statisticalRate, setStatisticalRate] = useState<IStatRate[]>([])
 	const [isLoading, setIsLoading] = useState({
 		status: '',
@@ -29,6 +31,7 @@ const StatisticalRate = () => {
 				setStatisticalRate([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ status: 'STAT_GET_RATE', loading: false })
 		}

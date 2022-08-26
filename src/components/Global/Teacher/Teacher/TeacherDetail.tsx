@@ -19,7 +19,8 @@ const TeacherDetail = () => {
 			if (res.status === 200) {
 				setDataUser(res.data.data)
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				setDataUser([])
+				// showNoti('danger', 'Không tìm thấy')
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -38,7 +39,7 @@ const TeacherDetail = () => {
 		})
 		try {
 			let res = await teacherApi.update(data)
-			res?.status == 200 && showNoti('success', 'Cập nhật thành công'), fetchTeacherByID()
+			res?.status == 200 && showNoti('success', res.data.message), fetchTeacherByID()
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -55,7 +56,8 @@ const TeacherDetail = () => {
 			if (res.status === 200) {
 				setDataSubject(res.data.data)
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				setDataSubject([])
+				// showNoti('danger', 'Không tìm thấy')
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -67,7 +69,7 @@ const TeacherDetail = () => {
 	const updateTeacherForSubject = async (data) => {
 		try {
 			let res = await teacherApi.updateTeacherForSubject(data)
-			res?.status == 200 && showNoti('success', 'Cập nhật thành công'), fetchTeacherForSubject()
+			res?.status == 200 && showNoti('success', res.data.message), fetchTeacherForSubject()
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

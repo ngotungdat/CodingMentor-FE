@@ -1,4 +1,31 @@
 $primary-color: #de3551;
+/* Chrome, Safari, Edge, Opera */
+.inputPhoneNumber::-webkit-outer-spin-button,
+.inputPhoneNumber::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+.inputPhoneNumber {
+	-moz-appearance: textfield;
+}
+
+.ruleTitle {
+	display: inline-block !important;
+	background: transparent !important;
+	border: none !important;
+	outline: none !important;
+	color: $primary-color !important;
+	margin: 0;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+
+	&:hover {
+		color: #d50c2d;
+		text-decoration: none;
+	}
+}
 
 .container {
 	width: 100%;

@@ -1,74 +1,74 @@
-import { Card, Spin, Timeline } from 'antd';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { timelineApi } from '~/apiBase/course-detail/timeline';
-import { useWrap } from '~/context/wrap';
-import TimelineCourseForm from './TimelineCourseForm';
-moment.locale('vn');
+import { Card, Spin, Timeline } from 'antd'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import { timelineApi } from '~/apiBase/course-detail/timeline'
+import { useWrap } from '~/context/wrap'
+import TimelineCourseForm from './TimelineCourseForm'
+moment.locale('vn')
 
 TimelineCourse.propTypes = {
 	courseID: PropTypes.number
-};
+}
 TimelineCourse.defaultProps = {
 	courseID: 0
-};
+}
 function TimelineCourse(props) {
-	const { courseID } = props;
-	const [timelineList, setTimelineList] = useState<ITimeLine[]>([]);
-	const [isLoading, setIsLoading] = useState({ type: 'GET_ALL', status: false });
-	const { showNoti } = useWrap();
+	const { courseID } = props
+	const [timelineList, setTimelineList] = useState<ITimeLine[]>([])
+	const [isLoading, setIsLoading] = useState({ type: 'GET_ALL', status: false })
+	const { showNoti } = useWrap()
 
 	const getDataTimeline = async () => {
 		try {
 			setIsLoading({
 				type: 'FETCH_TIMELINE',
 				status: true
-			});
-			const res = await timelineApi.getByCourseID(courseID);
+			})
+			const res = await timelineApi.getByCourseID(courseID)
 			if (res.status === 200) {
-				setTimelineList(res.data.data);
+				setTimelineList(res.data.data)
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'FETCH_TIMELINE',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	useEffect(() => {
-		getDataTimeline();
-	}, []);
+		getDataTimeline()
+	}, [])
 
 	const onSubmit = async (data: { Note: string }) => {
 		try {
 			setIsLoading({
 				type: 'ADD_TIMELINE',
 				status: true
-			});
+			})
 			const newData = {
 				...data,
 				CourseID: courseID
-			};
-			const res = await timelineApi.add(newData);
+			}
+			const res = await timelineApi.add(newData)
 			if (res.status === 200) {
-				const newTimeLineList = [res.data.data, ...timelineList];
-				setTimelineList(newTimeLineList);
-				showNoti('success', res.data.message);
-				return true;
+				const newTimeLineList = [res.data.data, ...timelineList]
+				setTimelineList(newTimeLineList)
+				// showNoti('success', res.data.message);
+				return true
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'ADD_TIMELINE',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	return (
 		<div>
@@ -92,7 +92,7 @@ function TimelineCourse(props) {
 										<p className="font-weight-primary">{x.Note}</p>
 									</div>
 									{/* @ts-ignore */}
-									<div style={{color: 'blue'}}>{x.NoteStudent}</div>
+									<div style={{ color: 'blue' }}>{x.NoteStudent}</div>
 									<div>{x.CreatedBy}</div>
 									<div>{x.RoleName}</div>
 								</Timeline.Item>
@@ -102,7 +102,7 @@ function TimelineCourse(props) {
 				</div>
 			</Card>
 		</div>
-	);
+	)
 }
 
-export default TimelineCourse;
+export default TimelineCourse

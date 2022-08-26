@@ -1,42 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { useWrap } from '~/context/wrap';
-import PowerTable from '~/components/PowerTable';
-import { statisticalApi } from '~/apiBase/statistical/statistical-total';
-import { Skeleton } from 'antd';
+import React, { useState, useEffect } from 'react'
+import { useWrap } from '~/context/wrap'
+import PowerTable from '~/components/PowerTable'
+import { statisticalApi } from '~/apiBase/statistical/statistical-total'
+import { Skeleton } from 'antd'
 
 const StatisticalRankTeacher = (props) => {
-	const [dataSource, setDataSource] = useState<IStatRankTeacherByLessons[]>();
-	const { pageSize } = useWrap();
+	const [dataSource, setDataSource] = useState<IStatRankTeacherByLessons[]>()
+	const { pageSize, showNoti } = useWrap()
 	const [isLoading, setIsLoading] = useState({
 		type: '',
 		status: false
-	});
-	const [totalPage, setTotalPage] = useState(null);
+	})
+	const [totalPage, setTotalPage] = useState(null)
 	const [filters, setFilters] = useState({
 		pageIndex: 1,
 		pageSize: pageSize
-	});
+	})
 
 	const getDataSource = async () => {
-		setIsLoading({ type: 'GET_ALL', status: true });
+		setIsLoading({ type: 'GET_ALL', status: true })
 		try {
-			let res = await statisticalApi.getStatisticalRankTeacherByLessons(filters);
+			let res = await statisticalApi.getStatisticalRankTeacherByLessons(filters)
 			if (res.status === 200) {
-				setDataSource(res.data.data);
-				setTotalPage(res.data.totalRow);
+				setDataSource(res.data.data)
+				setTotalPage(res.data.totalRow)
 			}
 			if (res.status === 204) {
-				setDataSource([]);
+				setDataSource([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
-			setIsLoading({ type: 'GET_ALL', status: false });
+			setIsLoading({ type: 'GET_ALL', status: false })
 		}
-	};
+	}
 
 	useEffect(() => {
-		getDataSource();
-	}, [filters]);
+		getDataSource()
+	}, [filters])
 
 	const columns = [
 		{
@@ -81,15 +82,15 @@ const StatisticalRankTeacher = (props) => {
 		},
 		{ title: 'Họ tên', width: 150, dataIndex: 'FullNameUnicode' },
 		{ title: 'Tổng số bài giảng', width: 180, dataIndex: 'TotalLesson' }
-	];
+	]
 
 	// PAGINATION
 	const getPagination = (pageIndex: number) => {
 		setFilters({
 			...filters,
 			pageIndex
-		});
-	};
+		})
+	}
 
 	return (
 		<>
@@ -116,7 +117,7 @@ const StatisticalRankTeacher = (props) => {
 				</div>
 			)}
 		</>
-	);
-};
+	)
+}
 
-export default StatisticalRankTeacher;
+export default StatisticalRankTeacher

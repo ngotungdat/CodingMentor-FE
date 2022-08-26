@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react'
 import { statisticalApi } from '~/apiBase/statistical/statistical-total'
 import { dataPie } from '~/lib/dashboard/data'
 import RateChart from './RateChart'
+import { useWrap } from '~/context/wrap'
 
 const StatisticalRate = () => {
+	const { showNoti } = useWrap()
 	const [statisticalRateVideoCourse, setStatisticalRateVideoCourse] = useState<IStatRate[]>([])
 	const [inView, setInView] = useState(false)
 	const [isLoading, setIsLoading] = useState({
@@ -30,6 +32,7 @@ const StatisticalRate = () => {
 				setStatisticalRateVideoCourse([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ status: 'GET_STAT_RATE', loading: false })
 		}

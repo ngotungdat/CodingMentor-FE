@@ -49,6 +49,7 @@ function CertificateOfStudent(props) {
 				showNoti('success', res.data.message)
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ type: 'UPDATE', status: false })
 		}

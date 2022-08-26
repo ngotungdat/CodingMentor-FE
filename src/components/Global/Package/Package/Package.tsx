@@ -185,7 +185,7 @@ function Package() {
 					setTotalPage(res.data.totalRow)
 				}
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				// showNoti('danger', 'Không tìm thấy')
 				setPackageList([])
 			}
 		} catch (error) {

@@ -17,7 +17,8 @@ const FinanceVoucherDetail = () => {
 				setTemplateString(res.data.data)
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Không có dữ liệu')
+				// showNoti('danger', 'Không có dữ liệu')
+				setTemplateString(null)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

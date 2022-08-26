@@ -86,9 +86,9 @@ const PackageResultDetail = () => {
 				setListQuestionID([...cloneListQuestionID])
 			}
 
-			if (res.status == 204) {
-				showNoti('danger', 'Không tìm thấy dữ liệu!')
-			}
+			// if (res.status == 204) {
+			// 	showNoti('danger', 'Không tìm thấy dữ liệu!')
+			// }
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

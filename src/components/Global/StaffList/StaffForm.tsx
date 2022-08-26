@@ -173,7 +173,7 @@ const StaffForm = (props) => {
 			}
 
 			res.status == 200 && getDataTolist(res.data.data, name)
-			res.status == 204 && showNoti('danger', name + ' không có dữ liệu')
+			// res.status == 204 && showNoti('danger', name + ' không có dữ liệu')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -239,39 +239,39 @@ const StaffForm = (props) => {
 		UserName: null
 	}
 
-		; (function returnSchemaFunc() {
-			returnSchema = { ...defaultValuesInit }
-			Object.keys(returnSchema).forEach(function (key) {
-				switch (key) {
-					case 'Email':
-						returnSchema[key] = yup.string().email('Email nhập sai cú pháp').required('Bạn không được để trống')
-						break
-					case 'FullNameUnicode':
-						returnSchema[key] = yup.string().nullable().required('Bạn không được để trống')
-						break
-					case 'Mobile':
-						returnSchema[key] = yup.string().nullable().required('Bạn không được để trống')
-						break
-					case 'RoleID':
-						returnSchema[key] = yup.string().nullable().required('Bạn không được để trống')
-						break
-					case 'CounselorsID':
-						returnSchema[key] = yup.mixed().required('Bạn không được để trống')
-						break
-					case 'Branch':
-						if (!disableCenter) {
-							returnSchema[key] = yup.array().required('Bạn không được để trống')
-						}
+	;(function returnSchemaFunc() {
+		returnSchema = { ...defaultValuesInit }
+		Object.keys(returnSchema).forEach(function (key) {
+			switch (key) {
+				case 'Email':
+					returnSchema[key] = yup.string().email('Email nhập sai cú pháp').required('Bạn không được để trống')
+					break
+				case 'FullNameUnicode':
+					returnSchema[key] = yup.string().nullable().required('Bạn không được để trống')
+					break
+				case 'Mobile':
+					returnSchema[key] = yup.string().nullable().required('Bạn không được để trống')
+					break
+				case 'RoleID':
+					returnSchema[key] = yup.string().nullable().required('Bạn không được để trống')
+					break
+				case 'CounselorsID':
+					returnSchema[key] = yup.mixed().required('Bạn không được để trống')
+					break
+				case 'Branch':
+					if (!disableCenter) {
+						returnSchema[key] = yup.array().required('Bạn không được để trống')
+					}
 
-						break
-					default:
-						// returnSchema[key] = yup.mixed().required("Bạn không được để trống");
-						break
-				}
-			})
+					break
+				default:
+					// returnSchema[key] = yup.mixed().required("Bạn không được để trống");
+					break
+			}
+		})
 
-			schema = yup.object().shape(returnSchema)
-		})()
+		schema = yup.object().shape(returnSchema)
+	})()
 
 	const form = useForm({
 		defaultValues: defaultValuesInit,
@@ -566,18 +566,15 @@ const StaffForm = (props) => {
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="Bank" label="Tên ngân hàng" />
 								</div>
-
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="BankBranch" label="Chi nhánh ngân hàng" />
 								</div>
-
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="BankAccountHolderName" label="Tên chủ thẻ" />
 								</div>
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="BankAccountNumber" label="Số tài khoản" />
 								</div>
-
 								{/** ==== Khác  ====*/}
 								<div className="col-12">
 									<Divider orientation="center">Khác</Divider>

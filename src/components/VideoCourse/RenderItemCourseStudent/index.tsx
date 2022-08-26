@@ -57,8 +57,8 @@ const RenderItemCard = (props) => {
 	const updateCourse = async (param: any) => {
 		try {
 			const res = await VideoCourseStoreApi.update(param)
-			res.status == 200 && showNoti('success', 'Thành công')
-			res.status !== 200 && showNoti('danger', 'Thêm không thành công')
+			res.status == 200 && showNoti('success', res.data.message)
+			// res.status !== 200 && showNoti('danger', 'Thêm không thành công')
 		} catch (error) {
 			showNoti('danger', 'Thêm không thành công')
 		} finally {

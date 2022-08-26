@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import LayoutBase from '~/components/LayoutBase';
-import PowerTable from '~/components/PowerTable';
-import { useWrap } from '~/context/wrap';
-import { Select, Tooltip } from 'antd';
-import { studentApi } from './../../../apiBase/customer/student/student-list';
-import { courseOfStudentApi } from '~/apiBase/customer/parents/courses-of-student';
-import { numberWithCommas } from '~/utils/functions';
+import React, { useState, useEffect } from 'react'
+import LayoutBase from '~/components/LayoutBase'
+import PowerTable from '~/components/PowerTable'
+import { useWrap } from '~/context/wrap'
+import { Select, Tooltip } from 'antd'
+import { studentApi } from './../../../apiBase/customer/student/student-list'
+import { courseOfStudentApi } from '~/apiBase/customer/parents/courses-of-student'
+import { numberWithCommas } from '~/utils/functions'
 
 const CourseOfStudent = () => {
-	const [dataSource, setDataSource] = useState<ICourseOfStudent[]>();
-	const [students, setStudents] = useState<IStudent[]>();
-	const { showNoti, pageSize, userInformation } = useWrap();
-	const [totalPage, setTotalPage] = useState(null);
-	const [currentPage, setCurrentPage] = useState(1);
-	const [studentID, setStudentID] = useState(null);
+	const [dataSource, setDataSource] = useState<ICourseOfStudent[]>()
+	const [students, setStudents] = useState<IStudent[]>()
+	const { showNoti, pageSize, userInformation } = useWrap()
+	const [totalPage, setTotalPage] = useState(null)
+	const [currentPage, setCurrentPage] = useState(1)
+	const [studentID, setStudentID] = useState(null)
 	const [loading, setLoading] = useState({
 		type: '',
 		status: false
-	});
+	})
 
 	const studentParams = {
 		pageSize: pageSize,
@@ -30,7 +30,7 @@ const CourseOfStudent = () => {
 		fromDate: null,
 		toDate: null,
 		ParentsOf: userInformation?.UserInformationID
-	};
+	}
 
 	const params = {
 		pageIndex: 1,
@@ -44,11 +44,11 @@ const CourseOfStudent = () => {
 		CourseOfStudentPriceID: null,
 		FullNameUnicode: null,
 		UserInformationID: studentID
-	};
+	}
 
-	const [todoApi, setTodoApi] = useState(params);
+	const [todoApi, setTodoApi] = useState(params)
 
-	const { Option } = Select;
+	const { Option } = Select
 	const columns = [
 		{
 			title: 'Học viên',
@@ -91,78 +91,78 @@ const CourseOfStudent = () => {
 			width: '10%',
 			render: (price, record) => <p>{price}</p>
 		}
-	];
+	]
 
 	const getStudents = async () => {
 		setLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await studentApi.getAll(studentParams);
-			console.log(res.data.data[0]);
+			let res = await studentApi.getAll(studentParams)
+			console.log(res.data.data[0])
 			if (res.status === 200) {
-				setStudents(res.data.data);
-				setTodoApi({ ...todoApi });
-				setStudentID({ ID: res.data.data[0].UserInformationID, index: 0 });
+				setStudents(res.data.data)
+				setTodoApi({ ...todoApi })
+				setStudentID({ ID: res.data.data[0].UserInformationID, index: 0 })
 			}
 			if (res.status == 204) {
-				showNoti('danger', 'Không có dữ liệu');
+				setStudents([])
 			}
 		} catch (error) {
 		} finally {
 			setLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	const getCoursesOfStudent = async () => {
 		setLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await courseOfStudentApi.getAll(todoApi);
+			let res = await courseOfStudentApi.getAll(todoApi)
 			if (res.status == 200) {
-				setDataSource(res.data.data);
-				console.log(res.data.data);
+				setDataSource(res.data.data)
+				console.log(res.data.data)
 			}
 			if (res.status == 204) {
-				setDataSource([]);
+				setDataSource([])
 			}
 		} catch (error) {
 		} finally {
 			setLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	const onChangeStudentID = (value) => {
-		console.log(value);
-		setTodoApi({ ...todoApi, UserInformationID: value });
-		setStudentID(value);
-	};
+		console.log(value)
+		setTodoApi({ ...todoApi, UserInformationID: value })
+		setStudentID(value)
+	}
 
 	const getPagination = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
+		setCurrentPage(pageNumber)
 		setTodoApi({
 			...todoApi,
 			pageIndex: currentPage
-		});
-	};
+		})
+	}
 
 	useEffect(() => {
-		getStudents();
+		getStudents()
 		// getCoursesOfStudent();
-	}, [userInformation]);
+	}, [userInformation])
 
 	useEffect(() => {
-		getCoursesOfStudent();
-	}, [studentID]);
+		getCoursesOfStudent()
+	}, [studentID])
 
 	return (
 		<>
@@ -194,8 +194,8 @@ const CourseOfStudent = () => {
 				}
 			/>
 		</>
-	);
-};
+	)
+}
 
-CourseOfStudent.layout = LayoutBase;
-export default CourseOfStudent;
+CourseOfStudent.layout = LayoutBase
+export default CourseOfStudent

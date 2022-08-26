@@ -298,7 +298,7 @@ const QuestionCreate = (props) => {
 		try {
 			let res = await programApi.getAll({ pageIndex: 1, pageSize: 999999 })
 			res.status == 200 && setDataProgram(res.data.data)
-			res.status == 204 && showNoti('danger', 'Chương trình không có dữ liệu')
+			res.status == 204 && setDataProgram([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -316,7 +316,7 @@ const QuestionCreate = (props) => {
 				ProgramID: id
 			})
 			res.status == 200 && setDataCurriculum(res.data.data)
-			res.status == 204 && showNoti('danger', 'Giáo trình không có dữ liệu')
+			res.status == 204 && setDataCurriculum([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

@@ -7,7 +7,7 @@ import { useWrap } from '~/context/wrap'
 
 const StatisticalTotalLessonOfTeacher = (props) => {
 	const [dataSource, setDataSource] = useState<IStatTotalLessonOfTeacher[]>()
-	const { pageSize } = useWrap()
+	const { pageSize, showNoti } = useWrap()
 	const [isLoading, setIsLoading] = useState({
 		type: '',
 		status: false
@@ -41,6 +41,7 @@ const StatisticalTotalLessonOfTeacher = (props) => {
 				setDataSource([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ type: 'GET_ALL', status: false })
 		}

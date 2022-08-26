@@ -86,7 +86,7 @@ const ModalCreateVideoCourse = React.memo((props: any) => {
 		setLoading(true)
 		try {
 			let res = await newsFeedApi.uploadFile(file.originFileObj)
-			if (res.status == 200 || res.status == 204) {
+			if (res.status == 200) {
 				finalSubmit(res.data.data)
 			}
 		} catch (error) {
@@ -120,7 +120,7 @@ const ModalCreateVideoCourse = React.memo((props: any) => {
 				(setModalCate(false),
 				setIsModalVisible(true),
 				refeshData(),
-				showNoti('success', 'Thêm thành công'),
+				showNoti('success', res.data.message),
 				setNewType(''),
 				form.setFieldsValue({ TypeName: '' }))
 		} catch (error) {
@@ -138,7 +138,7 @@ const ModalCreateVideoCourse = React.memo((props: any) => {
 				(setModalLevel(false),
 				setIsModalVisible(true),
 				refeshData(),
-				showNoti('success', 'Thêm thành công'),
+				showNoti('success', res.data.message),
 				setNewLevel(''),
 				form.setFieldsValue({ LevelName: '' }))
 		} catch (error) {

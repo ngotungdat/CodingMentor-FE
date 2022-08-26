@@ -1,31 +1,31 @@
-import { InputNumber, Spin } from 'antd';
-import React, { Fragment, useEffect, useState } from 'react';
-import { payRollApi } from '~/apiBase/staff-manage/pay-roll';
-import FilterBase from '~/components/Elements/FilterBase/FilterBase';
-import SortBox from '~/components/Elements/SortBox';
-import LayoutBase from '~/components/LayoutBase';
-import PowerTable from '~/components/PowerTable';
-import FilterColumn from '~/components/Tables/FilterColumn';
-import { useDebounce } from '~/context/useDebounce';
-import { useWrap } from '~/context/wrap';
-import { month, year } from '~/lib/month-year';
-import { Roles } from '~/lib/roles/listRoles';
-import { numberWithCommas } from '~/utils/functions';
+import { InputNumber, Spin } from 'antd'
+import React, { Fragment, useEffect, useState } from 'react'
+import { payRollApi } from '~/apiBase/staff-manage/pay-roll'
+import FilterBase from '~/components/Elements/FilterBase/FilterBase'
+import SortBox from '~/components/Elements/SortBox'
+import LayoutBase from '~/components/LayoutBase'
+import PowerTable from '~/components/PowerTable'
+import FilterColumn from '~/components/Tables/FilterColumn'
+import { useDebounce } from '~/context/useDebounce'
+import { useWrap } from '~/context/wrap'
+import { month, year } from '~/lib/month-year'
+import { Roles } from '~/lib/roles/listRoles'
+import { numberWithCommas } from '~/utils/functions'
 
 const SalaryReview = () => {
-	const { showNoti, pageSize } = useWrap();
+	const { showNoti, pageSize } = useWrap()
 	const onSearch = (data) => {
-		setCurrentPage(1);
+		setCurrentPage(1)
 		setParams({
 			...listParamsDefault,
 			FullNameUnicode: data
-		});
-	};
+		})
+	}
 
 	const handleReset = () => {
-		setCurrentPage(1);
-		setParams(listParamsDefault);
-	};
+		setCurrentPage(1)
+		setParams(listParamsDefault)
+	}
 	const columns = [
 		{
 			title: 'Nhân viên',
@@ -78,13 +78,11 @@ const SalaryReview = () => {
 			title: 'Tổng lương',
 			dataIndex: 'TotalSalary',
 			render: (price, record: IPayRoll) => (
-				<p className="font-weight-primary">
-					{price ? numberWithCommas(price) : numberWithCommas(record.ActualSalary + record.Bonus)}
-				</p>
+				<p className="font-weight-primary">{price ? numberWithCommas(price) : numberWithCommas(record.ActualSalary + record.Bonus)}</p>
 			)
 		}
-	];
-	const [currentPage, setCurrentPage] = useState(1);
+	]
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const listParamsDefault = {
 		pageSize: pageSize,
@@ -98,7 +96,7 @@ const SalaryReview = () => {
 		Month: null,
 		Year: null,
 		Style: null
-	};
+	}
 
 	const sortOption = [
 		{
@@ -149,7 +147,7 @@ const SalaryReview = () => {
 			value: 6,
 			text: 'Tổng lương giảm dần'
 		}
-	];
+	]
 
 	const [dataFilter, setDataFilter] = useState([
 		{
@@ -200,7 +198,7 @@ const SalaryReview = () => {
 			type: 'date-range',
 			value: null
 		}
-	]);
+	])
 
 	const handleFilter = (listFilter) => {
 		let newListFilter = {
@@ -211,137 +209,137 @@ const SalaryReview = () => {
 			Style: null,
 			Month: null,
 			Year: null
-		};
+		}
 		listFilter.forEach((item, index) => {
-			let key = item.name;
+			let key = item.name
 			Object.keys(newListFilter).forEach((keyFilter) => {
 				if (keyFilter == key) {
-					newListFilter[key] = item.value;
+					newListFilter[key] = item.value
 				}
-			});
-		});
-		setParams({ ...listParamsDefault, ...newListFilter, pageIndex: 1 });
-	};
+			})
+		})
+		setParams({ ...listParamsDefault, ...newListFilter, pageIndex: 1 })
+	}
 
 	const handleSort = async (option) => {
 		setParams({
 			...listParamsDefault,
 			sortType: option.title.sortType
-		});
-	};
+		})
+	}
 
-	const [params, setParams] = useState(listParamsDefault);
+	const [params, setParams] = useState(listParamsDefault)
 
-	const [totalPage, setTotalPage] = useState(null);
-	const [payRoll, setPayRoll] = useState<IPayRoll[]>([]);
+	const [totalPage, setTotalPage] = useState(null)
+	const [payRoll, setPayRoll] = useState<IPayRoll[]>([])
 	const [isLoading, setIsLoading] = useState({
 		type: 'GET_ALL',
 		status: false
-	});
+	})
 
-	const [loadingSalaryDate, setLoadingSalaryDate] = useState(false);
-	const [salaryDate, setSalaryDate] = useState(1);
+	const [loadingSalaryDate, setLoadingSalaryDate] = useState(false)
+	const [salaryDate, setSalaryDate] = useState(1)
 
 	const setDataFunc = (name, data) => {
 		dataFilter.every((item, index) => {
 			if (item.name == name) {
-				item.optionList = data;
-				return false;
+				item.optionList = data
+				return false
 			}
-			return true;
-		});
-		setDataFilter([...dataFilter]);
-	};
+			return true
+		})
+		setDataFilter([...dataFilter])
+	}
 
 	const getDataRole = () => {
 		const newData = Roles.map((item) => ({
 			title: item.RoleName,
 			value: item.id
-		}));
-		setDataFunc('RoleID', newData);
-	};
+		}))
+		setDataFunc('RoleID', newData)
+	}
 
 	useEffect(() => {
-		getDataRole();
-	}, []);
+		getDataRole()
+	}, [])
 
 	const getPagination = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
+		setCurrentPage(pageNumber)
 		setParams({
 			...params,
 			pageIndex: currentPage
-		});
-	};
+		})
+	}
 
 	const getDataPayRoll = (page: any) => {
 		setIsLoading({
 			type: 'GET_ALL',
 			status: true
-		});
-		(async () => {
+		})
+		;(async () => {
 			try {
-				let res = await payRollApi.getAll({ ...params, pageIndex: page });
+				let res = await payRollApi.getAll({ ...params, pageIndex: page })
 				//@ts-ignore
-				res.status == 200 && setPayRoll(res.data.data);
+				res.status == 200 && setPayRoll(res.data.data)
 				if (res.status == 204) {
-					showNoti('danger', 'Không tìm thấy dữ liệu!');
-					setCurrentPage(1);
-					setParams(listParamsDefault);
-				} else setTotalPage(res.data.totalRow);
+					// showNoti('danger', 'Không tìm thấy dữ liệu!');
+					setCurrentPage(1)
+					setParams(listParamsDefault)
+				} else setTotalPage(res.data.totalRow)
 			} catch (error) {
-				showNoti('danger', error.message);
+				showNoti('danger', error.message)
 			} finally {
 				setIsLoading({
 					type: 'GET_ALL',
 					status: false
-				});
+				})
 			}
-		})();
-	};
+		})()
+	}
 
 	const getDataSalaryDate = () => {
-		setLoadingSalaryDate(true);
-		(async () => {
+		setLoadingSalaryDate(true)
+		;(async () => {
 			try {
-				let res = await payRollApi.closingSalarDate();
+				let res = await payRollApi.closingSalarDate()
 				//@ts-ignore
-				res.status == 200 && setSalaryDate(res.data.data.Date);
-				if (res.status == 204) {
-					showNoti('danger', 'Không tìm thấy dữ liệu ngày tính lương!');
-				}
+				res.status == 200 && setSalaryDate(res.data.data.Date)
+				// if (res.status == 204) {
+				// 	showNoti('danger', 'Không tìm thấy dữ liệu ngày tính lương!')
+				// }
 			} catch (error) {
-				showNoti('danger', error.message);
+				showNoti('danger', error.message)
 			} finally {
-				setLoadingSalaryDate(false);
+				setLoadingSalaryDate(false)
 			}
-		})();
-	};
+		})()
+	}
 
 	useEffect(() => {
-		getDataSalaryDate();
-	}, []);
+		getDataSalaryDate()
+	}, [])
 
 	const handleChangeSalaryDate = (value: any) => {
-		setLoadingSalaryDate(true);
-		let date = { Date: value };
-		(async () => {
+		setLoadingSalaryDate(true)
+		let date = { Date: value }
+		;(async () => {
 			try {
 				//@ts-ignore
-				let res = await payRollApi.changClosingSalarDate(date);
-				showNoti('success', 'Cập nhật ngày tính lương thành công!!');
-				setLoadingSalaryDate(false);
-				getDataSalaryDate();
+				let res = await payRollApi.changClosingSalarDate(date)
+				showNoti('success', 'Cập nhật ngày tính lương thành công!!')
+				setLoadingSalaryDate(false)
+				getDataSalaryDate()
 			} catch (error) {
-				showNoti('danger', error.message);
+				showNoti('danger', error.message)
 			} finally {
-				setLoadingSalaryDate(false);
+				setLoadingSalaryDate(false)
 			}
-		})();
-	};
-	const onDebounceChangeSalaryDate = useDebounce(handleChangeSalaryDate, 300, []);
+		})()
+	}
+	const onDebounceChangeSalaryDate = useDebounce(handleChangeSalaryDate, 300, [])
 	useEffect(() => {
-		getDataPayRoll(currentPage);
-	}, [params]);
+		getDataPayRoll(currentPage)
+	}, [params])
 	return (
 		<PowerTable
 			currentPage={currentPage}
@@ -359,8 +357,8 @@ const SalaryReview = () => {
 						style={{ width: '100px', marginLeft: '10px' }}
 						className="style-input"
 						onChange={(value: number) => {
-							onDebounceChangeSalaryDate(value);
-							setSalaryDate(value);
+							onDebounceChangeSalaryDate(value)
+							setSalaryDate(value)
 						}}
 						value={salaryDate}
 						min={1}
@@ -371,17 +369,13 @@ const SalaryReview = () => {
 			}
 			Extra={
 				<div className="extra-table">
-					<FilterBase
-						dataFilter={dataFilter}
-						handleFilter={(listFilter: any) => handleFilter(listFilter)}
-						handleReset={handleReset}
-					/>
+					<FilterBase dataFilter={dataFilter} handleFilter={(listFilter: any) => handleFilter(listFilter)} handleReset={handleReset} />
 
 					<SortBox dataOption={sortOption} handleSort={(value) => handleSort(value)} />
 				</div>
 			}
 		/>
-	);
-};
-SalaryReview.layout = LayoutBase;
-export default SalaryReview;
+	)
+}
+SalaryReview.layout = LayoutBase
+export default SalaryReview

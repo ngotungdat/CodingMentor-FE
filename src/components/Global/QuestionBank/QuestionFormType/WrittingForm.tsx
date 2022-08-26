@@ -80,7 +80,9 @@ const WrittingForm = (props) => {
 					setIsResetEditor(false)
 				}, 500)
 			}
-		} catch (error) {}
+		} catch (error) {
+			showNoti('danger', error.message)
+		}
 	}
 
 	useEffect(() => {

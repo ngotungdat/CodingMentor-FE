@@ -1,67 +1,69 @@
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { productApi } from '~/apiBase/product/product';
-import LayoutBase from '~/components/LayoutBase';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation, Pagination, Thumbs } from 'swiper';
-import 'swiper/swiper-bundle.css';
-import { Card } from 'antd';
-import { numberWithCommas } from '~/utils/functions';
-import QuantityOfItems from '~/components/Global/Option/shopping-cart/QuantityOfItems';
-import QuantityOfProduct from '~/components/Global/Product/QuantityOfProduct';
-import { orderProductDetail } from '~/apiBase/product/order-product-detail';
-import { useWrap } from '~/context/wrap';
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import { productApi } from '~/apiBase/product/product'
+import LayoutBase from '~/components/LayoutBase'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import SwiperCore, { Navigation, Pagination, Thumbs } from 'swiper'
+import 'swiper/swiper-bundle.css'
+import { Card } from 'antd'
+import { numberWithCommas } from '~/utils/functions'
+import QuantityOfItems from '~/components/Global/Option/shopping-cart/QuantityOfItems'
+import QuantityOfProduct from '~/components/Global/Product/QuantityOfProduct'
+import { orderProductDetail } from '~/apiBase/product/order-product-detail'
+import { useWrap } from '~/context/wrap'
 
-SwiperCore.use([Navigation, Pagination, Thumbs]);
+SwiperCore.use([Navigation, Pagination, Thumbs])
 
 const ProductDetails = (props) => {
-	const [productDetail, setProductDetail] = useState<IProduct>();
-	const [isLoading, setIsLoading] = useState({ type: '', status: false });
-	const [thumbsSwiper, setThumbsSwiper] = useState(null);
-	const [slots, setSlots] = useState(1);
-	const { showNoti, handleReloadCart, handleReloadNoti } = useWrap();
-	const router = useRouter();
-	console.log(router.query);
+	const [productDetail, setProductDetail] = useState<IProduct>()
+	const [isLoading, setIsLoading] = useState({ type: '', status: false })
+	const [thumbsSwiper, setThumbsSwiper] = useState(null)
+	const [slots, setSlots] = useState(1)
+	const { showNoti, handleReloadCart, handleReloadNoti } = useWrap()
+	const router = useRouter()
+	console.log(router.query)
 
 	const getProductDetail = async () => {
-		setIsLoading({ type: 'GET', status: true });
+		setIsLoading({ type: 'GET', status: true })
 		try {
 			// Click product from [slug] page: router.query.ID - from shopping-cart page: router.query.ProductID
-			let res = await productApi.getByID(Number(router.query.ProductID ? router.query.ProductID : router.query.ID));
+			let res = await productApi.getByID(Number(router.query.ProductID ? router.query.ProductID : router.query.ID))
 			if (res.status === 200) {
-				setProductDetail(res.data.data);
-				console.log(res.data.data);
+				setProductDetail(res.data.data)
+				console.log(res.data.data)
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
-			setIsLoading({ type: 'GET', status: false });
+			setIsLoading({ type: 'GET', status: false })
 		}
-	};
+	}
 
 	const thumbsItem = productDetail?.ImageOfProducts.map((item, index) => (
 		<SwiperSlide key={`thumb-${index}`} tag="li" style={{ listStyle: 'none' }}>
 			<img src={item.Link} style={{ width: 80, height: 60 }} />
 		</SwiperSlide>
-	));
+	))
 
 	const handleAddToCart = async () => {
-		setIsLoading({ type: 'POST', status: true });
+		setIsLoading({ type: 'POST', status: true })
 		try {
-			let res = await orderProductDetail.insert({ ProductID: productDetail.ID, Quantity: slots });
+			let res = await orderProductDetail.insert({ ProductID: productDetail.ID, Quantity: slots })
 			if (res.status === 200) {
-				showNoti('success', 'Thêm vào giỏ hàng thành công!');
-				handleReloadCart();
-				handleReloadNoti();
+				showNoti('success', 'Thêm vào giỏ hàng thành công!')
+				handleReloadCart()
+				handleReloadNoti()
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
-			setIsLoading({ type: 'POST', status: false });
+			setIsLoading({ type: 'POST', status: false })
 		}
-	};
+	}
 
 	useEffect(() => {
-		getProductDetail();
-	}, []);
+		getProductDetail()
+	}, [])
 
 	return (
 		<>
@@ -124,28 +126,21 @@ const ProductDetails = (props) => {
 							<p className="product__detail-decs">{productDetail.Description}</p>
 							<p className="product__detail-price font-weight-green">
 								{numberWithCommas(productDetail.Price)} đ{' '}
-								<span className="product__detail-listedPrice font-weight-black">
-									{numberWithCommas(productDetail.ListedPrice)} đ
-								</span>
+								<span className="product__detail-listedPrice font-weight-black">{numberWithCommas(productDetail.ListedPrice)} đ</span>
 							</p>
 							<p className="product__detail-quantity">
 								Số lượng <QuantityOfProduct slots={slots} setSlots={setSlots} />
 							</p>
-							<button
-								className="btn btn-primary"
-								disabled={isLoading.type === 'POST' && isLoading.status}
-								onClick={handleAddToCart}
-							>
+							<button className="btn btn-primary" disabled={isLoading.type === 'POST' && isLoading.status} onClick={handleAddToCart}>
 								Thêm vào giỏ
 							</button>
-						
 						</Card>
 					)}
 				</div>
 			</div>
 		</>
-	);
-};
+	)
+}
 
-ProductDetails.layout = LayoutBase;
-export default ProductDetails;
+ProductDetails.layout = LayoutBase
+export default ProductDetails

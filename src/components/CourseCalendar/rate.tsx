@@ -35,7 +35,7 @@ const RateEvent = (props: any) => {
 				const res: any = await (!isTeach()
 					? CalendarApi.update({ ID: ID, StarRating: rate, StudentRemark: reason })
 					: CalendarApi.update({ ID: ID, TeacherRemark: reason }))
-				if (res.status == 200 || res.status == 204) {
+				if (res.status == 200) {
 					showNoti('success', 'Thành công')
 					getData()
 				}

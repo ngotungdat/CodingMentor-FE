@@ -25,7 +25,7 @@ const paymentMethods = [
 ]
 
 const ShoppingCartProduct = () => {
-	const { userInformation, pageSize } = useWrap()
+	const { userInformation, pageSize, showNoti } = useWrap()
 	const [cartItems, setCartItems] = useState<IOrderProductCart[]>()
 	const [dropDownVisible, setDropDownVisible] = useState(false)
 	const [branch, setBranch] = useState(null)
@@ -363,7 +363,9 @@ const ShoppingCartProduct = () => {
 				res.data.data.forEach((item) => temp.push({ value: item.ID, title: item.BranchName }))
 				setBranch(temp)
 			}
-		} catch (error) {}
+		} catch (error) {
+			showNoti('error', error.message)
+		}
 	}
 
 	return (

@@ -89,7 +89,7 @@ const StudentForm = (props) => {
 				fetchDataUserWithMail(res.data.data.Email)
 			}
 		} catch (error) {
-			showNoti('error', 'Đường truyền mạng đang không ổn định')
+			showNoti('error', error.message)
 		} finally {
 			setLoadingCustomer(false)
 		}
@@ -408,7 +408,7 @@ const StudentForm = (props) => {
 
 			_detail?.status == 200 &&
 				(form.setValue('CustomerConsultationID', _detail.data.data?.UserInformationID),
-				showNoti('success', 'Tìm kiếm thành công'),
+				// showNoti('success', 'Tìm kiếm thành công'),
 				handleDataRow(_detail.data.data),
 				setIsSearch(true))
 		} catch (err) {

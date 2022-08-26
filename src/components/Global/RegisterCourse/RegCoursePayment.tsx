@@ -1,22 +1,22 @@
-import moment from 'moment';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { branchApi } from '~/apiBase';
-import { courseStudentPriceApi } from '~/apiBase/customer/student/course-student-price';
-import PowerTable from '~/components/PowerTable';
-import { useWrap } from '~/context/wrap';
-import { fmSelectArr } from '~/utils/functions';
-import CourseOfStudentPriceForm from '../Customer/Finance/CourseOfStudentPrice/CourseStudentPriceForm';
+import moment from 'moment'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+import { branchApi } from '~/apiBase'
+import { courseStudentPriceApi } from '~/apiBase/customer/student/course-student-price'
+import PowerTable from '~/components/PowerTable'
+import { useWrap } from '~/context/wrap'
+import { fmSelectArr } from '~/utils/functions'
+import CourseOfStudentPriceForm from '../Customer/Finance/CourseOfStudentPrice/CourseStudentPriceForm'
 
 const RegCoursePayment = (props: any) => {
 	const [isLoading, setIsLoading] = useState({
 		type: 'GET_ALL',
 		status: false
-	});
-	const { userID } = props;
-	const [paymentInfo, setPaymentInfo] = useState([]);
-	const { showNoti } = useWrap();
-	const [optionBranchList, setOptionBranchList] = useState<IOptionCommon[]>([]);
+	})
+	const { userID } = props
+	const [paymentInfo, setPaymentInfo] = useState([])
+	const { showNoti } = useWrap()
+	const [optionBranchList, setOptionBranchList] = useState<IOptionCommon[]>([])
 	const paymentMethodOptionList = [
 		{
 			label: 'Tiền mặt',
@@ -26,64 +26,64 @@ const RegCoursePayment = (props: any) => {
 			label: 'Chuyển khoản',
 			value: 2
 		}
-	];
+	]
 
 	const getDataJob = () => {
 		setIsLoading({
 			type: 'GET_ALL',
 			status: true
-		});
-		(async () => {
+		})
+		;(async () => {
 			try {
 				let res = await courseStudentPriceApi.getAll({
 					UserInformationID: userID
-				});
-				res.status == 200 && setPaymentInfo(res.data.data);
+				})
+				res.status == 200 && setPaymentInfo(res.data.data)
 				if (res.status == 204) {
-					showNoti('danger', 'Không tìm thấy dữ liệu!');
-					setPaymentInfo([]);
+					// showNoti('danger', 'Không tìm thấy dữ liệu!');
+					setPaymentInfo([])
 				}
 			} catch (error) {
-				showNoti('danger', error.message);
+				showNoti('danger', error.message)
 			} finally {
 				setIsLoading({
 					type: 'GET_ALL',
 					status: false
-				});
+				})
 			}
-		})();
-	};
+		})()
+	}
 
 	const fetchBranchList = async () => {
 		try {
-			const res = await branchApi.getAll({ pageSize: 99999, pageIndex: 1 });
+			const res = await branchApi.getAll({ pageSize: 99999, pageIndex: 1 })
 			if (res.status === 200) {
-				const fmOptionBranch = fmSelectArr(res.data.data, 'BranchName', 'ID');
-				setOptionBranchList(fmOptionBranch);
+				const fmOptionBranch = fmSelectArr(res.data.data, 'BranchName', 'ID')
+				setOptionBranchList(fmOptionBranch)
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		}
-	};
+	}
 	useEffect(() => {
-		fetchBranchList();
-	}, []);
+		fetchBranchList()
+	}, [])
 
 	const onUpdateCourseOfStudentPrice = (ID: number) => {
 		return async (data: {
-			FullNameUnicode: string;
-			MoneyInDebt: string;
-			Paid: string;
-			PaymentMethodsID: number;
-			PayBranchID: number;
-			PayDate: string;
+			FullNameUnicode: string
+			MoneyInDebt: string
+			Paid: string
+			PaymentMethodsID: number
+			PayBranchID: number
+			PayDate: string
 		}) => {
 			try {
 				setIsLoading({
 					type: 'ADD_DATA',
 					status: true
-				});
-				const { FullNameUnicode, PaymentMethodsID, PayBranchID, Paid, PayDate } = data;
+				})
+				const { FullNameUnicode, PaymentMethodsID, PayBranchID, Paid, PayDate } = data
 				const newData = {
 					ID,
 					FullNameUnicode,
@@ -91,23 +91,23 @@ const RegCoursePayment = (props: any) => {
 					PayBranchID,
 					Paid: parseInt(Paid.replace(/\D/g, '')),
 					PayDate: moment(PayDate).format('YYYY/MM/DD')
-				};
-				const res = await courseStudentPriceApi.update(newData);
+				}
+				const res = await courseStudentPriceApi.update(newData)
 				if (res.status === 200) {
-					showNoti('success', res.data.message);
-					getDataJob();
-					return true;
+					showNoti('success', res.data.message)
+					getDataJob()
+					return true
 				}
 			} catch (error) {
-				showNoti('danger', error.message);
+				showNoti('danger', error.message)
 			} finally {
 				setIsLoading({
 					type: 'ADD_DATA',
 					status: false
-				});
+				})
 			}
-		};
-	};
+		}
+	}
 	const columns = [
 		{
 			title: 'Khóa học',
@@ -181,12 +181,12 @@ const RegCoursePayment = (props: any) => {
 				</div>
 			)
 		}
-	];
+	]
 
 	useEffect(() => {
-		getDataJob();
-	}, [userID]);
+		getDataJob()
+	}, [userID])
 
-	return <PowerTable Extra="Thông tin thanh toán" columns={columns} noScroll dataSource={paymentInfo} />;
-};
-export default RegCoursePayment;
+	return <PowerTable Extra="Thông tin thanh toán" columns={columns} noScroll dataSource={paymentInfo} />
+}
+export default RegCoursePayment

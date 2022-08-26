@@ -54,7 +54,7 @@ const MultipleList = (props) => {
 			let res = await examDetailApi.update(itemDelete)
 			if (res.status == 200) {
 				onDeleteQuestion(itemDelete)
-				showNoti('success', 'Xóa thành công')
+				showNoti('success', res.data.message)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

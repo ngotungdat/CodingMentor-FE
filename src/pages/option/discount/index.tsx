@@ -66,7 +66,7 @@ const Discount = () => {
 		try {
 			let res = await discountApi.getAll(todoApi)
 			if (res.status == 204) {
-				showNoti('danger', 'Không có dữ liệu')
+				// showNoti('danger', 'Không có dữ liệu')
 				setDataTable([])
 			}
 			if (res.status == 200) {

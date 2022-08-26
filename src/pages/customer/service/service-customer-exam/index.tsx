@@ -130,7 +130,7 @@ export default function CustomerServiceExam() {
 			try {
 				let res = await serviceCustomerExamApi.getAll(todoApi)
 				if (res.status == 204) {
-					showNoti('danger', 'Không có dữ liệu')
+					// showNoti('danger', 'Không có dữ liệu')
 					setDataTable([])
 				}
 				if (res.status == 200) {
@@ -159,9 +159,9 @@ export default function CustomerServiceExam() {
 		;(async () => {
 			try {
 				let res = await serviceApi.getAll({ selectAll: true })
-				if (res.status == 204) {
-					showNoti('danger', 'Không có dữ liệu')
-				}
+				// if (res.status == 204) {
+				// 	showNoti('danger', 'Không có dữ liệu')
+				// }
 				if (res.status == 200) {
 					const newData = res.data.data.map((item) => ({
 						title: item.ServiceName,

@@ -28,6 +28,7 @@ const PackageResultList = (props) => {
 			}
 		} catch (error) {
 			console.log('Error Get List Teacher: ', error.message)
+			showNoti('danger', error.message)
 		}
 	}
 
@@ -221,7 +222,7 @@ const PackageResultList = (props) => {
 				}))
 				setDataFunc('StudentID', newData)
 			}
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu học sinh này!')
+			// res.status == 204 && showNoti('danger', 'Không có dữ liệu học sinh này!')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -238,7 +239,7 @@ const PackageResultList = (props) => {
 				}))
 				setDataFunc('SetPackageDetailID', newData)
 			}
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu bộ đề này!')
+			// res.status == 204 && showNoti('danger', 'Không có dữ liệu bộ đề này!')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -267,7 +268,7 @@ const PackageResultList = (props) => {
 				let res = await packageResultApi.getAll({ ...params, pageIndex: page })
 				res.status == 200 && setPackageSetResult(res.data.data)
 				if (res.status == 204) {
-					showNoti('danger', 'Không tìm thấy dữ liệu!')
+					// showNoti('danger', 'Không tìm thấy dữ liệu!')
 					setCurrentPage(1)
 					setParams(listParamsDefault)
 					setPackageSetResult([])

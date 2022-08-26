@@ -121,7 +121,7 @@ const TeacherCourseSchedule = () => {
 				})
 				res.status == 200 && setTeacherCourseSchedule(res.data.data)
 				if (res.status == 204) {
-					showNoti('danger', 'Không tìm thấy dữ liệu!')
+					// showNoti('danger', 'Không tìm thấy dữ liệu!')
 					setCurrentPage(1)
 					setParams(listParamsDefault)
 				} else setTotalPage(res.data.totalRow)
@@ -243,7 +243,7 @@ const TeacherCourseSchedule = () => {
 				}))
 				setDataFunc('CourseID', newData)
 			}
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu khóa học!')
+			// res.status == 204 && showNoti('danger', 'Không có dữ liệu khóa học!')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -260,7 +260,7 @@ const TeacherCourseSchedule = () => {
 				}))
 				setDataFunc('SubjectID', newData)
 			}
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu môn học!')
+			// res.status == 204 && showNoti('danger', 'Không có dữ liệu môn học!')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -277,7 +277,7 @@ const TeacherCourseSchedule = () => {
 				}))
 				setDataFunc('TeacherID', newData)
 			}
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu giáo viên!')
+			// res.status == 204 && showNoti('danger', 'Không có dữ liệu giáo viên!')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

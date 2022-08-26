@@ -90,6 +90,7 @@ export default function TeacherRollUp(props) {
 				setTotalPage(res.data.totalRow)
 			}
 		} catch (error) {
+			showNoti('danger', error?.message)
 		} finally {
 			setIsLoading({ type: 'GET_ALL', status: false })
 		}
@@ -103,7 +104,9 @@ export default function TeacherRollUp(props) {
 				setDataSource(res.data.data)
 				setTotalPage(res.data.totalRow)
 			}
-		} catch (error) {}
+		} catch (error) {
+			showNoti('danger', error?.message)
+		}
 	}
 
 	const onChangeEnable = async (data) => {

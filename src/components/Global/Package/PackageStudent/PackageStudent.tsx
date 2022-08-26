@@ -136,7 +136,7 @@ const PackageStudent = () => {
 			if (res.status === 204) {
 				setPackageOfStudentList([])
 				setTotalPage(0)
-				showNoti('danger', 'Dữ liệu trống')
+				// showNoti('danger', 'Dữ liệu trống')
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

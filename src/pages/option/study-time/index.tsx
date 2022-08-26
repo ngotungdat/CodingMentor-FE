@@ -58,7 +58,7 @@ const StudyTime = () => {
 		try {
 			let res = await studyTimeApi.getAll(todoApi)
 			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow))
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu') && setDataSource([])
+			res.status == 204 && setDataSource([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

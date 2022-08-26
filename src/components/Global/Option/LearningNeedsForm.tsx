@@ -22,6 +22,7 @@ const LearningNeedsForm = (props) => {
 				showNoti('success', 'Xóa thành công!')
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ type: 'ADD_DATA', status: false })
 		}

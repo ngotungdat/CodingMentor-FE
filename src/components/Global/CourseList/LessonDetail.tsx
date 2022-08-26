@@ -41,12 +41,13 @@ const LessonDetail = (props) => {
 			if (res.status == 200) {
 				if (res.data.data.length > 0) {
 					setDataSubject(res.data.data)
-				} else {
-					showNoti('danger', 'Không có dữ liệu môn học')
 				}
+				// else {
+				// 	showNoti('danger', 'Không có dữ liệu môn học')
+				// }
 			}
 
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu')
+			res.status == 204 && setDataSubject([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

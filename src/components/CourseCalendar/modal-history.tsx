@@ -30,7 +30,7 @@ const ModalHistory = (props: any) => {
 		setLoading(true)
 		try {
 			const res: any = await CalendarApi.getHistory(ID)
-			if (res.status == 200 || res.status == 204) {
+			if (res.status == 200) {
 				setDetails(res.data.data)
 			}
 		} catch (error) {

@@ -67,9 +67,9 @@ const UpdatePriceForm = (props) => {
 				PaymentMethodsID: value.PaymentMethodsID,
 				PayDate: moment(value.PayDate).format('DD/MM/yyyy')
 			})
-			if (res.status == 200 || res.status == 204) {
+			if (res.status == 200) {
 				setVisible(false)
-				showNoti('success', 'Thêm thành công!')
+				showNoti('success', res.data.message)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

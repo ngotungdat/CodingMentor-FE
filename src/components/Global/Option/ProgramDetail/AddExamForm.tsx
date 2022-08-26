@@ -29,9 +29,10 @@ const AddExamForm = (props) => {
 					showNoti('success', 'Cập nhật đề kiểm tra thành công');
 					setIsModalVisible(false);
 					onFetchData && onFetchData();
-				} else {
-					showNoti('danger', 'Đường truyền mạng đang không ổn định');
-				}
+				} 
+				// else {
+				// 	showNoti('danger', 'Đường truyền mạng đang không ổn định');
+				// }
 			} catch (error) {
 				showNoti('danger', error.message);
 			} finally {

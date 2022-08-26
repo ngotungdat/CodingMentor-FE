@@ -1,23 +1,23 @@
-import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
-import { dayOffApi } from '~/apiBase';
-import DeleteTableRow from '~/components/Elements/DeleteTableRow/DeleteTableRow';
-import SortBox from '~/components/Elements/SortBox';
-import DayOffForm from '~/components/Global/Option/DayOff/DayOffForm';
-import PowerTable from '~/components/PowerTable';
-import FilterColumn from '~/components/Tables/FilterColumn';
-import { useWrap } from '~/context/wrap';
-import DayOffFilterForm from './DayOffFilterForm';
+import moment from 'moment'
+import React, { useEffect, useRef, useState } from 'react'
+import { dayOffApi } from '~/apiBase'
+import DeleteTableRow from '~/components/Elements/DeleteTableRow/DeleteTableRow'
+import SortBox from '~/components/Elements/SortBox'
+import DayOffForm from '~/components/Global/Option/DayOff/DayOffForm'
+import PowerTable from '~/components/PowerTable'
+import FilterColumn from '~/components/Tables/FilterColumn'
+import { useWrap } from '~/context/wrap'
+import DayOffFilterForm from './DayOffFilterForm'
 
 const DayOff = () => {
-	const [dayOffList, setDayOffList] = useState<IDayOff[]>([]);
+	const [dayOffList, setDayOffList] = useState<IDayOff[]>([])
 	const [isLoading, setIsLoading] = useState({
 		type: '',
 		status: false
-	});
-	const [totalPage, setTotalPage] = useState(null);
-	const { showNoti, pageSize, isAdmin } = useWrap();
-	const [activeColumnSearch, setActiveColumnSearch] = useState('');
+	})
+	const [totalPage, setTotalPage] = useState(null)
+	const { showNoti, pageSize, isAdmin } = useWrap()
+	const [activeColumnSearch, setActiveColumnSearch] = useState('')
 	// FILTER
 	const listFieldInit = {
 		pageIndex: 1,
@@ -28,14 +28,14 @@ const DayOff = () => {
 		DayOffName: '',
 		fromDate: '',
 		toDate: ''
-	};
+	}
 	let refValue = useRef({
 		pageIndex: 1,
 		pageSize: 10,
 		sort: -1,
 		sortType: false
-	});
-	const [filters, setFilters] = useState(listFieldInit);
+	})
+	const [filters, setFilters] = useState(listFieldInit)
 	// SORT OPTION
 	const sortOptionList = [
 		{
@@ -70,7 +70,7 @@ const DayOff = () => {
 			value: 4,
 			text: 'Tên giảm dần'
 		}
-	];
+	]
 	// FILTER
 	const onFilter = (obj) => {
 		setFilters({
@@ -79,147 +79,147 @@ const DayOff = () => {
 			pageIndex: 1,
 			fromDate: moment(obj.fromDate).format('YYYY/MM/DD'),
 			toDate: moment(obj.toDate).format('YYYY/MM/DD')
-		});
-	};
+		})
+	}
 	// PAGINATION
 	const getPagination = (pageIndex: number, pageSize: number) => {
-		if (!pageSize) pageSize = 10;
+		if (!pageSize) pageSize = 10
 		refValue.current = {
 			...refValue.current,
 			pageSize,
 			pageIndex
-		};
+		}
 		setFilters({
 			...filters,
 			...refValue.current
-		});
-	};
+		})
+	}
 	// SORT
 	const onSort = (option) => {
 		refValue.current = {
 			...refValue.current,
 			sort: option.title.sort,
 			sortType: option.title.sortType
-		};
+		}
 		setFilters({
 			...listFieldInit,
 			...refValue.current
-		});
-	};
+		})
+	}
 	// RESET SEARCH
 	const onResetSearch = () => {
-		setActiveColumnSearch('');
+		setActiveColumnSearch('')
 		setFilters({
 			...listFieldInit,
 			pageSize: refValue.current.pageSize
-		});
-	};
+		})
+	}
 	// ACTION SEARCH
 	const onSearch = (valueSearch, dataIndex) => {
-		setActiveColumnSearch(dataIndex);
+		setActiveColumnSearch(dataIndex)
 		setFilters({
 			...listFieldInit,
 			...refValue.current,
 			pageIndex: 1,
 			[dataIndex]: valueSearch
-		});
-	};
+		})
+	}
 
 	// GET DATA IN FIRST TIME
 	const fetchDayOffList = async () => {
 		setIsLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await dayOffApi.getAll(filters);
+			let res = await dayOffApi.getAll(filters)
 
 			if (res.status === 200) {
 				if (res.data.totalRow && res.data.data.length) {
-					setDayOffList(res.data.data);
-					setTotalPage(res.data.totalRow);
+					setDayOffList(res.data.data)
+					setTotalPage(res.data.totalRow)
 				}
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy');
-				setDayOffList([]);
+				// showNoti('danger', 'Không tìm thấy');
+				setDayOffList([])
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	useEffect(() => {
-		fetchDayOffList();
-	}, [filters]);
+		fetchDayOffList()
+	}, [filters])
 
 	// CREATE
 	const onCreateDayOff = async (data: any) => {
 		setIsLoading({
 			type: 'ADD_DATA',
 			status: true
-		});
-		let res;
+		})
+		let res
 		try {
 			res = await dayOffApi.add({
 				...data,
 				Enable: true
-			});
-			res.status === 200 && showNoti('success', res.data.message);
-			onResetSearch(); // <== khi tạo xong r reset search để trở về trang đầu tiên
+			})
+			res.status === 200 && showNoti('success', res.data.message)
+			onResetSearch() // <== khi tạo xong r reset search để trở về trang đầu tiên
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'ADD_DATA',
 				status: false
-			});
+			})
 		}
-		return res;
-	};
+		return res
+	}
 	// UPDATE
 	const onUpdateDayOff = async (newObj: any, idx: number) => {
 		setIsLoading({
 			type: 'ADD_DATA',
 			status: true
-		});
-		let res;
+		})
+		let res
 		try {
-			res = await dayOffApi.update(newObj);
+			res = await dayOffApi.update(newObj)
 			if (res.status === 200) {
-				const newDayOffList = [...dayOffList];
-				newDayOffList.splice(idx, 1, newObj);
-				setDayOffList(newDayOffList);
-				showNoti('success', res.data.message);
+				const newDayOffList = [...dayOffList]
+				newDayOffList.splice(idx, 1, newObj)
+				setDayOffList(newDayOffList)
+				showNoti('success', res.data.message)
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'ADD_DATA',
 				status: false
-			});
-			return res;
+			})
+			return res
 		}
-	};
+	}
 	// DELETE
 	const onDeleteDayOff = (idx: number) => {
 		return async () => {
 			setIsLoading({
 				type: 'GET_ALL',
 				status: true
-			});
+			})
 			try {
-				const delObj = dayOffList[idx];
+				const delObj = dayOffList[idx]
 				const res = await dayOffApi.delete({
 					...delObj,
 					Enable: false
-				});
-				res.status === 200 && showNoti('success', res.data.message);
+				})
+				res.status === 200 && showNoti('success', res.data.message)
 				if (dayOffList.length === 1) {
 					filters.pageIndex === 1
 						? (setFilters({
@@ -232,20 +232,20 @@ const DayOff = () => {
 								...filters,
 								...refValue.current,
 								pageIndex: filters.pageIndex - 1
-						  });
-					return;
+						  })
+					return
 				}
-				fetchDayOffList();
+				fetchDayOffList()
 			} catch (error) {
-				showNoti('danger', error.message);
+				showNoti('danger', error.message)
 			} finally {
 				setIsLoading({
 					type: 'GET_ALL',
 					status: false
-				});
+				})
 			}
-		};
-	};
+		}
+	}
 	// COLUMN FOR TABLE
 	const columns = [
 		{
@@ -290,7 +290,7 @@ const DayOff = () => {
 				</div>
 			)
 		}
-	];
+	]
 	// RETURN
 	return (
 		<PowerTable
@@ -310,7 +310,7 @@ const DayOff = () => {
 				</div>
 			}
 		/>
-	);
-};
+	)
+}
 
-export default DayOff;
+export default DayOff

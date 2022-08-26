@@ -49,7 +49,7 @@ const TypingForm = (props) => {
 				}
 			}
 
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu')
+			res.status == 204 && setQuestion({})
 		} catch (error) {
 			showNoti('danger', error?.message)
 		} finally {

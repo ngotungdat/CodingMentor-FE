@@ -71,6 +71,7 @@ const Stationery = (props: Props) => {
 				setDataSource([])
 			}
 		} catch (err) {
+			showNoti('danger', err.message)
 		} finally {
 			setIsLoading({ type: 'GET_ALL', status: false })
 		}
@@ -88,6 +89,7 @@ const Stationery = (props: Props) => {
 				setProductType(temp)
 			}
 		} catch (err) {
+			showNoti('danger', err.message)
 		} finally {
 		}
 	}

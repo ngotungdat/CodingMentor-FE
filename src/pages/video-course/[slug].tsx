@@ -60,6 +60,7 @@ const VideoCourseDetail = (props) => {
 			res.status == 200 && (setDetails(res.data.data), getCourseContent(res.data.data.CurriculumID))
 		} catch (error) {
 			console.log(error)
+			showNoti('danger', error.message)
 		}
 	}
 
@@ -73,6 +74,7 @@ const VideoCourseDetail = (props) => {
 			const res = await VideoCourseDetailApi.getContent(param)
 			res.status == 200 && setContent(res.data.data)
 		} catch (error) {
+			showNoti('danger', error.message)
 			console.log(error)
 		} finally {
 			let temp = {
@@ -170,7 +172,7 @@ const VideoCourseDetail = (props) => {
 				router.push('/cart/check-out')
 			}
 		} catch (error) {
-			showNoti('danger', 'Thêm không thành công')
+			showNoti('danger', error.message)
 		} finally {
 			setByLoading(false)
 		}
@@ -199,7 +201,7 @@ const VideoCourseDetail = (props) => {
 		try {
 			const res = await VideoCourseListApi.updateActiveCode(param)
 			res.status == 200 && showNoti('success', 'Thành công')
-			res.status === 204 && showNoti('success', 'Thành công')
+			// res.status === 204 && showNoti('success', 'Thành công')
 			getCourseDetails(slug)
 		} catch (error) {
 			showNoti('danger', error.message)

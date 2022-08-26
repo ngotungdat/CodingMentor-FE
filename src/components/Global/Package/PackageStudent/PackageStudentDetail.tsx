@@ -60,7 +60,8 @@ const PackageStudentDetail = () => {
 					setTotalPage(res.data.totalRow)
 				}
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				// showNoti('danger', 'Không tìm thấy')
+				setPackageDetailList([])
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

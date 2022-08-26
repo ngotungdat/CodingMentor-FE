@@ -175,10 +175,11 @@ const ScheduleStudy = () => {
 					toDate: moment(EndTime).format('DD/MM/YYYY')
 				})
 				setDataList({ list: res.data.data, type: '' })
-				showNoti('success', res.data.message)
+				// showNoti('success', res.data.message)
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				// showNoti('danger', 'Không tìm thấy')
+				setDataList({ list: [], type: '' })
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -221,11 +222,11 @@ const ScheduleStudy = () => {
 					toDate: moment(EndTime).format('DD/MM/YYYY')
 				})
 				setDataList({ list: res.data.data, type: '' })
-				showNoti('success', res.data.message)
+				// showNoti('success', res.data.message)
 				setTotalRow(res.data.totalRow)
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				// showNoti('danger', 'Không tìm thấy')
 				setDataList({ list: [], type: '' })
 				setTotalRow(0)
 			}
@@ -262,7 +263,7 @@ const ScheduleStudy = () => {
 
 	// CALENDAR FORMAT
 	const calendarFm = (calendarArr: ICourseDetailSchedule[]) => {
-		const rs = calendarArr.map(c => {
+		const rs = calendarArr.map((c) => {
 			const {
 				ID,
 				CourseID,
@@ -328,11 +329,11 @@ const ScheduleStudy = () => {
 					fromDate: moment(StartTime).format('DD/MM/YYYY'),
 					toDate: moment(EndTime).format('DD/MM/YYYY')
 				})
-				showNoti('success', res.data.message)
+				// showNoti('success', res.data.message)
 				setTotalRow(res.data.totalRow)
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				// showNoti('danger', 'Không tìm thấy')
 				setTotalRow(0)
 				setDataList({ list: [], type: 'CheckManyTeacher' })
 			}
@@ -393,11 +394,11 @@ const ScheduleStudy = () => {
 					toDate: moment(EndTime).format('DD/MM/YYYY')
 				})
 				setTotalRow(res.data.totalRow)
-				showNoti('success', res.data.message)
+				// showNoti('success', res.data.message)
 			}
 			if (res.status === 204) {
 				setDataList({ list: [], type: 'CheckBranch' })
-				showNoti('danger', 'Lịch trống')
+				// showNoti('danger', 'Lịch trống')
 				setTotalRow(0)
 			}
 		} catch (error) {

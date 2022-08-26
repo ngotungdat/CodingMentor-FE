@@ -3,8 +3,10 @@ import moment from 'moment'
 import React, { useState, useEffect } from 'react'
 import { statisticalApi } from '~/apiBase/statistical/statistical-total'
 import BarChartStatistical from './BarChart'
+import { useWrap } from '~/context/wrap'
 
 const StatisticalRate = () => {
+	const { showNoti } = useWrap()
 	const [statisticalSalaryOfStaff, setStatisticalSalaryOfStaff] = useState<IStatDataBarChart[]>([])
 	const [isLoading, setIsLoading] = useState({ status: '', loading: false })
 	const [period, setPeriod] = useState({ fromDate: '', toDate: '' })
@@ -46,6 +48,7 @@ const StatisticalRate = () => {
 				setStatisticalSalaryOfStaff([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ status: 'GET_STAT_SALARY_OF_STAFF', loading: false })
 		}

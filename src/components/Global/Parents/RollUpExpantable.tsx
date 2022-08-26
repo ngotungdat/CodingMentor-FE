@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { rollUpStudentApi } from '~/apiBase/customer/parents/roll-up-student';
-import NestedTable from '~/components/Elements/NestedTable';
-import PowerTable from '~/components/PowerTable';
-import { useWrap } from '~/context/wrap';
+import React, { useState, useEffect } from 'react'
+import { rollUpStudentApi } from '~/apiBase/customer/parents/roll-up-student'
+import NestedTable from '~/components/Elements/NestedTable'
+import PowerTable from '~/components/PowerTable'
+import { useWrap } from '~/context/wrap'
 
 const RollUpExpantable = ({ studentID, courseID }) => {
-	const [dataSource, setDataSource] = useState<IRollUpStudent[]>();
-	const { pageSize, showNoti } = useWrap();
-	const [currentPage, setCurrentPage] = useState(1);
+	const [dataSource, setDataSource] = useState<IRollUpStudent[]>()
+	const { pageSize, showNoti } = useWrap()
+	const [currentPage, setCurrentPage] = useState(1)
 	const [loading, setLoading] = useState({
 		type: '',
 		loading: false
-	});
+	})
 	const paramsDefault = {
 		pageIndex: 1,
 		pageSize: pageSize,
@@ -20,8 +20,8 @@ const RollUpExpantable = ({ studentID, courseID }) => {
 		// StudentID: studentID.ID,
 		// CourseID: courseID,
 		CourseScheduleID: 0
-	};
-	const [params, setParams] = useState(paramsDefault);
+	}
+	const [params, setParams] = useState(paramsDefault)
 
 	const columns = [
 		{
@@ -49,35 +49,36 @@ const RollUpExpantable = ({ studentID, courseID }) => {
 			dataIndex: 'LearningStatusName',
 			render: (price, record) => <p>{price}</p>
 		}
-	];
+	]
 
 	const getRollUpStudent = async () => {
-		setLoading({ type: 'GET_ALL', loading: true });
+		setLoading({ type: 'GET_ALL', loading: true })
 		try {
-			let res = await rollUpStudentApi.getAll(params);
+			let res = await rollUpStudentApi.getAll(params)
 			if (res.status == 200) {
-				setDataSource(res.data.data);
+				setDataSource(res.data.data)
 			}
 			if (res.status == 204) {
-				setDataSource([]);
+				setDataSource([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
-			setLoading({ type: 'GET_ALL', loading: false });
+			setLoading({ type: 'GET_ALL', loading: false })
 		}
-	};
+	}
 
 	const getPagination = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
+		setCurrentPage(pageNumber)
 		setParams({
 			...params,
 			pageIndex: currentPage
-		});
-	};
+		})
+	}
 
 	useEffect(() => {
-		getRollUpStudent();
-	}, []);
+		getRollUpStudent()
+	}, [])
 
 	return (
 		<>
@@ -90,7 +91,7 @@ const RollUpExpantable = ({ studentID, courseID }) => {
 				loading={loading}
 			/>
 		</>
-	);
-};
+	)
+}
 
-export default RollUpExpantable;
+export default RollUpExpantable

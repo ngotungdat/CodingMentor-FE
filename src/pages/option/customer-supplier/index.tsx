@@ -67,7 +67,7 @@ const CustomerSupplier = () => {
 			try {
 				let res = await sourceInfomationApi.getAll(todoApi)
 				if (res.status == 204) {
-					showNoti('danger', 'Không có dữ liệu')
+					// showNoti('danger', 'Không có dữ liệu')
 					// handleReset();
 					setDataTable([])
 				}

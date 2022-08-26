@@ -379,7 +379,8 @@ const ScoreOfStudent = () => {
 				setTodoApi({ ...todoApi })
 			}
 			if (res.status == 204) {
-				showNoti('danger', 'Không có dữ liệu')
+				// showNoti('danger', 'Không có dữ liệu')
+				setStudents([])
 			}
 		} catch (error) {
 		} finally {

@@ -283,7 +283,7 @@ const CreateCourseOnline = () => {
 				}
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy giáo viên!')
+				// showNoti('danger', 'Không tìm thấy giáo viên!')
 				setOptionListForForm((prevState) => ({
 					...prevState,
 					teacherList: []
@@ -481,6 +481,7 @@ const CreateCourseOnline = () => {
 				return false
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'CHECK_SCHEDULE',

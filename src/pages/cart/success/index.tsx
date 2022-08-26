@@ -1,65 +1,68 @@
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { branchApi, studentApi } from '~/apiBase';
-import { shoppingCartApi } from '~/apiBase/shopping-cart/shopping-cart';
-import ResetPassStudent from '~/components/Global/Customer/Student/ResetPassStudent';
-import { useWrap } from '~/context/wrap';
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import { branchApi, studentApi } from '~/apiBase'
+import { shoppingCartApi } from '~/apiBase/shopping-cart/shopping-cart'
+import ResetPassStudent from '~/components/Global/Customer/Student/ResetPassStudent'
+import { useWrap } from '~/context/wrap'
 
 const SuccessCheckout = () => {
-	const router = useRouter();
-	const [isLoading, setIsLoading] = useState({ type: '', status: false });
-	const [statuPayment, setStatuPayment] = useState<IStatusPayment>(null);
-	const { userInformation, pageSize } = useWrap();
-	const [branchInfo, setBranchInfo] = useState<IBranch[]>(null);
+	const router = useRouter()
+	const [isLoading, setIsLoading] = useState({ type: '', status: false })
+	const [statuPayment, setStatuPayment] = useState<IStatusPayment>(null)
+	const { userInformation, pageSize, showNoti } = useWrap()
+	const [branchInfo, setBranchInfo] = useState<IBranch[]>(null)
 
-	console.log(branchInfo);
+	console.log(branchInfo)
 
 	const getStatus = async () => {
 		if (router.query.type === 'cashpayment' || router.query.type === 'transferpayment') {
-			setStatuPayment({ ...statuPayment, StatusName: 'Thành công, hệ thống đã tiếp nhận đơn hàng và đang đợi xác nhận!', Status: 2 });
+			setStatuPayment({ ...statuPayment, StatusName: 'Thành công, hệ thống đã tiếp nhận đơn hàng và đang đợi xác nhận!', Status: 2 })
 		} else if (router.query.type === 'paypal') {
-			setIsLoading({ type: 'GET_ALL', status: true });
+			setIsLoading({ type: 'GET_ALL', status: true })
 			try {
-				let res = await shoppingCartApi.getPaypalStatus({ PayerID: router.query.PayerID, guid: router.query.guid });
+				let res = await shoppingCartApi.getPaypalStatus({ PayerID: router.query.PayerID, guid: router.query.guid })
 				if (res.status === 200) {
-					setStatuPayment(res.data.data);
+					setStatuPayment(res.data.data)
 				}
 			} catch (err) {
+				showNoti('danger', err.message)
 			} finally {
-				setIsLoading({ type: 'GET_ALL', status: false });
+				setIsLoading({ type: 'GET_ALL', status: false })
 			}
 		} else {
-			setIsLoading({ type: 'GET_ALL', status: true });
+			setIsLoading({ type: 'GET_ALL', status: true })
 			try {
-				let res = await shoppingCartApi.getPaymentStatus(router.query.paymentcode);
+				let res = await shoppingCartApi.getPaymentStatus(router.query.paymentcode)
 				if (res.status === 200) {
-					setStatuPayment(res.data.data);
+					setStatuPayment(res.data.data)
 				}
 			} catch (err) {
+				showNoti('danger', err.message)
 			} finally {
-				setIsLoading({ type: 'GET_ALL', status: false });
+				setIsLoading({ type: 'GET_ALL', status: false })
 			}
 		}
-	};
+	}
 
 	const getBranchInfo = async () => {
 		try {
-			let res = await branchApi.getAll({ pageIndex: 1, pageSize: pageSize });
+			let res = await branchApi.getAll({ pageIndex: 1, pageSize: pageSize })
 			if (res.status === 200) {
-				setBranchInfo(res.data.data);
+				setBranchInfo(res.data.data)
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 		}
-	};
+	}
 
 	useEffect(() => {
-		getStatus();
-	}, [router.query.type]);
+		getStatus()
+	}, [router.query.type])
 
 	useEffect(() => {
-		getBranchInfo();
-	}, []);
+		getBranchInfo()
+	}, [])
 
 	return (
 		<div className="success__checkout">
@@ -91,7 +94,7 @@ const SuccessCheckout = () => {
 				<div className="success__checkout-btn">
 					<button
 						onClick={() => {
-							router.push('/');
+							router.push('/')
 						}}
 						className="btn btn-primary mr-1"
 					>
@@ -99,7 +102,7 @@ const SuccessCheckout = () => {
 					</button>
 					<button
 						onClick={() => {
-							router.push('/video-course-student');
+							router.push('/video-course-student')
 						}}
 						className="btn btn-warning ml-1"
 					>
@@ -108,7 +111,7 @@ const SuccessCheckout = () => {
 				</div>
 			</div>
 		</div>
-	);
-};
+	)
+}
 
-export default SuccessCheckout;
+export default SuccessCheckout

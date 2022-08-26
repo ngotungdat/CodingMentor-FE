@@ -80,7 +80,8 @@ function CourseDetailCalendar(props) {
 				setIsLoaded(true)
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Danh sách trống')
+				setCalendarList([])
+				setIsLoaded(true)
 			}
 		} catch (error) {
 			showNoti('error', error.message)
@@ -117,7 +118,7 @@ function CourseDetailCalendar(props) {
 					LinkDocument: res.data.data.LinkDocument
 				})
 				setCalendarList(newCalendarList)
-				showNoti('success', res.data.message)
+				// showNoti('success', res.data.message)
 			}
 			return res
 		} catch (error) {

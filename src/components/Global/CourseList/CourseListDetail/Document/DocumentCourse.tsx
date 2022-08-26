@@ -42,7 +42,7 @@ function DocumentCourse(props) {
 				setCategoryDoc(res.data.data)
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy dữ liệu!')
+				setCategoryDoc([])
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

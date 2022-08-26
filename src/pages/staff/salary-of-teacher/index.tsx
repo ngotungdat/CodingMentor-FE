@@ -51,6 +51,7 @@ const SalaryReview = () => {
 				setPayRoll([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ type: 'GET_ALL', status: false })
 		}

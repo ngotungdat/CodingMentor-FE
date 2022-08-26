@@ -132,7 +132,9 @@ const MultipleForm = (props) => {
 					setIsResetEditor(false)
 				}, 500)
 			}
-		} catch (error) {}
+		} catch (error) {
+			showNoti('danger', error.message)
+		}
 	}
 
 	// Return alphabet

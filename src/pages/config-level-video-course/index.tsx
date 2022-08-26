@@ -56,7 +56,9 @@ const ConfigLevelVideoCourse = (props: IConfigLevelVideoCourseProps) => {
 				showNoti('success', 'Xóa thành công!')
 				getAllType()
 			}
-		} catch (error) {}
+		} catch (error) {
+			showNoti('danger', error.message)
+		}
 	}
 
 	const getAllType = async () => {
@@ -68,6 +70,7 @@ const ConfigLevelVideoCourse = (props: IConfigLevelVideoCourseProps) => {
 				setTotalPage(res.data.totalRow)
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ type: 'GET_ALL', status: false })
 		}

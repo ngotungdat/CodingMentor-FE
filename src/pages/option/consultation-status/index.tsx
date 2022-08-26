@@ -80,7 +80,7 @@ const ConsultationStatus = () => {
 				})
 				res.status == 200 && setConsultationStatus(res.data.data)
 				if (res.status == 204) {
-					showNoti('danger', 'Không tìm thấy dữ liệu!')
+					// showNoti('danger', 'Không tìm thấy dữ liệu!')
 					setCurrentPage(1)
 					setConsultationStatus([])
 					setParams(listParamsDefault)

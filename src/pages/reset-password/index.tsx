@@ -129,7 +129,7 @@ const ResetPassword = () => {
 											}
 										]}
 									>
-										<Input className="style-input" value={valueEmail} disabled={true} />
+										<Input className="style-input px-3" value={valueEmail} disabled={true} />
 									</Form.Item>
 									<Form.Item
 										className="mb-1"
@@ -142,7 +142,7 @@ const ResetPassword = () => {
 											}
 										]}
 									>
-										<Input className="style-input" type="number" />
+										<Input className="none-arrow-input-number style-input px-3" type="number" />
 									</Form.Item>
 									<div className="text-right mb-4">
 										<a href="" onClick={resendEmail}>

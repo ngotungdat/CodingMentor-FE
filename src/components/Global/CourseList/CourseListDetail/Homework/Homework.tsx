@@ -140,9 +140,9 @@ function Homework(props) {
 				})
 				setTotalPage(TotalRow)
 			}
-			if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
-			}
+			// if (res.status === 204) {
+			// 	showNoti('danger', 'Không tìm thấy')
+			// }
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

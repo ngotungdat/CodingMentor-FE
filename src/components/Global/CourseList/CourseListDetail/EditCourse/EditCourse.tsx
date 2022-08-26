@@ -164,7 +164,10 @@ const EditCourse = (props) => {
 						}
 						//
 						if (teacherList.status === 200) {
-							const newOptionTeacherList = [...rs.optionTeacherList, ...fmSelectArr(teacherList.data.data, 'FullNameUnicode', 'UserInformationID', ['name'])]
+							const newOptionTeacherList = [
+								...rs.optionTeacherList,
+								...fmSelectArr(teacherList.data.data, 'FullNameUnicode', 'UserInformationID', ['name'])
+							]
 							const clearDuplicate = clearOptionsDuplicate(newOptionTeacherList)
 							rs.optionTeacherList = clearDuplicate
 						}
@@ -541,7 +544,6 @@ const EditCourse = (props) => {
 			}
 			res = await courseDetailApi.update(scheduleListToSave)
 			if (res.status === 200) {
-				showNoti('success', res.data.message)
 				router.push(`/course/course-list/course-list-detail/${courseID}?type=1`)
 			}
 		} catch (error) {
@@ -639,6 +641,7 @@ const EditCourse = (props) => {
 			}
 		} catch (error) {
 			console.log('fetchStudyTime', error.message)
+			showNoti('danger', error.message)
 		}
 	}
 
@@ -673,7 +676,12 @@ const EditCourse = (props) => {
 				return true
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Không có ca trống')
+				setIsShowSaveBtnGroup(true)
+				setIsLoading({
+					type: 'FETCH_SCHEDULE',
+					status: false
+				})
+				setCalendarList([])
 			}
 		} catch (error) {
 			showNoti('error', error.message)

@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import LayoutBase from '~/components/LayoutBase';
-import { useWrap } from '~/context/wrap';
-import { Select } from 'antd';
-import { studentApi } from '~/apiBase';
-import ExpandTable from '~/components/ExpandTable';
-import { courseOfStudentApi } from '~/apiBase/customer/parents/courses-of-student';
-import { numberWithCommas } from '~/utils/functions';
-import RollUpExpantable from '~/components/Global/Parents/RollUpExpantable';
+import React, { useState, useEffect } from 'react'
+import LayoutBase from '~/components/LayoutBase'
+import { useWrap } from '~/context/wrap'
+import { Select } from 'antd'
+import { studentApi } from '~/apiBase'
+import ExpandTable from '~/components/ExpandTable'
+import { courseOfStudentApi } from '~/apiBase/customer/parents/courses-of-student'
+import { numberWithCommas } from '~/utils/functions'
+import RollUpExpantable from '~/components/Global/Parents/RollUpExpantable'
 
 const RollUpStudent = () => {
-	const [courseOfStudent, setCourseOfStudent] = useState<ICourseOfStudent[]>();
-	const [students, setStudents] = useState<IStudent[]>();
-	const { showNoti, pageSize, userInformation } = useWrap();
-	const [totalPage, setTotalPage] = useState(null);
-	const [currentPage, setCurrentPage] = useState(1);
-	const [studentID, setStudentID] = useState(null);
-	const { Option } = Select;
+	const [courseOfStudent, setCourseOfStudent] = useState<ICourseOfStudent[]>()
+	const [students, setStudents] = useState<IStudent[]>()
+	const { showNoti, pageSize, userInformation } = useWrap()
+	const [totalPage, setTotalPage] = useState(null)
+	const [currentPage, setCurrentPage] = useState(1)
+	const [studentID, setStudentID] = useState(null)
+	const { Option } = Select
 	const [loading, setLoading] = useState({
 		type: '',
 		status: false
-	});
+	})
 
 	const studentParams = {
 		pageSize: pageSize,
@@ -32,7 +32,7 @@ const RollUpStudent = () => {
 		fromDate: null,
 		toDate: null,
 		ParentsOf: userInformation?.UserInformationID
-	};
+	}
 
 	const coursesParamsDefault = {
 		pageIndex: 1,
@@ -46,9 +46,9 @@ const RollUpStudent = () => {
 		CourseOfStudentPriceID: null,
 		FullNameUnicode: null,
 		UserInformationID: studentID
-	};
+	}
 
-	const [coursesParams, setCourseParams] = useState(coursesParamsDefault);
+	const [coursesParams, setCourseParams] = useState(coursesParamsDefault)
 
 	const columns = [
 		{
@@ -86,82 +86,83 @@ const RollUpStudent = () => {
 			dataIndex: 'Commitment',
 			render: (price, record) => <p>{price}</p>
 		}
-	];
+	]
 
 	const getStudents = async () => {
 		setLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await studentApi.getAll(studentParams);
-			console.log(res.data.data[0]);
+			let res = await studentApi.getAll(studentParams)
+			console.log(res.data.data[0])
 			if (res.status === 200) {
-				setStudents(res.data.data);
+				setStudents(res.data.data)
 				// setTodoApi({ ...todoApi });
-				setStudentID({ ID: res.data.data[0].UserInformationID, index: 0 });
+				setStudentID({ ID: res.data.data[0].UserInformationID, index: 0 })
 			}
 			if (res.status == 204) {
-				showNoti('danger', 'Không có dữ liệu');
+				// showNoti('danger', 'Không có dữ liệu');
+				setStudents([])
 			}
 		} catch (error) {
 		} finally {
 			setLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	const getCoursesOfStudent = async () => {
 		setLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await courseOfStudentApi.getAll(coursesParams);
+			let res = await courseOfStudentApi.getAll(coursesParams)
 			if (res.status == 200) {
-				setCourseOfStudent(res.data.data);
-				setTotalPage(res.data.totalRow);
+				setCourseOfStudent(res.data.data)
+				setTotalPage(res.data.totalRow)
 			}
 			if (res.status == 204) {
-				setCourseOfStudent([]);
+				setCourseOfStudent([])
 			}
 		} catch (error) {
 		} finally {
 			setLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	const expandedRowRender = (record) => {
-		return <RollUpExpantable studentID={studentID} courseID={record.CourseID} />;
-	};
+		return <RollUpExpantable studentID={studentID} courseID={record.CourseID} />
+	}
 
 	const onChangeStudentID = (value) => {
-		console.log(value);
-		setCourseParams({ ...coursesParams, UserInformationID: value });
-		setStudentID(value);
-	};
+		console.log(value)
+		setCourseParams({ ...coursesParams, UserInformationID: value })
+		setStudentID(value)
+	}
 
 	const getPagination = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
+		setCurrentPage(pageNumber)
 		setCourseParams({
 			...coursesParams,
 			pageIndex: currentPage
-		});
-	};
+		})
+	}
 
 	useEffect(() => {
-		getCoursesOfStudent();
-	}, [studentID]);
+		getCoursesOfStudent()
+	}, [studentID])
 
 	useEffect(() => {
-		getStudents();
+		getStudents()
 		// getCoursesOfStudent();
-	}, [userInformation]);
+	}, [userInformation])
 
 	return (
 		<>
@@ -176,13 +177,7 @@ const RollUpStudent = () => {
 				TitlePage="Thông tin điểm danh học viên"
 				// TitleCard={}
 				Extra={
-					<Select
-						disabled={false}
-						style={{ width: 200 }}
-						className="style-input"
-						placeholder="Chọn học viên"
-						onChange={onChangeStudentID}
-					>
+					<Select disabled={false} style={{ width: 200 }} className="style-input" placeholder="Chọn học viên" onChange={onChangeStudentID}>
 						{students?.map((item, index) => (
 							<Option key={index} value={item.UserInformationID}>
 								{item.FullNameUnicode}
@@ -195,8 +190,8 @@ const RollUpStudent = () => {
 				}}
 			/>
 		</>
-	);
-};
+	)
+}
 
-RollUpStudent.layout = LayoutBase;
-export default RollUpStudent;
+RollUpStudent.layout = LayoutBase
+export default RollUpStudent

@@ -154,6 +154,7 @@ export const DetailsModal = (props) => {
 			}
 		} catch (err) {
 			console.log(err)
+			showNoti('danger', err.message)
 		}
 		setLoading(false)
 	}
@@ -451,7 +452,12 @@ export const DetailsModal = (props) => {
 													)}
 
 													{!enableEdit ? (
-														<Input className="item-info d-none" prefix="Đề kiểm tra:" value={selected?.ExamTopicName} disabled={!enableEdit} />
+														<Input
+															className="item-info d-none"
+															prefix="Đề kiểm tra:"
+															value={selected?.ExamTopicName}
+															disabled={!enableEdit}
+														/>
 													) : (
 														<Select
 															defaultValue={!!selected.ExamTopicID ? `${selected?.ExamTopicName}` : null}

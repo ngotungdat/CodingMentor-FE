@@ -8,7 +8,7 @@ import { shoppingCartApi } from '~/apiBase/shopping-cart/shopping-cart'
 import { useWrap } from '~/context/wrap'
 
 const Cart = () => {
-	const { reloadNotification } = useWrap()
+	const { reloadNotification, showNoti } = useWrap()
 	const [cartData, setCartData] = useState([])
 	const [productCartData, setProductCartData] = useState([])
 	const [countNoti, setCountNoti] = useState(0)
@@ -35,7 +35,9 @@ const Cart = () => {
 		try {
 			let res = await orderProductDetail.getByToken()
 			res.status === 200 && setProductCartData(res.data.data)
-		} catch (error) {}
+		} catch (error) {
+			showNoti('danger', error.message)
+		}
 	}
 
 	return (

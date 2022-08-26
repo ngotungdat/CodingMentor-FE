@@ -369,6 +369,7 @@ const NewsFeed = () => {
 			res.status === 200 && setBackgroundList(res.data.data)
 		} catch (error) {
 			console.log('fetchBackgroundNewsFeed', error.message)
+			showNoti('danger', error.message)
 		}
 	}
 
@@ -425,6 +426,7 @@ const NewsFeed = () => {
 			res?.status === 204 && setIDListUserLiked([])
 		} catch (error) {
 			console.log('fetchNewsFeedUserLiked', error.message)
+			showNoti('danger', error.message)
 		}
 	}
 
@@ -594,9 +596,10 @@ const NewsFeed = () => {
 				const fmOptionList = fmSelectArr(res.data.data, 'FullNameUnicode', 'UserInformationID')
 				setUserOptionList(fmOptionList)
 			}
-			res?.status === 20 && setUserOptionList([])
+			res?.status === 204 && setUserOptionList([])
 		} catch (error) {
 			console.log('fetchUserByRole', error.message)
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ type: 'FETCH_USER_IN_GROUP', status: false })
 		}

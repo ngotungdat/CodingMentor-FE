@@ -80,9 +80,10 @@ const PackageDetail = () => {
 			let res = await packageApi.getByID(ID)
 			if (res.status === 200) {
 				setPackageInfo(res.data.data)
-			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
 			}
+			// else if (res.status === 204) {
+			// 	showNoti('danger', 'Không tìm thấy')
+			// }
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -103,7 +104,8 @@ const PackageDetail = () => {
 				const fmOptionExamTopicList = fmSelectArr(res.data.data, 'Name', 'ID')
 				setOptionExamTopicList(fmOptionExamTopicList)
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				// showNoti('danger', 'Không tìm thấy')
+				setOptionExamTopicList([])
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

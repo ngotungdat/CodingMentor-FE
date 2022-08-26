@@ -71,12 +71,13 @@ const CourseExamUpdate = (props) => {
 		try {
 			let res = await courseExamApi.update(dataSubmit)
 			if (res.status == 200) {
-				showNoti('success', 'Cập nhật thành công')
+				// showNoti('success', 'Cập nhật thành công')
 				setIsModalVisible(false)
 				onFetchData && onFetchData()
-			} else {
-				showNoti('danger', 'Mạng không ổn định')
 			}
+			// else {
+			// 	showNoti('danger', 'Mạng không ổn định')
+			// }
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

@@ -53,7 +53,7 @@ const VideoCourseStudent = () => {
 			res.status == 200 && (setData(res.data.data), setTotalPage(res.data.totalRow))
 			setRender(res + '')
 		} catch (err) {
-			showNoti('danger', err)
+			showNoti('danger', err.message)
 		} finally {
 			setLoading(false)
 		}

@@ -137,7 +137,7 @@ const ExamList = (props) => {
 				setDataProgram(newData)
 			}
 
-			res.status == 204 && showNoti('danger', 'Chương trình không có dữ liệu')
+			res.status == 204 && setDataProgram([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -161,7 +161,7 @@ const ExamList = (props) => {
 				setDataCurriculum(newData)
 			}
 
-			res.status == 204 && showNoti('danger', 'Giáo trình không có dữ liệu')
+			res.status == 204 && setDataCurriculum([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

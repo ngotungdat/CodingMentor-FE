@@ -54,6 +54,7 @@ const UploadAvatarField = (props) => {
 			}
 		} catch (err) {
 			console.log('UploadAvatarField-handleUploadAvatar', err)
+			showNoti('danger', err.message)
 		} finally {
 			setLoadingImage(false)
 		}

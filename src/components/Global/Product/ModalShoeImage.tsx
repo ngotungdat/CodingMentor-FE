@@ -50,6 +50,7 @@ const ModalShowImage = (props) => {
 					showNoti('success', 'Đổi ảnh thành công!')
 				}
 				if (res.status == 204) {
+					setInitImageArray([])
 				}
 			} catch (err) {
 				showNoti('danger', err.message)

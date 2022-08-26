@@ -117,7 +117,7 @@ const Area = () => {
 					setTotalPage(res.data.totalRow)
 				}
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				// showNoti('danger', 'Không tìm thấy')
 				setAreaList([])
 			}
 		} catch (error) {

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Bar, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis, LineChart } from 'recharts'
 import { Card, Radio, Select, Skeleton } from 'antd'
+import { useWrap } from '~/context/wrap'
 import { statisticalApi } from './../../apiBase/statistical/statistical-total'
 
 const RevenueChart = () => {
 	const [typeView, setTypeView] = useState(3)
+	const { showNoti } = useWrap()
 	const [statisticalRevenueYear, setStatisticalRevenueYear] = useState<IStatRevenueYear[]>([])
 	const [statisticalRevenueMonth, setStatisticalRevenueMonth] = useState<IStatRevenueMonth[]>([])
 	const [statisticalRevenueDay, setStatisticalRevenueDay] = useState<IStatRevenueDay[]>([])
@@ -52,7 +54,7 @@ const RevenueChart = () => {
 				setStatisticalRevenueYear([])
 			}
 		} catch (error) {
-			// showNoti("danger", "get data statistical revenue year error");
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ status: 'GET_STAT_REVENUE', loading: false })
 		}
@@ -69,7 +71,7 @@ const RevenueChart = () => {
 				setStatisticalRevenueMonth([])
 			}
 		} catch (error) {
-			// showNoti("danger", "get data revenue day faile");
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ status: 'GET_STAT_REVENUE', loading: false })
 		}
@@ -86,7 +88,7 @@ const RevenueChart = () => {
 				setStatisticalRevenueDay([])
 			}
 		} catch (error) {
-			// showNoti("danger", "get data revenue day faile");
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ status: 'GET_STAT_REVENUE', loading: false })
 		}

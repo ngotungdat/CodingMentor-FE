@@ -32,7 +32,7 @@ const DragForm = (props: any) => {
 		try {
 			let res: any = await exerciseGroupApi.getWithID(questionData.ID ? questionData.ID : questionData.ExerciseGroupID)
 			res.status == 200 && setQuestion(res.data.data)
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu')
+			res.status == 204 && setQuestion([])
 		} catch (error) {
 			showNoti('danger', error?.message)
 		} finally {

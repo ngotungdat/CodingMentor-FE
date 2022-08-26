@@ -28,7 +28,7 @@ const WarningEvent = (props: any) => {
 		} else {
 			try {
 				const res: any = await CalendarApi.update({ ID: ID, Status: Sta, Reason: reason })
-				if (res.status == 200 || res.status == 204) {
+				if (res.status == 200) {
 					showNoti('success', 'Thành công')
 					getData()
 				}

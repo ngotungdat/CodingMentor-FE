@@ -171,7 +171,7 @@ const ParentsForm = (props) => {
 			}
 
 			res.status == 200 && getDataTolist(res.data.data, name)
-			res.status == 204 && showNoti('danger', name + ' không có dữ liệu')
+			// res.status == 204 && showNoti('danger', name + ' không có dữ liệu')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

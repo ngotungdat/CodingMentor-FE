@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import LayoutBase from '~/components/LayoutBase';
-import { useWrap } from '~/context/wrap';
-import { Select } from 'antd';
-import { numberWithCommas } from '~/utils/functions';
-import { studentApi } from './../../../apiBase/customer/student/student-list';
-import PowerTable from '~/components/PowerTable';
-import { courseOfStudentPriceApi } from '~/apiBase/customer/parents/courses-of-student-price';
-import ExpandTable from '~/components/ExpandTable';
-import NestedTable from '~/components/Elements/NestedTable';
+import React, { useEffect, useState } from 'react'
+import LayoutBase from '~/components/LayoutBase'
+import { useWrap } from '~/context/wrap'
+import { Select } from 'antd'
+import { numberWithCommas } from '~/utils/functions'
+import { studentApi } from './../../../apiBase/customer/student/student-list'
+import PowerTable from '~/components/PowerTable'
+import { courseOfStudentPriceApi } from '~/apiBase/customer/parents/courses-of-student-price'
+import ExpandTable from '~/components/ExpandTable'
+import NestedTable from '~/components/Elements/NestedTable'
 
 const CourseOfStudentPrice = () => {
-	const [dataSource, setDataSource] = useState<ICourseOfStudentPrice[]>();
-	const [students, setStudents] = useState<IStudent[]>();
-	const { showNoti, pageSize, userInformation } = useWrap();
-	const [totalPage, setTotalPage] = useState(null);
-	const [currentPage, setCurrentPage] = useState(1);
-	const [studentID, setStudentID] = useState(null);
+	const [dataSource, setDataSource] = useState<ICourseOfStudentPrice[]>()
+	const [students, setStudents] = useState<IStudent[]>()
+	const { showNoti, pageSize, userInformation } = useWrap()
+	const [totalPage, setTotalPage] = useState(null)
+	const [currentPage, setCurrentPage] = useState(1)
+	const [studentID, setStudentID] = useState(null)
 	const [loading, setLoading] = useState({
 		type: '',
 		status: false
-	});
+	})
 
 	const studentParams = {
 		pageSize: pageSize,
@@ -32,7 +32,7 @@ const CourseOfStudentPrice = () => {
 		fromDate: null,
 		toDate: null,
 		ParentsOf: userInformation?.UserInformationID
-	};
+	}
 
 	const params = {
 		pageIndex: 1,
@@ -44,9 +44,9 @@ const CourseOfStudentPrice = () => {
 		CourseID: null,
 		FullNameUnicode: null,
 		UserInformationID: studentID
-	};
+	}
 
-	const [todoApi, setTodoApi] = useState(params);
+	const [todoApi, setTodoApi] = useState(params)
 
 	const columns = [
 		{
@@ -84,7 +84,7 @@ const CourseOfStudentPrice = () => {
 			dataIndex: 'DonePaid',
 			width: '15%',
 			render: (price, record) => {
-				return record.DonePaid ? <p className="tag green">Đã thanh toán xong</p> : <p className="tag red">Chưa thanh toán xong</p>;
+				return record.DonePaid ? <p className="tag green">Đã thanh toán xong</p> : <p className="tag red">Chưa thanh toán xong</p>
 			}
 		},
 		{
@@ -99,80 +99,81 @@ const CourseOfStudentPrice = () => {
 			width: '15%',
 			render: (price, record) => <p>{price}</p>
 		}
-	];
+	]
 
-	const { Option } = Select;
+	const { Option } = Select
 
 	const getStudents = async () => {
 		setLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await studentApi.getAll(studentParams);
-			console.log(res.data.data[0]);
+			let res = await studentApi.getAll(studentParams)
+			console.log(res.data.data[0])
 			if (res.status === 200) {
-				setStudents(res.data.data);
-				setTodoApi({ ...todoApi });
-				setStudentID({ ID: res.data.data[0].UserInformationID, index: 0 });
+				setStudents(res.data.data)
+				setTodoApi({ ...todoApi })
+				setStudentID({ ID: res.data.data[0].UserInformationID, index: 0 })
 			}
 			if (res.status == 204) {
-				showNoti('danger', 'Không có dữ liệu');
+				// showNoti('danger', 'Không có dữ liệu');
+				setStudents([])
 			}
 		} catch (error) {
 		} finally {
 			setLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	const getCoursesOfStudentPrice = async () => {
 		setLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await courseOfStudentPriceApi.getAll(todoApi);
+			let res = await courseOfStudentPriceApi.getAll(todoApi)
 			if (res.status == 200) {
-				setDataSource(res.data.data);
-				console.log(res.data.data);
+				setDataSource(res.data.data)
+				console.log(res.data.data)
 			}
 			if (res.status == 204) {
-				setDataSource([]);
+				setDataSource([])
 			}
 		} catch (error) {
-			console.log(error.message);
+			console.log(error.message)
 		} finally {
 			setLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	useEffect(() => {
-		getStudents();
-	}, [userInformation]);
+		getStudents()
+	}, [userInformation])
 
 	useEffect(() => {
-		getCoursesOfStudentPrice();
-	}, [studentID]);
+		getCoursesOfStudentPrice()
+	}, [studentID])
 
 	const onChangeStudentID = (value) => {
-		console.log(value);
-		setTodoApi({ ...todoApi, UserInformationID: value });
-		setStudentID(value);
-	};
+		console.log(value)
+		setTodoApi({ ...todoApi, UserInformationID: value })
+		setStudentID(value)
+	}
 
 	const getPagination = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
+		setCurrentPage(pageNumber)
 		setTodoApi({
 			...todoApi,
 			pageIndex: currentPage
-		});
-	};
+		})
+	}
 
 	const expandColumns = [
 		{
@@ -185,11 +186,11 @@ const CourseOfStudentPrice = () => {
 			dataIndex: 'TypeCourseName',
 			render: (price, record) => <p className="font-weight-primary">{price}</p>
 		}
-	];
+	]
 
 	const expandedRowRender = (record) => {
-		return <NestedTable columns={expandColumns} dataSource={record.Course} />;
-	};
+		return <NestedTable columns={expandColumns} dataSource={record.Course} />
+	}
 
 	return (
 		<>
@@ -224,7 +225,7 @@ const CourseOfStudentPrice = () => {
 				}}
 			/>
 		</>
-	);
-};
-CourseOfStudentPrice.layout = LayoutBase;
-export default CourseOfStudentPrice;
+	)
+}
+CourseOfStudentPrice.layout = LayoutBase
+export default CourseOfStudentPrice

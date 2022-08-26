@@ -37,6 +37,7 @@ const ModalTypeVideoCourse = (props: Props) => {
 				form.resetFields()
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading(false)
 		}

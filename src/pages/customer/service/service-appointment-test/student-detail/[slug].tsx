@@ -210,7 +210,7 @@ const CustomerDetail = () => {
 
 					res.status == 200 && getDataTolist(res.data.data, item.name)
 
-					res.status == 204 && showNoti('danger', item.text + ' Không có dữ liệu')
+					// res.status == 204 && showNoti('danger', item.text + ' Không có dữ liệu')
 				} catch (error) {
 					showNoti('danger', error.message)
 				} finally {
@@ -225,8 +225,8 @@ const CustomerDetail = () => {
 	const getDataStudent = async () => {
 		try {
 			let res = await studentApi.getWithID(studentID)
-			res.status == 200 && (showNoti('success', 'Tải dữ liệu thành công'), setDataRow(res.data.data))
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu')
+			res.status == 200 && setDataRow(res.data.data)
+			// res.status == 204 && setDataRow()
 		} catch (error) {
 			showNoti('danger', error.message)
 		}

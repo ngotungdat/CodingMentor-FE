@@ -299,7 +299,7 @@ const CourseStudent = () => {
 				setDataFunc('BranchID', newData)
 			}
 
-			res.status == 204 && console.log('Trung tâm Không có dữ liệu')
+			// res.status == 204 && console.log('Trung tâm Không có dữ liệu')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -317,7 +317,7 @@ const CourseStudent = () => {
 				setDataFunc('CourseID', newData)
 			}
 
-			res.status == 204 && console.log('Khóa học Không có dữ liệu')
+			// res.status == 204 && console.log('Khóa học Không có dữ liệu')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

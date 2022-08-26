@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { studentApi } from '~/apiBase';
-import { useWrap } from '~/context/wrap';
-import { Select } from 'antd';
-import PowerTable from '~/components/PowerTable';
-import LayoutBase from '~/components/LayoutBase';
-import { scheduleOfStudentApi } from './../../../apiBase/customer/parents/schedule-of-student';
-import moment from 'moment';
+import React, { useState, useEffect } from 'react'
+import { studentApi } from '~/apiBase'
+import { useWrap } from '~/context/wrap'
+import { Select } from 'antd'
+import PowerTable from '~/components/PowerTable'
+import LayoutBase from '~/components/LayoutBase'
+import { scheduleOfStudentApi } from './../../../apiBase/customer/parents/schedule-of-student'
+import moment from 'moment'
 
 const ScheduleOfStudent = () => {
-	const [dataSource, setDataSource] = useState<IScheduleOfStudent[]>();
-	const [students, setStudents] = useState<IStudent[]>();
-	const { showNoti, pageSize, userInformation } = useWrap();
-	const [totalPage, setTotalPage] = useState(null);
-	const [currentPage, setCurrentPage] = useState(1);
-	const [studentID, setStudentID] = useState(null);
+	const [dataSource, setDataSource] = useState<IScheduleOfStudent[]>()
+	const [students, setStudents] = useState<IStudent[]>()
+	const { showNoti, pageSize, userInformation } = useWrap()
+	const [totalPage, setTotalPage] = useState(null)
+	const [currentPage, setCurrentPage] = useState(1)
+	const [studentID, setStudentID] = useState(null)
 	const [loading, setLoading] = useState({
 		type: '',
 		status: false
-	});
+	})
 
 	const studentParams = {
 		pageSize: pageSize,
@@ -30,13 +30,13 @@ const ScheduleOfStudent = () => {
 		fromDate: null,
 		toDate: null,
 		ParentsOf: userInformation?.UserInformationID
-	};
+	}
 
 	const params = {
 		StudentID: null,
 		StartTime: '2021-06-06',
 		EndTime: '2021-11-30'
-	};
+	}
 
 	const columns = [
 		{
@@ -87,79 +87,80 @@ const ScheduleOfStudent = () => {
 			width: 150,
 			render: (price, record) => <p className="font-weight-primary">{price}</p>
 		}
-	];
+	]
 
-	const [todoApi, setTodoApi] = useState(params);
+	const [todoApi, setTodoApi] = useState(params)
 
-	const { Option } = Select;
+	const { Option } = Select
 
 	const getStudents = async () => {
 		setLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 		try {
-			let res = await studentApi.getAll(studentParams);
-			console.log(res.data.data[0]);
+			let res = await studentApi.getAll(studentParams)
+			console.log(res.data.data[0])
 			if (res.status === 200) {
-				setStudents(res.data.data);
-				setTodoApi({ ...todoApi });
+				setStudents(res.data.data)
+				setTodoApi({ ...todoApi })
 			}
 			if (res.status == 204) {
-				showNoti('danger', 'Không có dữ liệu');
+				// showNoti('danger', 'Không có dữ liệu');
+				setStudents([])
 			}
 		} catch (error) {
 		} finally {
 			setLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	const getStudentSchedule = async () => {
 		setLoading({
 			type: 'GET_ALL',
 			status: true
-		});
+		})
 
 		try {
-			let res = await scheduleOfStudentApi.getID(todoApi);
+			let res = await scheduleOfStudentApi.getID(todoApi)
 			if (res.status == 200) {
-				setDataSource(res.data.data);
+				setDataSource(res.data.data)
 			}
 			if (res.status == 204) {
-				setDataSource([]);
+				setDataSource([])
 			}
 		} catch (error) {
 		} finally {
 			setLoading({
 				type: 'GET_ALL',
 				status: false
-			});
+			})
 		}
-	};
+	}
 
 	useEffect(() => {
-		getStudents();
-	}, [userInformation]);
+		getStudents()
+	}, [userInformation])
 
 	useEffect(() => {
-		getStudentSchedule();
-	}, [studentID]);
+		getStudentSchedule()
+	}, [studentID])
 
 	const onChangeStudentID = (value) => {
-		console.log(todoApi);
-		setStudentID(value);
-		setTodoApi({ ...todoApi, StudentID: value });
-	};
+		console.log(todoApi)
+		setStudentID(value)
+		setTodoApi({ ...todoApi, StudentID: value })
+	}
 
 	const getPagination = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
+		setCurrentPage(pageNumber)
 		setTodoApi({
 			...todoApi
-		});
-	};
+		})
+	}
 
 	return (
 		<>
@@ -191,8 +192,8 @@ const ScheduleOfStudent = () => {
 				}
 			/>
 		</>
-	);
-};
+	)
+}
 
-ScheduleOfStudent.layout = LayoutBase;
-export default ScheduleOfStudent;
+ScheduleOfStudent.layout = LayoutBase
+export default ScheduleOfStudent

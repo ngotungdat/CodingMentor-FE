@@ -112,7 +112,9 @@ const VideoCourseStore = () => {
 				setRender(res + '')
 				setIsLoading({ type: 'GET_ALL', status: false })
 			}
-		} catch (err) {}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
 	}
 
 	// GET TEACHER LEVEL
@@ -224,7 +226,7 @@ const VideoCourseStore = () => {
 		try {
 			const res = await VideoCourseStoreApi.add(temp)
 			res.status == 200 && showNoti('success', 'Thêm thành công')
-			res.status !== 200 && showNoti('danger', 'Thêm không thành công')
+			// res.status !== 200 && showNoti('danger', 'Thêm không thành công')
 			getAllArea()
 		} catch (error) {
 			showNoti('danger', 'Thêm không thành công')
@@ -276,7 +278,7 @@ const VideoCourseStore = () => {
 		try {
 			const res = await VideoCourseListApi.updateActiveCode(param)
 			res.status == 200 && showNoti('success', 'Thành công')
-			res.status === 204 && showNoti('danger', 'Thành công')
+			// res.status === 204 && showNoti('danger', 'Thành công')
 			getAllArea()
 		} catch (error) {
 			showNoti('danger', error.message)

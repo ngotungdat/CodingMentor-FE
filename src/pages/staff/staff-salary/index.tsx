@@ -84,7 +84,7 @@ const StaffSalary = () => {
 			try {
 				let res = await staffSalaryApi.getAll(todoApi)
 				if (res.status == 204) {
-					showNoti('danger', 'Không có dữ liệu')
+					// showNoti('danger', 'Không có dữ liệu')
 					//handleReset()
 					setDataTable([])
 				}

@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from './RegisterForm.module.scss'
 import { useRouter } from 'next/router'
 import { Toaster } from 'react-hot-toast'
-import { Form, Spin } from 'antd'
-import { userApi } from '~/apiBase'
+import { Form, Spin, Modal } from 'antd'
+import { rulesApi, userApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import { signIn } from 'next-auth/react'
 import clsx from 'clsx'
 import { useToggle } from '~/context/useToggle'
+import ReactHtmlParser from 'react-html-parser'
 
 type Inputs = {
 	text: string
@@ -25,8 +26,10 @@ interface RegisterInputs {
 function RegisterForm() {
 	const router = useRouter()
 	const [count, setCount] = useState(3)
+	const [isModalVisible, setIsModalVisible] = useState(false)
 	const [isAgreed, ToggleAgreed] = useToggle(true)
 	const { register, handleSubmit } = useForm<RegisterInputs>()
+	const [rule, setRule] = useState('')
 
 	const [loading, setLoading] = useState(false)
 	const [isSuccess, setIsSuccess] = useState(false)
@@ -74,6 +77,32 @@ function RegisterForm() {
 		router.push('/auth/signin')
 	}
 
+	const getRule = async () => {
+		try {
+			const res = await rulesApi.getAll({})
+			if (res.status === 200) {
+				setRule(res.data.data.RulesContent)
+			}
+			if (res.status === 204) {
+				setRule('')
+			}
+		} catch (error) {
+			showNoti('danger', error.message)
+		}
+	}
+
+	useEffect(() => {
+		getRule()
+	}, [])
+
+	const showModal = () => {
+		setIsModalVisible(true)
+	}
+
+	const handleCancel = () => {
+		setIsModalVisible(false)
+	}
+
 	return (
 		<>
 			<Toaster position="top-center" />
@@ -118,6 +147,7 @@ function RegisterForm() {
 									<Form.Item label=" Số điện thoại" name="Mobile" rules={[{ required: true, message: 'Hãy điền số điện thoại!' }]}>
 										<div className={clsx('form-control-input', styles.inputIcon)}>
 											<input
+												className={styles.inputPhoneNumber}
 												type="number"
 												name="Mobile"
 												defaultValue=""
@@ -142,7 +172,24 @@ function RegisterForm() {
 
 									<div className={styles.checkbox}>
 										<input type="checkbox" checked={isAgreed} onChange={ToggleAgreed} />
-										<label>Đồng ý với các điều khoản của chúng tôi</label>
+										<label>
+											Đồng ý với các
+											<button type="button" onClick={showModal} className={styles.ruleTitle}>
+												điều khoản
+											</button>
+											của chúng tôi
+										</label>
+										<Modal
+											centered
+											width={1000}
+											className={styles.modal}
+											title="Điều khoản"
+											onCancel={handleCancel}
+											visible={isModalVisible}
+											footer={null}
+										>
+											{ReactHtmlParser(rule)}
+										</Modal>
 									</div>
 
 									<div className={styles.boxSubmit}>

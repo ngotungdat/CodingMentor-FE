@@ -1,30 +1,30 @@
-import { Tooltip } from 'antd';
-import moment from 'moment';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { Eye } from 'react-feather';
-import { branchApi, courseApi } from '~/apiBase';
-import { courseStudentPriceApi } from '~/apiBase/customer/student/course-student-price';
-import NestedTable from '~/components/Elements/NestedTable';
-import LayoutBase from '~/components/LayoutBase';
-import FilterColumn from '~/components/Tables/FilterColumn';
-import { useWrap } from '~/context/wrap';
-import CourseOfStudentPriceForm from '../Finance/CourseOfStudentPrice/CourseStudentPriceForm';
+import { Tooltip } from 'antd'
+import moment from 'moment'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+import { Eye } from 'react-feather'
+import { branchApi, courseApi } from '~/apiBase'
+import { courseStudentPriceApi } from '~/apiBase/customer/student/course-student-price'
+import NestedTable from '~/components/Elements/NestedTable'
+import LayoutBase from '~/components/LayoutBase'
+import FilterColumn from '~/components/Tables/FilterColumn'
+import { useWrap } from '~/context/wrap'
+import CourseOfStudentPriceForm from '../Finance/CourseOfStudentPrice/CourseStudentPriceForm'
 
 const StudentPay = (props) => {
-	const { CourseOfStudentPriceID } = props;
+	const { CourseOfStudentPriceID } = props
 	const onSearch = (data) => {
-		setCurrentPage(1);
+		setCurrentPage(1)
 		setParams({
 			...listParamsDefault,
 			FullNameUnicode: data
-		});
-	};
+		})
+	}
 
 	const handleReset = () => {
-		setCurrentPage(1);
-		setParams(listParamsDefault);
-	};
+		setCurrentPage(1)
+		setParams(listParamsDefault)
+	}
 	const columns = [
 		{
 			title: 'Học viên',
@@ -97,8 +97,8 @@ const StudentPay = (props) => {
 				</>
 			)
 		}
-	];
-	const [currentPage, setCurrentPage] = useState(1);
+	]
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const listParamsDefault = {
 		pageSize: 10,
@@ -111,7 +111,7 @@ const StudentPay = (props) => {
 		CourseID: null,
 		FullNameUnicode: null,
 		DonePaid: null
-	};
+	}
 
 	const sortOption = [
 		{
@@ -128,7 +128,7 @@ const StudentPay = (props) => {
 			value: 2,
 			text: 'Từ dưới lên'
 		}
-	];
+	]
 
 	const [dataFilter, setDataFilter] = useState([
 		{
@@ -154,7 +154,7 @@ const StudentPay = (props) => {
 			type: 'date-range',
 			value: null
 		}
-	]);
+	])
 
 	const handleFilter = (listFilter) => {
 		let newListFilter = {
@@ -164,130 +164,130 @@ const StudentPay = (props) => {
 			BranchID: null,
 			CourseID: null,
 			DonePaid: null
-		};
+		}
 		listFilter.forEach((item, index) => {
-			let key = item.name;
+			let key = item.name
 			Object.keys(newListFilter).forEach((keyFilter) => {
 				if (keyFilter == key) {
-					newListFilter[key] = item.value;
+					newListFilter[key] = item.value
 				}
-			});
-		});
-		setParams({ ...listParamsDefault, ...newListFilter, pageIndex: 1 });
-	};
+			})
+		})
+		setParams({ ...listParamsDefault, ...newListFilter, pageIndex: 1 })
+	}
 
 	const handleSort = async (option) => {
 		setParams({
 			...listParamsDefault,
 			sortType: option.title.sortType
-		});
-	};
+		})
+	}
 
-	const [params, setParams] = useState(listParamsDefault);
-	const { showNoti } = useWrap();
-	const [totalPage, setTotalPage] = useState(null);
-	const [courseStudentPrice, setCourseStudentPrice] = useState<ICourseOfStudentPrice[]>([]);
+	const [params, setParams] = useState(listParamsDefault)
+	const { showNoti } = useWrap()
+	const [totalPage, setTotalPage] = useState(null)
+	const [courseStudentPrice, setCourseStudentPrice] = useState<ICourseOfStudentPrice[]>([])
 	const [isLoading, setIsLoading] = useState({
 		type: 'GET_ALL',
 		status: false
-	});
+	})
 
 	const setDataFunc = (name, data) => {
 		dataFilter.every((item, index) => {
 			if (item.name == name) {
-				item.optionList = data;
-				return false;
+				item.optionList = data
+				return false
 			}
-			return true;
-		});
-		setDataFilter([...dataFilter]);
-	};
+			return true
+		})
+		setDataFilter([...dataFilter])
+	}
 
 	const getDataCenter = async () => {
 		try {
-			let res = await branchApi.getAll({ pageSize: 99999, pageIndex: 1 });
+			let res = await branchApi.getAll({ pageSize: 99999, pageIndex: 1 })
 			if (res.status == 200) {
 				const newData = res.data.data.map((item) => ({
 					title: item.BranchName,
 					value: item.ID
-				}));
-				setDataFunc('PayBranchID', newData);
+				}))
+				setDataFunc('PayBranchID', newData)
 			}
 
-			res.status == 204 && showNoti('danger', 'Trung tâm Không có dữ liệu');
+			// res.status == 204 && showNoti('danger', 'Trung tâm Không có dữ liệu');
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 		}
-	};
+	}
 
 	const getDataCourse = async () => {
 		try {
-			let res = await courseApi.getAll({ pageSize: 99999, pageIndex: 1 });
+			let res = await courseApi.getAll({ pageSize: 99999, pageIndex: 1 })
 			if (res.status == 200) {
 				const newData = res.data.data.map((item) => ({
 					title: item.CourseName,
 					value: item.ID
-				}));
-				setDataFunc('CourseID', newData);
+				}))
+				setDataFunc('CourseID', newData)
 			}
 
-			res.status == 204 && showNoti('danger', 'Trung tâm Không có dữ liệu');
+			// res.status == 204 && showNoti('danger', 'Trung tâm Không có dữ liệu')
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
 		}
-	};
+	}
 
 	useEffect(() => {
-		getDataCenter();
-		getDataCourse();
-	}, []);
+		getDataCenter()
+		getDataCourse()
+	}, [])
 
 	const getPagination = (pageNumber: number, pageSize: number) => {
-		if (!pageSize) pageSize = 10;
-		setCurrentPage(pageNumber);
+		if (!pageSize) pageSize = 10
+		setCurrentPage(pageNumber)
 		setParams({
 			...params,
 			pageSize,
 			pageIndex: currentPage
-		});
-	};
+		})
+	}
 
 	const getDataCourseStudentPrice = (page: any) => {
 		setIsLoading({
 			type: 'GET_ALL',
 			status: true
-		});
-		(async () => {
+		})
+		;(async () => {
 			try {
-				let res = await courseStudentPriceApi.getDetail(CourseOfStudentPriceID);
+				let res = await courseStudentPriceApi.getDetail(CourseOfStudentPriceID)
 				//@ts-ignore
 				if (res.status == 200) {
-					let arr = [];
-					arr.push(res.data.data);
-					setCourseStudentPrice(arr);
+					let arr = []
+					arr.push(res.data.data)
+					setCourseStudentPrice(arr)
 				}
 
 				if (res.status == 204) {
-					showNoti('danger', 'Không tìm thấy dữ liệu!');
-					setCurrentPage(1);
-					setParams(listParamsDefault);
-				} else setTotalPage(res.data.totalRow);
+					// showNoti('danger', 'Không tìm thấy dữ liệu!')
+					setCurrentPage(1)
+					setParams(listParamsDefault)
+				} else setTotalPage(res.data.totalRow)
 			} catch (error) {
-				showNoti('danger', error.message);
+				showNoti('danger', error.message)
 			} finally {
 				setIsLoading({
 					type: 'GET_ALL',
 					status: false
-				});
+				})
 			}
-		})();
-	};
+		})()
+	}
 
 	useEffect(() => {
-		getDataCourseStudentPrice(currentPage);
-	}, [params]);
+		getDataCourseStudentPrice(currentPage)
+	}, [params])
 
 	return (
 		<NestedTable
@@ -299,7 +299,7 @@ const StudentPay = (props) => {
 			dataSource={courseStudentPrice}
 			columns={columns}
 		/>
-	);
-};
-StudentPay.layout = LayoutBase;
-export default StudentPay;
+	)
+}
+StudentPay.layout = LayoutBase
+export default StudentPay

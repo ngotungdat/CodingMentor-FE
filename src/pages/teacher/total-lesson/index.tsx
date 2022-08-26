@@ -39,6 +39,7 @@ const TeacherTotalLesson = () => {
 				setTeacherLessons([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ type: 'GET_ALL', status: false })
 		}

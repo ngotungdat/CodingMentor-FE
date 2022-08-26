@@ -134,7 +134,7 @@ function RollUp(props) {
 				setFilters({
 					...filters
 				})
-				showNoti('success', res.data.message)
+				// showNoti('success', res.data.message)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -199,9 +199,9 @@ function RollUp(props) {
 				})
 				setTotalPage(TotalRow)
 			}
-			if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
-			}
+			// if (res.status === 204) {
+			// 	showNoti('danger', 'Không tìm thấy')
+			// }
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

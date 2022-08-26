@@ -70,7 +70,7 @@ const Curriculum = (props) => {
 		try {
 			let res = await programApi.getAll(todoApi)
 			res.status == 200 && setDataProgram(res.data.data)
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu')
+			res.status == 204 && setDataProgram([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -83,11 +83,12 @@ const Curriculum = (props) => {
 			if (res.status == 200) {
 				if (res.data.data.length > 0) {
 					setDataSubject(res.data.data)
-				} else {
-					showNoti('danger', 'Không có dữ liệu môn học')
 				}
+				// else {
+				// 	showNoti('danger', 'Không có dữ liệu môn học')
+				// }
 			}
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu')
+			res.status == 204 && setDataSubject([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		}
@@ -268,9 +269,10 @@ const PickAllSubject = (props) => {
 				setIsModalVisible(false)
 				onFetchData()
 				setValueSubject(null)
-			} else {
-				showNoti('danger', 'Đường truyền mạng đang không ổn định')
 			}
+			// else {
+			// 	showNoti('danger', 'Đường truyền mạng đang không ổn định')
+			// }
 		} catch (error) {
 			showNoti('error', error.message)
 		} finally {

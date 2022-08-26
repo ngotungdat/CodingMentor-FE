@@ -39,9 +39,9 @@ const DocumentListFromDetail = () => {
 				setDocInfo({ CategoryID: res.data.data[0].ID, DocumentName: res.data.data[0].CategoryName });
 				setCategoryID(res.data.data[0].ID);
 			}
-			if (res.status == 204) {
-				showNoti('danger', 'Không tìm thấy dữ liệu!');
-			}
+			// if (res.status == 204) {
+			// 	showNoti('danger', 'Không tìm thấy dữ liệu!');
+			// }
 		} catch (error) {
 			showNoti('danger', error.message);
 		} finally {

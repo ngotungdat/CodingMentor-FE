@@ -197,6 +197,7 @@ const ExamDetail = () => {
 				setDataChange([...dataChange])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading(false)
 		}

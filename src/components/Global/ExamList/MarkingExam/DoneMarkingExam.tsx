@@ -103,7 +103,7 @@ const DoneMarkingExam = (props) => {
 			}
 
 			if (res.status === 200) {
-				showNoti('success', 'Hoàn tất chấm bài')
+				showNoti('success', res.data.message)
 				onDoneMarking && onDoneMarking()
 				setIsModalVisible(false)
 			}

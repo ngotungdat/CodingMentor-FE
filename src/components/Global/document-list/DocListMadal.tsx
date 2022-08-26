@@ -27,7 +27,7 @@ const DocListModal = ({ type, docInfo, onFetchDataForm, docID, docName }) => {
 		try {
 			let res = await documentListApi.add(dataUpdate)
 			if (res.status === 200) {
-				showNoti('showNoti', 'Thành công!')
+				showNoti('success', res.data.message)
 				onFetchDataForm && onFetchDataForm()
 				setIsVisible(false)
 				form.resetFields()
@@ -51,7 +51,7 @@ const DocListModal = ({ type, docInfo, onFetchDataForm, docID, docName }) => {
 		try {
 			let res = await documentListApi.update(dataUpdate)
 			if (res.status === 200) {
-				showNoti('showNoti', 'Thành công!')
+				showNoti('success', res.data.message)
 				onFetchDataForm && onFetchDataForm()
 				setIsVisible(false)
 				form.resetFields()

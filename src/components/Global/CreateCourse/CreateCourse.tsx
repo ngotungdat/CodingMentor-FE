@@ -292,7 +292,7 @@ const CreateCourseOffline = () => {
 				}
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy giáo viên!')
+				// showNoti('danger', 'Không tìm thấy giáo viên!')
 				setOptionListForForm((prevState) => ({
 					...prevState,
 					teacherList: []
@@ -325,7 +325,7 @@ const CreateCourseOffline = () => {
 				}))
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy phòng học!')
+				// showNoti('danger', 'Không tìm thấy phòng học!')
 				setOptionListForForm((prevState) => ({
 					...prevState,
 					roomList: []
@@ -525,6 +525,7 @@ const CreateCourseOffline = () => {
 				return false
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'CHECK_SCHEDULE',

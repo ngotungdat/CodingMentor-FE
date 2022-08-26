@@ -276,6 +276,7 @@ const EditSelfCourse = (props) => {
 				return false
 			}
 		} catch (error) {
+			showNoti('danger', error?.message)
 		} finally {
 			setIsLoading({
 				type: 'CHECK_SCHEDULE',
@@ -333,6 +334,7 @@ const EditSelfCourse = (props) => {
 				return false
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'CHECK_SCHEDULE',
@@ -639,7 +641,6 @@ const EditSelfCourse = (props) => {
 			isMounted = false
 		}
 	}, [])
-
 
 	return (
 		<div className="create-course edit-course">

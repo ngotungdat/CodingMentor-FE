@@ -168,7 +168,7 @@ const StudentFormModal = (props) => {
 
 			res.status == 200 && getDataTolist(res.data.data, name)
 
-			res.status == 204 && showNoti('danger', name + ' không có dữ liệu')
+			// res.status == 204 && showNoti('danger', name + ' không có dữ liệu')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -336,8 +336,8 @@ const StudentFormModal = (props) => {
 		try {
 			let res = await studentApi.getAll({ Email: valueEmail })
 
-			res?.status == 200 && (showNoti('success', 'Tìm kiếm thành công'), handleDataRow(res.data.data[0]), setIsSearch(true))
-			res?.status == 204 && (showNoti('danger', 'Không tìm thấy email'), form.reset(defaultValuesInit), setIsSearch(false), setImageUrl(''))
+			res?.status == 200 && (handleDataRow(res.data.data[0]), setIsSearch(true))
+			res?.status == 204 && (form.reset(defaultValuesInit), setIsSearch(false), setImageUrl(''))
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

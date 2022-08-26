@@ -30,7 +30,8 @@ const ScheduleStudyTeacher = () => {
 				setScheduleTeacherList(res.data.data)
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Lịch dạy trống')
+				// showNoti('danger', 'Lịch dạy trống')
+				setScheduleTeacherList([])
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

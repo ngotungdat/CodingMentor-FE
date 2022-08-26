@@ -138,6 +138,7 @@ const ScheduleOfflineItem = (props) => {
 				setListRoom(newRoomList)
 			}
 			if (res.status === 204) {
+				setListRoom([])
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

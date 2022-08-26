@@ -164,7 +164,7 @@ const PackageStore = () => {
 			if (res.status === 204) {
 				setStorePackageList([])
 				setTotalPage(0)
-				showNoti('danger', 'Cửa hàng trống')
+				// showNoti('danger', 'Cửa hàng trống')
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

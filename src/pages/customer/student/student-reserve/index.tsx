@@ -334,7 +334,7 @@ const StudentCourseReserve = () => {
 				setDataFunc('BranchID', newData)
 			}
 
-			res.status == 204 && showNoti('danger', 'Trung tâm Không có dữ liệu')
+			// res.status == 204 && showNoti('danger', 'Trung tâm Không có dữ liệu')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -351,7 +351,7 @@ const StudentCourseReserve = () => {
 				}))
 				setDataFunc('ProgramID', newData)
 			}
-			res.status == 204 && showNoti('danger', 'Chương trình học Không có dữ liệu')
+			// res.status == 204 && showNoti('danger', 'Chương trình học Không có dữ liệu')
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -382,7 +382,7 @@ const StudentCourseReserve = () => {
 				//@ts-ignore
 				res.status == 200 && setStudentCourseReserve(res.data.data)
 				if (res.status == 204) {
-					showNoti('danger', 'Không tìm thấy dữ liệu!')
+					// showNoti('danger', 'Không tìm thấy dữ liệu!')
 					setCurrentPage(1)
 					setParams(listParamsDefault)
 					setStudentCourseReserve([])

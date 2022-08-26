@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { List, Spin } from 'antd'
 import { VideoCourseDetailApi } from '~/apiBase/video-course-details'
 import { ChevronDown, ChevronRight } from 'react-feather'
+import { useWrap } from '~/context/wrap'
 
 const SHOW_TIME = false
 
@@ -10,7 +11,7 @@ const RenderSubItemContent = (props) => {
 	return (
 		<div className="row m-0 item sub-item" style={{ borderBottomWidth: 0.5 }}>
 			<div className="row m-0">
-				<i className="fas fa-play-circle" style={{marginTop: 5}} />
+				<i className="fas fa-play-circle" style={{ marginTop: 5 }} />
 				<span className="ml-3" style={{ flex: 1 }}>
 					{item?.Title}
 				</span>
@@ -21,11 +22,12 @@ const RenderSubItemContent = (props) => {
 }
 
 const RenderItemContent = (props) => {
-	const { item, data , Index} = props
+	const { item, data, Index } = props
 	const [loading, setLoading] = useState(false)
 	const [show, setShow] = useState(false)
 	const [isFirst, setFirst] = useState(true)
 	const [lessons, setLessons] = useState([])
+	const { showNoti } = useWrap()
 
 	// CALL API LESSON
 	const getCourseLesson = async (param) => {
@@ -36,6 +38,7 @@ const RenderItemContent = (props) => {
 			res.status == 204 && (setLessons([]), setShow(true), setFirst(false))
 		} catch (error) {
 			console.log(error)
+			showNoti('danger', error.message)
 		} finally {
 			setLoading(false)
 		}
@@ -62,9 +65,7 @@ const RenderItemContent = (props) => {
 					</p>
 				</div>
 				{/*  */}
-				<span className="ml-3">
-					{loading ? <Spin size="small" /> : <>{show ? <ChevronDown/> : <ChevronRight/>}</>}
-				</span>
+				<span className="ml-3">{loading ? <Spin size="small" /> : <>{show ? <ChevronDown /> : <ChevronRight />}</>}</span>
 			</div>
 			{show && (
 				<List

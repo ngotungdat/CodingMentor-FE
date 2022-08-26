@@ -2,8 +2,10 @@ import { Skeleton } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { statisticalApi } from '~/apiBase/statistical/statistical-total'
 import BarChartStatistical from './BarChart'
+import { useWrap } from '~/context/wrap'
 
 const StatisticalRate = () => {
+	const { showNoti } = useWrap()
 	const [statisticalPercentStudentBySource, setStatisticalPercentStudentBySource] = useState<IStatDataBarChart[]>([])
 	const [isLoading, setIsLoading] = useState({ status: '', loading: false })
 
@@ -27,6 +29,7 @@ const StatisticalRate = () => {
 				setStatisticalPercentStudentBySource([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ status: 'GET_STAT_PERCENT_STUDENT_BY_SOURCE', loading: false })
 		}

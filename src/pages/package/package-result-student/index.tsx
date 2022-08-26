@@ -350,7 +350,7 @@ const PackageResultStudent = (props: IPackageResult) => {
 				const newData = res.data.data.map((item) => ({ title: item.SetPackageName, value: item.ID }))
 				setDataFunc('SetPackageDetailID', newData)
 			}
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu bộ đề này!')
+			// res.status == 204 && showNoti('danger', 'Không có dữ liệu bộ đề này!')
 		} catch (error) {
 			showNoti('danger', error.message)
 		}

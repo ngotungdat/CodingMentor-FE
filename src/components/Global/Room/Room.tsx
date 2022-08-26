@@ -173,8 +173,8 @@ const Room = () => {
 
 		try {
 			let res = await roomApi.getAll(todoApi)
-			res.status == 200 && (setRoomData(res.data.data), setTotalPage(res.data.totalRow), showNoti('success', 'Thành công'))
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu')
+			res.status == 200 && (setRoomData(res.data.data), setTotalPage(res.data.totalRow))
+			res.status == 204 && setRoomData([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

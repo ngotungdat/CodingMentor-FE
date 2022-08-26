@@ -56,7 +56,7 @@ const RegCourse = React.memo((props: any) => {
 				})
 				_course.status == 200 && setCourse(_course.data.data)
 				if (_course.status == 204) {
-					showNoti('warning', 'Trung tâm đang chọn hiện chưa có khóa học!!')
+					// showNoti('warning', 'Trung tâm đang chọn hiện chưa có khóa học!!')
 					setCourse(null)
 				}
 			} catch (err) {

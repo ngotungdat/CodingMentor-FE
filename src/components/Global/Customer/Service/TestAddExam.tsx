@@ -1,58 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, Select, Tooltip } from 'antd';
-import { DiffOutlined } from '@ant-design/icons';
-import { testCustomerApi } from '~/apiBase';
-import { useWrap } from '~/context/wrap';
+import React, { useEffect, useState } from 'react'
+import { Modal, Select, Tooltip } from 'antd'
+import { DiffOutlined } from '@ant-design/icons'
+import { testCustomerApi } from '~/apiBase'
+import { useWrap } from '~/context/wrap'
 
-const { Option } = Select;
+const { Option } = Select
 
 const TestAddExam = (props) => {
-	const [isModalVisible, setIsModalVisible] = useState(false);
-	const { dataExam, dataRow, onFetchData } = props;
-	const [loading, setLoading] = useState(false);
-	const { showNoti } = useWrap();
-	const [valueExam, setValueExam] = useState(null);
+	const [isModalVisible, setIsModalVisible] = useState(false)
+	const { dataExam, dataRow, onFetchData } = props
+	const [loading, setLoading] = useState(false)
+	const { showNoti } = useWrap()
+	const [valueExam, setValueExam] = useState(null)
 
 	const showModal = () => {
-		setIsModalVisible(true);
-	};
+		setIsModalVisible(true)
+	}
 
 	const handleOk = async () => {
 		const data = {
 			ID: dataRow.ID,
 			ExamTopicID: valueExam,
 			Enable: true
-		};
-		setLoading(true);
-		try {
-			let res = await testCustomerApi.update(data);
-			if (res.status === 200) {
-				setIsModalVisible(false);
-				onFetchData && onFetchData();
-				showNoti('success', 'Gán đề thành công');
-			} else {
-				showNoti('danger', 'Mạng đang kết nối không ổn định');
-			}
-		} catch (error) {
-			showNoti('danger', error.message);
-		} finally {
-			setLoading(false);
 		}
-	};
+		setLoading(true)
+		try {
+			let res = await testCustomerApi.update(data)
+			if (res.status === 200) {
+				setIsModalVisible(false)
+				onFetchData && onFetchData()
+				showNoti('success', 'Gán đề thành công')
+			}
+			// else {
+			// 	showNoti('danger', 'Mạng đang kết nối không ổn định');
+			// }
+		} catch (error) {
+			showNoti('danger', error.message)
+		} finally {
+			setLoading(false)
+		}
+	}
 
 	const handleCancel = () => {
-		setIsModalVisible(false);
-	};
+		setIsModalVisible(false)
+	}
 
 	function handleChange_exam(value) {
-		setValueExam(value);
+		setValueExam(value)
 	}
 
 	useEffect(() => {
 		if (isModalVisible) {
-			setValueExam(dataRow.ExamTopicnName);
+			setValueExam(dataRow.ExamTopicnName)
 		}
-	}, [isModalVisible]);
+	}, [isModalVisible])
 
 	return (
 		<>
@@ -79,7 +80,7 @@ const TestAddExam = (props) => {
 				</Select>
 			</Modal>
 		</>
-	);
-};
+	)
+}
 
-export default TestAddExam;
+export default TestAddExam

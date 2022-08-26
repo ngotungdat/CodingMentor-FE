@@ -299,7 +299,7 @@ export default function ServiceAppointmentTest(props) {
 
 					res.status == 200 && getDataTolist(res.data.data, item.name)
 
-					res.status == 204 && console.log(item.text + ' Không có dữ liệu')
+					// res.status == 204 && console.log(item.text + ' Không có dữ liệu')
 				} catch (error) {
 					// showNoti('danger', error.message);
 					console.log(error)
@@ -832,7 +832,7 @@ const CancelTest = (props) => {
 		try {
 			let res = await testCustomerApi.update(dataSubmit)
 			if (res.status == 200) {
-				showNoti('success', 'Hủy lịch hẹn test thành công!')
+				showNoti('success', res.data.message)
 				setIsModalVisible(false)
 				onUpdateData && onUpdateData()
 			}

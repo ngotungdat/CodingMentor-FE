@@ -78,12 +78,12 @@ const TeacherProfile = (props) => {
 				IsSelected: info.IsSelected ? false : true
 			})
 			if (res.status === 200) {
-				showNoti('success', 'Thay đổi thành công!')
+				showNoti('success', res.data.message)
 				onFetchData && onFetchData()
 				return true
 			}
 			if (res.status === 204) {
-				showNoti('danger', 'Chưa có môn học trong chương trình này!')
+				// showNoti('danger', 'Chưa có môn học trong chương trình này!')
 				onFetchData && onFetchData()
 				return true
 			}

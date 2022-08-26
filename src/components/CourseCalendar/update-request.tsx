@@ -42,7 +42,7 @@ const UpdateRequest = (props: any) => {
 
 		try {
 			const res: any = await CalendarApi.update({ ID: ID, StudentRequest: request, title: reason })
-			if (res.status == 200 || res.status == 204) {
+			if (res.status == 200) {
 				showNoti('success', 'Thành công')
 				getData()
 				studentChangeData({ ID: ID })

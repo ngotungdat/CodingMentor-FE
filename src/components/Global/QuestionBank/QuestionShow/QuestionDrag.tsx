@@ -39,7 +39,9 @@ const EditQuestion = (props) => {
 			if (res.status == 200) {
 				setReloadContent(true)
 			}
-		} catch (error) {}
+		} catch (error) {
+			showNoti('danger', error.message)
+		}
 	}
 
 	const handleCancel = () => {
@@ -95,11 +97,11 @@ const EditQuestion = (props) => {
 					let res = await exerciseGroupApi.getWithID(dataGroup.ID)
 
 					if (res.status == 200) {
-						showNoti('success', `Thành công`)
+						// showNoti('success', `Thành công`)
 						onEdit && onEdit(res.data.data)
 					}
 
-					res.status == 204 && showNoti('danger', 'Không thành công')
+					// res.status == 204 && showNoti('danger', 'Không thành công')
 				} catch (error) {
 					showNoti('danger', error.message)
 				} finally {

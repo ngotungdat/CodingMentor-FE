@@ -48,8 +48,12 @@ function ModalCreateFeedback(props) {
 		try {
 			const res = await FeedbackCategoryApi.getAll(temp)
 			res.status == 200 && setCategories(res.data.data)
+			if (res.status === 204) {
+				setCategories([])
+			}
 		} catch (error) {
 			console.log(error)
+			showNoti('danger', error.message)
 		}
 	}
 
@@ -70,6 +74,7 @@ function ModalCreateFeedback(props) {
 			setIsReset(false)
 		} catch (error) {
 			console.log(error)
+			showNoti('danger', error.message)
 		}
 	}
 

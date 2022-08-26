@@ -59,6 +59,7 @@ const VideoLearning = () => {
 					}
 				} catch (error) {
 					console.log(error)
+					showNoti('danger', error.message)
 				}
 			})
 		)

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Modal, Form, Spin, Upload } from 'antd';
-import { useWrap } from '~/context/wrap';
-import EditorSimple from '~/components/Elements/EditorSimple';
-import { VideoCourseDetailApi } from '~/apiBase/video-course-details';
-import 'antd/dist/antd.css';
+import React, { useState } from 'react'
+import { Modal, Form, Spin, Upload } from 'antd'
+import { useWrap } from '~/context/wrap'
+import EditorSimple from '~/components/Elements/EditorSimple'
+import { VideoCourseDetailApi } from '~/apiBase/video-course-details'
+import 'antd/dist/antd.css'
 
 const initDetails = {
 	VideoCourseName: '',
@@ -16,57 +16,58 @@ const initDetails = {
 	RatingNumber: 0,
 	TotalStudent: 0,
 	CreatedBy: ''
-};
+}
 
 const ModalUpdateDetail = React.memo((props: any) => {
-	const { programID, isModalVisible, setIsModalVisible } = props;
-	const [form] = Form.useForm();
-	const { showNoti } = useWrap();
+	const { programID, isModalVisible, setIsModalVisible } = props
+	const [form] = Form.useForm()
+	const { showNoti } = useWrap()
 
-	const [loading, setLoading] = useState(true);
-	const [details, setDetails] = useState(initDetails);
-	const [updateLoading, setUpdateLoading] = useState(false);
+	const [loading, setLoading] = useState(true)
+	const [details, setDetails] = useState(initDetails)
+	const [updateLoading, setUpdateLoading] = useState(false)
 
 	// Init data
 	React.useEffect(() => {
 		if (details !== initDetails) {
-			setDescription(details?.Description || '');
-			setCourseForObject(details?.CourseForObject || '');
-			setRequirements(details?.Requirements || '');
-			setResultsAchieved(details?.ResultsAchieved || '');
-			setSlogan(details?.Slogan || '');
-			setLoading(false);
+			setDescription(details?.Description || '')
+			setCourseForObject(details?.CourseForObject || '')
+			setRequirements(details?.Requirements || '')
+			setResultsAchieved(details?.ResultsAchieved || '')
+			setSlogan(details?.Slogan || '')
+			setLoading(false)
 		}
-	}, [details]);
+	}, [details])
 
 	// IS VISIBLE MODAL
 	React.useEffect(() => {
 		if (isModalVisible) {
 			if (programID) {
-				getCourseDetails(programID);
+				getCourseDetails(programID)
 			}
 		}
-	}, [isModalVisible]);
+	}, [isModalVisible])
 
 	// CALL API DETAILS
 	const getCourseDetails = async (param) => {
 		try {
-			const res = await VideoCourseDetailApi.getDetails(param);
-			res.status == 200 && setDetails(res.data.data);
+			const res = await VideoCourseDetailApi.getDetails(param)
+			res.status == 200 && setDetails(res.data.data)
 		} catch (error) {
-			console.log(error);
+			console.log(error)
+			showNoti('danger', error.message)
 		}
-	};
+	}
 
-	const [slogan, setSlogan] = useState('');
-	const [requirements, setRequirements] = useState('');
-	const [description, setDescription] = useState('');
-	const [resultsAchieved, setResultsAchieved] = useState('');
-	const [courseForObject, setCourseForObject] = useState('');
+	const [slogan, setSlogan] = useState('')
+	const [requirements, setRequirements] = useState('')
+	const [description, setDescription] = useState('')
+	const [resultsAchieved, setResultsAchieved] = useState('')
+	const [courseForObject, setCourseForObject] = useState('')
 
 	// HANDLE UPDATE
 	const updateDetails = async () => {
-		setUpdateLoading(true);
+		setUpdateLoading(true)
 		let temp = {
 			VideoCourseID: programID,
 			Slogan: slogan,
@@ -74,15 +75,15 @@ const ModalUpdateDetail = React.memo((props: any) => {
 			Description: description,
 			ResultsAchieved: resultsAchieved,
 			CourseForObject: courseForObject
-		};
+		}
 		try {
-			const res = await VideoCourseDetailApi.update(temp);
-			res.status == 200 && (setIsModalVisible(true), showNoti('success', 'Thành công'));
+			const res = await VideoCourseDetailApi.update(temp)
+			res.status == 200 && (setIsModalVisible(true), showNoti('success', res.data.message))
 		} catch (error) {
 		} finally {
-			setUpdateLoading(false);
+			setUpdateLoading(false)
 		}
-	};
+	}
 
 	// RENDER
 	return (
@@ -110,38 +111,22 @@ const ModalUpdateDetail = React.memo((props: any) => {
 									</div>
 									<div className="col-md-12 col-12">
 										<Form.Item name="Requirements" label="Điều kiện học">
-											<EditorSimple
-												defaultValue={requirements}
-												handleChange={(e) => setRequirements(e)}
-												isTranslate={false}
-											/>
+											<EditorSimple defaultValue={requirements} handleChange={(e) => setRequirements(e)} isTranslate={false} />
 										</Form.Item>
 									</div>
 									<div className="col-md-12 col-12">
 										<Form.Item name="CourseForObject" label="Đối tượng học">
-											<EditorSimple
-												defaultValue={courseForObject}
-												handleChange={(e) => setCourseForObject(e)}
-												isTranslate={false}
-											/>
+											<EditorSimple defaultValue={courseForObject} handleChange={(e) => setCourseForObject(e)} isTranslate={false} />
 										</Form.Item>
 									</div>
 									<div className="col-md-12 col-12">
 										<Form.Item name="ResultsAchieved" label="Nội dung khóa học">
-											<EditorSimple
-												defaultValue={resultsAchieved}
-												handleChange={(e) => setResultsAchieved(e)}
-												isTranslate={false}
-											/>
+											<EditorSimple defaultValue={resultsAchieved} handleChange={(e) => setResultsAchieved(e)} isTranslate={false} />
 										</Form.Item>
 									</div>
 									<div className="col-md-12 col-12">
 										<Form.Item name="Description" label="Miêu tả">
-											<EditorSimple
-												defaultValue={description}
-												handleChange={(e) => setDescription(e)}
-												isTranslate={false}
-											/>
+											<EditorSimple defaultValue={description} handleChange={(e) => setDescription(e)} isTranslate={false} />
 										</Form.Item>
 									</div>
 								</>
@@ -154,7 +139,7 @@ const ModalUpdateDetail = React.memo((props: any) => {
 
 							<button
 								onClick={() => {
-									updateDetails();
+									updateDetails()
 								}}
 								className="btn btn-primary"
 							>
@@ -166,7 +151,7 @@ const ModalUpdateDetail = React.memo((props: any) => {
 				</div>
 			</Modal>
 		</>
-	);
-});
+	)
+})
 
-export default ModalUpdateDetail;
+export default ModalUpdateDetail

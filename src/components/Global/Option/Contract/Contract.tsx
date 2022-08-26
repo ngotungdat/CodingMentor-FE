@@ -44,7 +44,7 @@ const Contract = () => {
 					setContract(res.data.data)
 				}
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				setContract([])
 			}
 		} catch (error) {
 			showNoti('danger', error.message)

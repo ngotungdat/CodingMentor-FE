@@ -57,6 +57,7 @@ const CourseExamDetail = (props) => {
 			}
 		} catch (error) {
 			console.log('Error Get List Teacher: ', error.message)
+			showNoti('danger', error.message)
 		} finally {
 			// setLoadingTeacher(true);
 		}

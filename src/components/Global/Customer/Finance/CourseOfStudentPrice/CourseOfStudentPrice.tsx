@@ -305,6 +305,7 @@ const CourseOfStudentPrice = () => {
 			}
 		} catch (error) {
 			console.log('getInfoCourse', error)
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'FETCH_INFO_COURSE',
@@ -486,6 +487,7 @@ const CourseOfStudentPrice = () => {
 			}
 		} catch (error) {
 			console.log(fetchInfoInvoice, error.message)
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'FETCH_INFO_INVOICE',

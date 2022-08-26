@@ -125,7 +125,7 @@ const CourseList = () => {
 					setTotalPage(res.data.totalRow)
 				}
 			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
+				// showNoti('danger', 'Không tìm thấy')
 				setCourseList([])
 				setTotalPage(0)
 			}
@@ -184,9 +184,10 @@ const CourseList = () => {
 			if (res.status === 200) {
 				fetchScheduleList()
 				showNoti('Success', 'Cập nhật dữ liệu thành công')
-			} else if (res.status === 204) {
-				showNoti('danger', 'Không tìm thấy')
 			}
+			// else if (res.status === 204) {
+			// 	showNoti('danger', 'Không tìm thấy')
+			// }
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

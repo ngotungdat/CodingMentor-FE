@@ -142,7 +142,7 @@ const ModalUpdateInfo = React.memo((props: any) => {
 		setButtonLoading(true)
 		try {
 			let res = await newsFeedApi.uploadFile(file.originFileObj)
-			if (res.status == 200 || res.status == 204) {
+			if (res.status == 200) {
 				_onSubmitEdit({ ...props, ImageThumbnails: res.data.data })
 			}
 		} catch (error) {
@@ -189,7 +189,9 @@ const ModalUpdateInfo = React.memo((props: any) => {
 		try {
 			const res = await VideoCourseDetailApi.getDetails(param)
 			res.status == 200 && setDetails(res.data.data)
-		} catch (error) {}
+		} catch (error) {
+			showNoti('danger', error.message)
+		}
 	}
 
 	// HANDLE UPDATE
@@ -235,7 +237,7 @@ const ModalUpdateInfo = React.memo((props: any) => {
 				(setModalCate(false),
 				setIsModalVisible(true),
 				refeshData(),
-				showNoti('success', 'Thêm thành công'),
+				showNoti('success', res.data.message),
 				setNewType(''),
 				form.setFieldsValue({ TypeName: '' }))
 		} catch (error) {
@@ -253,7 +255,7 @@ const ModalUpdateInfo = React.memo((props: any) => {
 				(setModalLevel(false),
 				setIsModalVisible(true),
 				refeshData(),
-				showNoti('success', 'Thêm thành công'),
+				showNoti('success', res.data.message),
 				setNewLevel(''),
 				form.setFieldsValue({ LevelName: '' }))
 		} catch (error) {

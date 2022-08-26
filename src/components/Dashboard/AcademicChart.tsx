@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { Select, Card, Radio, Skeleton } from 'antd'
 import { statisticalApi } from '~/apiBase/statistical/statistical-total'
+import { useWrap } from '~/context/wrap'
 
 const AcademicChart = () => {
+	const { showNoti } = useWrap()
 	const [statisticalStudentYear, setStatisticalStudentYear] = useState<IStatStudentYear[]>([])
 	const [statisticalStudentMonth, setStatisticalStudentMonth] = useState<IStatStudentMonth[]>([])
 	const [statisticalStudentDay, setStatisticalStudentDay] = useState<IStatStudentDay[]>([])
@@ -165,6 +167,7 @@ const AcademicChart = () => {
 			let res: any = await statisticalApi.getStatisticalStudentDay(todoApiStudent)
 			res.status == 200 && setStatisticalStudentDay(res.data.data)
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ status: 'GET_STAT_STUDENT', loading: false })
 		}

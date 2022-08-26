@@ -140,7 +140,7 @@ const CreateCourseOnlineForm = (props) => {
 	return (
 		<>
 			<button type="button" className="btn btn-warning" onClick={openModal}>
-				Thông tin khóa học
+				Thêm mới
 			</button>
 			<Modal style={{ top: 25 }} title="Thông tin khóa học" visible={isModalVisible} footer={null} width={800} onCancel={closeModal}>
 				<div className="wrap-form">

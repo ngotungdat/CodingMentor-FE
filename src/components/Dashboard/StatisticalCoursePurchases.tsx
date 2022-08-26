@@ -1,10 +1,12 @@
 import { Skeleton } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { statisticalApi } from '~/apiBase/statistical/statistical-total'
+import { useWrap } from '~/context/wrap'
 import BarChartStatistical from './BarChart'
 
 const StatisticalRate = () => {
 	const [statisticalCoursePurchases, setStatisticalCoursePurchases] = useState<IStatDataBarChart[]>([])
+	const { showNoti } = useWrap()
 	const [isLoading, setIsLoading] = useState({ status: '', loading: false })
 
 	const getStatisticalCoursePurchases = async () => {
@@ -28,6 +30,7 @@ const StatisticalRate = () => {
 				setStatisticalCoursePurchases([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ status: 'GET_STAT_COURSE_PURCHASES', loading: false })
 		}

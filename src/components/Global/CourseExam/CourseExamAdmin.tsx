@@ -211,7 +211,7 @@ const CourseExamAdmin = () => {
 				setDataFunc('SetPackageDetailID', newData)
 			}
 
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu bộ đề này!')
+			res.status == 204 && setDataFunc('SetPackageDetailID', [])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {

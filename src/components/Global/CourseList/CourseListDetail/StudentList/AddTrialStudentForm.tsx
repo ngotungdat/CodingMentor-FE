@@ -107,6 +107,7 @@ const AddTrialStudentForm = (props) => {
 				setScheduleList(fmScheduleList)
 			}
 		} catch (err) {
+			showNoti('danger', err?.message)
 		} finally {
 			setIsLoading({ type: 'GET_SCHEDULE', status: false })
 		}

@@ -46,6 +46,7 @@ function StudentCertificates() {
 				setTotalPage(res.data.totalRow)
 			}
 		} catch (err) {
+			showNoti('danger', err.message)
 		} finally {
 			setIsLoading({
 				type: 'GET_ALL',
@@ -63,6 +64,7 @@ function StudentCertificates() {
 				setTotalPage(res.data.totalRow)
 			}
 		} catch (err) {
+			showNoti('danger', err.message)
 		} finally {
 		}
 	}
@@ -75,7 +77,9 @@ function StudentCertificates() {
 				showNoti('success', res.data.message)
 				getDataSourceNoLoading()
 			}
-		} catch (err) {}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
 	}
 
 	useEffect(() => {

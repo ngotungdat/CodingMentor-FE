@@ -34,7 +34,7 @@ const Notification = () => {
 				setDataTable(res.data)
 			}
 			if (res.status == 204) {
-				showNoti('danger', 'Không có dữ liệu')
+				// showNoti('danger', 'Không có dữ liệu')
 				console.log(`%c - Noti 204:` + `%c Không tìm thấy thông báo nào`, 'color: red; font-weight: bold', 'color: yellow;')
 			}
 		} catch (error) {

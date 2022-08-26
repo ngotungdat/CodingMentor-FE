@@ -123,7 +123,7 @@ const EditorSummernote = (props) => {
 		showNoti('warning', 'Đang tải hình ảnh lên..')
 		try {
 			let res: any = await studentApi.uploadImage(fileList[0])
-			res.status == 200 && ReactSummernote.insertImage(res.data.data)
+			res.status == 200 && editorRef.current.insertImage(res.data.data)
 		} catch (error) {
 			showNoti('danger', 'Không thể tải hình ảnh lên')
 		}

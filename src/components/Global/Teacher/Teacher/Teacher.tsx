@@ -181,6 +181,7 @@ const Teacher = () => {
 					...prevState,
 					branchListTotal: newBranchList
 				}))
+				setBranchList(newBranchList)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -229,30 +230,30 @@ const Teacher = () => {
 		}
 	}
 	// BRANCH BY AREA
-	const fetchBranchByAreaId = async (id: number) => {
-		setIsLoading({ type: 'FETCH_DATA_BY_AREA', status: true })
-		try {
-			let res = await branchApi.getAll({
-				areaID: id,
-				Enable: true
-			})
-			if (res.status === 200 && res.data.totalRow) {
-				const newBranchList = res.data.data.map((item) => ({
-					title: item.BranchName,
-					value: item.ID
-				}))
+	// const fetchBranchByAreaId = async (id: number) => {
+	// 	setIsLoading({ type: 'FETCH_DATA_BY_AREA', status: true })
+	// 	try {
+	// 		let res = await branchApi.getAll({
+	// 			areaID: id,
+	// 			Enable: true
+	// 		})
+	// 		if (res.status === 200 && res.data.totalRow) {
+	// 			const newBranchList = res.data.data.map((item) => ({
+	// 				title: item.BranchName,
+	// 				value: item.ID
+	// 			}))
 
-				setBranchList(newBranchList)
-			}
-			if (res.status === 204) {
-				setBranchList([])
-			}
-		} catch (error) {
-			showNoti('danger', error.message)
-		} finally {
-			setIsLoading({ type: 'FETCH_DATA_BY_AREA', status: false })
-		}
-	}
+	// 			setBranchList(newBranchList)
+	// 		}
+	// 		if (res.status === 204) {
+	// 			setBranchList([])
+	// 		}
+	// 	} catch (error) {
+	// 		showNoti('danger', error.message)
+	// 	} finally {
+	// 		setIsLoading({ type: 'FETCH_DATA_BY_AREA', status: false })
+	// 	}
+	// }
 	// GET DATA IN FIRST TIME
 	const fetchTeacherList = async () => {
 		setIsLoading({
@@ -365,7 +366,7 @@ const Teacher = () => {
 					Branch: newBranch
 				})
 				setTeacherList(newTeacherList)
-				showNoti('success', res.data.message)
+				showNoti('success', res.data.ResultMessage)
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -520,7 +521,7 @@ const Teacher = () => {
 						optionAreaSystemList={optionAreaSystemList}
 						optionBranchList={branchList}
 						handleCreateTeacher={onCreateTeacher}
-						handleFetchBranch={fetchBranchByAreaId}
+						// handleFetchBranch={fetchBranchByAreaId}
 					/>
 				}
 				Extra={

@@ -98,7 +98,7 @@ const FeedBackList = () => {
 				let res = await feedbackApi.getAll({ ...params, pageIndex: page })
 				res.status == 200 && setFeedback(res.data.data)
 				if (res.status == 204) {
-					showNoti('danger', 'Không tìm thấy dữ liệu!')
+					// showNoti('danger', 'Không tìm thấy dữ liệu!')
 					setCurrentPage(1)
 					setParams(listParamsDefault)
 				} else setTotalPage(res.data.totalRow)

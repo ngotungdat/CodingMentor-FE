@@ -273,11 +273,12 @@ function SalerRevenue(props) {
 					data: res.data.data
 				})
 			}
-			if (res.status === 204) {
-				showNoti('danger', 'Dữ liệu trống')
-			}
+			// if (res.status === 204) {
+			// 	showNoti('danger', 'Dữ liệu trống')
+			// }
 		} catch (error) {
 			console.log('fetchTotalRevenueSaler', error.message)
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({
 				type: 'FETCH_SALER_REVENUE',

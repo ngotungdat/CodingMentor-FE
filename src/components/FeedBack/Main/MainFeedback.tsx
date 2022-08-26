@@ -86,6 +86,7 @@ function MainFeedback(props) {
 			const res = await FeedbackApi.getByID(param)
 			res.status == 200 && setCurrentInfomation(res.data.data)
 		} catch (error) {
+			showNoti('danger', error?.message)
 		} finally {
 			setLoading(false)
 		}
@@ -98,7 +99,9 @@ function MainFeedback(props) {
 			const res = await FeedbackReplyApi.getByFeedbackID(param)
 			res.status == 200 && setReply(res.data.data)
 			setReset(false)
-		} catch (error) {}
+		} catch (error) {
+			showNoti('danger', error?.message)
+		}
 	}
 
 	// ADD DATA REPLY TO SELECTED FEEDBACK

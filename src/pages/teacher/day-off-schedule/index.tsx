@@ -33,6 +33,7 @@ const DayOffSchedule = () => {
 				setDataSchedule([])
 			}
 		} catch (error) {
+			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({ status: 'GET_ALL', loading: false })
 		}

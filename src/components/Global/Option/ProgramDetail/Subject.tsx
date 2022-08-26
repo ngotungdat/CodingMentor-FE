@@ -33,7 +33,7 @@ const Subject = (props) => {
 					setTotalPage(res.data.totalRow)
 				}
 			}
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu') && setDataSource([])
+			res.status == 204 && setDataSource([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
@@ -46,7 +46,7 @@ const Subject = (props) => {
 		try {
 			let res = await programApi.getAll(todoApi)
 			res.status == 200 && setDataProgram(res.data.data)
-			res.status == 204 && showNoti('danger', 'Không có dữ liệu')
+			res.status == 204 && setDataProgram([])
 		} catch (error) {
 			showNoti('danger', error.message)
 		}

@@ -282,7 +282,6 @@ function ConfigZoom() {
 			)
 		}
 	]
-
 	return (
 		<PowerTable
 			loading={isLoading}

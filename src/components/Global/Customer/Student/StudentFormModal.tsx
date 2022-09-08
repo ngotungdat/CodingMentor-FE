@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { districtApi, studentApi, wardApi } from '~/apiBase'
+import { timeZoneApi } from '~/apiBase/timezone'
 import AvatarBase from '~/components/Elements/AvatarBase'
 import DateField from '~/components/FormControl/DateField'
 import InputTextField from '~/components/FormControl/InputTextField'
@@ -59,6 +60,25 @@ const StudentFormModal = (props) => {
 	const [listData, setListData] = useState<listData>(listDataForm)
 	const [valueEmail, setValueEmail] = useState()
 	const [isSearch, setIsSearch] = useState(false)
+	const [timezone, setTimezone] = useState([])
+
+	const getAllTimeZone = async () => {
+		try {
+			const res = await timeZoneApi.getAll()
+			if (res.status === 200) {
+				const converTimezone = res.data.data.map((timezone) => ({
+					value: timezone.ID,
+					title: timezone.Name
+				}))
+				setTimezone(converTimezone)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+	useEffect(() => {
+		getAllTimeZone()
+	}, [])
 	const showModal = () => {
 		setIsModalVisible(true)
 	}
@@ -219,7 +239,8 @@ const StudentFormModal = (props) => {
 		CounselorsID: null,
 		AppointmentDate: null,
 		ExamAppointmentTime: null,
-		ExamAppointmentNote: null
+		ExamAppointmentNote: null,
+		TimeZoneId: null
 	}
 
 	;(function returnSchemaFunc() {
@@ -292,7 +313,8 @@ const StudentFormModal = (props) => {
 			ParentsOf: data.ParentsOf,
 			StatusID: data.StatusID,
 			CounselorsID: data.CounselorsID,
-			Password: data.Password
+			Password: data.Password,
+			TimeZoneId: data.TimeZoneId
 		}
 		data.Branch = data.Branch.toString()
 
@@ -484,6 +506,9 @@ const StudentFormModal = (props) => {
 							</div>
 							<div className="col-md-6 col-12">
 								<SelectField form={form} name="JobID" label="Công việc" optionList={listData.Job} placeholder="Chọn công việc" />
+							</div>
+							<div className="col-md-6 col-12">
+								<SelectField form={form} name="TimeZoneId" label="Timezone" optionList={timezone} placeholder="Chọn Timezone" />
 							</div>
 							{/** ==== Địa chỉ  ====*/}
 							<div className="col-12">

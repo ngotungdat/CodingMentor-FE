@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { districtApi, wardApi } from '~/apiBase'
+import { timeZoneApi } from '~/apiBase/timezone'
 import AvatarBase from '~/components/Elements/AvatarBase'
 import DateField from '~/components/FormControl/DateField'
 import InputPassField from '~/components/FormControl/InputPassField'
@@ -43,7 +44,7 @@ const optionGender = [
 ]
 
 const ParentsForm = (props) => {
-	const { rowData, listDataForm, onSubmit, isLoading, rowID, getIndex, index, onSubmitSalary } = props
+	const { rowData, listDataForm, onSubmit, isLoading, rowID, getIndex, index, onSubmitSalary, getDataSource } = props
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const { showNoti } = useWrap()
 	const showModal = () => {
@@ -62,6 +63,25 @@ const ParentsForm = (props) => {
 	const [statusAdd, setStatusAdd] = useState('add-staff')
 	const [dataStaff, setDataStaff] = useState(null)
 	const [submitSalary, setSubmitSalary] = useState(true)
+	const [timezone, setTimezone] = useState([])
+
+	const getAllTimeZone = async () => {
+		try {
+			const res = await timeZoneApi.getAll()
+			if (res.status === 200) {
+				const converTimezone = res.data.data.map((timezone) => ({
+					value: timezone.ID,
+					title: timezone.Name
+				}))
+				setTimezone(converTimezone)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+	useEffect(() => {
+		getAllTimeZone()
+	}, [])
 
 	const makeNewData = (data, name) => {
 		let newData = null
@@ -229,7 +249,8 @@ const ParentsForm = (props) => {
 		// RoleID: null, //int mã công việc
 		StatusID: null,
 		Password: null,
-		UserName: null
+		UserName: null,
+		TimeZoneId: null
 	}
 
 	;(function returnSchemaFunc() {
@@ -254,11 +275,13 @@ const ParentsForm = (props) => {
 				case 'CounselorsID':
 					returnSchema[key] = yup.mixed().required('Bạn không được để trống')
 					break
-				case 'Branch':
-					if (!disableCenter) {
-						returnSchema[key] = yup.array().required('Bạn không được để trống')
-					}
-
+				// case 'Branch':
+				// 	if (!disableCenter) {
+				// 		returnSchema[key] = yup.array().required('Bạn không được để trống')
+				// 	}
+				// 	break
+				case 'TimeZoneId':
+					returnSchema[key] = yup.mixed().nullable().required('Bạn không được để trống')
 					break
 				default:
 					// returnSchema[key] = yup.mixed().required("Bạn không được để trống");
@@ -285,6 +308,7 @@ const ParentsForm = (props) => {
 						setImageUrl('')
 					}
 					setIsModalVisible(false)
+					getDataSource()
 				}
 			}
 		})
@@ -337,34 +361,45 @@ const ParentsForm = (props) => {
 				</button>
 			)}
 
+			{/* {statusAdd == 'add-staff' ? (
+				<div className="col-12 d-flex justify-content-center">
+					<div className="mt-3">
+						<button type="submit" className="mt-5 btn btn-primary w-100" disabled={isLoading.type === 'ADD_DATA' && isLoading.status}>
+							Lưu phụ huynh
+							{isLoading.type === 'ADD_DATA' && isLoading.status && <Spin className="loading-base" />}
+						</button>
+					</div>
+				</div>
+			) : null} */}
+
 			<Modal
 				style={{ top: 20 }}
 				title={statusAdd == 'add-staff' ? (rowID ? 'Cập nhật phụ huynh' : 'Tạo mới phụ huynh') : 'Thêm lương cho phụ huynh'}
 				visible={isModalVisible}
 				footer={
 					statusAdd == 'add-staff' ? (
-						<div className="row">
-							<div className="col-12 d-flex justify-content-center">
-								<div style={{ paddingRight: 5 }}>
-									<button
-										type="button"
-										className="btn btn-primary w-100"
-										onClick={form.handleSubmit(onSubmitForm)}
-										disabled={isLoading.type === 'ADD_DATA' && isLoading.status}
-									>
-										Lưu phụ huynh
-										{isLoading.type === 'ADD_DATA' && isLoading.status && <Spin className="loading-base" />}
-									</button>
-								</div>
+						<div className="col-12 d-flex justify-content-center">
+							<div>
+								<button
+									type="submit"
+									onClick={form.handleSubmit(onSubmitForm)}
+									className="btn btn-primary w-100"
+									disabled={isLoading.type === 'ADD_DATA' && isLoading.status}
+								>
+									Lưu phụ huynh
+									{isLoading.type === 'ADD_DATA' && isLoading.status && <Spin className="loading-base" />}
+								</button>
 							</div>
 						</div>
 					) : null
 				}
+				onOk={form.handleSubmit(onSubmitForm)}
+				okText="OK"
 				onCancel={() => setIsModalVisible(false)}
 				className={`${statusAdd == 'add-staff' ? 'modal-50 modal-scroll' : ''}`}
 			>
 				<div className="box-form form-staff">
-					<Form layout="vertical">
+					<Form layout="vertical" onFinish={form.handleSubmit(onSubmitForm)}>
 						<div className="row">
 							{/** ==== Thông tin cơ bản  ====*/}
 							<div className="col-12">
@@ -426,6 +461,17 @@ const ParentsForm = (props) => {
 							</div>
 							<div className="col-md-6 col-12">
 								<SelectField form={form} name="Gender" label="Giới tính" optionList={optionGender} placeholder="Chọn giới tính" />
+							</div>
+
+							<div className="col-md-6 col-12">
+								<SelectField
+									form={form}
+									name="TimeZoneId"
+									label="Timezone"
+									optionList={timezone}
+									placeholder="Chọn Timezone"
+									isRequired={true}
+								/>
 							</div>
 
 							<div className="col-md-6 col-12">

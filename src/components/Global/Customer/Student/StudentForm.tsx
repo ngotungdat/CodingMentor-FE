@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { districtApi, studentApi, wardApi, studentAdviseApi } from '~/apiBase'
+import { timeZoneApi } from '~/apiBase/timezone'
 import AvatarBase from '~/components/Elements/AvatarBase'
 import DateField from '~/components/FormControl/DateField'
 import InputTextField from '~/components/FormControl/InputTextField'
@@ -66,6 +67,25 @@ const StudentForm = (props) => {
 	const [loadingCustomer, setLoadingCustomer] = useState(false)
 	const [userAll, setUserAll] = useState<IStudent[]>()
 	const [userDetail, setUserDetail] = useState<IStudent>()
+	const [timezone, setTimezone] = useState([])
+
+	const getAllTimeZone = async () => {
+		try {
+			const res = await timeZoneApi.getAll()
+			if (res.status === 200) {
+				const converTimezone = res.data.data.map((timezone) => ({
+					value: timezone.ID,
+					title: timezone.Name
+				}))
+				setTimezone(converTimezone)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+	useEffect(() => {
+		getAllTimeZone()
+	}, [])
 
 	const fetchDataUser = async () => {
 		setIsLoading({ type: '', status: true })
@@ -245,7 +265,8 @@ const StudentForm = (props) => {
 		ExamTopicID: null,
 		TeacherID: null,
 		CustomerConsultationID: null,
-		Username: null
+		Username: null,
+		TimeZoneId: null
 	}
 
 	;(function returnSchemaFunc() {
@@ -296,6 +317,7 @@ const StudentForm = (props) => {
 
 	// ----------- SUBMI FORM ------------
 	const onSubmit = async (data: any) => {
+		console.log('Data: ', data, isSearch)
 		if (data.Branch) {
 			data.Branch = data.Branch.toString()
 		}
@@ -544,6 +566,16 @@ const StudentForm = (props) => {
 									</div>
 									<div className="col-md-6 col-12">
 										<SelectField form={form} name="Gender" label="Giới tính" optionList={optionGender} placeholder="Chọn giới tính" />
+									</div>
+									<div className="col-md-6 col-12">
+										<SelectField
+											form={form}
+											name="TimeZoneId"
+											label="Timezone"
+											optionList={timezone}
+											placeholder="Chọn Timezone"
+											isRequired={true}
+										/>
 									</div>
 									{!isStudentDetail && (
 										<>

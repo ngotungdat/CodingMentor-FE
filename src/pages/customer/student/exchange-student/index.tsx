@@ -299,6 +299,7 @@ const StudentExchange = () => {
 
 		try {
 			let res = await studentChangeApi.getAll(todoApi)
+			console.log('Response: ', res)
 			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow))
 			res.status == 204 && setDataSource([])
 		} catch (error) {
@@ -342,45 +343,45 @@ const StudentExchange = () => {
 			status: true
 		})
 
-		let res = null
+		// let res = null
 
-		if (dataSubmit.UserInformationID) {
-			try {
-				res = await studentChangeApi.update(dataSubmit)
+		// if (dataSubmit.UserInformationID) {
+		// 	try {
+		// 		res = await studentChangeApi.update(dataSubmit)
 
-				if (res.status == 200) {
-					let newDataSource = [...dataSource]
-					newDataSource.splice(indexRow, 1, {
-						...rowData,
-						CounselorsName: listDataForm.Counselors.find((item) => item.value == dataSubmit.CounselorsID).title
-					})
-					setDataSource(newDataSource)
-					showNoti('success', res.data.message)
-				}
-			} catch (error) {
-				console.log('error: ', error)
-				showNoti('danger', error.message)
-			} finally {
-				setIsLoading({
-					type: 'ADD_DATA',
-					status: false
-				})
-			}
-		} else {
-			try {
-				res = await studentChangeApi.add(dataSubmit)
-				res?.status == 200 && afterPost(res.data.message)
-			} catch (error) {
-				showNoti('danger', error.message)
-			} finally {
-				setIsLoading({
-					type: 'ADD_DATA',
-					status: false
-				})
-			}
-		}
+		// 		if (res.status == 200) {
+		// 			let newDataSource = [...dataSource]
+		// 			newDataSource.splice(indexRow, 1, {
+		// 				...rowData,
+		// 				CounselorsName: listDataForm.Counselors.find((item) => item.value == dataSubmit.CounselorsID).title
+		// 			})
+		// 			setDataSource(newDataSource)
+		// 			showNoti('success', res.data.message)
+		// 		}
+		// 	} catch (error) {
+		// 		console.log('error: ', error)
+		// 		showNoti('danger', error.message)
+		// 	} finally {
+		// 		setIsLoading({
+		// 			type: 'ADD_DATA',
+		// 			status: false
+		// 		})
+		// 	}
+		// } else {
+		// 	try {
+		// 		res = await studentChangeApi.add(dataSubmit)
+		// 		res?.status == 200 && afterPost(res.data.message)
+		// 	} catch (error) {
+		// 		showNoti('danger', error.message)
+		// 	} finally {
+		// 		setIsLoading({
+		// 			type: 'ADD_DATA',
+		// 			status: false
+		// 		})
+		// 	}
+		// }
 
-		return res
+		// return res
 	}
 
 	// -------------- HANDLE FILTER ------------------

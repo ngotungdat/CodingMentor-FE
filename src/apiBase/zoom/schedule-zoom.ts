@@ -3,7 +3,7 @@ import { instance } from '~/apiBase/instance'
 const url = '/api/UserSchedule/'
 export const scheduleZoomApi = {
 	// Lấy tất cả data
-	getAll(params: { StartTime: string; EndTime: string }) {
+	getAll(params: { startTime: string; endTime: string }) {
 		return instance.get<IApiResultData<IScheduleZoom[]>>(url, {
 			params
 		})

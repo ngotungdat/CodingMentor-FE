@@ -648,6 +648,7 @@ const ParentsList = () => {
 							onSubmit={(data: any) => onSubmit(data)}
 							onSubmitSalary={(data: any) => onSubmitSalary(data)}
 							listDataForm={listDataForm}
+							getDataSource={getDataSource}
 						/>
 					</div>
 					<ResetPassParent dataRow={data} />

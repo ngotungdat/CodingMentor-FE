@@ -58,8 +58,12 @@ function MainFeedback(props) {
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
-		getCurrentInfo(current.ID)
-		getReply(current.ID)
+		if (Object.keys(current).length > 0) {
+			getCurrentInfo(current.ID)
+			getReply(current.ID)
+		} else {
+			setLoading(false)
+		}
 		setImportant(current.isPrioritized !== null ? current.isPrioritized : false)
 	}, [current])
 
@@ -96,11 +100,14 @@ function MainFeedback(props) {
 	const getReply = async (param) => {
 		setReset(true)
 		try {
+			console.log('Params: ', param)
 			const res = await FeedbackReplyApi.getByFeedbackID(param)
 			res.status == 200 && setReply(res.data.data)
 			setReset(false)
 		} catch (error) {
 			showNoti('danger', error?.message)
+		} finally {
+			setLoading(false)
 		}
 	}
 

@@ -2,7 +2,7 @@ import { instance } from '~/apiBase/instance'
 
 const url = '/api/TimeZone'
 export const timeZoneApi = {
-	getAll: (params) => {
+	getAll: (params = { pageSize: 99999 }) => {
 		return instance.get<IGetAllTimeZone<ITimeZone[]>>(url, { params })
 	},
 	create: (data) => {

@@ -18,6 +18,7 @@ import InfoCourseCard from './ProfileCustomer/InfoCourseCard/InfoCourseCard'
 import InfoTestCard from './ProfileCustomer/InfoTestCard/InfoTestCard'
 import InfoTestResultCard from './ProfileCustomer/component/InfoTestResultCard'
 import InfoTimelineCard from './ProfileCustomer/InfoTimelineCard/InfoTimelineCard'
+import { timeZoneApi } from '~/apiBase/timezone'
 
 let returnSchema = {}
 const { TabPane } = Tabs
@@ -48,6 +49,25 @@ const ProfileBase = (props) => {
 	const { dataUser } = props
 	const [dataForm, setDataForm] = useState<IUser>(null)
 	const [loading, setLoading] = useState(true)
+	const [timezone, setTimezone] = useState([])
+
+	const getAllTimeZone = async () => {
+		try {
+			const res = await timeZoneApi.getAll()
+			if (res.status === 200) {
+				const converTimezone = res.data.data.map((timezone) => ({
+					value: timezone.ID,
+					title: timezone.Name
+				}))
+				setTimezone(converTimezone)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+	useEffect(() => {
+		getAllTimeZone()
+	}, [])
 
 	const defaultValuesInit = {
 		FullNameUnicode: null,
@@ -56,7 +76,8 @@ const ProfileBase = (props) => {
 		Gender: null,
 		Address: null,
 		Mobile: null,
-		Avatar: null
+		Avatar: null,
+		TimeZoneId: null
 	}
 
 	;(function returnSchemaFunc() {
@@ -183,6 +204,9 @@ const ProfileBase = (props) => {
 													</div>
 													<div className="col-md-6 col-12">
 														<InputTextField form={form} name="Address" label="Địa chỉ" />
+													</div>
+													<div className="col-md-6 col-12">
+														<SelectField form={form} name="TimeZoneId" label="Timezone" optionList={timezone} />
 													</div>
 												</div>
 												<div className="row mt-3">

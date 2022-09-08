@@ -8,15 +8,15 @@ import { useWrap } from '~/context/wrap'
 import CDCalendar from '../CourseList/CourseListDetail/CourseDetailCalendar/Calendar'
 
 const ScheduleStudyStudent = () => {
-	const { showNoti } = useWrap()
+	const { showNoti, userInformation } = useWrap()
 	const [isLoading, setIsLoading] = useState({
 		type: '',
 		status: false
 	})
 	const [scheduleStudentList, setScheduleStudentList] = useState<IScheduleZoom[]>([])
 	const [filters, setFilters] = useState({
-		StartTime: moment().startOf('month').format('YYYY/MM/DD'),
-		EndTime: moment().endOf('month').format('YYYY/MM/DD')
+		startTime: moment().startOf('month').format('YYYY/MM/DD'),
+		endTime: moment().endOf('month').format('YYYY/MM/DD')
 	})
 
 	const fetchScheduleStudyStudent = async () => {
@@ -34,6 +34,7 @@ const ScheduleStudyStudent = () => {
 				setScheduleStudentList([])
 			}
 		} catch (error) {
+			console.log('Danger: ', error.message)
 			showNoti('danger', error.message)
 		} finally {
 			setIsLoading({

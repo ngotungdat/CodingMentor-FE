@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import styles from './RegisterForm.module.scss'
 import { useRouter } from 'next/router'
 import { Toaster } from 'react-hot-toast'
-import { Form, Spin, Modal } from 'antd'
+import { Form, Spin, Modal, Select } from 'antd'
 import { rulesApi, userApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 import { CheckCircleOutlined } from '@ant-design/icons'
@@ -11,6 +11,7 @@ import { signIn } from 'next-auth/react'
 import clsx from 'clsx'
 import { useToggle } from '~/context/useToggle'
 import ReactHtmlParser from 'react-html-parser'
+import { timeZoneApi } from '~/apiBase/timezone'
 
 type Inputs = {
 	text: string
@@ -21,19 +22,45 @@ interface RegisterInputs {
 	Email: Inputs
 	Mobile: Inputs
 	Note: Inputs
+	TimeZoneId: any
 }
 
 function RegisterForm() {
 	const router = useRouter()
+	const { Option } = Select
 	const [count, setCount] = useState(3)
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const [isAgreed, ToggleAgreed] = useToggle(true)
-	const { register, handleSubmit } = useForm<RegisterInputs>()
+	const { register, handleSubmit, setValue } = useForm<RegisterInputs>()
 	const [rule, setRule] = useState('')
 
 	const [loading, setLoading] = useState(false)
 	const [isSuccess, setIsSuccess] = useState(false)
 	const { showNoti } = useWrap()
+
+	const [timezone, setTimezone] = useState([])
+
+	const onChange = (value: string) => {
+		setValue('TimeZoneId', parseInt(value))
+	}
+
+	const getAllTimeZone = async () => {
+		try {
+			const res = await timeZoneApi.getAll()
+			if (res.status === 200) {
+				const converTimezone = res.data.data.map((timezone) => ({
+					value: timezone.ID,
+					title: timezone.Name
+				}))
+				setTimezone(converTimezone)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+	useEffect(() => {
+		getAllTimeZone()
+	}, [])
 
 	let timerID
 
@@ -155,6 +182,24 @@ function RegisterForm() {
 												{...register('Mobile', { required: true })}
 											/>
 											<img src="/icons/phone.svg" className={styles.icon} />
+										</div>
+									</Form.Item>
+
+									<Form.Item label=" Timezone" name="TimeZoneId">
+										<div className={clsx('form-control-input')}>
+											<Select
+												showSearch
+												placeholder="Vui lòng chọn Timezone"
+												optionFilterProp="children"
+												onChange={onChange}
+												filterOption={(input, option) =>
+													(option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
+												}
+											>
+												{timezone.map((item, i) => {
+													return <Option value={item.value}>{item.title}</Option>
+												})}
+											</Select>
 										</div>
 									</Form.Item>
 

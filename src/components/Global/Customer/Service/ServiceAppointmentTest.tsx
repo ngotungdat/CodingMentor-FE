@@ -359,7 +359,7 @@ export default function ServiceAppointmentTest(props) {
 
 	// ----------------- ON SUBMIT --------------------
 	const _onSubmit = async (dataSubmit: any) => {
-		// console.log('Data submit: ', dataSubmit);
+		console.log('Data submit: ', dataSubmit)
 		// console.log('List data form: ', listDataForm);
 		setIsLoading({
 			type: 'ADD_DATA',

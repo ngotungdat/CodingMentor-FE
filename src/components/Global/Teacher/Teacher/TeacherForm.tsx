@@ -4,6 +4,7 @@ import { Divider, Form, Modal, Spin, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { timeZoneApi } from '~/apiBase/timezone'
 import UploadFile from '~/components/Elements/UploadFile/UploadFile'
 import DateField from '~/components/FormControl/DateField'
 import InputPassField from '~/components/FormControl/InputPassField'
@@ -40,7 +41,8 @@ const defaultValuesInit = {
 	BankAccountNumber: null,
 	BankAccountHolderName: null,
 	BankBranch: null,
-	UserName: null
+	UserName: null,
+	TimeZoneId: null
 }
 
 type ITeacherForm = {
@@ -70,7 +72,26 @@ const TeacherForm = (props: ITeacherForm) => {
 	const { optionGenderList, optionBranchList, handleFetchBranch } = props
 	const { areaList, districtList, wardList } = optionAreaSystemList
 	const [isModalVisible, setIsModalVisible] = useState(false)
-	const { userInformation } = useWrap()
+	const { userInformation, showNoti } = useWrap()
+	const [timezone, setTimezone] = useState([])
+
+	const getAllTimeZone = async () => {
+		try {
+			const res = await timeZoneApi.getAll()
+			if (res.status === 200) {
+				const converTimezone = res.data.data.map((timezone) => ({
+					value: timezone.ID,
+					title: timezone.Name
+				}))
+				setTimezone(converTimezone)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+	useEffect(() => {
+		getAllTimeZone()
+	}, [])
 
 	const openModal = () => {
 		if (isUpdate && !!updateObj) {
@@ -89,7 +110,11 @@ const TeacherForm = (props: ITeacherForm) => {
 
 	const schemaBase = yup.object().shape({
 		FullNameUnicode: yup.string().required('Bạn không được để trống'),
-		Email: yup.string().email('Email không đúng định dạng').required('Bạn không được để trống')
+		Email: yup.string().email('Email không đúng định dạng').required('Bạn không được để trống'),
+		TimeZoneId: yup.mixed().nullable().required('Bạn không được để trống'),
+		AreaID: yup.mixed().nullable().required('Bạn không được để trống'),
+		Mobile: yup.string().nullable().required('Bạn không được để trống'),
+		Branch: yup.mixed().nullable().required('Bạn không được để trống')
 	})
 
 	const schemaUpdate = yup.object().shape({
@@ -263,6 +288,16 @@ const TeacherForm = (props: ITeacherForm) => {
 									<InputTextField form={form} name="FullNameUnicode" label="Họ và tên" placeholder="Nhập họ và tên" isRequired={true} />
 								</div>
 								<div className="col-md-6 col-12">
+									<SelectField
+										form={form}
+										name="TimeZoneId"
+										label="Timezone"
+										optionList={timezone}
+										placeholder="Chọn Timezone"
+										isRequired={true}
+									/>
+								</div>
+								<div className="col-md-6 col-12">
 									<InputPreventText form={form} name="Mobile" label="Số điện thoại" placeholder="Nhập số điện thoại" />
 								</div>
 								<div className="col-md-6 col-12">
@@ -432,6 +467,14 @@ const TeacherForm = (props: ITeacherForm) => {
 										isRequired={true}
 									/>
 									<InputPreventText form={form} name="Mobile" label="Số điện thoại" placeholder="Nhập số điện thoại" isRequired={true} />
+									<SelectField
+										form={form}
+										name="TimeZoneId"
+										label="Timezone"
+										optionList={timezone}
+										placeholder="Chọn Timezone"
+										isRequired={true}
+									/>
 									<InputTextField form={form} name="LinkFaceBook" label="Link Facebook" placeholder="Nhập link faebook" />
 								</div>
 								<div className="col-12">

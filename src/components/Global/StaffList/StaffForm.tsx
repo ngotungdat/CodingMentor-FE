@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { districtApi, wardApi } from '~/apiBase'
+import { timeZoneApi } from '~/apiBase/timezone'
 import AvatarBase from '~/components/Elements/AvatarBase'
 import UploadFile from '~/components/Elements/UploadFile/UploadFile'
 import DateField from '~/components/FormControl/DateField'
@@ -62,6 +63,25 @@ const StaffForm = (props) => {
 	const [statusAdd, setStatusAdd] = useState('add-staff')
 	const [dataStaff, setDataStaff] = useState(null)
 	const [submitSalary, setSubmitSalary] = useState(true)
+	const [timezone, setTimezone] = useState([])
+
+	const getAllTimeZone = async () => {
+		try {
+			const res = await timeZoneApi.getAll()
+			if (res.status === 200) {
+				const converTimezone = res.data.data.map((timezone) => ({
+					value: timezone.ID,
+					title: timezone.Name
+				}))
+				setTimezone(converTimezone)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+	useEffect(() => {
+		getAllTimeZone()
+	}, [])
 
 	const makeNewData = (data, name) => {
 		let newData = null
@@ -236,7 +256,8 @@ const StaffForm = (props) => {
 		BankAccountNumber: null,
 		BankAccountHolderName: null,
 		BankBranch: null,
-		UserName: null
+		UserName: null,
+		TimeZoneId: null
 	}
 
 	;(function returnSchemaFunc() {
@@ -262,7 +283,9 @@ const StaffForm = (props) => {
 					if (!disableCenter) {
 						returnSchema[key] = yup.array().required('Bạn không được để trống')
 					}
-
+					break
+				case 'TimeZoneId':
+					returnSchema[key] = yup.mixed().nullable().required('Bạn không được để trống')
 					break
 				default:
 					// returnSchema[key] = yup.mixed().required("Bạn không được để trống");
@@ -457,6 +480,9 @@ const StaffForm = (props) => {
 								</div>
 								<div className="col-md-6 col-12">
 									<DateField form={form} name="DOB" label="Ngày sinh" />
+								</div>
+								<div className="col-md-6 col-12">
+									<SelectField form={form} name="TimeZoneId" label="Timezone" optionList={timezone} isRequired={true} />
 								</div>
 								<div className="col-md-6 col-12">
 									<InputPreventText form={form} name="CMND" label="Số CMND" />

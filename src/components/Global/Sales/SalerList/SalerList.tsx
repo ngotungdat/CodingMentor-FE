@@ -217,9 +217,10 @@ const SalerList = () => {
 
 	// CREATE
 	const onCreateTeacher = async (data) => {
+		const newData = { ...data, RoleID: 6 }
 		try {
 			setIsLoading({ type: 'ADD_DATA', status: true })
-			const res = await staffApi.add(data)
+			const res = await staffApi.add(newData)
 			if (res.status === 200) {
 				showNoti('success', res.data.message)
 				onResetSearch()

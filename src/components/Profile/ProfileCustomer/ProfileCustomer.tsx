@@ -93,6 +93,8 @@ function ProfileCustomer(props) {
 	const [activeKey, setActiveKey] = useState(1)
 	const [isUpdateInfo, setIsUpdateInfo] = useState(false)
 
+	console.log('info: ', info)
+
 	// ------------- ADD data to list --------------
 	const makeNewData = (data, name) => {
 		let newData = null
@@ -237,6 +239,7 @@ function ProfileCustomer(props) {
 		setLoading(true)
 		try {
 			const res = await studentApi.getWithID(studentIDInt)
+			console.log('Response: ', res.data.data)
 			res.status === 200 && setInfo(res.data.data)
 		} catch (error) {
 			showNoti('danger', error.message)

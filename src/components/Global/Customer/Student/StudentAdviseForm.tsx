@@ -3,6 +3,7 @@ import { Form, Modal, Spin, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { timeZoneApi } from '~/apiBase/timezone'
 import InputTextField from '~/components/FormControl/InputTextField'
 import SelectField from '~/components/FormControl/SelectField'
 import { useWrap } from '~/context/wrap'
@@ -14,7 +15,25 @@ const StudentAdviseForm = React.memo((props: any) => {
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const { isLoading, rowID, _onSubmit, getIndex, index, rowData, listData, dataProgram } = props
 
-	console.log('listData: ', listData)
+	const [timezone, setTimezone] = useState([])
+
+	const getAllTimeZone = async () => {
+		try {
+			const res = await timeZoneApi.getAll()
+			if (res.status === 200) {
+				const converTimezone = res.data.data.map((timezone) => ({
+					value: timezone.ID,
+					title: timezone.Name
+				}))
+				setTimezone(converTimezone)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+	useEffect(() => {
+		getAllTimeZone()
+	}, [])
 
 	const { showNoti, userInformation } = useWrap()
 
@@ -168,7 +187,12 @@ const StudentAdviseForm = React.memo((props: any) => {
 								<SelectField form={form} name="ProgramID" label="Nhu cầu học" optionList={listData.Program} isRequired={false} />
 							</div>
 							<div className="col-md-6 col-12">
-								<SelectField form={form} name="AreaID" label="Tỉnh/TP" optionList={listData.Area} />
+								<SelectField form={form} name="AreaID" label="Tỉnh/TP" optionList={listData.Area} placeholder="Chọn tỉnh thành" />
+							</div>
+						</div>
+						<div className="row">
+							<div className="col-md-12 col-12">
+								<SelectField form={form} name="TimeZoneId" label="Timezone" optionList={timezone} placeholder="Chọn Timezone" />
 							</div>
 						</div>
 

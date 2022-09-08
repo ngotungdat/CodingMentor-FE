@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { timeZoneApi } from '~/apiBase/timezone'
 import DateField from '~/components/FormControl/DateField'
 import InputPassField from '~/components/FormControl/InputPassField'
 import InputTextField from '~/components/FormControl/InputTextField'
@@ -49,10 +50,29 @@ function SalerListForm(props) {
 		handleSubmit
 	} = props
 
-	const { userInformation } = useWrap()
+	const { userInformation, showNoti } = useWrap()
 
 	const { areaList, districtList, wardList } = optionAreaSystemList
 	const [isModalVisible, setIsModalVisible] = useState(false)
+	const [timezone, setTimezone] = useState([])
+
+	const getAllTimeZone = async () => {
+		try {
+			const res = await timeZoneApi.getAll()
+			if (res.status === 200) {
+				const converTimezone = res.data.data.map((timezone) => ({
+					value: timezone.ID,
+					title: timezone.Name
+				}))
+				setTimezone(converTimezone)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+	useEffect(() => {
+		getAllTimeZone()
+	}, [])
 
 	const openModal = () => {
 		setIsModalVisible(true)
@@ -78,7 +98,8 @@ function SalerListForm(props) {
 			.matches(
 				/^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/,
 				'Số điện thoại không đúng định dạng'
-			)
+			),
+		TimeZoneId: yup.mixed().nullable().required('Bạn không được để trống')
 	})
 
 	const defaultValuesInit = {
@@ -100,7 +121,8 @@ function SalerListForm(props) {
 		Extension: '',
 		StatusID: 0,
 		Password: '',
-		UserName: null
+		UserName: null,
+		TimeZoneId: null
 	}
 
 	const form = useForm({
@@ -131,8 +153,6 @@ function SalerListForm(props) {
 	}
 
 	const teacherSwitchFunc = (data) => {
-		console.log('data: ', data)
-
 		if (!handleSubmit) return
 		handleSubmit(data).then((res) => {
 			if (res) {
@@ -230,6 +250,16 @@ function SalerListForm(props) {
 							</div>
 							<div className="col-md-6 col-12">
 								<InputTextField form={form} name="Mobile" label="Số điện thoại" placeholder="Nhập số điện thoại" />
+							</div>
+							<div className="col-md-6 col-12">
+								<SelectField
+									form={form}
+									name="TimeZoneId"
+									label="Timezone"
+									optionList={timezone}
+									placeholder="Chọn Timezone"
+									isRequired={true}
+								/>
 							</div>
 							<div className="col-md-6 col-12">
 								<DateField form={form} name="DOB" label="Ngày sinh" placeholder="Chọn ngày sinh" />

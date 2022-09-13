@@ -117,86 +117,93 @@ const CheckOut = () => {
 		let res = null
 
 		console.log('method: ', method)
-
-		try {
-			switch (method.PaymentCode) {
-				case 'momo':
-					res = await shoppingCartApi.checkoutMomo({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
-					break
-				case 'momo_test':
-					res = await shoppingCartApi.checkoutMomo({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
-					break
-				case 'paypal':
-					console.log('data: ', dataOrder)
-					res = await shoppingCartApi.checkoutPaypal({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
-					break
-				case 'paypal_test':
-					res = await shoppingCartApi.checkoutPaypal({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
-					break
-				case 'onepayinternational':
-					res = await shoppingCartApi.checkoutPaymentWithOnePay({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
-					break
-				case 'onepayinternational_test':
-					res = await shoppingCartApi.checkoutPaymentWithOnePay({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
-					break
-				case 'onepaydomestic':
-					res = await shoppingCartApi.checkoutPaymentWithOnePay({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
-					break
-				case 'cashpayment':
-					res = await shoppingCartApi.checkoutCash({ cartID: cartID, type: method.PaymentCode })
-					break
-				case 'transferpayment':
-					res = await shoppingCartApi.checkoutTransferPayment({ cartID: cartID, type: method.PaymentCode })
-					break
-				default:
-					break
-			}
-
-			if (res.status == 200) {
+		if (method.PaymentCode !== '') {
+			try {
 				switch (method.PaymentCode) {
 					case 'momo':
-						router.push(res.data.payUrl)
+						res = await shoppingCartApi.checkoutMomo({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
 						break
 					case 'momo_test':
-						router.push(res.data.payUrl)
+						res = await shoppingCartApi.checkoutMomo({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
 						break
 					case 'paypal':
-						router.push(res.data.payUrl)
+						console.log('data: ', dataOrder)
+						res = await shoppingCartApi.checkoutPaypal({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
 						break
 					case 'paypal_test':
-						router.push(res.data.payUrl)
+						res = await shoppingCartApi.checkoutPaypal({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
 						break
 					case 'onepayinternational':
-						router.push(res.data.payUrl)
+						res = await shoppingCartApi.checkoutPaymentWithOnePay({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
 						break
 					case 'onepayinternational_test':
-						router.push(res.data.payUrl)
+						res = await shoppingCartApi.checkoutPaymentWithOnePay({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
 						break
 					case 'onepaydomestic':
-						router.push(res.data.payUrl)
-						break
-					case 'onepaydomestic_test':
-						router.push(res.data.payUrl)
+						res = await shoppingCartApi.checkoutPaymentWithOnePay({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
 						break
 					case 'cashpayment':
-						router.push({
-							pathname: '/cart/success',
-							query: { type: 'cashpayment' }
-						})
+						res = await shoppingCartApi.checkoutCash({ cartID: cartID, type: method.PaymentCode })
 						break
 					case 'transferpayment':
-						router.push({
-							pathname: '/cart/success',
-							query: { type: 'transferpayment' }
-						})
+						res = await shoppingCartApi.checkoutTransferPayment({ cartID: cartID, type: method.PaymentCode })
 						break
 					default:
 						break
 				}
+
+				if (res.status == 200) {
+					switch (method.PaymentCode) {
+						case 'momo':
+							router.push(res.data.payUrl)
+							break
+						case 'momo_test':
+							router.push(res.data.payUrl)
+							break
+						case 'paypal':
+							router.push(res.data.payUrl)
+							break
+						case 'paypal_test':
+							router.push(res.data.payUrl)
+							break
+						case 'onepayinternational':
+							router.push(res.data.payUrl)
+							break
+						case 'onepayinternational_test':
+							router.push(res.data.payUrl)
+							break
+						case 'onepaydomestic':
+							router.push(res.data.payUrl)
+							break
+						case 'onepaydomestic_test':
+							router.push(res.data.payUrl)
+							break
+						case 'cashpayment':
+							router.push({
+								pathname: '/cart/success',
+								query: { type: 'cashpayment' }
+							})
+							break
+						case 'transferpayment':
+							router.push({
+								pathname: '/cart/success',
+								query: { type: 'transferpayment' }
+							})
+							break
+						default:
+							break
+					}
+				}
+			} catch (error) {
+				showNoti('danger', error.message)
+			} finally {
+				setIsLoading({
+					status: 'CHECKOUT',
+					loading: false
+				})
 			}
-		} catch (error) {
-			showNoti('danger', error.message)
-		} finally {
+		} else {
+			showNoti('danger', 'Vui lòng chọn phương thức thanh toán')
 			setIsLoading({
 				status: 'CHECKOUT',
 				loading: false
@@ -360,7 +367,7 @@ const CheckOut = () => {
 			let res = await paymentConfig.getAll()
 			if (res.status == 200) {
 				setPaymentMethods(res.data.data)
-				setMethod({ ...method, PaymentCode: res.data.data[0].PaymentCode })
+				// setMethod({ ...method, PaymentCode: res.data.data[0].PaymentCode })
 			}
 		} catch (error) {
 			console.log(error)
@@ -657,14 +664,14 @@ const CheckOut = () => {
 										: parseToMoney(dataOrder?.TotalPayment)}{' '}
 								</p>
 							</div>
-							{/* {method.PaymentCode === 'paypal' ? (
+							{method.PaymentCode === 'paypal' ? (
 								<PaypalButton dataOrder={dataOrder} />
-							) : ( */}
-							<button className="btn btn-primary w-100" onClick={handleCheckout}>
-								Thanh toán
-								{isLoading.status == 'CHECKOUT' && isLoading.loading && <Spin className="loading-base" />}
-							</button>
-							{/* )} */}
+							) : (
+								<button className="btn btn-primary w-100" onClick={handleCheckout}>
+									Thanh toán
+									{isLoading.status == 'CHECKOUT' && isLoading.loading && <Spin className="loading-base" />}
+								</button>
+							)}
 						</div>
 					</div>
 				</div>

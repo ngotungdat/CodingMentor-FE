@@ -22,6 +22,7 @@
 		"@fullcalendar/daygrid": "^5.7.0",
 		"@fullcalendar/react": "^5.7.0",
 		"@hookform/resolvers": "^2.6.0",
+		"@paypal/react-paypal-js": "^7.8.1",
 		"@zoomus/websdk": "^2.1.1",
 		"animate.css": "^4.1.1",
 		"antd": "^4.15.4",
@@ -96,10 +97,10 @@
 		"yup": "^0.32.9"
 	},
 	"devDependencies": {
-		"@types/react-big-calendar": "^0.31.0",
 		"@types/date-arithmetic": "^4.1.1",
 		"@types/node": "^15.0.2",
 		"@types/react": "^17.0.5",
+		"@types/react-big-calendar": "^0.31.0",
 		"prettier": "^2.2.1",
 		"typescript": "^4.4.4"
 	},

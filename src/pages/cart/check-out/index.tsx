@@ -13,6 +13,7 @@ import { discountApi } from './../../../apiBase/options/discount'
 import RenderItemTicket from './render-item-ticket'
 import Cart from '~/components/Header/cart'
 import Notification from '~/components/Header/notification'
+import PaypalButton from '~/components/Paypal'
 
 const CheckOut = () => {
 	const { showNoti } = useWrap()
@@ -126,6 +127,7 @@ const CheckOut = () => {
 					res = await shoppingCartApi.checkoutMomo({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
 					break
 				case 'paypal':
+					console.log('data: ', dataOrder)
 					res = await shoppingCartApi.checkoutPaypal({ OrderID: dataOrder.OrderID, type: method.PaymentCode })
 					break
 				case 'paypal_test':
@@ -655,11 +657,14 @@ const CheckOut = () => {
 										: parseToMoney(dataOrder?.TotalPayment)}{' '}
 								</p>
 							</div>
-
+							{/* {method.PaymentCode === 'paypal' ? (
+								<PaypalButton dataOrder={dataOrder} />
+							) : ( */}
 							<button className="btn btn-primary w-100" onClick={handleCheckout}>
 								Thanh toán
 								{isLoading.status == 'CHECKOUT' && isLoading.loading && <Spin className="loading-base" />}
 							</button>
+							{/* )} */}
 						</div>
 					</div>
 				</div>

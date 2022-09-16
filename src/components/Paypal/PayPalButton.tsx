@@ -3,6 +3,15 @@ import { PayPalButtons } from '@paypal/react-paypal-js'
 
 const PayPalButton = (props) => {
 	const { dataOrder } = props
+	console.log('dataOrder: ', dataOrder)
+	const data = dataOrder.OrderDetailModels.map((item) => {
+		return {
+			name: item.VideoCourseName,
+			quantity: item.Quantity,
+			unit_amount: { currency_code: 'AUD', value: item.Price / item.Quantity }
+		}
+	})
+	console.log('Data: ', [...data])
 	return (
 		<>
 			<PayPalButtons
@@ -15,8 +24,27 @@ const PayPalButton = (props) => {
 								{
 									amount: {
 										currency_code: 'AUD',
-										value: dataOrder.TotalPayment // Can also reference a variable or function
-									}
+										value: dataOrder.TotalPayment, // Can also reference a variable or function
+										// breakdown: {
+										// 	item_total: { currency_code: 'AUD', value: dataOrder.TotalPayment }
+										// }
+										breakdown: {
+											item_total: { currency_code: 'AUD', value: dataOrder.TotalPayment }
+										}
+									},
+									items: [...[data[0], data[1]]]
+									// items: [
+									// 	{
+									// 		name: 'wiersze',
+									// 		quantity: '2',
+									// 		unit_amount: { currency_code: 'AUD', value: '1700.00' }
+									// 	},
+									// 	{
+									// 		name: 'wiersze 1',
+									// 		quantity: '2',
+									// 		unit_amount: { currency_code: 'AUD', value: '1500.00' }
+									// 	}
+									// ]
 								}
 							]
 						})

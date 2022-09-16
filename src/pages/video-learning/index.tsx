@@ -50,6 +50,7 @@ const VideoLearning = () => {
 			videos.map(async (item) => {
 				try {
 					const temp = { SectionID: item.ID, VideoCourseOfStudentID: router.query.course }
+					console.log('Temp: ', temp)
 					const res = await VideoCourses.ListLesson(temp)
 					if (res.status === 200) {
 						return {

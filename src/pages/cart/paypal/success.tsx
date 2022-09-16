@@ -14,22 +14,22 @@ const Success = () => {
 	const router = useRouter()
 	const { PayerID, guid, paymentId } = router.query
 	const { showNoti } = useWrap()
-	const getStatusPayment = async () => {
-		try {
-			if (PayerID && guid && paymentId) {
-				let Data = new FormData()
-				Data.append('PayerID', PayerID.toString())
-				Data.append('guid', guid.toString())
-				Data.append('paymentId', paymentId.toString())
-				await shoppingCartApi.getPaypalStatus(Data)
-			}
-		} catch (err) {
-			showNoti('danger', err.message)
-		}
-	}
-	useEffect(() => {
-		getStatusPayment()
-	}, [])
+	// const getStatusPayment = async () => {
+	// 	try {
+	// 		if (PayerID && guid && paymentId) {
+	// 			let Data = new FormData()
+	// 			Data.append('PayerID', PayerID.toString())
+	// 			Data.append('guid', guid.toString())
+	// 			// Data.append('paymentId', paymentId.toString())
+	// 			await shoppingCartApi.getPaypalStatus(Data)
+	// 		}
+	// 	} catch (err) {
+	// 		showNoti('danger', err.message)
+	// 	}
+	// }
+	// useEffect(() => {
+	// 	getStatusPayment()
+	// }, [])
 	return (
 		<div className="wrapper-paypal">
 			<div className="wrapper-success-paypal">

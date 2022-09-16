@@ -664,14 +664,14 @@ const CheckOut = () => {
 										: parseToMoney(dataOrder?.TotalPayment)}{' '}
 								</p>
 							</div>
-							{method.PaymentCode === 'paypal' ? (
+							{/* {method.PaymentCode === 'paypal' ? (
 								<PaypalButton dataOrder={dataOrder} />
-							) : (
-								<button className="btn btn-primary w-100" onClick={handleCheckout}>
-									Thanh toán
-									{isLoading.status == 'CHECKOUT' && isLoading.loading && <Spin className="loading-base" />}
-								</button>
-							)}
+							) : ( */}
+							<button className="btn btn-primary w-100" onClick={handleCheckout}>
+								Thanh toán
+								{isLoading.status == 'CHECKOUT' && isLoading.loading && <Spin className="loading-base" />}
+							</button>
+							{/* )} */}
 						</div>
 					</div>
 				</div>

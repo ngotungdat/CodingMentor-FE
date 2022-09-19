@@ -4,6 +4,7 @@ import moment from 'moment'
 import router from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 import { areaApi } from '~/apiBase'
+import { countryApi } from '~/apiBase/country/country'
 import DeleteTableRow from '~/components/Elements/DeleteTableRow/DeleteTableRow'
 import SortBox from '~/components/Elements/SortBox'
 import PowerTable from '~/components/PowerTable'
@@ -19,6 +20,7 @@ const Area = () => {
 	const [totalPage, setTotalPage] = useState(null)
 	const { showNoti, pageSize } = useWrap()
 	const [activeColumnSearch, setActiveColumnSearch] = useState('')
+	const [countryList, setCountryList] = useState<ICountry[]>([])
 
 	// FILTER
 	const listFieldInit = {
@@ -103,6 +105,31 @@ const Area = () => {
 		})
 	}
 
+	const fetchCountryList = async () => {
+		setIsLoading({
+			type: 'GET_ALL',
+			status: true
+		})
+		try {
+			let res = await countryApi.getAll(filters)
+			if (res.status === 200) {
+				if (res.data.totalRow && res.data.data.length) {
+					setCountryList(res.data.data)
+					setTotalPage(res.data.totalRow)
+				}
+			} else if (res.status === 204) {
+				setCountryList([])
+			}
+		} catch (error) {
+			showNoti('danger', error.message)
+		} finally {
+			setIsLoading({
+				type: 'GET_ALL',
+				status: false
+			})
+		}
+	}
+
 	// GET DATA IN FIRST TIME
 	const fetchAreaList = async () => {
 		setIsLoading({
@@ -131,7 +158,8 @@ const Area = () => {
 	}
 
 	useEffect(() => {
-		fetchAreaList()
+		// fetchAreaList()
+		fetchCountryList()
 	}, [filters])
 
 	// CREATE
@@ -227,11 +255,55 @@ const Area = () => {
 	}
 
 	// COLUMN FOR TABLE
+	// const columns = [
+	// 	{
+	// 		title: 'Tên tỉnh/thành phố',
+	// 		dataIndex: 'AreaName',
+	// 		...FilterColumn('AreaName', onSearch, onResetSearch, 'text'),
+	// 		className: activeColumnSearch === 'AreaName' ? 'active-column-search' : '',
+	// 		render: (text) => <p className="font-weight-black">{text}</p>
+	// 	},
+	// 	{
+	// 		title: 'Ngày khởi tạo',
+	// 		dataIndex: 'ModifiedOn',
+	// 		render: (date) => moment(date).format('DD/MM/YYYY')
+	// 	},
+	// 	{
+	// 		title: 'Được tạo bởi',
+	// 		dataIndex: 'ModifiedBy'
+	// 	},
+	// 	{
+	// 		align: 'center',
+	// 		render: (value, _, idx) => (
+	// 			<div onClick={(e) => e.stopPropagation()}>
+	// 				<AreaForm isLoading={isLoading} isUpdate={true} updateObj={value} indexUpdateObj={idx} handleUpdateArea={onUpdateArea} />
+	// 				<DeleteTableRow handleDelete={onDeleteArea(idx)} />
+	// 				<Tooltip title="Xem danh sách quận / huyện">
+	// 					<button
+	// 						onClick={() =>
+	// 							router.push({
+	// 								pathname: '/option/district',
+	// 								query: {
+	// 									area: _.AreaID
+	// 								}
+	// 							})
+	// 						}
+	// 						type="button"
+	// 						className="btn btn-icon delete"
+	// 					>
+	// 						<EyeOutlined />
+	// 					</button>
+	// 				</Tooltip>
+	// 			</div>
+	// 		)
+	// 	}
+	// ]
+
 	const columns = [
 		{
-			title: 'Tên tỉnh/thành phố',
-			dataIndex: 'AreaName',
-			...FilterColumn('AreaName', onSearch, onResetSearch, 'text'),
+			title: 'Quốc gia',
+			dataIndex: 'Name',
+			...FilterColumn('Name', onSearch, onResetSearch, 'text'),
 			className: activeColumnSearch === 'AreaName' ? 'active-column-search' : '',
 			render: (text) => <p className="font-weight-black">{text}</p>
 		},
@@ -246,28 +318,30 @@ const Area = () => {
 		},
 		{
 			align: 'center',
-			render: (value, _, idx) => (
-				<div onClick={(e) => e.stopPropagation()}>
-					<AreaForm isLoading={isLoading} isUpdate={true} updateObj={value} indexUpdateObj={idx} handleUpdateArea={onUpdateArea} />
-					<DeleteTableRow handleDelete={onDeleteArea(idx)} />
-					<Tooltip title="Xem danh sách quận / huyện">
-						<button
-							onClick={() =>
-								router.push({
-									pathname: '/option/district',
-									query: {
-										area: _.AreaID
-									}
-								})
-							}
-							type="button"
-							className="btn btn-icon delete"
-						>
-							<EyeOutlined />
-						</button>
-					</Tooltip>
-				</div>
-			)
+			render: (value, _, idx) => {
+				return (
+					<div onClick={(e) => e.stopPropagation()}>
+						{/* <AreaForm isLoading={isLoading} isUpdate={true} updateObj={value} indexUpdateObj={idx} handleUpdateArea={onUpdateArea} />
+						<DeleteTableRow handleDelete={onDeleteArea(idx)} /> */}
+						<Tooltip title="Xem danh sách thành phố">
+							<button
+								onClick={() =>
+									router.push({
+										pathname: '/option/district',
+										query: {
+											area: _.Iso
+										}
+									})
+								}
+								type="button"
+								className="btn btn-icon delete"
+							>
+								<EyeOutlined />
+							</button>
+						</Tooltip>
+					</div>
+				)
+			}
 		}
 	]
 
@@ -280,8 +354,9 @@ const Area = () => {
 			loading={isLoading}
 			addClass="basic-header"
 			TitlePage="Danh sách tỉnh"
-			TitleCard={<AreaForm isLoading={isLoading} isUpdate={false} handleCreateArea={onCreateArea} />}
-			dataSource={areaList}
+			// TitleCard={<AreaForm isLoading={isLoading} isUpdate={false} handleCreateArea={onCreateArea} />}
+			TitleCard={<></>}
+			dataSource={countryList}
 			columns={columns}
 			Extra={
 				SHOW_SORT && (

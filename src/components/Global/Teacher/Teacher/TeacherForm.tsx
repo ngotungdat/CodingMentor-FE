@@ -4,6 +4,7 @@ import { Divider, Form, Modal, Spin, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { countryApi } from '~/apiBase/country/country'
 import { timeZoneApi } from '~/apiBase/timezone'
 import UploadFile from '~/components/Elements/UploadFile/UploadFile'
 import DateField from '~/components/FormControl/DateField'
@@ -11,6 +12,7 @@ import InputPassField from '~/components/FormControl/InputPassField'
 import InputPreventText from '~/components/FormControl/InputPreventText'
 import InputTextField from '~/components/FormControl/InputTextField'
 import SelectField from '~/components/FormControl/SelectField'
+import TextAreaField from '~/components/FormControl/TextAreaField'
 import UploadAvatarField from '~/components/FormControl/UploadAvatarField'
 import { useWrap } from '~/context/wrap'
 
@@ -54,7 +56,7 @@ type ITeacherForm = {
 	isClearForm: boolean
 	indexUpdateObj: number
 	optionGenderList: any
-	optionAreaSystemList: { areaList: any; districtList: any; wardList: any }
+	optionAreaSystemList: { areaList: any; districtList: any; wardList: any; countryList: any }
 	handleFetchDistrict: Function
 	handleFetchWard: Function
 	optionBranchList: any
@@ -74,6 +76,7 @@ const TeacherForm = (props: ITeacherForm) => {
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const { userInformation, showNoti } = useWrap()
 	const [timezone, setTimezone] = useState([])
+	const [cityByCountry, setCityByCountry] = useState([])
 
 	const getAllTimeZone = async () => {
 		try {
@@ -89,11 +92,36 @@ const TeacherForm = (props: ITeacherForm) => {
 			showNoti('danger', err.message)
 		}
 	}
-	useEffect(() => {
-		getAllTimeZone()
-	}, [])
+
+	const onChangeSelect = async (value) => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const getCountry = res.data.data.find((country) => country.ID === value)
+				if (getCountry) {
+					const response = await countryApi.getByCity({ iso: getCountry.Iso })
+					if (response.status === 200) {
+						const newData = response.data.data.map((data) => {
+							return {
+								title: data.Name,
+								value: data.ID
+							}
+						})
+						setCityByCountry(newData)
+					}
+					if (response.status === 204) {
+						setCityByCountry([])
+					}
+				}
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
 
 	const openModal = () => {
+		getAllTimeZone()
+		onChangeSelect(updateObj?.CountryID)
 		if (isUpdate && !!updateObj) {
 			form.setValue('StatusID', updateObj?.StatusID)
 		}
@@ -112,14 +140,14 @@ const TeacherForm = (props: ITeacherForm) => {
 		FullNameUnicode: yup.string().required('Bạn không được để trống'),
 		Email: yup.string().email('Email không đúng định dạng').required('Bạn không được để trống'),
 		TimeZoneId: yup.mixed().nullable().required('Bạn không được để trống'),
-		AreaID: yup.mixed().nullable().required('Bạn không được để trống'),
+		// AreaID: yup.mixed().nullable().required('Bạn không được để trống'),
 		Mobile: yup.string().nullable().required('Bạn không được để trống'),
 		Branch: yup.mixed().nullable().required('Bạn không được để trống')
 	})
 
 	const schemaUpdate = yup.object().shape({
-		DistrictID: yup.number().nullable(),
-		WardID: yup.number().nullable(),
+		// DistrictID: yup.number().nullable(),
+		// WardID: yup.number().nullable(),
 		HouseNumber: yup.string().nullable(),
 		Avatar: yup.string().nullable(),
 		DOB: yup.string().nullable(),
@@ -333,46 +361,27 @@ const TeacherForm = (props: ITeacherForm) => {
 								</div>
 								<div className="col-md-6 col-12">
 									<SelectField
+										onChangeSelect={onChangeSelect}
 										form={form}
-										isRequired={false}
-										name="AreaID"
-										label="Tỉnh/Thành phố"
-										optionList={areaList}
-										onChangeSelect={(value) => {
-											checkHandleFetchBranch(value)
-											checkHandleFetchDistrict(value)
-										}}
-										placeholder="Chọn tỉnh/thành phố"
+										name="CountryID"
+										label="Quốc gia"
+										optionList={optionAreaSystemList.countryList}
+										placeholder="Chọn quốc gia"
 									/>
 								</div>
 								<div className="col-md-6 col-12">
-									<SelectField
-										form={form}
-										name="DistrictID"
-										label="Quận/Huyện"
-										optionList={districtList}
-										onChangeSelect={checkHandleFetchWard}
-										isLoading={isLoading.type === 'FETCH_DATA_BY_AREA' && isLoading.status}
-										placeholder="Chọn quận/huyện"
-									/>
-								</div>
-								<div className="col-md-6 col-12">
-									<SelectField
-										form={form}
-										name="WardID"
-										label="Phường/Xã"
-										optionList={wardList}
-										isLoading={isLoading.type === 'FETCH_WARD_BY_DISTRICT' && isLoading.status}
-										placeholder="Chọn phường/xã"
-									/>
+									<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} placeholder="Chọn thành phố" />
 								</div>
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="Extension" label="Mô tả thêm" placeholder="Nhập mô tả thêm" />
 								</div>
-								<div className="col-12">
+								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="HouseNumber" label="Số nhà/Tên đường" placeholder="Nhập số nhà/tên đường" />
 								</div>
-								<div className="col-12">
+								<div className="col-12 mb-4">
+									<TextAreaField form={form} name="Others" label="Ghi chú" />
+								</div>
+								<div className="col-12 mt-2">
 									<Divider orientation="center">Khác</Divider>
 								</div>
 								<div className="col-md-6 col-12">
@@ -418,12 +427,12 @@ const TeacherForm = (props: ITeacherForm) => {
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="LinkFaceBook" label="Link Facebook" placeholder="Nhập link facebook" />
 								</div>
-								<div className="col-12">
+								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="Address" label="Địa chỉ" placeholder="Nhập địa chỉ" />
 								</div>
 
 								{/** ==== Thông tin ngân hàng  ====*/}
-								<div className="col-12">
+								<div className="col-12 mt-3">
 									<Divider orientation="center">Thông tin ngân hàng</Divider>
 								</div>
 								<div className="col-md-12 col-12">
@@ -443,17 +452,22 @@ const TeacherForm = (props: ITeacherForm) => {
 							<div className="row">
 								<div className="col-md-6 col-12">
 									<SelectField
+										onChangeSelect={onChangeSelect}
 										form={form}
-										name="AreaID"
-										label="Tỉnh/thành phố"
-										optionList={areaList}
-										onChangeSelect={checkHandleFetchBranch}
-										placeholder="Chọn tỉnh/thành phố"
-										isRequired={true}
+										name="CountryID"
+										label="Quốc gia"
+										optionList={optionAreaSystemList.countryList}
+										placeholder="Chọn quốc gia"
 									/>
+								</div>
+								<div className="col-md-6 col-12">
+									<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} placeholder="Chọn thành phố" />
+								</div>
+								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="FullNameUnicode" label="Họ và tên" placeholder="Nhập họ và tên" isRequired={true} />
 									<InputTextField form={form} name="Email" label="Email" placeholder="Nhập email" isRequired={true} />
 									<DateField form={form} name="Jobdate" label="Ngày nhận việc" placeholder="Chọn ngày nhận việc" isRequired={false} />
+									<InputTextField form={form} name="Address" label="Địa chỉ" placeholder="Nhập địa chỉ" />
 								</div>
 								<div className="col-md-6 col-12">
 									<SelectField
@@ -477,10 +491,10 @@ const TeacherForm = (props: ITeacherForm) => {
 									/>
 									<InputTextField form={form} name="LinkFaceBook" label="Link Facebook" placeholder="Nhập link faebook" />
 								</div>
-								<div className="col-12">
-									<InputTextField form={form} name="Address" label="Địa chỉ" placeholder="Nhập địa chỉ" />
+								<div className="col-12 mb-4">
+									<TextAreaField form={form} name="Others" label="Ghi chú" />
 								</div>
-								<div className="col-md-6 col-12">
+								<div className="col-md-6 col-12 mt-4">
 									<Form.Item label="Hợp đồng">
 										<UploadFile getFile={(file) => getFile(file, 'contract')} />
 										{updateObj?.ContractOfStaff && (
@@ -490,7 +504,7 @@ const TeacherForm = (props: ITeacherForm) => {
 										)}
 									</Form.Item>
 								</div>
-								<div className="col-md-6 col-12">
+								<div className="col-md-6 col-12 mt-4">
 									<Form.Item label="Bằng cấp">
 										<UploadFile url={updateObj?.DegreeOfStaff} getFile={(file) => getFile(file, 'degree')} />
 										{updateObj?.ContractOfStaff && (

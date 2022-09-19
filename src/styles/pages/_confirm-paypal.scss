@@ -4,6 +4,9 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	.ant-spin-dot-item {
+		background-color: #fff;
+	}
 	.wrapper-confirm-paypal {
 		display: flex;
 		flex-direction: column;
@@ -20,9 +23,9 @@
 			background-color: #b3ecdf;
 			width: 100%;
 			.icon-confirm-paypal {
-				width: 14rem;
+				width: 24rem;
 				margin: 0 auto;
-				padding: 2.5rem 0;
+				padding: 0;
 			}
 		}
 		.wrapper-confirm-content {
@@ -32,7 +35,7 @@
 			align-items: center;
 			.confirm {
 				font-weight: bold;
-				color: #d05050;
+				color: #4debc7;
 				text-transform: uppercase;
 				margin: 2.5rem 0 1.5rem;
 			}
@@ -48,7 +51,7 @@
 				font-size: 16px;
 				font-weight: 500;
 				padding: 1.5rem;
-				background-color: #d05050;
+				background-color: #4debc7;
 				text-transform: uppercase;
 				outline: none;
 				border: none;
@@ -60,7 +63,7 @@
 				}
 
 				&:hover {
-					background-color: #ac3636;
+					background-color: #28cda6;
 				}
 			}
 		}

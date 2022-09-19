@@ -12,6 +12,8 @@ import StudentForm from '~/components/Global/Customer/Student/StudentForm'
 import { studentApi, areaApi, studentChangeApi, jobApi, puroseApi, branchApi, sourceInfomationApi, parentsApi, staffApi } from '~/apiBase'
 import FilterBase from '~/components/Elements/FilterBase/FilterBase'
 import StudentExchangeForm from '~/components/Global/Customer/Student/StudentExchangeForm'
+import { countryApi } from '~/apiBase/country/country'
+import PowerTable from '~/components/PowerTable'
 
 let pageIndex = 1
 
@@ -61,6 +63,7 @@ interface listDataForm {
 	SourceInformation: Array<optionObj>
 	Parent: Array<optionObj>
 	Counselors: Array<optionObj>
+	Country: Array<optionObj>
 }
 
 const optionGender = [
@@ -154,7 +157,8 @@ const StudentExchange = () => {
 		Purposes: [],
 		SourceInformation: [],
 		Parent: [],
-		Counselors: []
+		Counselors: [],
+		Country: []
 	})
 
 	// ------ LIST FILTER -------
@@ -246,12 +250,37 @@ const StudentExchange = () => {
 					value: item.UserInformationID
 				}))
 				break
+			case 'Country':
+				newData = data.map((item) => ({
+					title: item.Name,
+					value: item.ID
+				}))
+				break
 			default:
 				break
 		}
 
 		return newData
 	}
+
+	const getCountry = async () => {
+		setIsLoading({
+			type: 'GET_ALL',
+			status: true
+		})
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				getDataTolist(res.data.data, 'Country')
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
+	useEffect(() => {
+		getCountry()
+	}, [])
 
 	const getDataTolist = (data: any, name: any) => {
 		let newData = makeNewData(data, name)
@@ -299,7 +328,6 @@ const StudentExchange = () => {
 
 		try {
 			let res = await studentChangeApi.getAll(todoApi)
-			console.log('Response: ', res)
 			res.status == 200 && (setDataSource(res.data.data), setTotalPage(res.data.totalRow))
 			res.status == 204 && setDataSource([])
 		} catch (error) {
@@ -478,7 +506,7 @@ const StudentExchange = () => {
 						let newDataSource = [...dataSource]
 						newDataSource.splice(index, 1, {
 							...dataSubmit,
-							AreaName: listDataForm.Area.find((item) => item.value == dataSubmit.AreaID).title
+							AreaName: listDataForm.Area.find((item) => item.value == dataSubmit.AreaID)?.title
 						})
 						console.log('NEW DATA: ', newDataSource)
 						setDataSource(newDataSource)
@@ -614,7 +642,7 @@ const StudentExchange = () => {
 			  ]
 
 	return (
-		<ExpandTable
+		<PowerTable
 			currentPage={currentPage}
 			totalPage={totalPage && totalPage}
 			getPagination={(pageNumber: number) => getPagination(pageNumber)}
@@ -629,8 +657,6 @@ const StudentExchange = () => {
 					<SortBox handleSort={(value) => handleSort(value)} dataOption={dataOption} />
 				</div>
 			}
-			handleExpand={(data) => setDataRow(data)}
-			expandable={{ expandedRowRender }}
 		/>
 	)
 }

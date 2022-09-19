@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { districtApi, wardApi } from '~/apiBase'
+import { countryApi } from '~/apiBase/country/country'
 import { timeZoneApi } from '~/apiBase/timezone'
 import AvatarBase from '~/components/Elements/AvatarBase'
 import UploadFile from '~/components/Elements/UploadFile/UploadFile'
@@ -50,7 +51,10 @@ const StaffForm = (props) => {
 	const { rowData, listDataForm, onSubmit, isLoading, rowID, getIndex, index, onSubmitSalary } = props
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const { showNoti, useStaffRoles } = useWrap()
+	const [cityByCountry, setCityByCountry] = useState([])
 	const showModal = () => {
+		getAllTimeZone()
+		onChangeSelect(rowData?.CountryID)
 		setIsModalVisible(true)
 		rowID && getIndex(index)
 	}
@@ -79,9 +83,32 @@ const StaffForm = (props) => {
 			showNoti('danger', err.message)
 		}
 	}
-	useEffect(() => {
-		getAllTimeZone()
-	}, [])
+	const onChangeSelect = async (value) => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const getCountry = res.data.data.find((country) => country.ID === value)
+				if (getCountry) {
+					const response = await countryApi.getByCity({ iso: getCountry.Iso })
+					if (response.status === 200) {
+						const newData = response.data.data.map((data) => {
+							return {
+								title: data.Name,
+								value: data.ID
+							}
+						})
+						setCityByCountry(newData)
+					}
+					if (response.status === 204) {
+						setCityByCountry([])
+					}
+				}
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+		// const getCity = dataCountry.find((country) => country.ID == value)
+	}
 
 	const makeNewData = (data, name) => {
 		let newData = null
@@ -549,35 +576,16 @@ const StaffForm = (props) => {
 								</div>
 								<div className="col-md-6 col-12">
 									<SelectField
+										onChangeSelect={onChangeSelect}
 										form={form}
-										name="AreaID"
-										label="Tỉnh/TP"
-										optionList={listData.Area}
-										onChangeSelect={
-											(value) => handleChange_select(value, 'DistrictID') // Select Area to load District
-										}
+										name="CountryID"
+										label="Quốc gia"
+										optionList={listDataForm.Country}
+										placeholder="Chọn quốc gia"
 									/>
 								</div>
 								<div className="col-md-6 col-12">
-									<SelectField
-										isLoading={loadingSelect.name == 'DistrictID' && loadingSelect.status}
-										form={form}
-										name="DistrictID"
-										label="Quận/Huyện"
-										optionList={listData.DistrictID}
-										onChangeSelect={
-											(value) => handleChange_select(value, 'WardID') // Select District to load Ward
-										}
-									/>
-								</div>
-								<div className="col-md-6 col-12">
-									<SelectField
-										isLoading={loadingSelect.name == 'WardID' && loadingSelect.status}
-										form={form}
-										name="WardID"
-										label="Phường/Xã"
-										optionList={listData.WardID}
-									/>
+									<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} placeholder="Chọn thành phố" />
 								</div>
 								{/* <div className="col-md-6 col-12">
 									<InputTextField form={form} name="Address" label="Mô tả thêm" />
@@ -585,8 +593,11 @@ const StaffForm = (props) => {
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="HouseNumber" label="Số nhà/tên đường" />
 								</div>
+								<div className="col-md-12 col-12 mb-4">
+									<TextAreaField form={form} name="Others" label="Ghi chú" />
+								</div>
 								{/** ==== Thông tin ngân hàng  ====*/}
-								<div className="col-12">
+								<div className="col-12 mt-1">
 									<Divider orientation="center">Thông tin ngân hàng</Divider>
 								</div>
 								<div className="col-md-6 col-12">

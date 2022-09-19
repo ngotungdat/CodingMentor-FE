@@ -3,9 +3,11 @@ import { Form, Modal, Spin, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { countryApi } from '~/apiBase/country/country'
 import { timeZoneApi } from '~/apiBase/timezone'
 import InputTextField from '~/components/FormControl/InputTextField'
 import SelectField from '~/components/FormControl/SelectField'
+import TextAreaField from '~/components/FormControl/TextAreaField'
 import { useWrap } from '~/context/wrap'
 
 let returnSchema = {}
@@ -14,6 +16,7 @@ let schema = null
 const StudentAdviseForm = React.memo((props: any) => {
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const { isLoading, rowID, _onSubmit, getIndex, index, rowData, listData, dataProgram } = props
+	const [cityByCountry, setCityByCountry] = useState([])
 
 	const [timezone, setTimezone] = useState([])
 
@@ -31,9 +34,6 @@ const StudentAdviseForm = React.memo((props: any) => {
 			showNoti('danger', err.message)
 		}
 	}
-	useEffect(() => {
-		getAllTimeZone()
-	}, [])
 
 	const { showNoti, userInformation } = useWrap()
 
@@ -108,6 +108,32 @@ const StudentAdviseForm = React.memo((props: any) => {
 		}
 	}, [isModalVisible])
 
+	const onChangeSelect = async (value) => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const getCountry = res.data.data.find((country) => country.ID === value)
+				if (getCountry) {
+					const response = await countryApi.getByCity({ iso: getCountry.Iso })
+					if (response.status === 200) {
+						const newData = response.data.data.map((data) => {
+							return {
+								title: data.Name,
+								value: data.ID
+							}
+						})
+						setCityByCountry(newData)
+					}
+					if (response.status === 204) {
+						setCityByCountry([])
+					}
+				}
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
 	return (
 		<>
 			{rowID ? (
@@ -116,6 +142,8 @@ const StudentAdviseForm = React.memo((props: any) => {
 					onClick={() => {
 						setIsModalVisible(true)
 						getIndex(index)
+						onChangeSelect(rowData?.CountryID)
+						getAllTimeZone()
 					}}
 				>
 					<Tooltip title="Cập nhật">
@@ -127,6 +155,8 @@ const StudentAdviseForm = React.memo((props: any) => {
 					className="btn btn-warning add-new"
 					onClick={() => {
 						setIsModalVisible(true)
+						onChangeSelect(rowData?.CountryID)
+						getAllTimeZone()
 					}}
 				>
 					Thêm mới
@@ -186,17 +216,38 @@ const StudentAdviseForm = React.memo((props: any) => {
 							<div className="col-md-6 col-12">
 								<SelectField form={form} name="ProgramID" label="Nhu cầu học" optionList={listData.Program} isRequired={false} />
 							</div>
-							<div className="col-md-6 col-12">
+							{/* <div className="col-md-6 col-12">
 								<SelectField form={form} name="AreaID" label="Tỉnh/TP" optionList={listData.Area} placeholder="Chọn tỉnh thành" />
+							</div> */}
+							<div className="col-md-6 col-12">
+								<SelectField
+									onChangeSelect={onChangeSelect}
+									form={form}
+									name="CountryID"
+									label="Quốc gia"
+									optionList={listData.Country}
+									placeholder="Chọn quốc gia"
+								/>
 							</div>
-						</div>
-						<div className="row">
-							<div className="col-md-12 col-12">
+							<div className="col-md-6 col-12">
+								<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} placeholder="Chọn thành phố" />
+							</div>
+							<div className="col-md-6 col-12">
 								<SelectField form={form} name="TimeZoneId" label="Timezone" optionList={timezone} placeholder="Chọn Timezone" />
 							</div>
 						</div>
+						{/* <div className="row">
+							<div className="col-md-12 col-12">
+								<SelectField form={form} name="TimeZoneId" label="Timezone" optionList={timezone} placeholder="Chọn Timezone" />
+							</div>
+						</div> */}
+						<div className="row">
+							<div className="col-md-12 col-12 mb-4">
+								<TextAreaField form={form} name="Others" label="Ghi chú" />
+							</div>
+						</div>
 
-						<div className="row mt-3">
+						<div className="row mt-4">
 							<div className="col-12">
 								<button type="submit" className="btn btn-primary w-100">
 									Lưu

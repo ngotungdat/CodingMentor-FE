@@ -1,6 +1,7 @@
 import moment from 'moment'
 import React, { useEffect, useRef, useState } from 'react'
 import { areaApi, branchApi, districtApi, staffApi, wardApi } from '~/apiBase'
+import { countryApi } from '~/apiBase/country/country'
 import SortBox from '~/components/Elements/SortBox'
 import PowerTable from '~/components/PowerTable'
 import FilterColumn from '~/components/Tables/FilterColumn'
@@ -13,12 +14,14 @@ type IAreaList = {
 	areaList: IOptionCommon[]
 	districtList: IOptionCommon[]
 	wardList: IOptionCommon[]
+	countryList: IOptionCommon[]
 }
 
 const defaultAreaList = {
 	areaList: [],
 	districtList: [],
-	wardList: []
+	wardList: [],
+	countryList: []
 }
 
 const baseField = {
@@ -130,6 +133,17 @@ const SalerList = () => {
 		setFilters({ ...listFieldInit, ...refValue.current, pageIndex: 1, [dataIndex]: valueSearch })
 	}
 
+	// GET Country
+	const fetchCountryList = async () => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200 && res.data.totalRow && res.data.data.length) {
+				const newCountryList = fmSelectArr(res.data.data, 'Name', 'ID')
+				setOptionAreaSystemList({ ...optionAreaSystemList, countryList: newCountryList })
+			}
+		} catch (error) {}
+	}
+
 	// GET AREA
 	const fetchAreaList = async () => {
 		try {
@@ -143,6 +157,7 @@ const SalerList = () => {
 
 	useEffect(() => {
 		fetchAreaList()
+		// fetchCountryList()
 	}, [])
 
 	// DISTRICT BY AREA

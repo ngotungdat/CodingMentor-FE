@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { districtApi, studentApi, wardApi } from '~/apiBase'
+import { countryApi } from '~/apiBase/country/country'
 import { timeZoneApi } from '~/apiBase/timezone'
 import AvatarBase from '~/components/Elements/AvatarBase'
 import DateField from '~/components/FormControl/DateField'
@@ -29,6 +30,7 @@ interface listData {
 	SourceInformation: Array<Object>
 	Parent: Array<Object>
 	Counselors: Array<Object>
+	Country: Array<Object>
 }
 
 const optionGender = [
@@ -61,6 +63,7 @@ const StudentFormModal = (props) => {
 	const [valueEmail, setValueEmail] = useState()
 	const [isSearch, setIsSearch] = useState(false)
 	const [timezone, setTimezone] = useState([])
+	const [cityByCountry, setCityByCountry] = useState([])
 
 	const getAllTimeZone = async () => {
 		try {
@@ -76,10 +79,10 @@ const StudentFormModal = (props) => {
 			showNoti('danger', err.message)
 		}
 	}
-	useEffect(() => {
-		getAllTimeZone()
-	}, [])
+
 	const showModal = () => {
+		getAllTimeZone()
+		onChangeSelect(dataRow?.CountryID)
 		setIsModalVisible(true)
 	}
 
@@ -139,6 +142,18 @@ const StudentFormModal = (props) => {
 				newData = data.map((item) => ({
 					title: item.FullNameUnicode,
 					value: item.UserInformationID
+				}))
+				break
+			case 'Country':
+				newData = data.map((item) => ({
+					title: item.Name,
+					value: item.ID
+				}))
+				break
+			case 'City':
+				newData = data.map((item) => ({
+					title: item.Name,
+					value: item.ID
 				}))
 				break
 			default:
@@ -240,7 +255,9 @@ const StudentFormModal = (props) => {
 		AppointmentDate: null,
 		ExamAppointmentTime: null,
 		ExamAppointmentNote: null,
-		TimeZoneId: null
+		TimeZoneId: null,
+		CountryID: null,
+		CityID: null
 	}
 
 	;(function returnSchemaFunc() {
@@ -314,7 +331,9 @@ const StudentFormModal = (props) => {
 			StatusID: data.StatusID,
 			CounselorsID: data.CounselorsID,
 			Password: data.Password,
-			TimeZoneId: data.TimeZoneId
+			TimeZoneId: data.TimeZoneId,
+			CountryID: data.CountryID,
+			CityID: data.CityID
 		}
 		data.Branch = data.Branch.toString()
 
@@ -395,6 +414,32 @@ const StudentFormModal = (props) => {
 	useEffect(() => {
 		setListData(listDataForm)
 	}, [listDataForm])
+
+	const onChangeSelect = async (value) => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const getCountry = res.data.data.find((country) => country.ID === value)
+				if (getCountry) {
+					const response = await countryApi.getByCity({ iso: getCountry.Iso })
+					if (response.status === 200) {
+						const newData = response.data.data.map((data) => {
+							return {
+								title: data.Name,
+								value: data.ID
+							}
+						})
+						setCityByCountry(newData)
+					}
+					if (response.status === 204) {
+						setCityByCountry([])
+					}
+				}
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
 
 	return (
 		<>
@@ -514,7 +559,32 @@ const StudentFormModal = (props) => {
 							<div className="col-12">
 								<Divider orientation="center">Địa chỉ</Divider>
 							</div>
+							{/* <div className="col-md-6 col-12">
+								<SelectField
+									form={form}
+									name="AreaID"
+									label="Tỉnh/TP"
+									optionList={listData.Area}
+									onChangeSelect={
+										(value) => handleChange_select(value, 'DistrictID') // Select Area to load District
+									}
+									placeholder="Chọn tỉnh/tp"
+								/>
+							</div> */}
 							<div className="col-md-6 col-12">
+								<SelectField
+									onChangeSelect={onChangeSelect}
+									form={form}
+									name="CountryID"
+									label="Quốc gia"
+									optionList={listData.Country}
+									placeholder="Chọn quốc gia"
+								/>
+							</div>
+							<div className="col-md-6 col-12">
+								<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} placeholder="Chọn thành phố" />
+							</div>
+							{/* <div className="col-md-6 col-12">
 								<SelectField
 									form={form}
 									name="AreaID"
@@ -539,7 +609,6 @@ const StudentFormModal = (props) => {
 									placeholder="Chọn quận/huyện"
 								/>
 							</div>
-							{/*  */}
 							<div className="col-md-6 col-12">
 								<SelectField
 									isLoading={loadingSelect.name == 'WardID' && loadingSelect.status}
@@ -549,11 +618,11 @@ const StudentFormModal = (props) => {
 									optionList={listData.WardID}
 									placeholder="Chọn phường/xã"
 								/>
-							</div>
+							</div> */}
 							<div className="col-md-6 col-12">
 								<InputTextField form={form} name="Address" label="Mô tả thêm" placeholder="Nhập mô tả thêm" />
 							</div>
-							<div className="col-12">
+							<div className="col-md-6 col-12">
 								<InputTextField form={form} name="HouseNumber" label="Số nhà/tên đường" placeholder="Nhập số nhà/tên đường" />
 							</div>
 							{!isStudentDetail && (

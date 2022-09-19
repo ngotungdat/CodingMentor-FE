@@ -777,22 +777,22 @@ export const StaffManagerChildMenu = [
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-1',
 				Icon: Icon.home,
-				TitleSub: 'Địa chỉ',
+				TitleSub: 'Quốc gia',
 				SubMenuList: [
 					{
 						ItemType: 'single',
 						Key: '/option/provincial',
 						Route: '/option/provincial',
-						Text: 'Tỉnh/Tp',
-						Icon: ''
-					},
-					{
-						ItemType: 'single',
-						Key: '/option/district',
-						Route: '/option/district',
-						Text: 'Quận huyện',
+						Text: 'Quốc gia',
 						Icon: ''
 					}
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/option/district',
+					// 	Route: '/option/district',
+					// 	Text: 'Thành phố',
+					// 	Icon: ''
+					// }
 				]
 			},
 			{

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { districtApi, studentApi, wardApi, studentAdviseApi } from '~/apiBase'
+import { countryApi } from '~/apiBase/country/country'
 import { timeZoneApi } from '~/apiBase/timezone'
 import AvatarBase from '~/components/Elements/AvatarBase'
 import DateField from '~/components/FormControl/DateField'
@@ -58,6 +59,7 @@ const StudentForm = (props) => {
 	const { showNoti, userInformation } = useWrap()
 	const url = router.pathname
 	const { customerID: customerID } = router.query
+	const [cityByCountry, setCityByCountry] = useState([])
 
 	const [isStudentDetail, setIsStudentDetail] = useState(url.includes('student-list') || url.includes('student-detail'))
 	const [isLoading, setIsLoading] = useState({ type: '', status: false })
@@ -86,6 +88,42 @@ const StudentForm = (props) => {
 	useEffect(() => {
 		getAllTimeZone()
 	}, [])
+
+	useEffect(() => {
+		if (dataRow) {
+			onChangeSelect(dataRow.CountryID)
+		}
+		if (userDetail) {
+			onChangeSelect(userDetail.CountryID)
+		}
+		form.reset(dataRow)
+	}, [dataRow, userDetail])
+
+	const onChangeSelect = async (value) => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const getCountry = res.data.data.find((country) => country.ID === value)
+				if (getCountry) {
+					const response = await countryApi.getByCity({ iso: getCountry.Iso })
+					if (response.status === 200) {
+						const newData = response.data.data.map((data) => {
+							return {
+								title: data.Name,
+								value: data.ID
+							}
+						})
+						setCityByCountry(newData)
+					}
+					if (response.status === 204) {
+						setCityByCountry([])
+					}
+				}
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
 
 	const fetchDataUser = async () => {
 		setIsLoading({ type: '', status: true })
@@ -266,7 +304,9 @@ const StudentForm = (props) => {
 		TeacherID: null,
 		CustomerConsultationID: null,
 		Username: null,
-		TimeZoneId: null
+		TimeZoneId: null,
+		CityID: null,
+		CountryID: null
 	}
 
 	;(function returnSchemaFunc() {
@@ -379,11 +419,11 @@ const StudentForm = (props) => {
 			})
 			cloneRowData.Branch = arrBranch
 		}
-		form.reset(cloneRowData)
 		cloneRowData.AreaID && getDataWithID(cloneRowData.AreaID, 'DistrictID')
 		cloneRowData.DistrictID && getDataWithID(cloneRowData.DistrictID, 'WardID')
+		form.reset(cloneRowData)
 		setImageUrl(cloneRowData.Avatar)
-		if (cloneRowData.CustomerName) {
+		if (cloneRowData.cloneRowData) {
 			form.setValue('FullNameUnicode', cloneRowData.CustomerName)
 		}
 		if (cloneRowData.Number) {
@@ -391,6 +431,15 @@ const StudentForm = (props) => {
 		}
 		if (cloneRowData.StatusID) {
 			form.setValue('StatusID', cloneRowData.StatusID)
+		}
+		if (cloneRowData.CityID) {
+			form.setValue('CityID', cloneRowData.CityID)
+		}
+		if (cloneRowData.CountryID) {
+			form.setValue('CountryID', cloneRowData.CountryID)
+		}
+		if (cloneRowData.TimeZoneId) {
+			form.setValue('TimeZoneId', cloneRowData.TimeZoneId)
 		}
 	}
 
@@ -577,6 +626,19 @@ const StudentForm = (props) => {
 											isRequired={true}
 										/>
 									</div>
+									<div className="col-md-6 col-12">
+										<SelectField
+											form={form}
+											name="CountryID"
+											label="Quốc gia"
+											onChangeSelect={onChangeSelect}
+											optionList={listDataForm.Country}
+											placeholder="Chọn quốc gia"
+										/>
+									</div>
+									<div className="col-md-6 col-12">
+										<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} placeholder="Chọn thành phố" />
+									</div>
 									{!isStudentDetail && (
 										<>
 											<div className="col-md-6 col-12">
@@ -670,16 +732,16 @@ const StudentForm = (props) => {
 									</div>
 								</div>
 
-								<div className="row" style={{ opacity: !isHideButton ? 1 : 0 }}>
-									<div className="col-12 d-flex justify-content-center mt-3">
-										<div style={{ paddingRight: 5 }}>
-											<button type="submit" className="btn btn-primary w-100 btn-submit">
-												Lưu
-												{isLoading.type == 'ADD_DATA' && isLoading.status && <Spin className="loading-base" />}
-											</button>
-										</div>
+								{/* <div className="row" style={{ opacity: !isHideButton ? 1 : 0 }}> */}
+								<div className="col-12 d-flex justify-content-center mt-3">
+									<div style={{ paddingRight: 5 }}>
+										<button type="submit" className="btn btn-primary w-100 btn-submit">
+											Lưu
+											{isLoading.type == 'ADD_DATA' && isLoading.status && <Spin className="loading-base" />}
+										</button>
 									</div>
 								</div>
+								{/* </div> */}
 							</Form>
 						</Skeleton>
 					</div>

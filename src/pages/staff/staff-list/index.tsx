@@ -23,6 +23,7 @@ import FilterColumn from '~/components/Tables/FilterColumn'
 import { useWrap } from '~/context/wrap'
 import Link from 'next/link'
 import { Eye } from 'react-feather'
+import { countryApi } from '~/apiBase/country/country'
 
 let pageIndex = 1
 
@@ -80,6 +81,7 @@ interface listDataForm {
 	SourceInformation: Array<objData>
 	Parent: Array<objData>
 	Counselors: Array<objData>
+	Country: Array<objData>
 }
 
 const optionGender = [
@@ -151,7 +153,8 @@ const StaffList = () => {
 		Purposes: [],
 		SourceInformation: [],
 		Parent: [],
-		Counselors: []
+		Counselors: [],
+		Country: []
 	})
 
 	const [isOpenReset, setIsOpenReset] = useState(false)
@@ -302,6 +305,13 @@ const StaffList = () => {
 					value: item.ID
 				}))
 				break
+			case 'Country':
+				newData = data.map((item) => ({
+					title: item.Name,
+					value: item.ID
+				}))
+				setDataFunc('Country', newData)
+				break
 			default:
 				break
 		}
@@ -323,7 +333,7 @@ const StaffList = () => {
 	// ----------- GET DATA SOURCE ---------------
 	const getDataStudentForm = (arrApi) => {
 		arrApi.forEach((item, index) => {
-			; (async () => {
+			;(async () => {
 				let res = null
 				try {
 					if (item.name == 'Counselors') {
@@ -354,6 +364,25 @@ const StaffList = () => {
 			})()
 		})
 	}
+
+	const getCountry = async () => {
+		setIsLoading({
+			type: 'GET_ALL',
+			status: true
+		})
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				getDataTolist(res.data.data, 'Country')
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
+	useEffect(() => {
+		getCountry()
+	}, [])
 
 	// GET DATA SOURCE
 	const getDataSource = async () => {
@@ -527,10 +556,10 @@ const StaffList = () => {
 			dataIndex == 'FullNameUnicode'
 				? { FullNameUnicode: valueSearch }
 				: dataIndex == 'ChineseName'
-					? { ChineseName: valueSearch }
-					: dataIndex == 'Mobile'
-						? { Mobile: valueSearch }
-						: { Email: valueSearch }
+				? { ChineseName: valueSearch }
+				: dataIndex == 'Mobile'
+				? { Mobile: valueSearch }
+				: { Email: valueSearch }
 
 		setTodoApi({
 			...todoApi,

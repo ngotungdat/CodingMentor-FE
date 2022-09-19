@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { districtApi, wardApi } from '~/apiBase'
+import { countryApi } from '~/apiBase/country/country'
 import { timeZoneApi } from '~/apiBase/timezone'
 import AvatarBase from '~/components/Elements/AvatarBase'
 import DateField from '~/components/FormControl/DateField'
@@ -45,9 +46,12 @@ const optionGender = [
 
 const ParentsForm = (props) => {
 	const { rowData, listDataForm, onSubmit, isLoading, rowID, getIndex, index, onSubmitSalary, getDataSource } = props
+	const [cityByCountry, setCityByCountry] = useState([])
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const { showNoti } = useWrap()
 	const showModal = () => {
+		getAllTimeZone()
+		onChangeSelect(rowData?.CountryID)
 		setIsModalVisible(true)
 		rowID && getIndex(index)
 	}
@@ -79,9 +83,32 @@ const ParentsForm = (props) => {
 			showNoti('danger', err.message)
 		}
 	}
-	useEffect(() => {
-		getAllTimeZone()
-	}, [])
+	const onChangeSelect = async (value) => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const getCountry = res.data.data.find((country) => country.ID === value)
+				if (getCountry) {
+					const response = await countryApi.getByCity({ iso: getCountry.Iso })
+					if (response.status === 200) {
+						const newData = response.data.data.map((data) => {
+							return {
+								title: data.Name,
+								value: data.ID
+							}
+						})
+						setCityByCountry(newData)
+					}
+					if (response.status === 204) {
+						setCityByCountry([])
+					}
+				}
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+		// const getCity = dataCountry.find((country) => country.ID == value)
+	}
 
 	const makeNewData = (data, name) => {
 		let newData = null
@@ -308,7 +335,6 @@ const ParentsForm = (props) => {
 						setImageUrl('')
 					}
 					setIsModalVisible(false)
-					getDataSource()
 				}
 			}
 		})
@@ -504,43 +530,21 @@ const ParentsForm = (props) => {
 							</div>
 							<div className="col-md-6 col-12">
 								<SelectField
+									onChangeSelect={onChangeSelect}
 									form={form}
-									name="AreaID"
-									label="Tỉnh/TP"
-									optionList={listData.Area}
-									onChangeSelect={
-										(value) => handleChange_select(value, 'DistrictID') // Select Area to load District
-									}
-									placeholder="Chọn tỉnh/tp"
+									name="CountryID"
+									label="Quốc gia"
+									optionList={listDataForm.Country}
+									placeholder="Chọn quốc gia"
 								/>
 							</div>
 							<div className="col-md-6 col-12">
-								<SelectField
-									isLoading={loadingSelect.name == 'DistrictID' && loadingSelect.status}
-									form={form}
-									name="DistrictID"
-									label="Quận/Huyện"
-									optionList={listData.DistrictID}
-									onChangeSelect={
-										(value) => handleChange_select(value, 'WardID') // Select District to load Ward
-									}
-									placeholder="Chọn quận/huyện"
-								/>
-							</div>
-							<div className="col-md-6 col-12">
-								<SelectField
-									isLoading={loadingSelect.name == 'WardID' && loadingSelect.status}
-									form={form}
-									name="WardID"
-									label="Phường/Xã"
-									optionList={listData.WardID}
-									placeholder="Chọn phường/xã"
-								/>
+								<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} placeholder="Chọn thành phố" />
 							</div>
 							<div className="col-md-6 col-12">
 								<InputTextField form={form} name="Address" label="Mô tả thêm" placeholder="Nhập mô tả thêm" />
 							</div>
-							<div className="col-md-12 col-12">
+							<div className="col-md-6 col-12">
 								<InputTextField form={form} name="HouseNumber" label="Số nhà/tên đường" placeholder="Nhập số nhà/tên đường" />
 							</div>
 							{/** ==== Khác  ====*/}

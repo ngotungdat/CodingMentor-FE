@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { areaApi, branchApi, jobApi, parentsApi, puroseApi, sourceInfomationApi, staffApi, staffSalaryApi } from '~/apiBase'
+import { countryApi } from '~/apiBase/country/country'
 import FilterBase from '~/components/Elements/FilterBase/FilterBase'
 import SortBox from '~/components/Elements/SortBox'
 import ParentsForm from '~/components/Global/Customer/ParentsList/ParentsForm'
@@ -102,6 +103,7 @@ interface listDataForm {
 	SourceInformation: Array<objData>
 	Parent: Array<objData>
 	Counselors: Array<objData>
+	Country: Array<objData>
 }
 
 const optionGender = [
@@ -168,7 +170,8 @@ const ParentsList = () => {
 		Purposes: [],
 		SourceInformation: [],
 		Parent: [],
-		Counselors: []
+		Counselors: [],
+		Country: []
 	})
 
 	// ------ BASE USESTATE TABLE -------
@@ -312,12 +315,38 @@ const ParentsList = () => {
 					value: item.UserInformationID
 				}))
 				break
+			case 'Country':
+				newData = data.map((item) => ({
+					title: item.Name,
+					value: item.ID
+				}))
+				setDataFunc('Country', newData)
+				break
 			default:
 				break
 		}
 
 		return newData
 	}
+
+	const getCountry = async () => {
+		setIsLoading({
+			type: 'GET_ALL',
+			status: true
+		})
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				getDataTolist(res.data.data, 'Country')
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
+	useEffect(() => {
+		getCountry()
+	}, [])
 
 	const getDataTolist = (data: any, name: any) => {
 		let newData = makeNewData(data, name)
@@ -414,7 +443,7 @@ const ParentsList = () => {
 		listID.forEach((item) => {
 			let newObj = {
 				ID: parseInt(item),
-				BranchName: listDataForm?.Branch.find((a) => a.value === parseInt(item)).title
+				BranchName: listDataForm?.Branch.find((a) => a.value === parseInt(item))?.title
 			}
 
 			newObj && newArr.push(newObj)
@@ -481,6 +510,7 @@ const ParentsList = () => {
 				type: 'ADD_DATA',
 				status: false
 			})
+			getDataSource()
 		}
 
 		return res

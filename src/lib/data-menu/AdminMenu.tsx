@@ -578,13 +578,13 @@ export const AdminChildMenu = [
 				ItemType: 'sub-menu',
 				Key: 'sub-tab-option-1',
 				Icon: Icon.location,
-				TitleSub: 'Địa chỉ',
+				TitleSub: 'Quốc gia',
 				SubMenuList: [
 					{
 						ItemType: 'single',
 						Key: '/option/provincial',
 						Route: '/option/provincial',
-						Text: 'Tỉnh / Thành phố',
+						Text: 'Quốc gia',
 						Icon: ''
 					}
 					// {

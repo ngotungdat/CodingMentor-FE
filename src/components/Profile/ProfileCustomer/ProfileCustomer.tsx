@@ -12,6 +12,7 @@ import StudentForm from '~/components/Global/Customer/Student/StudentForm'
 import { areaApi, branchApi, jobApi, parentsApi, puroseApi, sourceInfomationApi, staffApi, studentApi } from '~/apiBase'
 import InfoDiscountCard from './InfoDiscountCard/InfoDiscountCard'
 import InfoStudyCard from './InfoStudyCard/InfoStudyCard'
+import { countryApi } from '~/apiBase/country/country'
 
 // -- FOR DIFFERENT VIEW --
 interface optionObj {
@@ -29,6 +30,7 @@ interface listDataForm {
 	SourceInformation: Array<optionObj>
 	Parent: Array<optionObj>
 	Counselors: Array<optionObj>
+	Country: Array<optionObj>
 }
 
 const listApi = [
@@ -86,14 +88,13 @@ function ProfileCustomer(props) {
 		Purposes: [],
 		SourceInformation: [],
 		Parent: [],
-		Counselors: []
+		Counselors: [],
+		Country: []
 	})
 	const [isSubmit, setIsSubmit] = useState(false)
 	const [loadingForm, setLoadingForm] = useState(false)
 	const [activeKey, setActiveKey] = useState(1)
 	const [isUpdateInfo, setIsUpdateInfo] = useState(false)
-
-	console.log('info: ', info)
 
 	// ------------- ADD data to list --------------
 	const makeNewData = (data, name) => {
@@ -155,6 +156,12 @@ function ProfileCustomer(props) {
 					value: item?.UserInformationID
 				}))
 				break
+			case 'Country':
+				newData = data.map((item) => ({
+					title: item.Name,
+					value: item.ID
+				}))
+				break
 			default:
 				break
 		}
@@ -172,6 +179,24 @@ function ProfileCustomer(props) {
 		})
 		setListDataForm({ ...listDataForm })
 	}
+
+	const getCountry = async () => {
+		setLoading(true)
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				getDataTolist(res.data.data, 'Country')
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	useEffect(() => {
+		getCountry()
+	}, [])
 
 	const checkEmptyData = () => {
 		let count = 0
@@ -239,7 +264,6 @@ function ProfileCustomer(props) {
 		setLoading(true)
 		try {
 			const res = await studentApi.getWithID(studentIDInt)
-			console.log('Response: ', res.data.data)
 			res.status === 200 && setInfo(res.data.data)
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -350,13 +374,13 @@ function ProfileCustomer(props) {
 				<div className="col-md-9 col-12">
 					<Card
 						className="space-top-card"
-						actions={[
-							activeKey == 1 && (
-								<button className="btn btn-primary" onClick={() => updateFormInfo()}>
-									Lưu {loadingForm && <Spin className="loading-base" />}
-								</button>
-							)
-						]}
+						// actions={[
+						// 	activeKey == 1 && (
+						// 		<button className="btn btn-primary" onClick={() => updateFormInfo()}>
+						// 			Lưu {loadingForm && <Spin className="loading-base" />}
+						// 		</button>
+						// 	)
+						// ]}
 					>
 						<Tabs type="card" onChange={onChange_tabs}>
 							<TabPane tab="Chi tiết" key="1" className="profile-tabs">

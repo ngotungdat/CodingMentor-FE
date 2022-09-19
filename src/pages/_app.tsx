@@ -45,7 +45,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 				<title>{_.chromeTitle}</title>
 
 				<meta name="viewport" content="initial-scale=1.0, width=device-width, maximum-scale=1" />
-				<meta name="robots" content="noindex" />
 				<meta name="description" content={_.description} />
 				<meta name="twitter:card" content="summary_large_image" />
 

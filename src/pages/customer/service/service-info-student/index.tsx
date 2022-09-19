@@ -4,6 +4,7 @@ import LayoutBase from '~/components/LayoutBase'
 import { areaApi, jobApi, puroseApi, branchApi, sourceInfomationApi, parentsApi, staffApi, teacherApi, examTopicApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 import StudentForm from '~/components/Global/Customer/Student/StudentForm'
+import { countryApi } from '~/apiBase/country/country'
 
 // -- FOR DIFFERENT VIEW --
 interface listDataForm {
@@ -18,6 +19,7 @@ interface listDataForm {
 	Counselors: Array<Object>
 	Teacher: Array<Object>
 	Exam: Array<Object>
+	Country: Array<Object>
 }
 
 const optionGender = [
@@ -96,7 +98,8 @@ const StudentAppointmentCreate = () => {
 		Parent: [],
 		Counselors: [],
 		Teacher: [],
-		Exam: []
+		Exam: [],
+		Country: []
 	})
 	const { showNoti } = useWrap()
 	// FOR STUDENT FORM
@@ -170,12 +173,33 @@ const StudentAppointmentCreate = () => {
 					title: item.Name,
 					value: item.ID
 				}))
+			case 'Country':
+				newData = data.map((item) => ({
+					title: item.Name,
+					value: item.ID
+				}))
+				break
 			default:
 				break
 		}
 
 		return newData
 	}
+
+	const getCountry = async () => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				getDataTolist(res.data.data, 'Country')
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
+	useEffect(() => {
+		getCountry()
+	}, [])
 
 	const getDataTolist = (data: any, name: any) => {
 		let newData = makeNewData(data, name)

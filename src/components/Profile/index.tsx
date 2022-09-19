@@ -19,6 +19,8 @@ import InfoTestCard from './ProfileCustomer/InfoTestCard/InfoTestCard'
 import InfoTestResultCard from './ProfileCustomer/component/InfoTestResultCard'
 import InfoTimelineCard from './ProfileCustomer/InfoTimelineCard/InfoTimelineCard'
 import { timeZoneApi } from '~/apiBase/timezone'
+import { countryApi } from '~/apiBase/country/country'
+import TextAreaField from '../FormControl/TextAreaField'
 
 let returnSchema = {}
 const { TabPane } = Tabs
@@ -50,6 +52,55 @@ const ProfileBase = (props) => {
 	const [dataForm, setDataForm] = useState<IUser>(null)
 	const [loading, setLoading] = useState(true)
 	const [timezone, setTimezone] = useState([])
+	const [country, setCountry] = useState([])
+	const [cityByCountry, setCityByCountry] = useState([])
+
+	const onChangeSelect = async (value) => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const getCountry = res.data.data.find((country) => country.ID === value)
+				if (getCountry) {
+					const response = await countryApi.getByCity({ iso: getCountry.Iso })
+					if (response.status === 200) {
+						const newData = response.data.data.map((data) => {
+							return {
+								title: data.Name,
+								value: data.ID
+							}
+						})
+						setCityByCountry(newData)
+					}
+					if (response.status === 204) {
+						setCityByCountry([])
+					}
+				}
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
+	useEffect(() => {
+		if (dataUser) {
+			onChangeSelect(dataUser.CountryID)
+		}
+	}, [dataUser])
+
+	const getAllCountry = async () => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const converCountry = res.data.data.map((country) => ({
+					value: country.ID,
+					title: country.Name
+				}))
+				setCountry(converCountry)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
 
 	const getAllTimeZone = async () => {
 		try {
@@ -67,6 +118,7 @@ const ProfileBase = (props) => {
 	}
 	useEffect(() => {
 		getAllTimeZone()
+		getAllCountry()
 	}, [])
 
 	const defaultValuesInit = {
@@ -77,7 +129,10 @@ const ProfileBase = (props) => {
 		Address: null,
 		Mobile: null,
 		Avatar: null,
-		TimeZoneId: null
+		TimeZoneId: null,
+		Others: null,
+		CityID: null,
+		CountryID: null
 	}
 
 	;(function returnSchemaFunc() {
@@ -208,8 +263,23 @@ const ProfileBase = (props) => {
 													<div className="col-md-6 col-12">
 														<SelectField form={form} name="TimeZoneId" label="Timezone" optionList={timezone} />
 													</div>
+													<div className="col-md-6 col-12">
+														<SelectField
+															form={form}
+															name="CountryID"
+															onChangeSelect={onChangeSelect}
+															label="Quốc gia"
+															optionList={country}
+														/>
+													</div>
+													<div className="col-md-6 col-12">
+														<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} />
+													</div>
+													<div className="col-12 mb-4">
+														<TextAreaField form={form} name="Others" label="Giới thiệu thêm" />
+													</div>
 												</div>
-												<div className="row mt-3">
+												<div className="row mt-4">
 													<div className="col-12 d-flex justify-content-center">
 														<button type="submit" className="btn btn-primary">
 															Lưu

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { Eye } from 'react-feather'
 import { areaApi, branchApi, districtApi, staffSalaryApi, teacherApi, userInformationApi, wardApi } from '~/apiBase'
+import { countryApi } from '~/apiBase/country/country'
 import SortBox from '~/components/Elements/SortBox'
 import PowerTable from '~/components/PowerTable'
 import FilterColumn from '~/components/Tables/FilterColumn'
@@ -19,13 +20,15 @@ type IAreaSystemList = {
 	branchListTotal: IOptionCommon[]
 	districtList: IOptionCommon[]
 	wardList: IOptionCommon[]
+	countryList: IOptionCommon[]
 }
 
 const initAreaSystemList = {
 	areaList: [],
 	branchListTotal: [],
 	districtList: [],
-	wardList: []
+	wardList: [],
+	countryList: []
 }
 
 const Teacher = () => {
@@ -152,6 +155,30 @@ const Teacher = () => {
 			[dataIndex]: valueSearch
 		})
 	}
+
+	const getCountry = async () => {
+		setIsLoading({
+			type: 'GET_ALL',
+			status: true
+		})
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const newCountryList = fmSelectArr(res.data.data, 'Name', 'ID')
+				setOptionAreaSystemList((prevState) => ({
+					...prevState,
+					countryList: newCountryList
+				}))
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
+	useEffect(() => {
+		getCountry()
+	}, [])
+
 	// GET AREA
 	const fetchAreaList = async () => {
 		try {
@@ -409,12 +436,12 @@ const Teacher = () => {
 			render: (text) => <p className="font-weight-primary">{text}</p>,
 			fixed: 'left'
 		},
-		{
-			title: 'Tỉnh/TP',
-			dataIndex: 'AreaName',
-			...FilterColumn('AreaID', onSearch, onResetSearch, 'select', optionAreaSystemList.areaList),
-			className: activeColumnSearch === 'AreaID' ? 'active-column-search' : ''
-		},
+		// {
+		// 	title: 'Tỉnh/TP',
+		// 	dataIndex: 'AreaName',
+		// 	...FilterColumn('AreaID', onSearch, onResetSearch, 'select', optionAreaSystemList.areaList),
+		// 	className: activeColumnSearch === 'AreaID' ? 'active-column-search' : ''
+		// },
 		{
 			width: 120,
 			title: 'Giới tính',

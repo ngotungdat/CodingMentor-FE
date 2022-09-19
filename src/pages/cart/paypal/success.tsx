@@ -1,35 +1,13 @@
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React from 'react'
 import Lottie from 'react-lottie-player'
 
 import successPaypal from '~/components/json/success-paypal.json'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
-import { useRouter } from 'next/router'
-import { shoppingCartApi } from '~/apiBase/shopping-cart/shopping-cart'
-import { useWrap } from '~/context/wrap'
 
 const Success = () => {
-	const router = useRouter()
-	const { PayerID, guid, paymentId } = router.query
-	const { showNoti } = useWrap()
-	// const getStatusPayment = async () => {
-	// 	try {
-	// 		if (PayerID && guid && paymentId) {
-	// 			let Data = new FormData()
-	// 			Data.append('PayerID', PayerID.toString())
-	// 			Data.append('guid', guid.toString())
-	// 			// Data.append('paymentId', paymentId.toString())
-	// 			await shoppingCartApi.getPaypalStatus(Data)
-	// 		}
-	// 	} catch (err) {
-	// 		showNoti('danger', err.message)
-	// 	}
-	// }
-	// useEffect(() => {
-	// 	getStatusPayment()
-	// }, [])
 	return (
 		<div className="wrapper-paypal">
 			<div className="wrapper-success-paypal">

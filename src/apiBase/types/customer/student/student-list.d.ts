@@ -35,4 +35,5 @@ type IStudent = IBaseApi<{
 	CounselorsName: string
 	ChineseName: string
 	TimeZoneId: number
+	CountryID: number
 }>

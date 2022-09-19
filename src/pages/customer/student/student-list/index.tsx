@@ -15,6 +15,7 @@ import LayoutBase from '~/components/LayoutBase'
 import FilterColumn from '~/components/Tables/FilterColumn'
 import { useWrap } from '~/context/wrap'
 import XLSX from 'xlsx'
+import { countryApi } from '~/apiBase/country/country'
 
 let listFieldSearch = {
 	pageIndex: 1,
@@ -65,6 +66,7 @@ interface listDataForm {
 	SourceInformation: Array<optionObj>
 	Parent: Array<optionObj>
 	Counselors: Array<optionObj>
+	Country: Array<optionObj>
 }
 
 const listApi = [
@@ -111,6 +113,7 @@ const StudentData = () => {
 	const [currentPage, setCurrentPage] = useState(1)
 	const [showCheckbox, setShowCheckbox] = useState(false)
 	const [listCustomer, setListCustomer] = useState([])
+	const [countryList, setCountryList] = useState([])
 	const listTodoApi = {
 		pageSize: pageSize,
 		pageIndex: 1,
@@ -132,7 +135,8 @@ const StudentData = () => {
 		Purposes: [],
 		SourceInformation: [],
 		Parent: [],
-		Counselors: []
+		Counselors: [],
+		Country: []
 	})
 
 	// ------ LIST FILTER -------
@@ -240,11 +244,51 @@ const StudentData = () => {
 					value: item.UserInformationID
 				}))
 				break
+			case 'Country':
+				newData = data.map((item) => ({
+					title: item.Name,
+					value: item.ID
+				}))
+				setDataFunc('Country', newData)
+				break
 			default:
 				break
 		}
 		return newData
 	}
+
+	const fetchCountryList = async () => {
+		setIsLoading({
+			type: 'GET_ALL',
+			status: true
+		})
+		try {
+			let res = await countryApi.getAll({
+				pageIndex: 1,
+				pageSize: 99999
+			})
+			if (res.status === 200) {
+				if (res.data.totalRow && res.data.data.length) {
+					const data = res.data.data.map((item) => ({
+						title: item.Name,
+						value: item.ID
+					}))
+					setCountryList(data)
+				}
+			}
+		} catch (error) {
+			showNoti('danger', error.message)
+		} finally {
+			setIsLoading({
+				type: 'GET_ALL',
+				status: false
+			})
+		}
+	}
+
+	useEffect(() => {
+		fetchCountryList()
+	}, [])
 
 	const getDataTolist = (data: any, name: any) => {
 		let newData = makeNewData(data, name)
@@ -286,6 +330,25 @@ const StudentData = () => {
 			})()
 		})
 	}
+
+	const getCountry = async () => {
+		setIsLoading({
+			type: 'GET_ALL',
+			status: true
+		})
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				getDataTolist(res.data.data, 'Country')
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
+	useEffect(() => {
+		getCountry()
+	}, [])
 
 	// GET DATA SOURCE
 	const getDataSource = async () => {
@@ -485,51 +548,54 @@ const StudentData = () => {
 		{
 			title: '',
 			width: 160,
-			render: (record, _, index) => (
-				<div onClick={(e) => e.stopPropagation()} style={{ flexDirection: 'row', display: 'flex' }}>
-					<StudentFormModal
-						index={index}
-						dataRow={record}
-						listDataForm={checkEmptyData && listDataForm}
-						_handleSubmit={(dataSubmit, index) => {
-							let newDataSource = [...dataSource]
-							newDataSource.splice(index, 1, {
-								...dataSubmit,
-								AreaName: dataSubmit.AreaID && listDataForm.Area.find((item) => item.value == dataSubmit.AreaID).title,
-								SourceInformationName: dataSubmit.SourceInformationName,
-								Branch:
-									dataSubmit.Branch == ''
-										? []
-										: dataSubmit.Branch.split(',').map((item) => ({
-												ID: parseInt(item)
-										  }))
-							})
-							setDataSource(newDataSource)
-						}}
-					/>
-					<ResetPassStudent dataRow={record} />
-					<Link
-						href={{
-							pathname: '/customer/student/student-list/student-detail/[slug]',
-							query: { slug: record.UserInformationID }
-						}}
-					>
-						<Tooltip title="Xem chi tiết">
-							<button className="btn btn-icon">
-								<Eye />
-							</button>
-						</Tooltip>
-					</Link>
-					<StudentAdvisoryMail
-						loadingOutside={isLoading}
-						dataSource={dataSource}
-						onFetchData={() => setTodoApi({ ...todoApi })}
-						dataRow={_}
-						listCustomer={dataSource}
-						isStudent={true}
-					/>
-				</div>
-			)
+			render: (record, _, index) => {
+				return (
+					<div onClick={(e) => e.stopPropagation()} style={{ flexDirection: 'row', display: 'flex' }}>
+						<StudentFormModal
+							index={index}
+							dataRow={record}
+							listDataForm={checkEmptyData && listDataForm}
+							countryList={countryList}
+							_handleSubmit={(dataSubmit, index) => {
+								let newDataSource = [...dataSource]
+								newDataSource.splice(index, 1, {
+									...dataSubmit,
+									AreaName: dataSubmit.AreaID && listDataForm.Area.find((item) => item.value == dataSubmit.AreaID).title,
+									SourceInformationName: dataSubmit.SourceInformationName,
+									Branch:
+										dataSubmit.Branch == ''
+											? []
+											: dataSubmit.Branch.split(',').map((item) => ({
+													ID: parseInt(item)
+											  }))
+								})
+								setDataSource(newDataSource)
+							}}
+						/>
+						<ResetPassStudent dataRow={record} />
+						<Link
+							href={{
+								pathname: '/customer/student/student-list/student-detail/[slug]',
+								query: { slug: record.UserInformationID }
+							}}
+						>
+							<Tooltip title="Xem chi tiết">
+								<button className="btn btn-icon">
+									<Eye />
+								</button>
+							</Tooltip>
+						</Link>
+						<StudentAdvisoryMail
+							loadingOutside={isLoading}
+							dataSource={dataSource}
+							onFetchData={() => setTodoApi({ ...todoApi })}
+							dataRow={_}
+							listCustomer={dataSource}
+							isStudent={true}
+						/>
+					</div>
+				)
+			}
 		}
 	]
 

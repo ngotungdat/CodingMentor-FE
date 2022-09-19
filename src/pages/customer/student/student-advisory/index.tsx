@@ -14,6 +14,7 @@ import ExpandTable from '~/components/ExpandTable'
 import StudentAdvisoryNote from '~/components/Global/Customer/Student/StudentAdvisory/StudentAdvisoryNote'
 import StudentAdvisoryMail from '~/components/Global/Customer/Student/StudentAdvisory/StudentAdvisoryMail'
 import { learningNeeds } from '~/apiBase/options/learning-needs'
+import { countryApi } from '~/apiBase/country/country'
 
 let pageIndex = 1
 
@@ -63,6 +64,7 @@ interface listDataForm {
 	Counselors: Array<optionObj>
 	ConsultationStatus: Array<optionObj>
 	Potential: Array<optionObj>
+	Country: Array<optionObj>
 }
 
 const listApi = [
@@ -104,7 +106,8 @@ export default function StudentAdvisory() {
 			{ title: 'Mức 1', value: 1 },
 			{ title: 'Mức 2', value: 2 },
 			{ title: 'Mức 3', value: 3 }
-		]
+		],
+		Country: []
 	})
 	const [confirmLoading, setConfirmLoading] = useState(false)
 	const [showGroup, setShowGroup] = useState(false)
@@ -236,6 +239,13 @@ export default function StudentAdvisory() {
 				}))
 				setDataFunc('Potential', newData)
 				break
+			case 'Country':
+				newData = data.map((item) => ({
+					title: item.Name,
+					value: item.ID
+				}))
+				setDataFunc('Country', newData)
+				break
 			default:
 				break
 		}
@@ -287,6 +297,25 @@ export default function StudentAdvisory() {
 			})()
 		})
 	}
+
+	const getCountry = async () => {
+		setIsLoading({
+			type: 'GET_ALL',
+			status: true
+		})
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				getDataTolist(res.data.data, 'Country')
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
+	useEffect(() => {
+		getCountry()
+	}, [])
 
 	// GET DATA SOURCE
 	const getDataSource = async () => {
@@ -364,6 +393,7 @@ export default function StudentAdvisory() {
 			try {
 				res = await studentAdviseApi.add(dataSubmit)
 				res?.status == 200 && afterPost(res.data.message)
+				showNoti('success', res.message)
 			} catch (error) {
 				showNoti('danger', error.message)
 			} finally {

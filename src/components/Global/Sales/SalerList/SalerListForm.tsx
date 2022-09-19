@@ -6,13 +6,16 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { countryApi } from '~/apiBase/country/country'
 import { timeZoneApi } from '~/apiBase/timezone'
 import DateField from '~/components/FormControl/DateField'
 import InputPassField from '~/components/FormControl/InputPassField'
 import InputTextField from '~/components/FormControl/InputTextField'
 import SelectField from '~/components/FormControl/SelectField'
+import TextAreaField from '~/components/FormControl/TextAreaField'
 import UploadAvatarField from '~/components/FormControl/UploadAvatarField'
 import { useWrap } from '~/context/wrap'
+import { fmSelectArr } from '~/utils/functions'
 import { optionCommonPropTypes } from '~/utils/proptypes'
 
 SalerListForm.propTypes = {
@@ -33,7 +36,8 @@ SalerListForm.propTypes = {
 	handleFetchWard: PropTypes.func,
 	optionBranchList: optionCommonPropTypes,
 	handleFetchBranch: PropTypes.func,
-	handleSubmit: PropTypes.func
+	handleSubmit: PropTypes.func,
+	countryList: PropTypes.shape({})
 }
 
 function SalerListForm(props) {
@@ -55,7 +59,8 @@ function SalerListForm(props) {
 	const { areaList, districtList, wardList } = optionAreaSystemList
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const [timezone, setTimezone] = useState([])
-
+	const [country, setCountry] = useState([])
+	const [cityByCountry, setCityByCountry] = useState([])
 	const getAllTimeZone = async () => {
 		try {
 			const res = await timeZoneApi.getAll()
@@ -70,13 +75,51 @@ function SalerListForm(props) {
 			showNoti('danger', err.message)
 		}
 	}
-	useEffect(() => {
-		getAllTimeZone()
-	}, [])
+
+	// GET Country
+	const fetchCountryList = async () => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200 && res.data.totalRow && res.data.data.length) {
+				const newCountryList = fmSelectArr(res.data.data, 'Name', 'ID')
+				setCountry(newCountryList)
+			}
+		} catch (error) {}
+	}
+
+	const onChangeSelect = async (value) => {
+		try {
+			const res = await countryApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const getCountry = res.data.data.find((country) => country.ID === value)
+				if (getCountry) {
+					const response = await countryApi.getByCity({ iso: getCountry.Iso })
+					if (response.status === 200) {
+						const newData = response.data.data.map((data) => {
+							return {
+								title: data.Name,
+								value: data.ID
+							}
+						})
+						setCityByCountry(newData)
+					}
+					if (response.status === 204) {
+						setCityByCountry([])
+					}
+				}
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
 
 	const openModal = () => {
+		fetchCountryList()
+		getAllTimeZone()
+		onChangeSelect(updateObj?.CountryID)
 		setIsModalVisible(true)
 		handleFetchBranch()
+
 		if (isUpdate && updateObj && updateObj.AreaID) {
 			if (handleFetchDistrict) {
 				handleFetchDistrict(updateObj.AreaID)
@@ -122,7 +165,9 @@ function SalerListForm(props) {
 		StatusID: 0,
 		Password: '',
 		UserName: null,
-		TimeZoneId: null
+		TimeZoneId: null,
+		CountryID: null,
+		CityID: null
 	}
 
 	const form = useForm({
@@ -294,45 +339,25 @@ function SalerListForm(props) {
 							</div>
 							<div className="col-md-6 col-12">
 								<SelectField
+									onChangeSelect={onChangeSelect}
 									form={form}
-									name="AreaID"
-									label="Tỉnh/Thành phố"
-									optionList={areaList}
-									onChangeSelect={(value) => {
-										checkHandleFetchBranch(value)
-										checkHandleFetchDistrict(value)
-									}}
-									placeholder="Chọn tỉnh/thành phố"
+									name="CountryID"
+									label="Quốc gia"
+									optionList={country}
+									placeholder="Chọn quốc gia"
 								/>
 							</div>
 							<div className="col-md-6 col-12">
-								<SelectField
-									form={form}
-									name="DistrictID"
-									label="Quận/Huyện"
-									optionList={districtList}
-									onChangeSelect={checkHandleFetchWard}
-									isLoading={isLoading.type === 'FETCH_DATA_BY_AREA' && isLoading.status}
-									placeholder="Chọn quận/huyện"
-								/>
+								<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} placeholder="Chọn thành phố" />
 							</div>
-							<div className="col-md-6 col-12">
-								<SelectField
-									form={form}
-									name="WardID"
-									label="Phường/Xã"
-									optionList={wardList}
-									isLoading={isLoading.type === 'FETCH_WARD_BY_DISTRICT' && isLoading.status}
-									placeholder="Chọn phường/xã"
-								/>
-							</div>
-							<div className="col-md-6 col-12">
-								<InputTextField form={form} name="Extension" label="Mô tả thêm" placeholder="Nhập mô tả thêm" />
-							</div>
+
 							<div className="col-12">
 								<InputTextField form={form} name="HouseNumber" label="Số nhà/Tên đường" placeholder="Nhập số nhà/tên đường" />
 							</div>
-							<div className="col-12">
+							<div className="col-12 mb-4">
+								<TextAreaField form={form} name="Extension" label="Mô tả thêm" placeholder="Nhập mô tả thêm" />
+							</div>
+							<div className="col-12 mt-2">
 								<Divider orientation="center">Khác</Divider>
 							</div>
 							<div className="col-md-6 col-12">

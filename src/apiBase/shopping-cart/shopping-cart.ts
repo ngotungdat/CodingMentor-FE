@@ -9,10 +9,7 @@ class ShoppingCartApi {
 
 	// getPaypalStatus = (data) => instance.get(`/api/Order/PaypalPaymentStatus?PayerID=${data.PayerID}&guid=${data.guid}`)
 	getPaypalStatus = (data) => {
-		console.log('PayerID: ', data.get('PayerID'))
-		console.log('guid: ', data.get('guid'))
-		console.log('paymentId: ', data.get('paymentId'))
-		return instance.get(`/api/Order/PaypalPaymentStatus`, { params: data })
+		return instance.post(`/api/Order/PaypalPaymentStatus`, data)
 	}
 	// getPaypalStatus = (data) => instance.get(`/api/Order/PaypalPaymentStatus?PayerID=${data.PayerID}&guid=${data.guid}`);
 

@@ -4,6 +4,7 @@ import moment from 'moment'
 import router from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 import { areaApi, districtApi } from '~/apiBase'
+import { countryApi } from '~/apiBase/country/country'
 import DeleteTableRow from '~/components/Elements/DeleteTableRow/DeleteTableRow'
 import SortBox from '~/components/Elements/SortBox'
 import PowerTable from '~/components/PowerTable'
@@ -14,6 +15,7 @@ import DistrictForm from './DistrictForm'
 
 const District = () => {
 	const [districtList, setDistrictList] = useState<IDistrict[]>([])
+	const [cityList, setCityList] = useState<ICity[]>([])
 	const [isLoading, setIsLoading] = useState({
 		type: '',
 		status: false
@@ -118,6 +120,32 @@ const District = () => {
 			[dataIndex]: valueSearch
 		})
 	}
+	const fetchCityList = async () => {
+		setIsLoading({
+			type: 'GET_ALL',
+			status: true
+		})
+		try {
+			let res = await countryApi.getByCity({ iso: area })
+			if (res.status === 200) {
+				if (res.data.totalRow && res.data.data.length) {
+					setCityList(res.data.data)
+					setTotalPage(res.data.totalRow)
+				}
+			} else if (res.status === 204) {
+				// showNoti('danger', 'Không tìm thấy')
+				setCityList([])
+			}
+		} catch (error) {
+			showNoti('danger', error.message)
+		} finally {
+			setIsLoading({
+				type: 'GET_ALL',
+				status: false
+			})
+		}
+	}
+
 	// GET DATA IN FIRST TIME
 	const fetchDistrictList = async () => {
 		setIsLoading({
@@ -145,7 +173,8 @@ const District = () => {
 		}
 	}
 	useEffect(() => {
-		fetchDistrictList()
+		// fetchDistrictList()
+		fetchCityList()
 	}, [filters])
 
 	const fetchAreaList = async () => {
@@ -170,9 +199,6 @@ const District = () => {
 			})
 		}
 	}
-	useEffect(() => {
-		fetchAreaList()
-	}, [])
 
 	// CREATE
 	const onCreateDistrict = async (data: any) => {
@@ -267,18 +293,70 @@ const District = () => {
 		}
 	}
 	// COLUMN FOR TABLE
+	// const columns = [
+	// 	{
+	// 		title: 'Tên tỉnh/thành phố',
+	// 		dataIndex: 'AreaName',
+	// 		...FilterColumn('AreaID', onSearch, onResetSearch, 'select', areaList),
+	// 		className: activeColumnSearch === 'AreaID' ? 'active-column-search' : ''
+	// 	},
+	// 	{
+	// 		title: 'Tên quận',
+	// 		dataIndex: 'DistrictName',
+	// 		...FilterColumn('DistrictName', onSearch, onResetSearch, 'text'),
+	// 		className: activeColumnSearch === 'DistrictName' ? 'active-column-search' : ''
+	// 	},
+	// 	{
+	// 		title: 'Ngày khởi tạo',
+	// 		dataIndex: 'ModifiedOn',
+	// 		render: (date) => moment(date).format('DD/MM/YYYY')
+	// 	},
+	// 	{
+	// 		title: 'Được tạo bởi',
+	// 		dataIndex: 'ModifiedBy'
+	// 	},
+
+	// 	{
+	// 		align: 'center',
+	// 		render: (value, _, idx) => (
+	// 			<div onClick={(e) => e.stopPropagation()}>
+	// 				<DistrictForm
+	// 					optionAreaList={areaList}
+	// 					isLoading={isLoading}
+	// 					isUpdate={true}
+	// 					updateObj={value}
+	// 					indexUpdateObj={idx}
+	// 					handleUpdateDistrict={onUpdateDistrict}
+	// 				/>
+	// 				<DeleteTableRow handleDelete={onDeleteDistrict(idx)} />
+
+	// 				<Tooltip title="Xem danh sách quận / huyện">
+	// 					<button
+	// 						onClick={() =>
+	// 							router.push({
+	// 								pathname: '/option/ward',
+	// 								query: {
+	// 									dis: _.ID
+	// 								}
+	// 							})
+	// 						}
+	// 						type="button"
+	// 						className="btn btn-icon delete"
+	// 					>
+	// 						<EyeOutlined />
+	// 					</button>
+	// 				</Tooltip>
+	// 			</div>
+	// 		)
+	// 	}
+	// ]
+
 	const columns = [
 		{
-			title: 'Tên tỉnh/thành phố',
-			dataIndex: 'AreaName',
-			...FilterColumn('AreaID', onSearch, onResetSearch, 'select', areaList),
+			title: 'Tên thành phố',
+			dataIndex: 'Name',
+			...FilterColumn('Name', onSearch, onResetSearch, 'select', areaList),
 			className: activeColumnSearch === 'AreaID' ? 'active-column-search' : ''
-		},
-		{
-			title: 'Tên quận',
-			dataIndex: 'DistrictName',
-			...FilterColumn('DistrictName', onSearch, onResetSearch, 'text'),
-			className: activeColumnSearch === 'DistrictName' ? 'active-column-search' : ''
 		},
 		{
 			title: 'Ngày khởi tạo',
@@ -288,41 +366,41 @@ const District = () => {
 		{
 			title: 'Được tạo bởi',
 			dataIndex: 'ModifiedBy'
-		},
-
-		{
-			align: 'center',
-			render: (value, _, idx) => (
-				<div onClick={(e) => e.stopPropagation()}>
-					<DistrictForm
-						optionAreaList={areaList}
-						isLoading={isLoading}
-						isUpdate={true}
-						updateObj={value}
-						indexUpdateObj={idx}
-						handleUpdateDistrict={onUpdateDistrict}
-					/>
-					<DeleteTableRow handleDelete={onDeleteDistrict(idx)} />
-
-					<Tooltip title="Xem danh sách quận / huyện">
-						<button
-							onClick={() =>
-								router.push({
-									pathname: '/option/ward',
-									query: {
-										dis: _.ID
-									}
-								})
-							}
-							type="button"
-							className="btn btn-icon delete"
-						>
-							<EyeOutlined />
-						</button>
-					</Tooltip>
-				</div>
-			)
 		}
+
+		// {
+		// 	align: 'center',
+		// 	render: (value, _, idx) => (
+		// 		<div onClick={(e) => e.stopPropagation()}>
+		// 			<DistrictForm
+		// 				optionAreaList={areaList}
+		// 				isLoading={isLoading}
+		// 				isUpdate={true}
+		// 				updateObj={value}
+		// 				indexUpdateObj={idx}
+		// 				handleUpdateDistrict={onUpdateDistrict}
+		// 			/>
+		// 			<DeleteTableRow handleDelete={onDeleteDistrict(idx)} />
+
+		// 			<Tooltip title="Xem danh sách quận / huyện">
+		// 				<button
+		// 					onClick={() =>
+		// 						router.push({
+		// 							pathname: '/option/ward',
+		// 							query: {
+		// 								dis: _.ID
+		// 							}
+		// 						})
+		// 					}
+		// 					type="button"
+		// 					className="btn btn-icon delete"
+		// 				>
+		// 					<EyeOutlined />
+		// 				</button>
+		// 			</Tooltip>
+		// 		</div>
+		// 	)
+		// }
 	]
 	// RETURN
 	return (
@@ -332,15 +410,16 @@ const District = () => {
 			getPagination={getPagination}
 			loading={isLoading}
 			addClass="basic-header"
-			TitlePage="Danh sách quận - huyện"
-			TitleCard={<DistrictForm optionAreaList={areaList} isLoading={isLoading} isUpdate={false} handleCreateDistrict={onCreateDistrict} />}
-			dataSource={districtList}
+			TitlePage="Danh sách thành phố"
+			// TitleCard={<DistrictForm optionAreaList={areaList} isLoading={isLoading} isUpdate={false} handleCreateDistrict={onCreateDistrict} />}
+			TitleCard={<></>}
+			dataSource={cityList}
 			columns={columns}
-			Extra={
-				<div className="extra-table">
-					<SortBox handleSort={onSort} dataOption={sortOptionList} />
-				</div>
-			}
+			// Extra={
+			// 	<div className="extra-table">
+			// 		<SortBox handleSort={onSort} dataOption={sortOptionList} />
+			// 	</div>
+			// }
 		/>
 	)
 }

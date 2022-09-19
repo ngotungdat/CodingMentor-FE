@@ -73,7 +73,7 @@ const AreaForm = (props) => {
 					<Form layout="vertical" onFinish={form.handleSubmit(areaSwitchFunc)}>
 						<div className="row">
 							<div className="col-12">
-								<InputTextField form={form} name="AreaName" label="Tên tỉnh/thành phố" placeholder="Nhập tên tỉnh/thành phố" />
+								<InputTextField form={form} name="AreaName" label="Tên quốc gia" placeholder="Nhập tên quốc gia" />
 							</div>
 						</div>
 						<div className="row mt-3">

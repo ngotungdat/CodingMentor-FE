@@ -639,6 +639,9 @@ const StudentForm = (props) => {
 									<div className="col-md-6 col-12">
 										<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} placeholder="Chọn thành phố" />
 									</div>
+									<div className="col-md-6 col-12">
+										<InputTextField form={form} name="Address" label="Địa chỉ" isRequired={true} />
+									</div>
 									{!isStudentDetail && (
 										<>
 											<div className="col-md-6 col-12">

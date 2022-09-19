@@ -190,6 +190,10 @@ const StudentAdviseForm = React.memo((props: any) => {
 								<SelectField form={form} name="Potential" label="Mức độ tiềm năng" optionList={listData.Potential} />
 							</div>
 
+							<div className="col-12">
+								<InputTextField form={form} name="Address" label="Địa chỉ" isRequired={true} />
+							</div>
+
 							<div className="col-md-6 col-12">
 								<SelectField
 									form={form}

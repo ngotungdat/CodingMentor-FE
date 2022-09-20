@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { districtApi, studentApi, wardApi, studentAdviseApi } from '~/apiBase'
+import { districtApi, studentApi, wardApi, studentAdviseApi, branchApi } from '~/apiBase'
 import { countryApi } from '~/apiBase/country/country'
 import { timeZoneApi } from '~/apiBase/timezone'
 import AvatarBase from '~/components/Elements/AvatarBase'
@@ -70,6 +70,7 @@ const StudentForm = (props) => {
 	const [userAll, setUserAll] = useState<IStudent[]>()
 	const [userDetail, setUserDetail] = useState<IStudent>()
 	const [timezone, setTimezone] = useState([])
+	const [branchList, setBranchList] = useState([])
 
 	const getAllTimeZone = async () => {
 		try {
@@ -85,8 +86,28 @@ const StudentForm = (props) => {
 			showNoti('danger', err.message)
 		}
 	}
+	const getAllBranch = async () => {
+		try {
+			const res = await branchApi.getAll({ pageSize: 99999 })
+			if (res.status === 200) {
+				const convertBranch = res.data.data.map((branch) => {
+					return {
+						title: branch.BranchName,
+						value: branch.ID
+					}
+				})
+				setBranchList(convertBranch)
+			}
+			if (res.status === 204) {
+				setBranchList([])
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
 	useEffect(() => {
 		getAllTimeZone()
+		getAllBranch()
 	}, [])
 
 	useEffect(() => {
@@ -105,7 +126,7 @@ const StudentForm = (props) => {
 			if (res.status === 200) {
 				const getCountry = res.data.data.find((country) => country.ID === value)
 				if (getCountry) {
-					const response = await countryApi.getByCity({ iso: getCountry.Iso })
+					const response = await countryApi.getByCity({ iso: getCountry.Iso, pageSize: 99999 })
 					if (response.status === 200) {
 						const newData = response.data.data.map((data) => {
 							return {
@@ -290,6 +311,7 @@ const StudentForm = (props) => {
 		CMNDRegister: null,
 		Extension: null,
 		Branch: undefined,
+		BranchID: null,
 		AcademicPurposesID: null,
 		JobID: null,
 		SourceInformationID: null,
@@ -337,6 +359,9 @@ const StudentForm = (props) => {
 						returnSchema[key] = yup.mixed()
 					}
 					break
+				case 'BranchID':
+					returnSchema[key] = yup.mixed().required('Vui lòng chọn trung tâm')
+					break
 				case 'FullNameUnicode':
 					if (!dataRow) {
 						returnSchema[key] = yup.mixed().required('Bạn không được để trống')
@@ -358,8 +383,8 @@ const StudentForm = (props) => {
 	// ----------- SUBMI FORM ------------
 	const onSubmit = async (data: any) => {
 		console.log('Data: ', data, isSearch)
-		if (data.Branch) {
-			data.Branch = data.Branch.toString()
+		if (data.BranchID) {
+			data.Branch = data.BranchID.toString()
 		}
 
 		setIsLoading({
@@ -727,8 +752,18 @@ const StudentForm = (props) => {
 										/>
 									</div>
 
-									<div className="col-12">
+									<div className="col-md-6 col-12">
 										<InputTextField form={form} name="LinkFaceBook" label="Link Facebook" placeholder="Nhập link facebook" />
+									</div>
+									<div className="col-md-6">
+										<SelectField
+											form={form}
+											name="BranchID"
+											label="Trung tâm"
+											optionList={branchList}
+											placeholder="Chọn trung tâm"
+											isRequired={true}
+										/>
 									</div>
 									<div className="col-12 mb-5">
 										<TextAreaField name="Extension" label="Giới thiệu thêm" form={form} placeholder="Nhập giới thiệu thêm" />

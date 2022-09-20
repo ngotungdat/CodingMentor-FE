@@ -95,14 +95,14 @@ export const TeacherChildMenu = [
 				Icon: Icon.document,
 				Route: '/course/course-list',
 				Text: 'Danh sách khóa học'
-			},
-			{
-				TypeItem: 'single',
-				Key: '/course/schedule-study',
-				Icon: Icon.calendar,
-				Route: '/course/schedule-study',
-				Text: 'Kiểm tra lịch'
 			}
+			// {
+			// 	TypeItem: 'single',
+			// 	Key: '/course/schedule-study',
+			// 	Icon: Icon.calendar,
+			// 	Route: '/course/schedule-study',
+			// 	Text: 'Kiểm tra lịch'
+			// }
 		]
 	},
 	{

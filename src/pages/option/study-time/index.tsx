@@ -94,7 +94,11 @@ const StudyTime = () => {
 		} else {
 			try {
 				res = await studyTimeApi.add(dataSubmit)
-				res?.status == 200 && getDataSource()
+				console.log('Response: ', res.data)
+				if (res.status == 200) {
+					getDataSource()
+					showNoti('success', res.data.message)
+				}
 			} catch (error) {
 				showNoti('danger', error.message)
 			} finally {

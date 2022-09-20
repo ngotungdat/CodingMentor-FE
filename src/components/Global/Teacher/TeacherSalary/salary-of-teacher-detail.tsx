@@ -34,20 +34,28 @@ const SalaryOfTeacherDetail = ({ price, record }) => {
 		},
 		{
 			title: 'Bắt đầu',
-			dataIndex: 'sTime',
-			render: (item, record) => <p className="font-weight-primary">{item}</p>
+			dataIndex: 'StartTime',
+			width: 100,
+			render: (item, record) => <p className="font-weight-primary">{moment(item).format('HH:mm')}</p>
 		},
 		{
 			title: 'Kết thúc',
-			dataIndex: 'eTime',
-			render: (item, record) => <p className="font-weight-primary">{item}</p>
+			dataIndex: 'EndTime',
+			width: 100,
+			render: (item, record) => <p className="font-weight-primary">{moment(item).format('HH:mm')}</p>
 		},
 		{
-			title: 'Trạng thái',
-			dataIndex: 'StatusName',
-			align: 'right',
+			title: 'Khóa học',
+			dataIndex: 'CourseName',
+			align: 'left',
 			render: (item, record) => <p className="font-weight-primary">{item}</p>
 		}
+		// {
+		// 	title: 'Trạng thái',
+		// 	dataIndex: 'StatusName',
+		// 	align: 'right',
+		// 	render: (item, record) => <p className="font-weight-primary">{item}</p>
+		// }
 	]
 
 	const getDataSource = async () => {
@@ -77,7 +85,7 @@ const SalaryOfTeacherDetail = ({ price, record }) => {
 				</Tooltip>
 			</button>
 
-			<Modal width={800} title="Chi tiết lương giáo viên" visible={visible} onCancel={() => setVisible(false)} footer={false}>
+			<Modal width={1200} title="Chi tiết lương giáo viên" visible={visible} onCancel={() => setVisible(false)} footer={false}>
 				<PowerTable columns={columns} dataSource={dataSource}></PowerTable>
 			</Modal>
 		</>

@@ -10,5 +10,8 @@ export const timeZoneApi = {
 	},
 	update: (data) => {
 		return instance.put(url, data)
+	},
+	getByID: (id) => {
+		return instance.get<IGetAllTimeZone<ITimeZone>>(`${url}/${id}`)
 	}
 }

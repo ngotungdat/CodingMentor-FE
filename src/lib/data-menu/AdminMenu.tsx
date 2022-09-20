@@ -652,13 +652,13 @@ export const AdminChildMenu = [
 						Text: 'Cấu hình Timezone',
 						Icon: ''
 					},
-					{
-						ItemType: 'single',
-						Key: '/configure-currency',
-						Route: '/configure-currency',
-						Text: 'Cấu hình tiền tệ',
-						Icon: ''
-					},
+					// {
+					// 	ItemType: 'single',
+					// 	Key: '/configure-currency',
+					// 	Route: '/configure-currency',
+					// 	Text: 'Cấu hình tiền tệ',
+					// 	Icon: ''
+					// },
 					{
 						ItemType: 'single',
 						Key: '/option/zoom/config-zoom',

@@ -114,7 +114,7 @@ const StudentAdviseForm = React.memo((props: any) => {
 			if (res.status === 200) {
 				const getCountry = res.data.data.find((country) => country.ID === value)
 				if (getCountry) {
-					const response = await countryApi.getByCity({ iso: getCountry.Iso })
+					const response = await countryApi.getByCity({ iso: getCountry.Iso, pageSize: 99999 })
 					if (response.status === 200) {
 						const newData = response.data.data.map((data) => {
 							return {

@@ -25,6 +25,10 @@ const ExpandTable = (props) => {
 		])
 	}
 
+	useEffect(() => {
+		onChangeExpand([])
+	}, [props.dataSource])
+
 	const selectRow = (record) => {
 		const selectedRowKeys = []
 

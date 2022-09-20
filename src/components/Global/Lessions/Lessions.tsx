@@ -8,11 +8,11 @@ const RenderItem = (props: any) => {
 	const { item, data } = props
 
 	const getTime = (date: any) => {
-		return moment(date).format('hh:mm')
+		return moment(date).format('HH:mm')
 	}
 
 	const getStrDate = (date: any) => {
-		return moment(date).format('DD/MM')
+		return moment(date).format('DD/MM/YYYY')
 	}
 	return (
 		<div style={{ marginBottom: 10, flexDirection: 'column', display: 'flex', alignItems: 'center' }}>
@@ -61,7 +61,7 @@ const Lessions = (props) => {
 				<List
 					itemLayout="horizontal"
 					dataSource={lessons}
-					grid={{ gutter: 16, xs: 2, sm: 2, md: 3, lg: 4, xl: 6, xxl: 6 }}
+					grid={{ gutter: 24, xs: 2, sm: 2, md: 3, lg: 4, xl: 5, xxl: 5 }}
 					renderItem={(item) => <RenderItem item={item} data={lessons} />}
 				/>
 			</Card>

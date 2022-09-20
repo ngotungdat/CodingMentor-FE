@@ -87,11 +87,19 @@ const TeacherTotalLesson = () => {
 					picker="month"
 					className="ml-2 style-input"
 					style={{ width: 130 }}
+					defaultValue={moment(moment().format('YYYY-MM'), 'YYYY-MM')}
 				/>
 			)
 		} else if (typeView == 2) {
 			return (
-				<DatePicker placeholder="Chọn năm" onChange={handleChangeDate} picker="year" className="ml-2 style-input" style={{ width: 130 }} />
+				<DatePicker
+					placeholder="Chọn năm"
+					onChange={handleChangeDate}
+					picker="year"
+					className="ml-2 style-input"
+					style={{ width: 130 }}
+					defaultValue={moment(moment().format('YYYY'), 'YYYY')}
+				/>
 			)
 		}
 	}

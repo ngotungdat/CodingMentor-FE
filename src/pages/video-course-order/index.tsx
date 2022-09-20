@@ -132,7 +132,7 @@ const VideoCourseList = () => {
 					{data?.CreatedOn == null ? (
 						''
 					) : (
-						<div>{moment(data?.CreatedOn).format('DD/MM/yyyy') + ' ' + moment(data?.CreatedOn).format('hh:mm')}</div>
+						<div>{moment(data?.CreatedOn).format('DD/MM/yyyy') + ' ' + moment(data?.CreatedOn).format('HH:mm')}</div>
 					)}
 				</>
 			)
@@ -146,7 +146,7 @@ const VideoCourseList = () => {
 					{data?.PaymentDate == null ? (
 						''
 					) : (
-						<div>{moment(data?.PaymentDate).format('DD/MM/yyyy') + ' ' + moment(data?.PaymentDate).format('hh:mm')}</div>
+						<div>{moment(data?.PaymentDate).format('DD/MM/yyyy') + ' ' + moment(data?.PaymentDate).format('HH:mm')}</div>
 					)}
 				</>
 			)

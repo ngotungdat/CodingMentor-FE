@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Popover } from 'antd'
 import { useWrap } from '~/context/wrap'
 import { signIn, signOut, useSession } from 'next-auth/react'
@@ -16,15 +16,36 @@ import { User } from 'react-feather'
 import TitlePageHeader from '../Elements/TitlePageHeader'
 import Notification from './notification'
 import Cart from './cart'
+import { timeZoneApi } from '~/apiBase/timezone'
 
 let countOpen = 0
 export default function Header(props: any) {
 	const { isOpenMenu, isOpen, funcMenuMobile, openMenuMobile } = props
-	const { titlePage, userInformation } = useWrap()
+	const { titlePage, userInformation, showNoti } = useWrap()
+	const [timeZoneUser, setTimeZoneUser] = useState<ITimeZone>()
 
 	const moveToLogin = () => {
 		signIn()
 	}
+
+	const getTimeZoneByUser = async () => {
+		try {
+			const res = await timeZoneApi.getByID(userInformation.TimeZoneId)
+			if (res.status === 200) {
+				setTimeZoneUser(res.data.data)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
+	useEffect(() => {
+		if (userInformation) {
+			getTimeZoneByUser()
+		}
+	}, [userInformation])
+
+	console.log('timeZoneUser: ', timeZoneUser)
 
 	const contentLogout = (
 		<ul className="user-function">
@@ -144,13 +165,12 @@ export default function Header(props: any) {
 
 				<div className="col-setting">
 					<ul className="col-setting-list">
-						{userInformation?.RoleID !== undefined &&
-							userInformation?.RoleID === 3 &&
-							 (
-								<li className="notification" style={{ marginRight: -10 }}>
-									<Cart />
-								</li>
-							)}
+						<p style={{ margin: 'auto 1rem', color: '#000' }}>{timeZoneUser?.Name}</p>
+						{userInformation?.RoleID !== undefined && userInformation?.RoleID === 3 && (
+							<li className="notification" style={{ marginRight: -10 }}>
+								<Cart />
+							</li>
+						)}
 
 						<li className="notification">
 							<Notification />

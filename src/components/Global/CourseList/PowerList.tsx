@@ -79,9 +79,11 @@ export const ItemCourse = (props) => {
 						<span>{Item.TeacherName || 'Chưa có mentor'}</span>
 					</div>
 					{/*  */}
-					<div className="course-item-price-inline">
-						<p>{numberWithCommas(Item.Price) === '' ? `${numberWithCommas(Item.Price)}` : `${numberWithCommas(Item.Price)} AUD`}</p>
-					</div>
+					{userInformation?.RoleID !== 3 && (
+						<div className="course-item-price-inline">
+							<p>{numberWithCommas(Item.Price) === '' ? `${numberWithCommas(Item.Price)}` : `${numberWithCommas(Item.Price)} AUD`}</p>
+						</div>
+					)}
 					{/*  */}
 					<div className="course-item-content-buttons">
 						<button

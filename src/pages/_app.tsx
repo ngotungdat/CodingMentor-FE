@@ -60,7 +60,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 				<link rel="icon" href="/logo.png" />
 			</Head>
 
-			<SessionProvider session={session} refetchInterval={5 * 60}>
+			<SessionProvider session={session}>
 				<WrapProvider>
 					<Layout>
 						<Component {...pageProps} />

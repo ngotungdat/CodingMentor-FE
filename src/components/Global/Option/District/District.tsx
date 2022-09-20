@@ -126,7 +126,7 @@ const District = () => {
 			status: true
 		})
 		try {
-			let res = await countryApi.getByCity({ iso: area })
+			let res = await countryApi.getByCity({ iso: area, pageSize: 99999 })
 			if (res.status === 200) {
 				if (res.data.totalRow && res.data.data.length) {
 					setCityList(res.data.data)

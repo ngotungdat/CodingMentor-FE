@@ -107,7 +107,7 @@ const VideoCourseStudent = () => {
 			dataIndex: 'CreatedOn',
 			key: 'CreatedOn',
 			render: (Action, data, index) => (
-				<div>{moment(data.CreatedOn).format('DD/MM/yyyy') + ' ' + moment(data.CreatedOn).format('hh:mm')}</div>
+				<div>{moment(data.CreatedOn).format('DD/MM/yyyy') + ' ' + moment(data.CreatedOn).format('HH:mm')}</div>
 			)
 		},
 		{

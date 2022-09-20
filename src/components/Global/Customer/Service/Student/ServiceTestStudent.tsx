@@ -538,23 +538,24 @@ export default function ServiceTestStudent(props) {
 			dataIndex: 'BranchName',
 			render: (a) => <p className="font-weight-black">{a}</p>
 		},
-		{
-			width: 150,
-			title: 'Đề test',
-			dataIndex: 'ExamTopicnName',
-			render: (text, data: any) =>
-				data.Status == 0 &&
-				data.ExamTopicID !== 0 && (
-					<Tooltip title="Làm đề test">
-						<a href="" className="font-weight-link d-flex align-items-center" onClick={(e) => moveToTest(e, data)}>
-							{text}
-						</a>
-					</Tooltip>
-				)
-		},
+		// {
+		// 	width: 150,
+		// 	title: 'Đề test',
+		// 	dataIndex: 'ExamTopicnName',
+		// 	render: (text, data: any) =>
+		// 		data.Status == 0 &&
+		// 		data.ExamTopicID !== 0 && (
+		// 			<Tooltip title="Làm đề test">
+		// 				<a href="" className="font-weight-link d-flex align-items-center" onClick={(e) => moveToTest(e, data)}>
+		// 					{text}
+		// 				</a>
+		// 			</Tooltip>
+		// 		)
+		// },
 		{
 			title: 'Tư vấn viên',
-			dataIndex: 'CounselorsName'
+			dataIndex: 'CounselorsName',
+			width: 150
 		},
 		{
 			title: 'Trạng thái',

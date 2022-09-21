@@ -26,9 +26,7 @@ const Area = () => {
 	const listFieldInit = {
 		pageIndex: 1,
 		pageSize: pageSize,
-		sort: 1,
-		sortType: true,
-		AreaName: ''
+		search: ''
 	}
 	let refValue = useRef({
 		pageIndex: 1,
@@ -99,9 +97,11 @@ const Area = () => {
 		setActiveColumnSearch(dataIndex)
 		setFilters({
 			...listFieldInit,
-			...refValue.current,
-			pageIndex: 1,
-			[dataIndex]: valueSearch
+			// ...refValue.current,
+			// pageIndex: 1,
+			// [dataIndex]: valueSearch,
+			pageSize: 99999,
+			search: valueSearch
 		})
 	}
 
@@ -111,7 +111,9 @@ const Area = () => {
 			status: true
 		})
 		try {
+			console.log('Filter: ', filters)
 			let res = await countryApi.getAll(filters)
+			console.log('Res: ', res.data.data)
 			if (res.status === 200) {
 				if (res.data.totalRow && res.data.data.length) {
 					setCountryList(res.data.data)
@@ -304,7 +306,7 @@ const Area = () => {
 			title: 'Quốc gia',
 			dataIndex: 'Name',
 			...FilterColumn('Name', onSearch, onResetSearch, 'text'),
-			className: activeColumnSearch === 'AreaName' ? 'active-column-search' : '',
+			className: activeColumnSearch === 'Name' ? 'active-column-search' : '',
 			render: (text) => <p className="font-weight-black">{text}</p>
 		},
 		{

@@ -111,9 +111,7 @@ const Area = () => {
 			status: true
 		})
 		try {
-			console.log('Filter: ', filters)
 			let res = await countryApi.getAll(filters)
-			console.log('Res: ', res.data.data)
 			if (res.status === 200) {
 				if (res.data.totalRow && res.data.data.length) {
 					setCountryList(res.data.data)

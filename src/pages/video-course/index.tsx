@@ -187,15 +187,15 @@ const VideoCourseStore = () => {
 	}
 
 	// HANDLE AD TO CARD (STUDENT)
-	const addToCard = (p, type) => {
-		type == 1 ? setAddToCardLoading(true) : setByNowLoading(true)
+	// const addToCard = (p, type) => {
+	// 	type == 1 ? setAddToCardLoading(true) : setByNowLoading(true)
 
-		let temp = {
-			VideoCourseID: p.ID,
-			Quantity: 1
-		}
-		postAddToCard(temp, type)
-	}
+	// 	let temp = {
+	// 		VideoCourseID: p.ID,
+	// 		Quantity: 1
+	// 	}
+	// 	postAddToCard(temp, type)
+	// }
 
 	// CREATE NEW COURSE
 	const createNewCourse = async (param) => {
@@ -426,7 +426,7 @@ const VideoCourseStore = () => {
 									loading={addToCardLoading}
 									buyNowLoading={buyNowLoading}
 									activeLoading={activeLoading}
-									addToCard={addToCard}
+									// addToCard={addToCard}
 									item={item}
 									dataTeacher={dataTeacher}
 									handleActive={handleActive}
@@ -436,6 +436,10 @@ const VideoCourseStore = () => {
 									dataCurriculum={dataCurriculum}
 									tags={tags}
 									onRefeshTags={() => getTags()}
+									setAddToCardLoading={setAddToCardLoading}
+									setByNowLoading={setByNowLoading}
+									postAddToCard={postAddToCard}
+									showModal={showModal}
 								/>
 							)}
 							pagination={{

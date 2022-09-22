@@ -303,7 +303,7 @@ const Area = () => {
 		{
 			title: 'Quốc gia',
 			dataIndex: 'Name',
-			...FilterColumn('Name', onSearch, onResetSearch, 'text'),
+			...FilterColumn('quốc gia', onSearch, onResetSearch, 'text'),
 			className: activeColumnSearch === 'Name' ? 'active-column-search' : '',
 			render: (text) => <p className="font-weight-black">{text}</p>
 		},

@@ -2,7 +2,7 @@ import { Input, Spin } from 'antd'
 import 'antd/dist/antd.css'
 import Link from 'next/link'
 import router from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ReactHtmlParser from 'react-html-parser'
 import { VideoCourseStoreApi } from '~/apiBase/video-course-store'
 import { useWrap } from '~/context/wrap'
@@ -14,7 +14,7 @@ import { numberWithCommas, parseToMoney } from '~/utils/functions'
 const RenderItemCard = (props) => {
 	const {
 		item,
-		addToCard,
+		// addToCard,
 		dataCategory,
 		categoryLevel,
 		dataCurriculum,
@@ -25,7 +25,11 @@ const RenderItemCard = (props) => {
 		dataTeacher,
 		refeshData,
 		tags,
-		onRefeshTags
+		onRefeshTags,
+		setAddToCardLoading,
+		setByNowLoading,
+		postAddToCard,
+		showModal
 	} = props
 	const { userInformation, showNoti } = useWrap()
 
@@ -33,6 +37,7 @@ const RenderItemCard = (props) => {
 	const [showModalEdit, setShowModalEdit] = useState(false)
 	const [activing, setActiving] = useState(false)
 	const [code, setCode] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
 
 	const params = {
 		Category: item.CategoryName,
@@ -52,6 +57,22 @@ const RenderItemCard = (props) => {
 		CurriculumID: item?.CurriculumID,
 		LimitBooking: item?.LimitBooking
 	}
+
+	// HANDLE AD TO CARD (STUDENT)
+	const addToCard = (p, type) => {
+		setIsLoading(true)
+		type == 1 ? setAddToCardLoading(true) : setByNowLoading(true)
+
+		let temp = {
+			VideoCourseID: p.ID,
+			Quantity: 1
+		}
+		postAddToCard(temp, type)
+	}
+
+	useEffect(() => {
+		setIsLoading(false)
+	}, [showModal])
 
 	// UPDATE COURSE
 	const updateCourse = async (param: any) => {
@@ -202,7 +223,7 @@ const RenderItemCard = (props) => {
 															}}
 															className="btn btn-primary"
 														>
-															Thêm vào giỏ {loading && <Spin className="loading-base" />}
+															Thêm vào giỏ {isLoading && <Spin className="loading-base" />}
 														</button>
 														<button
 															onClick={(e) => {
@@ -406,7 +427,7 @@ const RenderItemCard = (props) => {
 														}}
 														className="btn btn-primary btn-add"
 													>
-														Thêm vào giỏ {loading && <Spin className="loading-base" />}
+														Thêm vào giỏ {isLoading && <Spin className="loading-base" />}
 													</button>
 													{item.StatusActive == 'activated' ? (
 														<Link

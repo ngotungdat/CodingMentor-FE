@@ -14,11 +14,11 @@ export default function BelongingToDev() {
 		{ ID: 2, name: 'Giáo viên' },
 		{ ID: 3, name: 'Học viên' },
 		{ ID: 4, name: 'Phụ huynh' },
-		{ ID: 5, name: 'Quản lý' },	
+		{ ID: 5, name: 'Quản lý' },
 		{ ID: 6, name: 'Tư vấn viên' },
 		{ ID: 7, name: 'Học vụ' },
 		{ ID: 8, name: 'Quản lý chuyên môn' },
-		{ ID: 9, name: 'Kế toán' },
+		{ ID: 9, name: 'Kế toán' }
 	]
 
 	const handleAccess = async (data) => {
@@ -114,9 +114,9 @@ export default function BelongingToDev() {
 	return <>{isAccess ? renderMainScreen() : renderInputPassScreen()}</>
 }
 
-export async function getServerSideProps() {
-	const providers = await getProviders()
-	return {
-		props: { providers }
-	}
-}
+// export async function getServerSideProps() {
+// 	const providers = await getProviders()
+// 	return {
+// 		props: { providers }
+// 	}
+// }

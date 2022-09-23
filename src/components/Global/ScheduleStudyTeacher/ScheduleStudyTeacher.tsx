@@ -15,8 +15,8 @@ const ScheduleStudyTeacher = () => {
 	})
 	const [scheduleTeacherList, setScheduleTeacherList] = useState<IScheduleZoom[]>([])
 	const [filters, setFilters] = useState({
-		StartTime: moment().startOf('month').format('YYYY/MM/DD'),
-		EndTime: moment().endOf('month').format('YYYY/MM/DD')
+		startTime: moment().startOf('month').format('YYYY/MM/DD'),
+		endTime: moment().endOf('month').format('YYYY/MM/DD')
 	})
 
 	const fetchScheduleStudyTeacher = async () => {

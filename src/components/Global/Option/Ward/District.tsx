@@ -1,6 +1,5 @@
 import { Tooltip } from 'antd'
 import moment from 'moment'
-import { route } from 'next/dist/next-server/server/router'
 import router from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 import { areaApi, wardApi } from '~/apiBase'

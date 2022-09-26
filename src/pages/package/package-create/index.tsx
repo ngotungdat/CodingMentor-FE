@@ -1,41 +1,36 @@
-import {
-	AudioOutlined,
-	CustomerServiceOutlined,
-	FileTextOutlined,
-	FormOutlined,
-} from '@ant-design/icons';
-import {Card, Input, Radio, Upload} from 'antd';
-import ImgCrop from 'antd-img-crop';
-import {useRouter} from 'next/router';
-import React, {useState} from 'react';
-import Editor from '~/components/Elements/Editor';
-import TitlePage from '~/components/Elements/TitlePage';
-import LayoutBase from '~/components/LayoutBase';
+import { AudioOutlined, CustomerServiceOutlined, FileTextOutlined, FormOutlined } from '@ant-design/icons'
+import { Card, Input, Radio, Upload } from 'antd'
+import ImgCrop from 'antd-img-crop'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import Editor from '~/components/Elements/Editor'
+import TitlePage from '~/components/Elements/TitlePage'
+import LayoutBase from '~/components/LayoutBase'
 
 const PackageCreate = () => {
-	const [fileList, setFileList] = useState([]);
-	const [isType, setIsType] = useState();
-	const router = useRouter();
-	const onChange = ({fileList: newFileList}) => {
-		setFileList(newFileList);
-	};
+	const [fileList, setFileList] = useState([])
+	const [isType, setIsType] = useState()
+	const router = useRouter()
+	const onChange = ({ fileList: newFileList }) => {
+		setFileList(newFileList)
+	}
 	const onPreview = async (file) => {
-		let src = file.url;
+		let src = file.url
 		if (!src) {
 			src = await new Promise((resolve) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file.originFileObj);
-				reader.onload = () => resolve(reader.result);
-			});
+				const reader = new FileReader()
+				reader.readAsDataURL(file.originFileObj)
+				reader.onload = () => resolve(reader.result)
+			})
 		}
-		const image = new Image();
-		image.src = src;
-		const imgWindow = window.open(src);
-		imgWindow.document.write(image.outerHTML);
-	};
+		const image = new Image()
+		image.src = src
+		const imgWindow = window.open(src)
+		imgWindow.document.write(image.outerHTML)
+	}
 	const chooseType = (box) => {
-		setIsType(box);
-	};
+		setIsType(box)
+	}
 	return (
 		<>
 			<div className="package-create">
@@ -45,13 +40,11 @@ const PackageCreate = () => {
 						<div className="col-md-3 col-sm-6 col-12">
 							<div
 								onClick={() => chooseType('listening')}
-								className={`${
-									isType == 'listening' ? 'choose' : ''
-								} box-type-package`}
+								className={`${isType == 'listening' ? 'choose' : ''} box-type-package`}
 								style={{
 									background: 'url("/images/listening.jpg")',
 									backgroundRepeat: 'no-repeat',
-									backgroundSize: 'cover',
+									backgroundSize: 'cover'
 								}}
 							>
 								<div className="box-detail">
@@ -63,13 +56,11 @@ const PackageCreate = () => {
 						<div className="col-md-3 col-sm-6 col-12">
 							<div
 								onClick={() => chooseType('reading')}
-								className={`${
-									isType == 'reading' ? 'choose' : ''
-								} box-type-package`}
+								className={`${isType == 'reading' ? 'choose' : ''} box-type-package`}
 								style={{
 									background: 'url("/images/reading.jpg")',
 									backgroundRepeat: 'no-repeat',
-									backgroundSize: 'cover',
+									backgroundSize: 'cover'
 								}}
 							>
 								<div className="box-detail">
@@ -81,13 +72,11 @@ const PackageCreate = () => {
 						<div className="col-md-3 col-sm-6 col-12">
 							<div
 								onClick={() => chooseType('writting')}
-								className={`${
-									isType == 'writting' ? 'choose' : ''
-								} box-type-package`}
+								className={`${isType == 'writting' ? 'choose' : ''} box-type-package`}
 								style={{
 									background: 'url("/images/writting.jpg")',
 									backgroundRepeat: 'no-repeat',
-									backgroundSize: 'cover',
+									backgroundSize: 'cover'
 								}}
 							>
 								<div className="box-detail">
@@ -99,13 +88,11 @@ const PackageCreate = () => {
 						<div className="col-md-3 col-sm-6 col-12">
 							<div
 								onClick={() => chooseType('speaking')}
-								className={`${
-									isType == 'speaking' ? 'choose' : ''
-								} box-type-package`}
+								className={`${isType == 'speaking' ? 'choose' : ''} box-type-package`}
 								style={{
 									background: 'url("/images/speaking.jpg")',
 									backgroundRepeat: 'no-repeat',
-									backgroundSize: 'cover',
+									backgroundSize: 'cover'
 								}}
 							>
 								<div className="box-detail">
@@ -131,6 +118,7 @@ const PackageCreate = () => {
 								</div>
 								<div className="form-item">
 									<label htmlFor="">Thumbnail</label>
+									{/* @ts-ignore */}
 									<ImgCrop rotate>
 										<Upload
 											action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
@@ -156,8 +144,8 @@ const PackageCreate = () => {
 				</Card>
 			</div>
 		</>
-	);
-};
+	)
+}
 
-PackageCreate.layout = LayoutBase;
-export default PackageCreate;
+PackageCreate.layout = LayoutBase
+export default PackageCreate

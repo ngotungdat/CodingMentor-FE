@@ -103,8 +103,10 @@ export const ItemCourse = (props) => {
 					<></>
 				) : (
 					<div className="course-item-price">
-						{console.log(numberWithCommas(Item.Price))}
-						<p>{numberWithCommas(Item.Price) === '' ? `${numberWithCommas(Item.Price)}` : `${numberWithCommas(Item.Price)} AUD`}</p>
+						<>
+							{console.log(numberWithCommas(Item.Price))}
+							<p>{numberWithCommas(Item.Price) === '' ? `${numberWithCommas(Item.Price)}` : `${numberWithCommas(Item.Price)} AUD`}</p>
+						</>
 					</div>
 				)}
 			</div>

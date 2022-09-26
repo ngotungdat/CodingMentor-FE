@@ -476,6 +476,7 @@ const CourseCalendar = (props: any) => {
 	return (
 		<div className="wrap-calendar">
 			<Spin spinning={loading} size="large" wrapperClassName="calendar-loading">
+				{/* @ts-ignore */}
 				<Calendar
 					className="custom-calendar"
 					localizer={localizer}

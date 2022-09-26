@@ -1,13 +1,13 @@
-import { Spin } from 'antd';
-import Modal from 'antd/lib/modal/Modal';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useWrap } from '~/context/wrap';
-moment.locale('vi');
-const localizer = momentLocalizer(moment);
+import { Spin } from 'antd'
+import Modal from 'antd/lib/modal/Modal'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import { useWrap } from '~/context/wrap'
+moment.locale('vi')
+const localizer = momentLocalizer(moment)
 
 const CreateSelfCourseCalendar = (props) => {
 	const {
@@ -18,58 +18,59 @@ const CreateSelfCourseCalendar = (props) => {
 		dataModalCalendar,
 		//
 		unAvailableList
-	} = props;
-	const isSmDown = window.matchMedia('(max-width: 767px)').matches;
-	const [isVisible, setIsVisible] = useState(false);
-	const { showNoti } = useWrap();
-	const openModal = () => setIsVisible(true);
-	const closeModal = () => setIsVisible(false);
-	const { dateString, scheduleList } = dataModalCalendar;
+	} = props
+	const isSmDown = window.matchMedia('(max-width: 767px)').matches
+	const [isVisible, setIsVisible] = useState(false)
+	const { showNoti } = useWrap()
+	const openModal = () => setIsVisible(true)
+	const closeModal = () => setIsVisible(false)
+	const { dateString, scheduleList } = dataModalCalendar
 
 	const checkHandleSetDataModalCalendar = (obj) => {
-		if (!handleSetDataModalCalendar) return;
-		handleSetDataModalCalendar(obj);
-	};
+		if (!handleSetDataModalCalendar) return
+		handleSetDataModalCalendar(obj)
+	}
 
 	const styleEvent = ({ event }) => {
-		const { dateString, scheduleList } = event.resource;
-		const scheduleInDay = scheduleList.length;
+		const { dateString, scheduleList } = event.resource
+		const scheduleInDay = scheduleList.length
 		return (
 			<>
 				<div
 					onClick={(e) => {
-						e.stopPropagation();
+						e.stopPropagation()
 						checkHandleSetDataModalCalendar({
 							dateString,
 							scheduleList
-						});
-						openModal();
+						})
+						openModal()
 					}}
 				>
 					<strong>Buổi học: {scheduleInDay}</strong>
 				</div>
 			</>
-		);
-	};
+		)
+	}
 	const customEventPropGetter = (event, start, end, isSelected) => {
-		let cls;
-		const now = moment().isSameOrBefore();
+		let cls
+		const now = moment().isSameOrBefore()
 		if (event.resource.scheduleList.length === 0) {
-			cls = 'create-course-event create-course-event-gray';
+			cls = 'create-course-event create-course-event-gray'
 		}
 		if (event.resource.dateString === dateString) {
 			return {
 				className: 'create-course-event create-course-event-active'
-			};
+			}
 		} else {
 			return {
 				className: cls
-			};
+			}
 		}
-	};
+	}
 	return (
 		<div className="wrap-calendar">
 			<Spin spinning={!isLoaded} size="large" wrapperClassName="calendar-loading">
+				{/* @ts-ignore */}
 				<Calendar
 					className="custom-calendar self-calendar"
 					localizer={localizer}
@@ -122,8 +123,8 @@ const CreateSelfCourseCalendar = (props) => {
 				</div>
 			</Modal>
 		</div>
-	);
-};
+	)
+}
 CreateSelfCourseCalendar.propTypes = {
 	eventList: PropTypes.arrayOf(
 		PropTypes.shape({
@@ -148,7 +149,7 @@ CreateSelfCourseCalendar.propTypes = {
 	unAvailableList: PropTypes.node,
 	//
 	children: PropTypes.node
-};
+}
 CreateSelfCourseCalendar.defaultProps = {
 	eventList: [],
 	isLoaded: false,
@@ -160,5 +161,5 @@ CreateSelfCourseCalendar.defaultProps = {
 	},
 	//
 	unAvailableList: null
-};
-export default CreateSelfCourseCalendar;
+}
+export default CreateSelfCourseCalendar

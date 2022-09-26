@@ -147,14 +147,14 @@ const WrapProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	}
 
 	const getAllData = () => {
-		if (userInfo) {
-			if (userInfo.RoleID === 1) {
-				getRoles(0)
-				getRoles(1)
-			}
-			getNewDataUser()
-			postOnesignalID()
-		}
+		// if (userInfo) {
+		// 	if (userInfo.RoleID === 1) {
+		getRoles(0)
+		getRoles(1)
+		// }
+		getNewDataUser()
+		postOnesignalID()
+		// }
 	}
 
 	useEffect(() => {

@@ -54,9 +54,9 @@ SignIn.layout = AuthLayout
 
 export default SignIn
 
-export async function getServerSideProps(context) {
-	const providers = await getProviders()
-	return {
-		props: { providers }
-	}
-}
+// export async function getServerSideProps(context) {
+// 	const providers = await getProviders()
+// 	return {
+// 		props: { providers }
+// 	}
+// }

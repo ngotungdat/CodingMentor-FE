@@ -157,11 +157,16 @@ const WrapProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 		// }
 	}
 
+	// useEffect(() => {
+	// 	if (path !== '/baochau' && !!session && path.search('signin') < 1) {
+	// 		getAllData()
+	// 	}
+	// }, [session])
 	useEffect(() => {
-		if (path !== '/baochau' && !!session && path.search('signin') < 1) {
+		if (path !== '/baochau' && path.search('signin') < 1) {
 			getAllData()
 		}
-	}, [session])
+	}, [])
 
 	return (
 		<WrapContext.Provider

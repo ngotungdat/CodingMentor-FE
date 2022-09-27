@@ -45,8 +45,6 @@ export default function Header(props: any) {
 		}
 	}, [userInformation])
 
-	console.log('timeZoneUser: ', timeZoneUser)
-
 	const contentLogout = (
 		<ul className="user-function">
 			<li>

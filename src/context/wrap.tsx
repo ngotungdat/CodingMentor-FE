@@ -23,8 +23,8 @@ export type IProps = {
 	handleReloadNoti: Function
 	reloadCart: boolean
 	handleReloadCart: Function
-	session: any
-	sessionStatus: 'loading' | 'authenticated' | 'unauthenticated'
+	// session: any
+	// sessionStatus: 'loading' | 'authenticated' | 'unauthenticated'
 }
 
 const WrapContext = createContext<IProps>({
@@ -41,9 +41,9 @@ const WrapContext = createContext<IProps>({
 	reloadNotification: false,
 	handleReloadNoti: Function,
 	reloadCart: false,
-	handleReloadCart: Function,
-	session: {},
-	sessionStatus: 'loading'
+	handleReloadCart: Function
+	// session: {},
+	// sessionStatus: 'loading'
 })
 
 const WrapProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -52,7 +52,7 @@ const WrapProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const getRouter = router.pathname
 	let path: string = router.pathname
 
-	const { data: session, status } = useSession()
+	// const { data: session, status } = useSession()
 	const [titlePage, setTitlePage] = useState('')
 	const [userInfo, setUserInfo] = useState<IUser>(null)
 	const [roles, setRoles] = useState<IRole[]>(null)
@@ -184,9 +184,9 @@ const WrapProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 				reloadNotification: reloadNotification,
 				handleReloadNoti: handleReloadNoti,
 				reloadCart: reloadCart,
-				handleReloadCart: handleReloadCart,
-				session: session,
-				sessionStatus: status
+				handleReloadCart: handleReloadCart
+				// session: session,
+				// sessionStatus: status
 			}}
 		>
 			<ToastContainer

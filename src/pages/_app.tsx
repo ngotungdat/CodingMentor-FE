@@ -25,16 +25,16 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 	const router = useRouter()
 
 	useEffect(() => {
-		// OneSignal.setSubscription(true)
-		// OneSignal.init({ appId: _.oneSignalKey }).then(() => {
-		// 	OneSignal.showSlidedownPrompt()
-		// })
-		// OneSignal.on('popoverShown', function () {})
-		// const handleRouteChangeError = (err: any, url: any) => {}
-		// router.events.on('routeChangeError', handleRouteChangeError)
-		// return () => {
-		// 	router.events.off('routeChangeError', handleRouteChangeError)
-		// }
+		OneSignal.setSubscription(true)
+		OneSignal.init({ appId: _.oneSignalKey }).then(() => {
+			OneSignal.showSlidedownPrompt()
+		})
+		OneSignal.on('popoverShown', function () {})
+		const handleRouteChangeError = (err: any, url: any) => {}
+		router.events.on('routeChangeError', handleRouteChangeError)
+		return () => {
+			router.events.off('routeChangeError', handleRouteChangeError)
+		}
 	}, [])
 
 	const Layout = Component.layout || ((props) => <>{props.children}</>)

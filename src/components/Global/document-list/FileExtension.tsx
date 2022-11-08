@@ -34,8 +34,8 @@ const FileExtension = (props) => {
 								<div className="file-man-box">
 									<a href={doc.DocumentLink} download={doc.DocumentLink} target="_blank">
 										<img
-											src={doc.ImageThumbnail && doc.ImageThumbnail.length > 0 ? doc.ImageThumbnail : '/images/document-thumb.jpg'}
-											style={{ width: '100%' }}
+											src={doc.ImageThumbnail && doc.ImageThumbnail.length > 0 ? doc.ImageThumbnail : '/images/emptyDocument.jpg'}
+											style={{ width: '100%', height: '200px', objectFit: 'cover' }}
 											alt=" document image"
 										/>
 										<div className="file-man-title">

@@ -224,7 +224,7 @@ const DocumentList = (props) => {
 													<img
 														className="mr-3"
 														style={{ width: 35, height: 35, objectFit: 'cover', borderRadius: '4px' }}
-														src={!!cate?.Icon && cate.Icon.length > 0 ? cate.Icon : '/Images/1-listening.png'}
+														src={!!cate?.Icon && cate.Icon.length > 0 ? cate.Icon : '/Images/emptyDocument.jpg'}
 													/>
 													<span>{cate.CategoryName}</span>
 												</div>

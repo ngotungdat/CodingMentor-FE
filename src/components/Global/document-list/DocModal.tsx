@@ -3,7 +3,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { faPencilSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button, Form, Input, Modal, Select, Spin, Upload } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { X } from 'react-feather'
 import { studentApi } from '~/apiBase'
 import { documentCategoryApi } from '~/apiBase/course-detail/document-category'
@@ -81,6 +81,12 @@ const DocModal = (props) => {
 		setImageUrl('')
 	}
 
+	useEffect(() => {
+		if (Category) {
+			form.setFieldsValue(Category)
+		}
+	}, [isVisible])
+
 	const handleChange = async (data) => {
 		setLoading(true)
 		try {
@@ -156,7 +162,12 @@ const DocModal = (props) => {
 						{(type == 'ADD_DOC' && (
 							<>
 								<div className="col-12">
-									<Form.Item label="Tên loại tài liệu" name="CategoryName">
+									<Form.Item
+										label="Tên loại tài liệu"
+										name="CategoryName"
+										required
+										rules={[{ required: true, message: 'Bạn không được để trống' }]}
+									>
 										<Input onChange={(event) => {}} name="CategoryName" placeholder="Tên loại tài liệu" className="style-input" />
 									</Form.Item>
 								</div>
@@ -194,7 +205,12 @@ const DocModal = (props) => {
 							(type == 'EDIT_DOC' && (
 								<>
 									<div className="col-12">
-										<Form.Item label="Tên loại tài liệu" name="CategoryName">
+										<Form.Item
+											label="Tên loại tài liệu"
+											name="CategoryName"
+											required
+											rules={[{ required: true, message: 'Bạn không được để trống' }]}
+										>
 											<Input
 												onChange={(event) => {}}
 												name="CategoryName"

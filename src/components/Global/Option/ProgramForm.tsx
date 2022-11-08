@@ -16,8 +16,14 @@ const ProgramForm = React.memo((props: any) => {
 
 	// HANDLE SUBMIT
 	const onSubmit = handleSubmit((data: any) => {
-		console.log('data submit: ', data)
-		let res = _onSubmit(data)
+		let DATA_SUBMIT = null
+		if (data.Description === '') {
+			DATA_SUBMIT = { ...data, Description: '<span></span>' }
+		} else {
+			DATA_SUBMIT = { ...data }
+		}
+		console.log('data submit: ', DATA_SUBMIT)
+		let res = _onSubmit(DATA_SUBMIT)
 
 		res.then(function (rs: any) {
 			rs && rs.status == 200 && (setIsModalVisible(false), form.resetFields())

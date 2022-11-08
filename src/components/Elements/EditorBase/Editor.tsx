@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
 import ReactHtmlParser from 'react-html-parser'
 import ReactSummernote from 'react-summernote'
-import 'react-summernote/dist/react-summernote.css' // import styles
+// import 'react-summernote/dist/react-summernote.css' // import styles
 import 'react-summernote/lang/summernote-vi-VN' // you can import any other locale
 import { studentApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'

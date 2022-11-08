@@ -2773,3 +2773,8 @@ hr {
 .tx-black {
 	color: #000 !important;
 }
+
+.ant-tooltip {
+	position: relative;
+	z-index: 100;
+}

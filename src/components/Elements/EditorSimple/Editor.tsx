@@ -6,8 +6,6 @@ import { Modal, Input } from 'antd'
 import 'bootstrap/js/src/modal'
 import 'bootstrap/js/src/dropdown'
 import 'bootstrap/js/src/tooltip'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-ru-RU'
 import { PlusOutlined } from '@ant-design/icons'
 import { useWrap } from '~/context/wrap'
@@ -19,7 +17,7 @@ type dataTranslate = Array<{
 }>
 
 const EditorSummernote = (props) => {
-	const { getDataEditor, questionContent, isReset, isTranslate, defaultValue, isSimpleTool, height, isFull } = props
+	const { getDataEditor, questionContent, isReset, isTranslate, defaultValue, isSimpleTool, height, isFull, id } = props
 	const { showNoti } = useWrap()
 	let inputTranslate = useRef(null)
 	let inputEditor = useRef(null)
@@ -308,8 +306,8 @@ const EditorSummernote = (props) => {
 						</div>
 					</>
 				)}
-
 				<ReactSummernote
+					id={id}
 					ref={inputEditor}
 					value={valueEditor}
 					children={ReactHtmlParser(valueEditor)}

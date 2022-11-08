@@ -1,9 +1,11 @@
+import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { faPencilSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Form, Input, Modal, Select, Spin } from 'antd'
+import { Button, Form, Input, Modal, Select, Spin, Upload } from 'antd'
 import React, { useState } from 'react'
 import { X } from 'react-feather'
+import { studentApi } from '~/apiBase'
 import { documentCategoryApi } from '~/apiBase/course-detail/document-category'
 import { useWrap } from '~/context/wrap'
 
@@ -22,9 +24,11 @@ const IconList = [
 ]
 
 const DocModal = (props) => {
-	const { type, cateID, onFetchData, CategoryName, curriculumID } = props
+	const { type, cateID, onFetchData, CategoryName, curriculumID, Category } = props
 	const [isVisible, setIsVisible] = useState(false)
+	const [loading, setLoading] = useState(false)
 	const [submitLoading, setSubmitLoading] = useState({ type: '', loading: false })
+	const [imageUrl, setImageUrl] = useState<string>()
 	const [form] = Form.useForm()
 	const { showNoti, pageSize } = useWrap()
 	const { Option } = Select
@@ -74,9 +78,30 @@ const DocModal = (props) => {
 			console.log({ CategoryName: CategoryName, ID: cateID, Enable: false })
 			editDocument({ ID: cateID, CategoryName: CategoryName, Enable: 'false' })
 		}
+		setImageUrl('')
 	}
 
-	const handleChange = () => {}
+	const handleChange = async (data) => {
+		setLoading(true)
+		try {
+			const res = await studentApi.uploadImage(data.file)
+			if (res.status === 200) {
+				form.setFieldsValue({ Icon: res.data.data })
+				setImageUrl(res.data.data)
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const uploadButton = (
+		<div>
+			{loading ? <LoadingOutlined /> : <PlusOutlined />}
+			<div style={{ marginTop: 8 }}>Upload</div>
+		</div>
+	)
 
 	return (
 		<>
@@ -94,6 +119,7 @@ const DocModal = (props) => {
 				<button
 					onClick={() => {
 						setIsVisible(true)
+						setImageUrl(Category?.Icon)
 						form.resetFields()
 					}}
 					className="btn btn-icon edit"
@@ -136,13 +162,26 @@ const DocModal = (props) => {
 								</div>
 								<div className="col-12 category-icon-select">
 									<Form.Item label="Chọn icon" name="Icon">
-										<Select style={{ width: 120, height: 90 }} onChange={handleChange}>
+										{/* <Select style={{ width: 120, height: 90 }} onChange={handleChange}>
 											{IconList.map((item) => (
 												<Option value={item.icon}>
 													<img src={item.icon} />
 												</Option>
 											))}
-										</Select>
+										</Select> */}
+										<Upload
+											name="Icon"
+											listType="picture-card"
+											className="avatar-uploader"
+											showUploadList={false}
+											customRequest={handleChange}
+										>
+											{imageUrl ? (
+												<img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+											) : (
+												uploadButton
+											)}
+										</Upload>
 									</Form.Item>
 								</div>
 							</>
@@ -167,13 +206,26 @@ const DocModal = (props) => {
 									</div>
 									<div className="col-12 category-icon-select">
 										<Form.Item label="Chọn icon" name="Icon">
-											<Select style={{ width: 120, height: 90 }} onChange={handleChange}>
+											{/* <Select style={{ width: 120, height: 90 }} onChange={handleChange}>
 												{IconList.map((item) => (
 													<Option value={item.icon}>
 														<img src={item.icon} />
 													</Option>
 												))}
-											</Select>
+											</Select> */}
+											<Upload
+												name="Icon"
+												listType="picture-card"
+												className="avatar-uploader"
+												showUploadList={false}
+												customRequest={handleChange}
+											>
+												{imageUrl ? (
+													<img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+												) : (
+													uploadButton
+												)}
+											</Upload>
 										</Form.Item>
 									</div>
 								</>

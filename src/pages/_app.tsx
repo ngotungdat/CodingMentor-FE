@@ -8,6 +8,8 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import { SessionProvider } from 'next-auth/react'
 
 // import css
+import 'bootstrap/dist/css/bootstrap.css'
+import 'react-summernote/dist/react-summernote.css'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'antd/dist/antd.css'
 import 'bootstrap/dist/css/bootstrap.min.css'

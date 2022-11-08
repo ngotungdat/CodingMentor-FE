@@ -6,7 +6,7 @@ const DynamicComponentWithNoSSR = dynamic(() => import('./Editor'), {
 })
 
 const EditorSimple = (props) => {
-	const { handleChange, isReset, questionContent, isTranslate, defaultValue, isSimpleTool, height, isFull } = props
+	const { handleChange, isReset, questionContent, isTranslate, defaultValue, isSimpleTool, height, isFull, id } = props
 	return (
 		<div className="summernote-style">
 			<DynamicComponentWithNoSSR
@@ -18,6 +18,7 @@ const EditorSimple = (props) => {
 				isSimpleTool={isSimpleTool}
 				height={height}
 				isFull={isFull}
+				id={id}
 			/>
 		</div>
 	)

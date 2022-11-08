@@ -1,69 +1,69 @@
-import { DashOutlined, EllipsisOutlined } from '@ant-design/icons';
-import { Card, Dropdown, Menu } from 'antd';
-import { useRouter } from 'next/router';
-import React, { useState, useEffect } from 'react';
-import { Folder } from 'react-feather';
-import { documentCategoryApi } from '~/apiBase/course-detail/document-category';
-import { documentListApi } from '~/apiBase/document-list/document-list';
-import DocModal from '~/components/Global/document-list/DocModal';
-import FileExtension from '~/components/Global/document-list/FileExtension';
-import LayoutBase from '~/components/LayoutBase';
-import { useWrap } from '~/context/wrap';
+import { DashOutlined, EllipsisOutlined } from '@ant-design/icons'
+import { Card, Dropdown, Menu } from 'antd'
+import { useRouter } from 'next/router'
+import React, { useState, useEffect } from 'react'
+import { Folder } from 'react-feather'
+import { documentCategoryApi } from '~/apiBase/course-detail/document-category'
+import { documentListApi } from '~/apiBase/document-list/document-list'
+import DocModal from '~/components/Global/document-list/DocModal'
+import FileExtension from '~/components/Global/document-list/FileExtension'
+import LayoutBase from '~/components/LayoutBase'
+import { useWrap } from '~/context/wrap'
 
 const DocumentListFromDetail = () => {
-	const router = useRouter();
-	const [isLoading, setIsLoading] = useState({ type: '', loading: false });
-	const [categoryDoc, setCategoryDoc] = useState<ICategoryDoc[]>([]);
-	const { showNoti, pageSize } = useWrap();
-	const [categoryID, setCategoryID] = useState(null);
-	const [activeID, setActiveID] = useState<any>();
-	const [docList, setDocList] = useState(null);
-	const [docInfo, setDocInfo] = useState({});
+	const router = useRouter()
+	const [isLoading, setIsLoading] = useState({ type: '', loading: false })
+	const [categoryDoc, setCategoryDoc] = useState<ICategoryDoc[]>([])
+	const { showNoti, pageSize } = useWrap()
+	const [categoryID, setCategoryID] = useState(null)
+	const [activeID, setActiveID] = useState<any>()
+	const [docList, setDocList] = useState(null)
+	const [docInfo, setDocInfo] = useState({})
 
 	const paramsDefault = {
 		pageIndex: 1,
 		pageSize: pageSize,
 		CurriculumnID: Number(router.query.curriculumID)
-	};
+	}
 
-	const [params, setParams] = useState(paramsDefault);
+	const [params, setParams] = useState(paramsDefault)
 
 	const getDataCategoryDoc = async () => {
-		setIsLoading({ type: 'GET_ALL', loading: true });
+		setIsLoading({ type: 'GET_ALL', loading: true })
 		try {
-			let res = await documentCategoryApi.getAll(params);
+			let res = await documentCategoryApi.getAll(params)
 			if (res.status == 200) {
-				setCategoryDoc(res.data.data);
-				setActiveID(res.data.data[0].ID);
-				getDocList(res.data.data[0].ID);
-				setDocInfo({ CategoryID: res.data.data[0].ID, DocumentName: res.data.data[0].CategoryName });
-				setCategoryID(res.data.data[0].ID);
+				setCategoryDoc(res.data.data)
+				setActiveID(res.data.data[0].ID)
+				getDocList(res.data.data[0].ID)
+				setDocInfo({ CategoryID: res.data.data[0].ID, DocumentName: res.data.data[0].CategoryName })
+				setCategoryID(res.data.data[0].ID)
 			}
 			// if (res.status == 204) {
 			// 	showNoti('danger', 'Không tìm thấy dữ liệu!');
 			// }
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
-			setIsLoading({ type: 'GET_ALL', loading: false });
+			setIsLoading({ type: 'GET_ALL', loading: false })
 		}
-	};
+	}
 
 	const getDocList = async (ID) => {
-		setIsLoading({ type: 'GET_ALL', loading: true });
+		setIsLoading({ type: 'GET_ALL', loading: true })
 		try {
-			let res = await documentListApi.getAll({ CategoryID: ID, DocumentName: '' });
+			let res = await documentListApi.getAll({ CategoryID: ID, DocumentName: '' })
 			if (res.status == 200) {
-				setDocList(res.data.data);
+				setDocList(res.data.data)
 			}
 			if (res.status == 204) {
-				setDocList([]);
+				setDocList([])
 			}
 		} catch (error) {
 		} finally {
-			setIsLoading({ type: 'GET_ALL', loading: false });
+			setIsLoading({ type: 'GET_ALL', loading: false })
 		}
-	};
+	}
 
 	const menu = (cate) => {
 		return (
@@ -72,9 +72,10 @@ const DocumentListFromDetail = () => {
 					<DocModal
 						type="EDIT_DOC"
 						CategoryName={cate.CategoryName}
+						Category={cate}
 						cateID={cate.ID}
 						onFetchData={() => {
-							setParams({ ...params, pageIndex: 1 });
+							setParams({ ...params, pageIndex: 1 })
 						}}
 					/>
 				</Menu.Item>
@@ -84,13 +85,13 @@ const DocumentListFromDetail = () => {
 						CategoryName={cate.CategoryName}
 						cateID={cate.ID}
 						onFetchData={() => {
-							setParams({ ...params, pageIndex: 1 });
+							setParams({ ...params, pageIndex: 1 })
 						}}
 					/>
 				</Menu.Item>
 			</Menu>
-		);
-	};
+		)
+	}
 
 	const menuCateMD = () => {
 		return (
@@ -103,7 +104,7 @@ const DocumentListFromDetail = () => {
 						curriculumID={Number(router.query.curriculumID)}
 						cateID={null}
 						onFetchData={() => {
-							setParams({ ...params, pageIndex: 1 });
+							setParams({ ...params, pageIndex: 1 })
 						}}
 					/>
 				</div>
@@ -119,10 +120,10 @@ const DocumentListFromDetail = () => {
 											: 'd-flex justify-content-between align-items-center doc__list-container'
 									}
 									onClick={() => {
-										setActiveID(cate.ID);
-										getDocList(cate.ID);
-										setDocInfo({ CategoryID: cate.ID, DocumentName: cate.CategoryName });
-										setCategoryID(cate.ID);
+										setActiveID(cate.ID)
+										getDocList(cate.ID)
+										setDocInfo({ CategoryID: cate.ID, DocumentName: cate.CategoryName })
+										setCategoryID(cate.ID)
 									}}
 								>
 									<div className="title doc__list-menu">
@@ -144,16 +145,16 @@ const DocumentListFromDetail = () => {
 									</a>
 								</Dropdown>
 							</div>
-						);
+						)
 					})}
 				</Menu>
 			</div>
-		);
-	};
+		)
+	}
 
 	useEffect(() => {
-		getDataCategoryDoc();
-	}, [params]);
+		getDataCategoryDoc()
+	}, [params])
 
 	return (
 		<div className="h-100">
@@ -184,7 +185,7 @@ const DocumentListFromDetail = () => {
 								cateID={null}
 								curriculumID={Number(router.query.curriculumID)}
 								onFetchData={() => {
-									setParams({ ...params, pageIndex: 1 });
+									setParams({ ...params, pageIndex: 1 })
 								}}
 							/>
 						</div>
@@ -200,10 +201,10 @@ const DocumentListFromDetail = () => {
 													: 'd-flex justify-content-between align-items-center doc__list-container'
 											}
 											onClick={() => {
-												setActiveID(cate.ID);
-												getDocList(cate.ID);
-												setDocInfo({ CategoryID: cate.ID, DocumentName: cate.CategoryName });
-												setCategoryID(cate.ID);
+												setActiveID(cate.ID)
+												getDocList(cate.ID)
+												setDocInfo({ CategoryID: cate.ID, DocumentName: cate.CategoryName })
+												setCategoryID(cate.ID)
 											}}
 										>
 											<div className="title doc__list-menu">
@@ -225,7 +226,7 @@ const DocumentListFromDetail = () => {
 											</a>
 										</Dropdown>
 									</div>
-								);
+								)
 							})}
 						</Menu>
 					</div>
@@ -238,7 +239,7 @@ const DocumentListFromDetail = () => {
 								docInfo={docInfo}
 								categoryID={categoryID}
 								onFetchData={() => {
-									getDocList(categoryID);
+									getDocList(categoryID)
 								}}
 							/>
 						) : (
@@ -248,8 +249,8 @@ const DocumentListFromDetail = () => {
 				</div>
 			</Card>
 		</div>
-	);
-};
+	)
+}
 
-DocumentListFromDetail.layout = LayoutBase;
-export default DocumentListFromDetail;
+DocumentListFromDetail.layout = LayoutBase
+export default DocumentListFromDetail

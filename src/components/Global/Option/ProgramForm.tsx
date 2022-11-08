@@ -12,6 +12,7 @@ const ProgramForm = React.memo((props: any) => {
 	const { handleSubmit, setValue } = useForm()
 	const { Option } = Select
 	const [form] = Form.useForm()
+	const [showDescription, setShowDescription] = useState(false)
 
 	// HANDLE SUBMIT
 	const onSubmit = handleSubmit((data: any) => {
@@ -47,15 +48,25 @@ const ProgramForm = React.memo((props: any) => {
 	// IS VISIBLE MODAL
 	useEffect(() => {
 		if (isModalVisible) {
-			if (programID) {
-				getIndex()
-				Object.keys(rowData).forEach(function (key) {
-					setValue(key, rowData[key])
-				})
-				form.setFieldsValue(rowData)
+			setShowDescription(false)
+			const sleep = async () => {
+				await wait(0)
+				if (programID) {
+					getIndex()
+					Object.keys(rowData).forEach(function (key) {
+						setValue(key, rowData[key])
+					})
+					form.setFieldsValue(rowData)
+				}
+				setShowDescription(true)
 			}
+			sleep()
 		}
 	}, [isModalVisible])
+
+	const wait = (timeout: number) => {
+		return new Promise((resolve) => setTimeout(resolve, timeout))
+	}
 
 	return (
 		<>
@@ -86,6 +97,8 @@ const ProgramForm = React.memo((props: any) => {
 				visible={isModalVisible}
 				onCancel={() => setIsModalVisible(false)}
 				footer={null}
+				width={900}
+				centered
 			>
 				<div className="container-fluid">
 					<Form form={form} layout="vertical" onFinish={onSubmit}>
@@ -174,23 +187,26 @@ const ProgramForm = React.memo((props: any) => {
 									<NumberFormat
 										placeholder=""
 										className="style-input-x"
+										style={{ padding: '0 10px' }}
 										onChange={(event) => setValue('Level', event.target.value.split(',').join(''))}
 										thousandSeparator={true}
 									/>
 								</Form.Item>
 							</div>
-
-							<div className="col-12">
-								<Form.Item name="Description" label="Mô tả">
-									<EditorSimple
-										defaultValue=""
-										isSimpleTool={true}
-										handleChange={(value) => setValue('Description', value)}
-										isTranslate={false}
-										height={80}
-									/>
-								</Form.Item>
-							</div>
+							{isModalVisible && showDescription ? (
+								<div className="col-12">
+									<Form.Item name="Description" label="Mô tả">
+										<EditorSimple
+											id={`${rowData?.ID}-${Date.now()}`}
+											defaultValue={rowData?.Description}
+											isSimpleTool={true}
+											handleChange={(value) => setValue('Description', value)}
+											isTranslate={false}
+											height={90}
+										/>
+									</Form.Item>
+								</div>
+							) : null}
 						</div>
 
 						<div className="row ">

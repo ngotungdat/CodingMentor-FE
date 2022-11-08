@@ -6,7 +6,7 @@ import 'bootstrap/js/src/tooltip'
 import React, { useEffect, useRef, useState } from 'react'
 import ReactHtmlParser from 'react-html-parser'
 import ReactSummernote from 'react-summernote'
-import 'react-summernote/dist/react-summernote.css'
+// import 'react-summernote/dist/react-summernote.css'
 import { studentApi } from '~/apiBase'
 import { useWrap } from '~/context/wrap'
 

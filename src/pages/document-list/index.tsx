@@ -89,6 +89,7 @@ const DocumentList = (props) => {
 						<DocModal
 							type="EDIT_DOC"
 							CategoryName={cate.CategoryName}
+							Category={cate}
 							cateID={cate.ID}
 							onFetchData={() => setParams({ ...params, pageIndex: 1 })}
 						/>
@@ -222,7 +223,7 @@ const DocumentList = (props) => {
 												<div className="d-flex align-items-center text-uppercase">
 													<img
 														className="mr-3"
-														style={{ width: 30, height: 30 }}
+														style={{ width: 35, height: 35, objectFit: 'cover', borderRadius: '4px' }}
 														src={!!cate?.Icon && cate.Icon.length > 0 ? cate.Icon : '/Images/1-listening.png'}
 													/>
 													<span>{cate.CategoryName}</span>

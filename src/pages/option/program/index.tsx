@@ -122,7 +122,7 @@ const Programs = () => {
 
 	// ---------------- AFTER SUBMIT -----------------
 	const afterPost = (mes) => {
-		showNoti('success', 'Thêm mới thành công')
+		// showNoti('success', 'Thêm mới thành công')
 
 		setTodoApi({
 			...listTodoApi,
@@ -151,7 +151,8 @@ const Programs = () => {
 						GradeName: dataGrade.find((item) => item.ID === dataSubmit.GradeID).GradeName
 					})
 					setDataSource(newDataSource)
-					showNoti('success', 'Cập nhật thành công')
+					afterPost(res.data.message)
+					showNoti('success', res.data.message)
 				}
 			} catch (error) {
 				console.log('error: ', error)
@@ -165,7 +166,10 @@ const Programs = () => {
 		} else {
 			try {
 				res = await programApi.add(dataSubmit)
-				res?.status == 200 && afterPost(res.data.message)
+				if (res.status === 200) {
+					showNoti('success', res.data.message)
+					afterPost(res.data.message)
+				}
 			} catch (error) {
 				showNoti('danger', error.message)
 			} finally {
@@ -292,6 +296,7 @@ const Programs = () => {
 		{
 			title: 'Khối học',
 			dataIndex: 'GradeName',
+			width: 180,
 			render: (text) => {
 				return <p className="font-weight-black">{text}</p>
 			}
@@ -299,6 +304,7 @@ const Programs = () => {
 		{
 			title: 'Mã chương trình',
 			dataIndex: 'ProgramCode',
+			width: 170,
 			...FilterColumn('ProgramCode', onSearch, handleReset, 'text'),
 			render: (text) => {
 				return <p className="font-weight-primary">{text}</p>
@@ -307,6 +313,7 @@ const Programs = () => {
 		{
 			title: 'Tên chương trình',
 			dataIndex: 'ProgramName',
+			width: 300,
 			...FilterColumn('ProgramName', onSearch, handleReset, 'text'),
 			render: (text) => {
 				return <p className="font-weight-primary">{text}</p>
@@ -324,6 +331,7 @@ const Programs = () => {
 		{
 			title: 'Giá',
 			dataIndex: 'Price',
+			width: 160,
 			render: (text) => {
 				return (
 					<p className="font-weight-primary">{numberWithCommas(text) === '' ? numberWithCommas(text) : numberWithCommas(text) + ' AUD'}</p>

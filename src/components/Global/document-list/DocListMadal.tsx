@@ -144,6 +144,8 @@ const DocListModal = ({ type, docInfo, onFetchDataForm, docID, docName }) => {
 										tooltip={{
 											title:
 												'File dạng: ".jpg", ".jpeg", ".png", ".bmp", ".mp4", ".flv", ".mpeg", ".mov", ".mp3", ".doc", ".docx", ".pdf", ".csv", ".xlsx", ".xls", ".ppt", ".pptx", ".zip", ".rar", tối đa 100mb',
+											className: 'customClass',
+											zIndex: 99999,
 											icon: (
 												<div className="row ">
 													<span className="mr-1 mt-3" style={{ color: '#000' }}>

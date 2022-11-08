@@ -310,7 +310,8 @@ const ModalCreateVideoCourse = React.memo((props: any) => {
 														</span>
 														<i className="fas fa-question-circle"></i>
 													</div>
-												)
+												),
+												zIndex: 9999
 											}}
 											rules={[{ required: true, message: 'Bạn không được để trống' }]}
 										>
@@ -335,7 +336,8 @@ const ModalCreateVideoCourse = React.memo((props: any) => {
 														</span>
 														<i className="fas fa-question-circle"></i>
 													</div>
-												)
+												),
+												zIndex: 9999
 											}}
 											rules={[{ required: true, message: 'Bạn không được để trống' }]}
 										>

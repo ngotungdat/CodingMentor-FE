@@ -41,6 +41,17 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 
 	const Layout = Component.layout || ((props) => <>{props.children}</>)
 
+	const removeProductionLog = () => {
+		if (process.env.NODE_ENV == 'production') {
+			console.log = () => {}
+			console.error = () => {}
+			console.debug = () => {}
+			console.warn = () => {}
+		}
+	}
+
+	removeProductionLog()
+
 	return (
 		<>
 			<Head>

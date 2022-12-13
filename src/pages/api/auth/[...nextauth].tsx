@@ -72,7 +72,9 @@ export default NextAuth({
 			return Promise.resolve(token)
 		},
 		async redirect({ url, baseUrl }) {
-			return url.startsWith(baseUrl) ? Promise.resolve(baseUrl) : Promise.resolve(baseUrl)
+			console.log('url: ', url)
+			console.log('baseUrl: ', baseUrl)
+			return url.startsWith(baseUrl) ? Promise.resolve(url) : Promise.resolve(baseUrl)
 		}
 	},
 	pages: {

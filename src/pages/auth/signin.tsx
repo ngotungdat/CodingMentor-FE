@@ -40,11 +40,15 @@ function SignIn({ csrfToken }) {
 	}, [])
 
 	const _Submit = (data: any) => {
-		signIn('credentials-signin', {
-			...data,
-			callbackUrl: (router.query?.callbackUrl as string | undefined) ?? '/',
-			redirect: true
-		})
+		if (!!localStorage.getItem('path-cart-app')) {
+			signIn('credentials-signin', { ...data, callbackUrl: localStorage.getItem('path-cart-app') })
+		} else {
+			signIn('credentials-signin', {
+				...data,
+				callbackUrl: (router.query?.callbackUrl as string | undefined) ?? '/',
+				redirect: true
+			})
+		}
 	}
 
 	return <LoginForm onSubmit={_Submit} csrfToken={csrfToken} error={haveError} />

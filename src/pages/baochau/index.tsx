@@ -2,12 +2,14 @@ import { Form, Input, Spin, Select } from 'antd'
 import React, { useState } from 'react'
 import { devApi } from '~/apiBase/dev/dev'
 import { signIn, getProviders } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 export default function BelongingToDev() {
 	const [isAccess, setIsAccess] = useState(false)
 	const [form] = Form.useForm()
 	const [isLoading, setIsLoading] = useState({ type: '', status: false })
 	const { Option } = Select
+	const router = useRouter()
 
 	const useAllRoles = [
 		{ ID: 1, name: 'Admin' },

@@ -163,7 +163,7 @@ const WrapProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	// 	}
 	// }, [session])
 	useEffect(() => {
-		if (path !== '/baochau' && path.search('signin') < 1) {
+		if (path !== '/baochau' && path.search('signin') < 1 && path.search('course-details') < 1) {
 			getAllData()
 		}
 	}, [])

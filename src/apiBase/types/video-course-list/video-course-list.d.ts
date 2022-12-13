@@ -24,7 +24,7 @@ type IVideoCourseList = IBaseApi<{
 	EnglishName: string
 	ExpiryDays: number
 	ID: number
-	LevelName:string
+	LevelName: string
 	LimitBooking: number
 	LimitMinutes: number
 	RequestPoint: number
@@ -38,3 +38,31 @@ type IVideoCourseList = IBaseApi<{
 	VideoCourseName: string
 	isBought: boolean
 }>
+
+type IVideoCourses = {
+	ID: number
+	CategoryID: number
+	CategoryName: string
+	LevelID: number
+	LevelName: string
+	CurriculumID: number
+	VideoCourseName: string
+	EnglishName: string
+	ChineseName: string
+	OriginalPrice: number
+	SellPrice: number
+	TeacherID: null
+	ExpiryDays: number
+	TeacherName: null
+	Enable: true
+	ImageThumbnails: string
+	TagArray: string
+	WebVideoCourseID: number
+	LimitBooking: number
+	LimitMinutes: number
+	RequestPoint: number
+	CreatedOn: string
+	CreatedBy: string
+	ModifiedOn: null
+	ModifiedBy: null
+}

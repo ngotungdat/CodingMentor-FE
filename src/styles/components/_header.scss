@@ -454,9 +454,9 @@
 							display: flex;
 							align-items: center;
 							flex: 1;
-							@include max-media(768px) {
-								display: none;
-							}
+							// @include max-media(768px) {
+							// 	display: none;
+							// }
 						}
 
 						.user-name-mobile {

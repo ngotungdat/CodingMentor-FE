@@ -1,28 +1,94 @@
 import React, { useState } from 'react'
-import { List, Spin } from 'antd'
+import { List, Modal, Spin } from 'antd'
 import { VideoCourseDetailApi } from '~/apiBase/video-course-details'
 import { ChevronDown, ChevronRight } from 'react-feather'
 import { useWrap } from '~/context/wrap'
+import { videoCoursesApi } from '~/apiBase/video-courses'
+import Lottie from 'react-lottie-player'
 
 const SHOW_TIME = false
+import cartAnimation from '~/components/json/shopping-cart.json'
 
 const RenderSubItemContent = (props) => {
-	const { item } = props
+	const { item, isLoadingCart, handleAddToCart } = props
+	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [isModalOpenBuyCourse, setIsModalOpenBuyCourse] = useState(false)
+	const { showNoti } = useWrap()
+	const [lessonDetail, setLessonDetail] = useState<any>({})
+	const handleGetVideo = async () => {
+		try {
+			const res = await videoCoursesApi.getLessonDetail({ videoCourseOfStudentID: 0, lessonID: item.ID })
+			if (res.status === 200) {
+				setLessonDetail(res.data.data)
+				setIsModalOpen(true)
+			}
+			if (res.status === 204) {
+				setLessonDetail({})
+			}
+		} catch (err) {
+			showNoti('danger', err.message)
+		}
+	}
+
 	return (
-		<div className="row m-0 item sub-item" style={{ borderBottomWidth: 0.5 }}>
-			<div className="row m-0">
-				<i className="fas fa-play-circle" style={{ marginTop: 5 }} />
-				<span className="ml-3" style={{ flex: 1 }}>
-					{item?.Title}
-				</span>
+		<>
+			<div
+				onClick={!item.IsPreview ? () => setIsModalOpenBuyCourse(true) : () => {}}
+				className="row m-0 item sub-item"
+				style={{ borderBottomWidth: 0.5, justifyContent: 'space-between' }}
+			>
+				<div className="row m-0">
+					<i className="fas fa-play-circle" style={{ marginTop: 5 }} />
+					<span className="ml-3" style={{ flex: 1 }}>
+						{item?.Title}
+					</span>
+				</div>
+				{SHOW_TIME && <span className="ml-3">{item?.SecondVideo} giây</span>}
+				{!!item.IsPreview && (
+					<button
+						onClick={(e) => {
+							setIsModalOpen(true)
+						}}
+						className="btn btn-primary"
+					>
+						Xem giới thiệu
+					</button>
+				)}
 			</div>
-			{SHOW_TIME && <span className="ml-3">{item?.SecondVideo} giây</span>}
-		</div>
+			<Modal title="Xem video giới thiệu" visible={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
+				<iframe
+					id="video__course__iframe"
+					ref={lessonDetail.LinkVideo}
+					width="100%"
+					height={350}
+					src={'https://www.youtube.com/embed/Sp-abMwlRMs'}
+					frameBorder="0"
+					allow="autoplay; clipboard-write; picture-in-picture"
+					allowFullScreen
+				/>
+			</Modal>
+			<Modal title="Mua khóa học" visible={isModalOpenBuyCourse} onCancel={() => setIsModalOpenBuyCourse(false)} footer={null}>
+				<div className="wrapper-noti-buy-video-course">
+					<Lottie loop animationData={cartAnimation} play className="inner" />
+					<p>Bạn hãy mua khóa học để xem video</p>
+					<button
+						disabled={isLoadingCart}
+						onClick={() => {
+							handleAddToCart()
+							setIsModalOpenBuyCourse(false)
+						}}
+						className="btn btn-primary"
+					>
+						Mua khóa học
+					</button>
+				</div>
+			</Modal>
+		</>
 	)
 }
 
 const RenderItemContent = (props) => {
-	const { item, data, Index } = props
+	const { item, data, Index, handleAddToCart, isLoadingCart } = props
 	const [loading, setLoading] = useState(false)
 	const [show, setShow] = useState(false)
 	const [isFirst, setFirst] = useState(true)
@@ -73,7 +139,9 @@ const RenderItemContent = (props) => {
 					footer={null}
 					dataSource={lessons}
 					className="list-content"
-					renderItem={(item) => <RenderSubItemContent item={item} data={lessons} />}
+					renderItem={(item) => (
+						<RenderSubItemContent isLoadingCart={isLoadingCart} handleAddToCart={handleAddToCart} item={item} data={lessons} />
+					)}
 				/>
 			)}
 		</div>
@@ -81,7 +149,7 @@ const RenderItemContent = (props) => {
 }
 
 const CourseDetailsContent = (props) => {
-	const { contentData, loading } = props
+	const { contentData, loading, handleAddToCart, isLoadingCart } = props
 	return (
 		<div className="content">
 			<span className="total-student">
@@ -93,7 +161,15 @@ const CourseDetailsContent = (props) => {
 				footer={null}
 				dataSource={contentData.SectionModels}
 				className="list-content mt-3"
-				renderItem={(item, index) => <RenderItemContent Index={index} item={item} data={contentData.SectionModels} />}
+				renderItem={(item, index) => (
+					<RenderItemContent
+						handleAddToCart={handleAddToCart}
+						isLoadingCart={isLoadingCart}
+						Index={index}
+						item={item}
+						data={contentData.SectionModels}
+					/>
+				)}
 			/>
 		</div>
 	)

@@ -279,7 +279,7 @@
 	background: #ffffff;
 	box-shadow: 0px 4px 8px rgba(92, 103, 153, 0.2);
 	border-radius: 8px;
-	
+
 	.rbc-event {
 		background: rgba(0, 0, 0, 0) !important;
 	}
@@ -353,4 +353,31 @@
 	@include max-media(768px) {
 		padding-right: 0px !important;
 	}
+}
+
+.wrapper-course-details {
+	margin: 100px auto;
+	padding-bottom: 20px;
+	width: 1200px;
+	@media (max-width: 767px) {
+		.fb-header {
+			flex-wrap: wrap;
+			.number {
+				width: 100%;
+			}
+			.start {
+				width: 100%;
+			}
+		}
+	}
+}
+
+@media (max-width: 1023px) {
+	.wrapper-course-details {
+		margin: 100px 25px;
+		width: unset;
+	}
+}
+.app-header-no-login {
+	width: 100%;
 }

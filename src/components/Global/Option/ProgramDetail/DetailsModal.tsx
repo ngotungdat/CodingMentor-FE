@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
-import { Modal, Input, Tooltip, List, Form, Upload, Button, Spin, Select } from 'antd'
+import { Modal, Input, Tooltip, List, Form, Upload, Button, Spin, Select, Checkbox } from 'antd'
 import { Info } from 'react-feather'
 import { LessonDetail } from '~/apiBase/curriculum-detais'
 import { ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons'
@@ -89,6 +89,11 @@ export const DetailsModal = (props) => {
 						...prevState,
 						CurriculumDetailID: action.data
 					}
+				case 'IsPreview':
+					return {
+						...prevState,
+						IsPreview: action.data
+					}
 			}
 		},
 		{
@@ -102,7 +107,8 @@ export const DetailsModal = (props) => {
 			ExamTopicID: 0,
 			ExamTopicName: '',
 			Description: '',
-			CurriculumDetailID: null
+			CurriculumDetailID: null,
+			IsPreview: false
 		}
 	)
 
@@ -187,6 +193,7 @@ export const DetailsModal = (props) => {
 
 	const handleUpdate = async () => {
 		setLoading(true)
+		console.log('SELECTED: ', selected)
 		let temp = {
 			ID: selected.ID,
 			Content: selected.Content,
@@ -196,6 +203,7 @@ export const DetailsModal = (props) => {
 			LinkHtml: selected.LinkHtml,
 			Description: selected.Description,
 			ExamTopicID: selected.ExamTopicID,
+			IsPreview: selected.IsPreview,
 			Enable: true
 		}
 		await postUpdate(temp)
@@ -234,6 +242,7 @@ export const DetailsModal = (props) => {
 		dispatch({ type: 'ExamTopicName', data: param.ExamTopicName })
 		dispatch({ type: 'Description', data: param.Description })
 		dispatch({ type: 'CurriculumDetailID', data: param.CurriculumDetailID })
+		dispatch({ type: 'IsPreview', data: param.IsPreview })
 	}
 
 	const onChangeUploadLinkDocument = async (info) => {
@@ -450,6 +459,21 @@ export const DetailsModal = (props) => {
 															</Upload>
 														</Form.Item>
 													)}
+
+													<Form.Item style={{ width: '100%' }}>
+														<Checkbox
+															style={{ width: '100%' }}
+															disabled={!enableEdit}
+															onChange={(e) => {
+																dispatch({
+																	type: 'IsPreview',
+																	data: e.target.checked
+																})
+															}}
+														>
+															<p style={{ marginBottom: 0, color: '#000' }}>Cho xem trước</p>
+														</Checkbox>
+													</Form.Item>
 
 													{!enableEdit ? (
 														<Input

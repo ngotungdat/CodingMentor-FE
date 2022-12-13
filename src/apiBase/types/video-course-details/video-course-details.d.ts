@@ -21,4 +21,5 @@ type IVideoCourseDetails = IBaseApi<{
 	LinkHtml: string
 	IsPreview: any
 	SecondVideo: any
+	ImageThumbnails: string
 }>

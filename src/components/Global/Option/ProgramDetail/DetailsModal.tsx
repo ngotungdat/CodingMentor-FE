@@ -462,6 +462,7 @@ export const DetailsModal = (props) => {
 
 													<Form.Item style={{ width: '100%' }}>
 														<Checkbox
+															checked={selected.IsPreview}
 															style={{ width: '100%' }}
 															disabled={!enableEdit}
 															onChange={(e) => {

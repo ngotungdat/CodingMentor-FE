@@ -359,7 +359,10 @@
 	margin: 100px auto;
 	padding-bottom: 20px;
 	width: 1200px;
-	@media (max-width: 767px) {
+	.btn-view-mobile {
+		display: none;
+	}
+	@media (max-width: 1023px) {
 		.fb-header {
 			flex-wrap: wrap;
 			.number {
@@ -368,6 +371,22 @@
 			.start {
 				width: 100%;
 			}
+		}
+		.header {
+			.rating {
+				flex-wrap: wrap;
+				.stars {
+					width: 100%;
+				}
+			}
+		}
+	}
+	@media (max-width: 767px) {
+		.btn-view-desktop {
+			display: none;
+		}
+		.btn-view-mobile {
+			display: block;
 		}
 	}
 }

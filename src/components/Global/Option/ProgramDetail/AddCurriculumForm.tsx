@@ -258,6 +258,13 @@ export const AddCurriculumForm = (props) => {
 											)}
 										</Form.Item>
 									</div>
+									<div className="col-md-3 col-12">
+										<Form.Item name="IsPreview">
+											<Checkbox onChange={(e) => setLesson({ ...lesson, IsPreview: e.target.checked })}>
+												<p style={{ marginBottom: 0, fontWeight: 500 }}>Cho xem trước</p>
+											</Checkbox>
+										</Form.Item>
+									</div>
 									<div className="col-12 mb-4">
 										<p className="font-weight-primary" style={{ color: 'red' }}>
 											*Lưu ý: Upload tối đa 100Mb

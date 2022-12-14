@@ -17,7 +17,7 @@ const RenderSubItemContent = (props) => {
 	const [lessonDetail, setLessonDetail] = useState<any>({})
 	const handleGetVideo = async () => {
 		try {
-			const res = await videoCoursesApi.getLessonDetail({ videoCourseOfStudentID: 0, lessonID: item.ID })
+			const res = await videoCoursesApi.getLessonDetail({ VideoCourseOfStudentID: 0, LessonID: item.ID })
 			if (res.status === 200) {
 				setLessonDetail(res.data.data)
 				setIsModalOpen(true)
@@ -34,8 +34,8 @@ const RenderSubItemContent = (props) => {
 		<>
 			<div
 				onClick={!item.IsPreview ? () => setIsModalOpenBuyCourse(true) : () => {}}
-				className="row m-0 item sub-item"
-				style={{ borderBottomWidth: 0.5, justifyContent: 'space-between' }}
+				className="row item sub-item"
+				style={{ borderBottomWidth: 0.5, justifyContent: 'space-between', height: '44px', margin: '6px 0' }}
 			>
 				<div className="row m-0">
 					<i className="fas fa-play-circle" style={{ marginTop: 5 }} />
@@ -44,24 +44,40 @@ const RenderSubItemContent = (props) => {
 					</span>
 				</div>
 				{SHOW_TIME && <span className="ml-3">{item?.SecondVideo} giây</span>}
-				{!!item.IsPreview && (
-					<button
-						onClick={(e) => {
-							setIsModalOpen(true)
-						}}
-						className="btn btn-primary"
-					>
-						Xem giới thiệu
-					</button>
-				)}
+				<div className="btn-view-desktop">
+					{!!item.IsPreview && (
+						<button
+							onClick={(e) => {
+								handleGetVideo()
+							}}
+							className="btn btn-primary"
+							style={{ padding: '0 8px' }}
+						>
+							Xem giới thiệu
+						</button>
+					)}
+				</div>
+				<div className="btn-view-mobile">
+					{!!item.IsPreview && (
+						<button
+							onClick={(e) => {
+								handleGetVideo()
+							}}
+							className="btn btn-primary"
+							style={{ padding: '0 8px' }}
+						>
+							Xem
+						</button>
+					)}
+				</div>
 			</div>
 			<Modal title="Xem video giới thiệu" visible={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
 				<iframe
 					id="video__course__iframe"
-					ref={lessonDetail.LinkVideo}
+					// ref={lessonDetail.LinkVideo}
 					width="100%"
 					height={350}
-					src={'https://www.youtube.com/embed/Sp-abMwlRMs'}
+					src={lessonDetail.LinkVideo}
 					frameBorder="0"
 					allow="autoplay; clipboard-write; picture-in-picture"
 					allowFullScreen

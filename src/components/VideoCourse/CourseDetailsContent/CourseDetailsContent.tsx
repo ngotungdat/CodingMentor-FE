@@ -53,7 +53,7 @@ const RenderSubItemContent = (props) => {
 							className="btn btn-primary"
 							style={{ padding: '0 8px' }}
 						>
-							Xem giới thiệu
+							Xem video
 						</button>
 					)}
 				</div>

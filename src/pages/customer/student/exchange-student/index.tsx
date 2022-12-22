@@ -535,7 +535,7 @@ const StudentExchange = () => {
 					{
 						title: 'Số điện thoại',
 						dataIndex: 'Mobile',
-						width: 120,
+						width: 150,
 						render: (nameStudent) => <p className="font-weight-primary">{nameStudent}</p>,
 						...FilterColumn('Mobile', onSearch, handleReset, 'text')
 					},

@@ -522,6 +522,7 @@ const StudentData = () => {
 				)
 		},
 		{
+			width: 150,
 			title: 'Số điện thoại',
 			dataIndex: 'Mobile',
 			...FilterColumn('Mobile', onSearch, handleReset, 'text')
@@ -687,9 +688,9 @@ const StudentData = () => {
 								isStudent={true}
 							/>
 
-							<Button onClick={downloadFile} className="btn btn-primary">
+							<button onClick={downloadFile} className="btn btn-primary">
 								Tải danh sách {loadingExport && <Spin />}
-							</Button>
+							</button>
 						</>
 					)}
 				</div>

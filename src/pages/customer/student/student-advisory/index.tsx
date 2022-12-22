@@ -588,6 +588,7 @@ export default function StudentAdvisory() {
 		userInformation && userInformation?.RoleID !== 10
 			? [
 					{
+						width: 120,
 						title: 'Mã số',
 						dataIndex: 'CustomerCode',
 						fixed: 'left',

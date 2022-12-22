@@ -367,7 +367,7 @@ const CourseOfStudentPrice = () => {
 			width: 180,
 			title: 'Tổng thanh toán',
 			dataIndex: 'Price',
-			render: (price) => <p>{numberWithCommas(price)} AUD</p>
+			render: (price) => <p>{numberWithCommas(price) === '' ? numberWithCommas(price) : numberWithCommas(price) + 'AUD'} </p>
 		},
 		{
 			width: 180,
@@ -394,7 +394,7 @@ const CourseOfStudentPrice = () => {
 			title: 'Số tiền còn lại',
 			dataIndex: 'PriceLeft',
 			align: 'center',
-			render: (price) => <p className="font-weight-primary">{numberWithCommas(Math.round(price * 100) / 100)} AUD</p>
+			render: (price) => <p className="font-weight-primary">{!!price ? numberWithCommas(Math.round(price * 100) / 100) : 0} AUD</p>
 		},
 		{
 			title: 'Hình thức',

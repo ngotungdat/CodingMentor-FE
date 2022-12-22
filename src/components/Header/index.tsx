@@ -188,9 +188,9 @@ export default function Header(props: any) {
 										</div>
 									)}
 
-									<div className="user-name-mobile">
+									{/* <div className="user-name-mobile">
 										<User />
-									</div>
+									</div> */}
 								</div>
 							</Popover>
 						</div>

@@ -144,8 +144,8 @@ const RenderItemCard = (props) => {
 								</div>
 							</>
 							<div className="price">
-								<p>{numberWithCommas(item.SellPrice)} AUD</p>
-								<p>{numberWithCommas(item.OriginalPrice)} AUD</p>
+								{!!item.SellPrice ? <p>{numberWithCommas(item.SellPrice)} AUD</p> : <p>Free</p>}
+								{!!item.OriginalPrice ? <p>{numberWithCommas(item.OriginalPrice)} AUD</p> : <></>}
 							</div>
 							<div className=" buttons d-flex justify-content-start align-items-center">
 								{/* <button className="mr-2 btn btn-primary">Mua ngay</button>
@@ -278,8 +278,8 @@ const RenderItemCard = (props) => {
 						</div>
 
 						<div className="price">
-							<p>{numberWithCommas(item.SellPrice)} AUD</p>
-							<p>{numberWithCommas(item.OriginalPrice)} AUD</p>
+							{!!item.SellPrice ? <p>{numberWithCommas(item.SellPrice)} AUD</p> : <p>Free</p>}
+							{!!item.OriginalPrice ? <p>{numberWithCommas(item.OriginalPrice)} AUD</p> : <></>}
 						</div>
 					</div>
 
@@ -336,9 +336,13 @@ const RenderItemCard = (props) => {
 													marginRight: 4
 												}}
 											>
-												{parseToMoney(item.OriginalPrice)} AUD
+												{!!item.OriginalPrice ? `${parseToMoney(item.OriginalPrice)} AUD` : <></>}
 											</span>
-											<span className="price font-weight-black">{parseToMoney(item.SellPrice)} AUD</span>
+											{!!item.SellPrice ? (
+												<span className="price font-weight-black">{parseToMoney(item.SellPrice)}</span>
+											) : (
+												<span className="price font-weight-black">Free</span>
+											)}
 										</div>
 									</span>
 									{/* <Link href={{ pathname: '/video-course/[slug]', query: params }}>

@@ -420,7 +420,7 @@ const VideoCourseDetail = (props) => {
 	}
 
 	return (
-		<>
+		<div>
 			<div className="vc-details">
 				<div className="m-0 p-0 main">
 					<div className="menu">
@@ -467,7 +467,7 @@ const VideoCourseDetail = (props) => {
 					</a>
 				</div>
 			</Modal>
-		</>
+		</div>
 	)
 }
 

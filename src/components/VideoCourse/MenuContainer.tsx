@@ -18,15 +18,26 @@ const MenuContainer = (props) => {
 	return (
 		<Card className="w-100 card">
 			<div className="main-thum center-column w-100">
-				<img className="thum w-100 h-100" src={!!videoCourseID ? videoCourseID.ImageThumbnails : '/images/logo-thumnail.jpg'} />
+				<img
+					className="thum w-100 h-100"
+					src={!!videoCourseID && !!videoCourseID.ImageThumbnails ? videoCourseID.ImageThumbnails : '/images/logo-thumnail.jpg'}
+				/>
 				{/* <div className="thum-mark w-100 h-100 flex-center">
 					<i className="far fa-play-circle"></i>
 				</div> */}
 			</div>
 			<div className="center-column">
 				<div className="price">
-					{!!videoCourseID && <p className="m-0 p-0">{parseToMoney(videoCourseID.SellPrice)} AUD</p>}
-					{!!videoCourseID && <p className="m-0 p-0">{parseToMoney(videoCourseID.OriginalPrice)} AUD</p>}
+					{!!videoCourseID && !!videoCourseID.SellPrice ? (
+						<p className="m-0 p-0">{parseToMoney(videoCourseID.SellPrice)} AUD</p>
+					) : (
+						<p className="m-0 p-0">Free</p>
+					)}
+					{!!videoCourseID && !!videoCourseID.OriginalPrice ? (
+						<p className="m-0 p-0">{parseToMoney(videoCourseID.OriginalPrice)} AUD</p>
+					) : (
+						<></>
+					)}
 				</div>
 				<div className="buttons">
 					<button className="btn btn-primary" onClick={handleAddToCart} disabled={isLoadingCart}>

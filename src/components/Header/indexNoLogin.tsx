@@ -91,7 +91,7 @@ export default function HeaderNoLogin(props: any) {
 	return (
 		<header className={`app-header app-header-no-login`}>
 			<div className={`app-header-logo`}>
-				<Link href="#">
+				<Link href={!!session ? '/' : '#'}>
 					<a href="#">
 						<img className="logo-img" src="/images/logo.png" />
 					</a>

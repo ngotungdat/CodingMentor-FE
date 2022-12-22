@@ -61,15 +61,10 @@ function TopPackageNewsFeed(props: any) {
 									<Image
 										width="100%"
 										height="100%"
-										src={item?.ImageThumbnails || '/images/logo-thumnail.jpg'}
+										src={!!item?.ImageThumbnails ? item?.ImageThumbnails : '/images/logo-thumnail.jpg'}
 										title="Ảnh bìa bộ đề"
 										alt="Ảnh bìa bộ đề"
 										style={{ objectFit: 'cover' }}
-										onError={({ currentTarget }) => {
-											console.log(currentTarget)
-											currentTarget.onerror = null; // prevents looping
-											currentTarget.src = "/images/logo-thumnail.jpg";
-										}}
 										preview={false}
 									/>
 								</div>
@@ -77,7 +72,7 @@ function TopPackageNewsFeed(props: any) {
 									<h6 className="title in-1-line">{item?.VideoCourseName}</h6>
 									<ul className="list">
 										<li className="price">
-											Giá:<span>{numberWithCommas(item?.SellPrice)} AUD</span>
+											Giá:{!!item?.SellPrice ? <span>{numberWithCommas(item?.SellPrice)} AUD</span> : <span>Free</span>}
 										</li>
 									</ul>
 									<Link href={{ pathname: '/video-course/[slug]', query: params }}>

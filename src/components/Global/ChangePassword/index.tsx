@@ -95,7 +95,7 @@ const ChangePassword = (props) => {
 
 		if (checkNewUser === 'true') {
 			setIsNewUser(true)
-			form.setValue('KeyForgotPassword', '123456')
+			form.setValue('KeyForgotPassword', 'codingmentor@com')
 		}
 
 		setIsLoading({

@@ -22,7 +22,7 @@ const ResetPassParent = (props) => {
 	const resetPassword = async () => {
 		let dataSubmit = {
 			UserInformationID: dataRow.UserInformationID,
-			Password: '123456'
+			Password: 'codingmentor@com'
 		}
 		setLoading(true)
 		try {

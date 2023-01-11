@@ -150,7 +150,7 @@ const VideoCourseStore = () => {
 	//GET DATA CATEGORY LEVEL
 	const getCategoryLevel = async () => {
 		try {
-			const res = await VideoCourseLevelApi.getAll({ pageIndex: 1, pageSize: 9999, search: null })
+			const res = await VideoCourseLevelApi.getAll({ pageIndex: 1, pageSize: 99999, search: null })
 			res.status == 200 && setCategoryLevel(res.data.data)
 			getTags()
 			setRender(res + '')
@@ -185,17 +185,6 @@ const VideoCourseStore = () => {
 			}
 		}
 	}
-
-	// HANDLE AD TO CARD (STUDENT)
-	// const addToCard = (p, type) => {
-	// 	type == 1 ? setAddToCardLoading(true) : setByNowLoading(true)
-
-	// 	let temp = {
-	// 		VideoCourseID: p.ID,
-	// 		Quantity: 1
-	// 	}
-	// 	postAddToCard(temp, type)
-	// }
 
 	// CREATE NEW COURSE
 	const createNewCourse = async (param) => {
@@ -436,6 +425,8 @@ const VideoCourseStore = () => {
 									dataCurriculum={dataCurriculum}
 									tags={tags}
 									onRefeshTags={() => getTags()}
+									onRefeshLevel={() => getCategoryLevel()}
+									onRefeshCategory={() => getCategory()}
 									setAddToCardLoading={setAddToCardLoading}
 									setByNowLoading={setByNowLoading}
 									postAddToCard={postAddToCard}

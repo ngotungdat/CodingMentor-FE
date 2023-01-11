@@ -1,47 +1,47 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'antd';
-import { RetweetOutlined } from '@ant-design/icons';
-import { Tooltip } from 'antd';
-import { staffApi } from '~/apiBase';
-import { useWrap } from '~/context/wrap';
+import React, { useState } from 'react'
+import { Modal, Button } from 'antd'
+import { RetweetOutlined } from '@ant-design/icons'
+import { Tooltip } from 'antd'
+import { staffApi } from '~/apiBase'
+import { useWrap } from '~/context/wrap'
 
 const ResetPassForm = (props) => {
-	const { dataRow } = props;
-	const { showNoti } = useWrap();
-	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const { dataRow } = props
+	const { showNoti } = useWrap()
+	const [isModalVisible, setIsModalVisible] = useState(false)
+	const [loading, setLoading] = useState(false)
 
 	const showModal = () => {
-		setIsModalVisible(true);
-	};
+		setIsModalVisible(true)
+	}
 
 	const handleOk = () => {
-		resetPassword();
-	};
+		resetPassword()
+	}
 
 	// -------------- RESET PASSWORD ----------------
 	const resetPassword = async () => {
 		let dataSubmit = {
 			UserInformationID: dataRow.UserInformationID,
-			Password: '123456'
-		};
-		setLoading(true);
+			Password: 'codingmentor@com'
+		}
+		setLoading(true)
 		try {
-			let res = await staffApi.update(dataSubmit);
+			let res = await staffApi.update(dataSubmit)
 			if (res.status === 200) {
-				showNoti('success', 'Khôi phục thành công');
-				setIsModalVisible(false);
+				showNoti('success', 'Khôi phục thành công')
+				setIsModalVisible(false)
 			}
 		} catch (error) {
-			showNoti('danger', error.message);
+			showNoti('danger', error.message)
 		} finally {
-			setLoading(false);
+			setLoading(false)
 		}
-	};
+	}
 
 	const handleCancel = () => {
-		setIsModalVisible(false);
-	};
+		setIsModalVisible(false)
+	}
 
 	return (
 		<>
@@ -60,7 +60,7 @@ const ResetPassForm = (props) => {
 				<p style={{ fontWeight: 500 }}>Khôi phục mật khẩu cho nhân viên này?</p>
 			</Modal>
 		</>
-	);
-};
+	)
+}
 
-export default ResetPassForm;
+export default ResetPassForm

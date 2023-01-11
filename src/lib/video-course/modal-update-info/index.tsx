@@ -150,8 +150,8 @@ const ModalUpdateInfo = (props) => {
 	// RENDER
 	return (
 		<>
-			<button type="button" className=" btn btn-warning" onClick={() => setVisible(true)}>
-				Chỉnh sửa
+			<button type="button" className="btn btn-warning" onClick={() => setVisible(true)} style={{ flexShrink: 0 }}>
+				<div className="in-1-line">Chỉnh sửa</div>
 			</button>
 
 			<Modal className="m-create-vc" title={`Sửa thông tin khoá học`} visible={visible} onCancel={() => setVisible(false)} footer={null}>
@@ -340,7 +340,7 @@ const ModalUpdateInfo = (props) => {
 										)}
 
 										<div className="col-md-6 col-12">
-											<Form.Item name="Active" label="Trình độ" rules={FORM_REQUIRED}>
+											<Form.Item name="Active" label="Trạng thái" rules={FORM_REQUIRED}>
 												<Select className="style-input" showSearch>
 													<Option value={true}>Hiện</Option>
 													<Option value={false}>Ẩn</Option>

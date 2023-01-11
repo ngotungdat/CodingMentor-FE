@@ -28,6 +28,8 @@ const ModalCreateVideoCourse = React.memo((props: any) => {
 	const [resultsAchieved, setResultsAchieved] = useState('')
 	const [courseForObject, setCourseForObject] = useState('')
 
+	const [active, setActive] = useState(null)
+
 	const { handleSubmit } = useForm()
 
 	const finalSubmit = (ImageThumbnails: any) => {
@@ -465,16 +467,23 @@ const ModalCreateVideoCourse = React.memo((props: any) => {
 										<p className="font-weight-primary mb-4" style={{ color: 'red' }}>
 											*Lưu ý: Upload tối đa 100Mb
 										</p>
-										<div className="col-12"></div>
+										{previewImage !== '' && (
+											<div className="col-md-6 col-12 mb-3" style={{ marginTop: -10 }}>
+												<Image className="image_wrapper" src={previewImage} />
+											</div>
+										)}
+									</div>
+
+									<div className="col-md-6 col-12">
+										<Form.Item name="Active" label="Trạng thái" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
+											<Select defaultValue={active} className="style-input" showSearch>
+												<Option value={true}>Hiện</Option>
+												<Option value={false}>Ẩn</Option>
+											</Select>
+										</Form.Item>
 									</div>
 
 									<div className="col-md-6 col-12 "></div>
-
-									{previewImage !== '' && (
-										<div className="col-md-6 col-12 mb-3" style={{ marginTop: -10 }}>
-											<Image className="image_wrapper" src={previewImage} />
-										</div>
-									)}
 
 									<div className="col-12">
 										<Form.Item

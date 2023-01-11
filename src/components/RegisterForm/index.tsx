@@ -80,7 +80,7 @@ function RegisterForm() {
 				}, 1000)
 				const dataLogin = {
 					username: data.Email,
-					password: '123456'
+					password: 'codingmentor@com'
 				}
 				handleLogin(dataLogin)
 				localStorage.setItem('isNewUser', 'true')

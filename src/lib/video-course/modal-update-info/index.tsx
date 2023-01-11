@@ -1,118 +1,106 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Form, Input, Spin, Upload, Button, Select, Tooltip, Image } from 'antd'
-import { useForm } from 'react-hook-form'
+import { Modal, Form, Input, Spin, Upload, Button, Select, Image } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import { useWrap } from '~/context/wrap'
 import { newsFeedApi } from '~/apiBase'
-import EditorSimple from '~/components/Elements/EditorSimple'
-import { parseToMoney } from '~/utils/functions'
-import 'antd/dist/antd.css'
-import { VideoCourseDetailApi } from '~/apiBase/video-course-details'
-import { VideoCourseCategoryApi } from '~/apiBase/video-course-store/category'
-import { VideoCourseLevelApi, VideoCuorseTag } from '~/apiBase/video-course-store/level'
+import { parseToMoney, wait } from '~/utils/functions'
 import NumberFormat from 'react-number-format'
+import { VideoCourseStoreApi } from '~/apiBase/video-course-store'
+import CreateTag from './create-tag'
+import CreateLevel from './create-level'
+import CreateCategory from './create-category'
+import UpdateDetails from './update-details'
+
+import 'antd/dist/antd.css'
 
 const { Option } = Select
 
-const initDetails = {
-	VideoCourseName: '',
-	Slogan: '',
-	Requirements: '',
-	Description: '',
-	ResultsAchieved: '',
-	CourseForObject: '',
-	TotalRating: 0,
-	RatingNumber: 0,
-	TotalStudent: 0,
-	CreatedBy: ''
-}
+const FORM_REQUIRED = [{ required: true, message: 'Không được để trống' }]
 
-const ModalUpdateInfo = React.memo((props: any) => {
-	const {
-		_onSubmitEdit,
-		programID,
-		rowData,
-		isModalVisible,
-		setIsModalVisible,
-		refeshData,
-		dataCategory,
-		dataLevel,
-		dataCurriculum,
-		tags,
-		onRefeshTags
-	} = props
-	const [form] = Form.useForm()
-	const [imageSelected, setImageSelected] = useState({ name: '' })
-	const [previewImage, setPreviewImage] = useState('')
-	const [buttonLoading, setButtonLoading] = useState(false)
+const ModalUpdateInfo = (props) => {
+	const { dataCategory, dataLevel, dataCurriculum, tags, onRefeshTags, onRefeshCategory, defaultData, onRefesh } = props
+	const { programID, rowData, onRefeshLevel } = props
 
-	const [modalCate, setModalCate] = useState(false)
-	const [modalLevel, setModalLevel] = useState(false)
-	const [modalTags, setModalTags] = useState(false)
-	const [newType, setNewType] = useState('')
-	const [newLevel, setNewLevel] = useState('')
-	const [newTag, setNewTag] = useState('')
-	const [level, setLevel] = useState(0)
-	const [category, setCategory] = useState(0)
-	const [curriculumID, setCurriculumID] = useState(0)
-	const [tagArray, setTagArray] = useState('')
-
-	const { handleSubmit } = useForm()
-
-	const [loading, setLoading] = useState(true)
 	const { showNoti } = useWrap()
 
-	// HANDLE SUBMIT
-	const onSubmit = handleSubmit(() => {
-		updateDetails()
-	})
+	const [form] = Form.useForm()
+
+	const [visible, setVisible] = useState(false)
+	const [loading, setLoading] = useState(true)
+	const [submiting, setSubmiting] = useState(false)
+	const [imageDeleted, setImageDeleted] = useState(false)
+
+	const [imageSelected, setImageSelected] = useState<any>({ name: '' })
+	const [previewImage, setPreviewImage] = useState('')
+	const [tagArray, setTagArray] = useState('')
 
 	useEffect(() => {
-		const value = form.getFieldValue('OriginalPrice')
-		if (value !== null && value !== undefined) {
-			form.setFieldsValue({ OriginalPrice: parseToMoney(value.toString().replace(/[^0-9\.]+/g, '')) })
+		if (visible) {
+			console.log('-- defaultData: ', defaultData)
+			initData()
 		}
-	}, [form.getFieldValue('OriginalPrice')])
+	}, [visible])
 
-	useEffect(() => {
-		const value = form.getFieldValue('SellPrice')
-		if (value !== null && value !== undefined) {
-			form.setFieldsValue({ SellPrice: parseToMoney(value.toString().replace(/[^0-9\.]+/g, '')) })
-		}
-	}, [form.getFieldValue('SellPrice')])
+	async function initData() {
+		form.setFieldsValue({
+			...defaultData,
+			SellPrice: parseToMoney(defaultData?.SellPrice || '0'),
+			OriginalPrice: parseToMoney(defaultData?.OriginalPrice || '0'),
+			TagArray: getDefault(defaultData?.TagArray)
+		})
 
-	// IS VISIBLE MODAL
-	React.useEffect(() => {
-		if (isModalVisible) {
-			if (programID) {
-				setLevel(rowData.LevelID)
-				setCurriculumID(rowData.CurriculumID)
-				setCategory(rowData.CategoryID)
-				setTagArray(rowData?.TagArray)
-				form.setFieldsValue({
-					Name: rowData.VideoCourseName,
-					SellPrice: rowData.SellPrice,
-					Teacher: rowData.TeacherName,
-					ChineseName: rowData.ChineseName,
-					EnglishName: rowData.EnglishName,
-					Curriculum: rowData.CurriculumID,
-					Level: rowData.LevelName,
-					Type: rowData.CategoryName,
-					Slogan: rowData.Slogan,
-					OriginalPrice: rowData.OriginalPrice,
-					Requirements: rowData.Requirements,
-					Description: rowData.Description,
-					ResultsAchieved: rowData.ResultsAchieved,
-					ExpiryDays: rowData.ExpiryDays,
-					CourseForObject: rowData.CourseForObject,
-					LimitMinutes: rowData.LimitMinutes,
-					LimitBooking: rowData.LimitBooking,
-					RequestPoint: rowData.RequestPoint
-				})
-				getCourseDetails(programID)
+		setTagArray(rowData?.TagArray)
+
+		await wait(200)
+		setLoading(false)
+	}
+
+	function onCancel() {
+		setVisible(false)
+		setLoading(true)
+		setImageSelected({ name: '' })
+		form.resetFields()
+	}
+
+	// UPDATE VIDEO COURSE
+	const putUpdate = async (params: any) => {
+		console.log('-- onSubmit SUBMIT_DATA: ', params)
+		try {
+			const res = await VideoCourseStoreApi.update(params)
+			res.status == 200 && showNoti('success', res.data.message)
+			if (res.status == 200) {
+				!!onRefesh && onRefesh()
+				showNoti('success', res.data?.message)
 			}
+		} catch (error) {
+			showNoti('danger', 'Thêm không thành công')
+		} finally {
+			setVisible(false)
 		}
-	}, [isModalVisible])
+	}
+
+	// HANDLE SUBMIT
+	const onSubmit = async (value) => {
+		setSubmiting(true)
+
+		const SUBMIT_DATA = {
+			...value,
+			ID: defaultData?.ID,
+			ImageThumbnails: !!imageDeleted ? '' : defaultData?.ImageThumbnails || null,
+			OriginalPrice: value.OriginalPrice.replace(/[^0-9\.]+/g, ''),
+			SellPrice: value.SellPrice.replace(/[^0-9\.]+/g, ''),
+			TagArray: tagArray
+		}
+
+		if (!imageSelected?.name) {
+			putUpdate(SUBMIT_DATA)
+		}
+
+		if (!!imageSelected?.name) {
+			const linkThumb = await uploadThumbnail()
+			putUpdate({ ...SUBMIT_DATA, ImageThumbnails: linkThumb || defaultData?.ImageThumbnails })
+		}
+	}
 
 	const getDefault = (data) => {
 		if (data !== '') {
@@ -124,26 +112,16 @@ const ModalUpdateInfo = React.memo((props: any) => {
 				}
 			}
 			return tamp
-		} else {
-			return []
 		}
+		return []
 	}
 
-	// on change isModalVisible
-	React.useEffect(() => {
-		if (!isModalVisible) {
-			setImageSelected({ name: '' })
-			form.resetFields()
-		}
-	}, [isModalVisible])
-
 	// Call api upload image
-	const uploadFile = async (file: any, props: any) => {
-		setButtonLoading(true)
+	const uploadThumbnail = async () => {
 		try {
-			let res = await newsFeedApi.uploadFile(file.originFileObj)
+			let res = await newsFeedApi.uploadFile(imageSelected?.originFileObj)
 			if (res.status == 200) {
-				_onSubmitEdit({ ...props, ImageThumbnails: res.data.data })
+				return res.data.data
 			}
 		} catch (error) {
 			showNoti('danger', error.message)
@@ -151,142 +129,17 @@ const ModalUpdateInfo = React.memo((props: any) => {
 	}
 
 	// Upload file audio
-	const handleUploadFile = async (info) => {
+	const onSelectFile = async (info) => {
 		setImageSelected(info.file)
 		setPreviewImage(URL.createObjectURL(info.file.originFileObj))
-	}
-
-	const [details, setDetails] = useState(initDetails)
-	const [slogan, setSlogan] = useState('')
-	const [requirements, setRequirements] = useState('')
-	const [description, setDescription] = useState('')
-	const [resultsAchieved, setResultsAchieved] = useState('')
-	const [courseForObject, setCourseForObject] = useState('')
-
-	// Init data
-	React.useEffect(() => {
-		if (details !== initDetails) {
-			setDescription(details?.Description || '')
-			setCourseForObject(details?.CourseForObject || '')
-			setRequirements(details?.Requirements || '')
-			setResultsAchieved(details?.ResultsAchieved || '')
-			setSlogan(details?.Slogan || '')
-			setLoading(false)
-			form.setFieldsValue({
-				Slogan: details?.Slogan,
-				Requirements: details?.Requirements,
-				CourseForObject: details?.CourseForObject,
-				ResultsAchieved: details?.ResultsAchieved,
-				Description: details?.Description,
-				VideoCourseName: details?.VideoCourseName
-			})
-		}
-	}, [details])
-
-	// CALL API DETAILS
-	const getCourseDetails = async (param) => {
-		setLoading(true)
-		try {
-			const res = await VideoCourseDetailApi.getDetails(param)
-			res.status == 200 && setDetails(res.data.data)
-		} catch (error) {
-			showNoti('danger', error.message)
-		}
-	}
-
-	// HANDLE UPDATE
-	const updateDetails = async () => {
-		setButtonLoading(true)
-		let temp = {
-			ID: rowData.ID,
-			CategoryID: category,
-			LevelID: level,
-			CurriculumID: curriculumID,
-			TeacherID: '',
-			TagArray: tagArray,
-			ChineseName: '',
-			EnglishName: form.getFieldValue('EnglishName'),
-			VideoCourseName: form.getFieldValue('VideoCourseName'),
-			OriginalPrice: form.getFieldValue('OriginalPrice').replace(/[^0-9\.]+/g, ''),
-			SellPrice: form.getFieldValue('SellPrice').replace(/[^0-9\.]+/g, ''),
-			ImageThumbnails: rowData?.ImageThumbnails || null,
-			Slogan: slogan,
-			Requirements: requirements,
-			Description: description,
-			ResultsAchieved: resultsAchieved,
-			CourseForObject: courseForObject,
-			ExpiryDays: form.getFieldValue('ExpiryDays'),
-			LimitMinutes: form.getFieldValue('LimitMinutes'),
-			LimitBooking: form.getFieldValue('LimitBooking'),
-			RequestPoint: form.getFieldValue('RequestPoint')
-		}
-		try {
-			if (imageSelected.name === '') {
-				_onSubmitEdit(temp)
-			} else {
-				uploadFile(imageSelected, temp)
-			}
-		} catch (e) {}
-	}
-
-	const createType = async () => {
-		setButtonLoading(true)
-		try {
-			const res = await VideoCourseCategoryApi.add({ CategoryName: newType, Enable: 'True' })
-			res.status == 200 &&
-				(setModalCate(false),
-				setIsModalVisible(true),
-				refeshData(),
-				showNoti('success', res.data.message),
-				setNewType(''),
-				form.setFieldsValue({ TypeName: '' }))
-		} catch (error) {
-			showNoti('danger', error.message)
-		} finally {
-			setButtonLoading(false)
-		}
-	}
-
-	const createLevel = async () => {
-		setButtonLoading(true)
-		try {
-			const res = await VideoCourseLevelApi.add({ LevelName: newLevel, Enable: 'True' })
-			res.status == 200 &&
-				(setModalLevel(false),
-				setIsModalVisible(true),
-				refeshData(),
-				showNoti('success', res.data.message),
-				setNewLevel(''),
-				form.setFieldsValue({ LevelName: '' }))
-		} catch (error) {
-			showNoti('danger', error.message)
-		} finally {
-			setButtonLoading(false)
-		}
-	}
-
-	const createTag = async () => {
-		setButtonLoading(true)
-		try {
-			await VideoCuorseTag.add({ Name: newTag })
-		} catch (error) {
-			error?.message?.ID !== undefined
-				? (showNoti('success', 'Thêm thành công'),
-				  setIsModalVisible(true),
-				  setModalTags(false),
-				  onRefeshTags(),
-				  setNewTag(''),
-				  form.setFieldsValue({ newTag: '' }))
-				: showNoti('danger', error.message)
-		} finally {
-			setButtonLoading(false)
-		}
+		setImageDeleted(false)
 	}
 
 	// Handle delete image
 	const handleDeleteImage = () => {
 		setImageSelected({ name: '' })
 		setPreviewImage('')
+		setImageDeleted(true)
 	}
 
 	function handleChange(value) {
@@ -294,119 +147,29 @@ const ModalUpdateInfo = React.memo((props: any) => {
 		form.setFieldsValue({ newTag: `${value}` })
 	}
 
-	useEffect(() => {
-		return () => {
-			previewImage !== '' && URL.revokeObjectURL(previewImage)
-		}
-	}, [imageSelected])
-
 	// RENDER
 	return (
 		<>
-			<Modal
-				confirmLoading={loading}
-				title="Thêm loại"
-				width={400}
-				visible={modalCate}
-				onCancel={() => (setModalCate(false), setIsModalVisible(true))}
-				onOk={() => createType()}
-			>
-				<Form form={form} layout="vertical" onFinish={() => createType()}>
-					<div className="col-md-12 col-12">
-						<Form.Item name="TypeName" label="Tên loại" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
-							<Input
-								placeholder=""
-								className="style-input"
-								defaultValue={newType}
-								value={newType}
-								onChange={(e) => setNewType(e.target.value)}
-							/>
-						</Form.Item>
-					</div>
-				</Form>
-			</Modal>
-			<Modal
-				confirmLoading={loading}
-				title="Thêm trình độ"
-				width={400}
-				visible={modalLevel}
-				onCancel={() => (setModalLevel(false), setIsModalVisible(true))}
-				onOk={() => createLevel()}
-			>
-				<Form form={form} layout="vertical" onFinish={() => createLevel()}>
-					<div className="col-md-12 col-12">
-						<Form.Item name="LevelName" label="Tên trình độ" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
-							<Input
-								placeholder=""
-								className="style-input"
-								defaultValue={newLevel}
-								value={newLevel}
-								onChange={(e) => setNewLevel(e.target.value)}
-							/>
-						</Form.Item>
-					</div>
-				</Form>
-			</Modal>
-			<Modal
-				confirmLoading={loading}
-				title="Thêm từ khóa tìm kiếm"
-				width={400}
-				visible={modalTags}
-				onCancel={() => (setModalTags(false), setIsModalVisible(true))}
-				onOk={() => createTag()}
-			>
-				<Form form={form} layout="vertical" onFinish={() => createTag()}>
-					<div className="col-md-12 col-12">
-						<Form.Item name="newTag" label="Từ khóa tìm kiếm mới" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
-							<Input
-								placeholder=""
-								className="style-input"
-								defaultValue={newTag}
-								value={newTag}
-								onChange={(e) => setNewTag(e.target.value)}
-							/>
-						</Form.Item>
-					</div>
-				</Form>
-			</Modal>
+			<button type="button" className=" btn btn-warning" onClick={() => setVisible(true)}>
+				Chỉnh sửa
+			</button>
 
-			{/* Main modal */}
-			<Modal
-				className="m-create-vc"
-				title={`Sửa thông tin khoá học`}
-				visible={isModalVisible}
-				onCancel={() => setIsModalVisible(false)}
-				footer={null}
-			>
+			<Modal className="m-create-vc" title={`Sửa thông tin khoá học`} visible={visible} onCancel={() => setVisible(false)} footer={null}>
 				<div className="row m-0 p-0">
-					<Form form={form} layout="vertical" onFinish={() => onSubmit()}>
+					<Form form={form} layout="vertical" onFinish={onSubmit}>
 						<div className="row p-0 m-0">
 							<div className="row p-0 m-0 custom-scroll-bar col-md-12 col-12">
 								<div className="row vc-e-d">
 									<div className="row p-0 m-0 col-md-6 col-12">
 										<div className="col-md-6 col-12">
-											<Form.Item name="EnglishName" label="Tên tiếng Anh" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
-												<Input
-													placeholder=""
-													defaultValue={rowData?.EnglishName}
-													className="style-input"
-													onChange={(e) => form.setFieldsValue({ EnglishName: e.target.value })}
-												/>
+											<Form.Item name="EnglishName" label="Tên tiếng Anh" rules={FORM_REQUIRED}>
+												<Input className="style-input" onChange={(e) => form.setFieldsValue({ EnglishName: e.target.value })} />
 											</Form.Item>
 										</div>
 
 										<div className="col-md-6 col-12">
-											<Form.Item
-												name="VideoCourseName"
-												label="Tên tiếng Việt"
-												rules={[{ required: true, message: 'Bạn không được để trống' }]}
-											>
-												<Input
-													placeholder=""
-													defaultValue={rowData?.VideoCourseName}
-													className="style-input"
-													onChange={(e) => form.setFieldsValue({ VideoCourseName: e.target.value })}
-												/>
+											<Form.Item name="VideoCourseName" label="Tên tiếng Việt" rules={FORM_REQUIRED}>
+												<Input className="style-input" onChange={(e) => form.setFieldsValue({ VideoCourseName: e.target.value })} />
 											</Form.Item>
 										</div>
 
@@ -426,12 +189,11 @@ const ModalUpdateInfo = React.memo((props: any) => {
 													),
 													zIndex: 9999
 												}}
-												rules={[{ required: false, message: 'Bạn không được để trống' }]}
+												rules={FORM_REQUIRED}
 											>
 												<NumberFormat
-													defaultValue={rowData.expiryDays}
 													placeholder="Số phút: 60"
-													className="ant-input style-input w-100"
+													className="ant-input style-input"
 													onChange={(e: any) => form.setFieldsValue({ ExpiryDays: e.target.value })}
 												/>
 											</Form.Item>
@@ -439,7 +201,7 @@ const ModalUpdateInfo = React.memo((props: any) => {
 
 										<div className="col-md-6 col-12">
 											<Form.Item
-												name="Curriculum"
+												name="CurriculumID"
 												label=" " // CHỔ NÀY BÙA ĐỀ HIỆN CÁI TOOLTIP. XÓA KHOẢN TRẮNG MẤT LUÔN TOOLTIP
 												tooltip={{
 													title: 'Chỉ hiển thị giáo trình có video',
@@ -453,16 +215,14 @@ const ModalUpdateInfo = React.memo((props: any) => {
 													),
 													zIndex: 9999
 												}}
-												rules={[{ required: true, message: 'Bạn không được để trống' }]}
+												rules={FORM_REQUIRED}
 											>
 												<Select
-													style={{ width: '100%' }}
 													className="style-input"
 													showSearch
-													aria-selected
-													placeholder="Chọn loại..."
+													placeholder="Chọn loại"
 													optionFilterProp="children"
-													onChange={(e: number) => setCurriculumID(e)}
+													onChange={(e) => form.setFieldsValue({ Curriculum: e })}
 												>
 													{dataCurriculum.map((item, index) => (
 														<Option key={index} value={item.ID}>
@@ -475,30 +235,20 @@ const ModalUpdateInfo = React.memo((props: any) => {
 
 										<div className="col-md-6 col-12">
 											<Form.Item
-												name="Type"
-												rules={[{ required: true, message: 'Bạn không được để trống' }]}
+												name="CategoryID"
+												rules={FORM_REQUIRED}
 												label={
 													<div className="row m-0">
-														Loại{' '}
-														<Tooltip title="Thêm loại mới">
-															<button
-																onClick={() => (setModalCate(true), setIsModalVisible(false))}
-																className="btn btn-primary btn-vc-create ml-1"
-															>
-																<div style={{ marginTop: -2 }}>+</div>
-															</button>
-														</Tooltip>
+														Loại <CreateCategory onRefeshCategory={onRefeshCategory} />
 													</div>
 												}
 											>
 												<Select
-													style={{ width: '100%' }}
 													className="style-input"
 													showSearch
-													aria-selected
-													placeholder="Chọn loại..."
+													placeholder="Chọn loại"
 													optionFilterProp="children"
-													onChange={(e: number) => setCategory(e)}
+													onChange={(e) => form.setFieldsValue({ CategoryID: e })}
 												>
 													{dataCategory.map((item, index) => (
 														<Option key={index} value={item.ID}>
@@ -511,29 +261,20 @@ const ModalUpdateInfo = React.memo((props: any) => {
 
 										<div className="col-md-6 col-12">
 											<Form.Item
-												name="Level"
+												name="LevelID"
 												label={
 													<div className="row m-0">
-														Trình độ{' '}
-														<Tooltip title="Thêm trình độ mới">
-															<button
-																onClick={() => (setModalLevel(true), setIsModalVisible(false))}
-																className="btn btn-primary btn-vc-create ml-1"
-															>
-																<div style={{ marginTop: -2 }}>+</div>
-															</button>
-														</Tooltip>
+														Trình độ <CreateLevel onRefeshLevel={onRefeshLevel} />
 													</div>
 												}
-												rules={[{ required: true, message: 'Bạn không được để trống' }]}
+												rules={FORM_REQUIRED}
 											>
 												<Select
-													style={{ width: '100%' }}
 													className="style-input"
 													showSearch
-													placeholder="Chọn trình độ..."
+													placeholder="Chọn trình độ"
 													optionFilterProp="children"
-													onChange={(e: number) => setLevel(e)}
+													onChange={(e) => form.setFieldsValue({ LevelID: e })}
 												>
 													{dataLevel.map((item: any, index: number) => (
 														<Option key={index} value={item.ID}>
@@ -545,7 +286,7 @@ const ModalUpdateInfo = React.memo((props: any) => {
 										</div>
 
 										<div className="col-md-6 col-12">
-											<Form.Item name="SellPrice" label="Giá bán" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
+											<Form.Item name="SellPrice" label="Giá bán" rules={FORM_REQUIRED}>
 												<NumberFormat
 													defaultValue={rowData.SellPrice}
 													placeholder=""
@@ -558,10 +299,9 @@ const ModalUpdateInfo = React.memo((props: any) => {
 										</div>
 
 										<div className="col-md-6 col-12">
-											<Form.Item name="OriginalPrice" label="Giá gốc" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
+											<Form.Item name="OriginalPrice" label="Giá gốc" rules={FORM_REQUIRED}>
 												<NumberFormat
 													defaultValue={rowData.OriginalPrice}
-													placeholder=""
 													className="ant-input style-input w-100"
 													onChange={(e: any) => form.setFieldsValue({ OriginalPrice: e.target.value })}
 													thousandSeparator={true}
@@ -572,18 +312,13 @@ const ModalUpdateInfo = React.memo((props: any) => {
 
 										{programID && (
 											<div className="col-md-6 col-12">
-												<Form.Item name="Image" label="Hình ảnh thu nhỏ">
-													<Upload
-														style={{ width: 800 }}
-														className="vc-e-upload"
-														onChange={(e) => handleUploadFile(e)}
-														showUploadList={false}
-													>
+												<Form.Item name="tesingImage" label="Hình ảnh thu nhỏ">
+													<Upload style={{ width: 800 }} className="vc-e-upload" onChange={(e) => onSelectFile(e)} showUploadList={false}>
 														<Button className="vc-e-upload" icon={<UploadOutlined style={{ marginTop: -2 }} />}>
 															Bấm để tải hình ảnh
 														</Button>
 													</Upload>
-													{imageSelected.name !== undefined && imageSelected.name !== '' && (
+													{(!!previewImage || defaultData?.ImageThumbnails) && !imageDeleted && (
 														<div className="row m-0 mt-3 vc-store-center">
 															<Button danger onClick={handleDeleteImage}>
 																Xoá hình ảnh
@@ -591,25 +326,27 @@ const ModalUpdateInfo = React.memo((props: any) => {
 														</div>
 													)}
 												</Form.Item>
+
+												{(!!previewImage || !!defaultData?.ImageThumbnails) && !imageDeleted && (
+													<div className="" style={{ marginTop: -10, marginBottom: 8 }}>
+														<Image className="image_wrapper" src={previewImage || defaultData?.ImageThumbnails} />
+													</div>
+												)}
+
 												<p className="font-weight-primary mb-4" style={{ color: 'red' }}>
-													*Lưu ý: Upload tối đa 100Mb
+													* Lưu ý: Upload tối đa 100Mb
 												</p>
 											</div>
 										)}
 
-										<div className="col-md-6 col-12"></div>
-										{/* preview image */}
-										{previewImage !== '' && (
-											<div className="col-md-6 col-12 mb-3" style={{ marginTop: -10 }}>
-												<Image className="image_wrapper" src={previewImage} />
-											</div>
-										)}
-
-										{previewImage === '' && !!rowData?.ImageThumbnails && (
-											<div className="col-md-6 col-12 mb-3" style={{ marginTop: -10 }}>
-												<Image className="image_wrapper" src={rowData?.ImageThumbnails} />
-											</div>
-										)}
+										<div className="col-md-6 col-12">
+											<Form.Item name="Active" label="Trình độ" rules={FORM_REQUIRED}>
+												<Select className="style-input" showSearch>
+													<Option value={true}>Hiện</Option>
+													<Option value={false}>Ẩn</Option>
+												</Select>
+											</Form.Item>
+										</div>
 
 										{!loading && (
 											<div className="col-12">
@@ -618,15 +355,7 @@ const ModalUpdateInfo = React.memo((props: any) => {
 														name="TagArray"
 														label={
 															<div className="row m-0">
-																Từ khóa tìm kiếm{' '}
-																<Tooltip title="Thêm từ khóa tìm kiếm">
-																	<button
-																		onClick={() => (setModalTags(true), setIsModalVisible(false))}
-																		className="btn btn-primary btn-vc-create ml-1"
-																	>
-																		<div style={{ marginTop: -2, marginLeft: 1 }}>+</div>
-																	</button>
-																</Tooltip>
+																Từ khóa tìm kiếm <CreateTag onRefeshTags={onRefeshTags} onCancel={() => setVisible(true)} />
 																{tagArray !== '' && <div style={{ color: '#f44d4f', fontSize: 12, marginLeft: 5 }}>*</div>}
 															</div>
 														}
@@ -637,7 +366,6 @@ const ModalUpdateInfo = React.memo((props: any) => {
 															className="style-input"
 															style={{ width: '100%' }}
 															placeholder="Từ khóa tìm kiếm"
-															searchValue=""
 															defaultValue={getDefault(tagArray)}
 															onChange={(e) => handleChange(e)}
 														>
@@ -654,83 +382,24 @@ const ModalUpdateInfo = React.memo((props: any) => {
 									</div>
 
 									<div className="row p-0 m-0 custom-scroll-bar col-md-6 col-12">
-										{loading ? (
-											<div style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-												<Spin size="large" />
-											</div>
-										) : (
-											<div className="row vc-e-d" style={{ height: !!imageSelected.name || !!rowData?.ImageThumbnails ? 753 : 605 }}>
-												<div className="col-md-12 col-12">
-													<Form.Item name="Slogan" label="Slogan">
-														<EditorSimple
-															defaultValue={slogan}
-															handleChange={(e) => setSlogan(e)}
-															isTranslate={false}
-															isSimpleTool={true}
-															height={90}
-														/>
-													</Form.Item>
-												</div>
-												<div className="col-md-12 col-12">
-													<Form.Item name="Requirements" label="Điều kiện học">
-														<EditorSimple
-															defaultValue={requirements}
-															handleChange={(e) => setRequirements(e)}
-															isTranslate={false}
-															isSimpleTool={true}
-															height={90}
-														/>
-													</Form.Item>
-												</div>
-												<div className="col-md-12 col-12">
-													<Form.Item name="CourseForObject" label="Đối tượng học">
-														<EditorSimple
-															defaultValue={courseForObject}
-															handleChange={(e) => setCourseForObject(e)}
-															isTranslate={false}
-															isSimpleTool={true}
-															height={90}
-														/>
-													</Form.Item>
-												</div>
-												<div className="col-md-12 col-12">
-													<Form.Item name="ResultsAchieved" label="Nội dung khóa học">
-														<EditorSimple
-															defaultValue={resultsAchieved}
-															handleChange={(e) => setResultsAchieved(e)}
-															isTranslate={false}
-															isSimpleTool={true}
-															height={90}
-														/>
-													</Form.Item>
-												</div>
-												<div className="col-md-12 col-12">
-													<Form.Item name="Description" label="Mô tả">
-														<EditorSimple
-															defaultValue={description}
-															handleChange={(e) => setDescription(e)}
-															isTranslate={false}
-															isSimpleTool={true}
-															height={90}
-														/>
-													</Form.Item>
-												</div>
-											</div>
-										)}
+										<UpdateDetails
+											loading={loading}
+											form={form}
+											height={!!imageSelected.name || !!defaultData?.ImageThumbnails ? 820 : 605}
+										/>
 									</div>
 								</div>
 							</div>
 						</div>
 
-						{/* footer */}
 						<div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
 							<div className="m-0 p-0" style={{ justifyContent: 'flex-end', display: 'flex' }}>
-								<button onClick={() => setIsModalVisible(false)} className="btn btn-warning mr-3">
+								<button type="button" onClick={onCancel} className="btn btn-warning mr-3">
 									Huỷ
 								</button>
 								<button type="submit" className="btn btn-primary">
 									Lưu thay đổi
-									{buttonLoading && <Spin className="loading-base" />}
+									{submiting && <Spin className="loading-base" />}
 								</button>
 							</div>
 						</div>
@@ -739,6 +408,6 @@ const ModalUpdateInfo = React.memo((props: any) => {
 			</Modal>
 		</>
 	)
-})
+}
 
 export default ModalUpdateInfo

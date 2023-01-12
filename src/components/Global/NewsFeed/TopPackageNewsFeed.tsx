@@ -31,8 +31,10 @@ function TopPackageNewsFeed(props: any) {
 					</li>
 				</ul>
 			)}
+
 			<List
-				className="list-eth"
+				loading={false}
+				className="list-eth concacneminh"
 				itemLayout="horizontal"
 				dataSource={topPackageList}
 				grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 }}
@@ -54,36 +56,39 @@ function TopPackageNewsFeed(props: any) {
 						TeacherID: item?.TeacherID,
 						CurriculumID: item?.CurriculumID
 					}
+
 					return (
-						<List.Item style={{ width: '100%' }}>
-							<div className="nf-package">
-								<div className="img">
-									<Image
-										width="100%"
-										height="100%"
-										src={!!item?.ImageThumbnails ? item?.ImageThumbnails : '/images/logo-thumnail.jpg'}
-										title="Ảnh bìa bộ đề"
-										alt="Ảnh bìa bộ đề"
-										style={{ objectFit: 'cover' }}
-										preview={false}
-									/>
-								</div>
-								<div className="content">
-									<h6 className="title in-1-line">{item?.VideoCourseName}</h6>
-									<ul className="list">
-										<li className="price">
-											Giá:{!!item?.SellPrice ? <span>{numberWithCommas(item?.SellPrice)} AUD</span> : <span>Free</span>}
-										</li>
-									</ul>
-									<Link href={{ pathname: '/video-course/[slug]', query: params }}>
-										<div className="btn btn-primary">Xem khóa học</div>
-									</Link>
-								</div>
+						<div className="nf-package " style={{ width: '100%' }}>
+							<div className="img item-with-shadow" style={{ borderRadius: 8 }}>
+								<Image
+									width="100%"
+									height="100%"
+									src={!!item?.ImageThumbnails ? item?.ImageThumbnails : '/images/logo-thumnail.jpg'}
+									title="Ảnh bìa bộ đề"
+									alt="Ảnh bìa bộ đề"
+									style={{ objectFit: 'cover', borderRadius: 8 }}
+									preview={false}
+								/>
 							</div>
-						</List.Item>
+							<div className="content">
+								<h6 className="title in-1-line">{item?.VideoCourseName}</h6>
+								<ul className="list">
+									<li className="price">
+										Giá:{!!item?.SellPrice ? <span>{numberWithCommas(item?.SellPrice)} AUD</span> : <span>Free</span>}
+									</li>
+								</ul>
+								<Link href={{ pathname: '/video-course/[slug]', query: params }}>
+									<div className="btn btn-primary">Xem khóa học</div>
+								</Link>
+							</div>
+						</div>
 					)
 				}}
-				style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center'
+				}}
 			/>
 		</>
 	)

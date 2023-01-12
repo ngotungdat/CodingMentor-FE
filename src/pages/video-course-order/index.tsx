@@ -99,7 +99,8 @@ const VideoCourseList = () => {
 		{
 			title: 'Tên người mua',
 			dataIndex: 'FullNameUnicode',
-			key: 'FullNameUnicode'
+			key: 'FullNameUnicode',
+			render: (value, item, index) => <div style={{ width: 200 }}>{value}</div>
 		},
 		{
 			title: 'Tổng thanh toán',
@@ -129,10 +130,8 @@ const VideoCourseList = () => {
 			key: 'CreatedOn',
 			render: (Action, data, index) => (
 				<>
-					{data?.CreatedOn == null ? (
-						''
-					) : (
-						<div>{moment(data?.CreatedOn).format('DD/MM/yyyy') + ' ' + moment(data?.CreatedOn).format('HH:mm')}</div>
+					{!!data?.CreatedOn && (
+						<div style={{ width: 130 }}>{moment(data?.CreatedOn).format('DD/MM/yyyy') + ' ' + moment(data?.CreatedOn).format('HH:mm')}</div>
 					)}
 				</>
 			)

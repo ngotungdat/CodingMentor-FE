@@ -1,4 +1,4 @@
-import { Card, Dropdown, Input, List, Modal, notification, Space } from 'antd'
+import { Card, Dropdown, Input, List, Modal, notification, Skeleton, Space } from 'antd'
 import 'antd/dist/antd.css'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -12,6 +12,7 @@ import { VideoCourseLevelApi } from '~/apiBase/video-course-store/level'
 import { videoTagApi } from '~/apiBase/video-tag'
 import FilterVideoCourses from '~/components/Global/Option/FilterTable/FilterVideoCourses'
 import LayoutBase from '~/components/LayoutBase'
+import LoadingVideoCourse from '~/components/LoadingVideoCourse'
 import RenderItemCard from '~/components/VideoCourse/RenderItemCourseStudent'
 import { useWrap } from '~/context/wrap'
 import ModalCreateVideoCourse from '~/lib/video-course/modal-create-video-course'
@@ -91,6 +92,8 @@ const VideoCourseStore = () => {
 					let tempData = []
 					res.data.data.forEach((item) => tempData.push({ ...item, MaxSold: Math.max(...tempSoldNumber) }))
 					setData(tempData)
+				} else {
+					setData([])
 				}
 				if (userInformation?.RoleID != 6) {
 					getCurriculum()
@@ -331,6 +334,16 @@ const VideoCourseStore = () => {
 		}
 	}
 
+	function getBackgroundColor(params) {
+		if (params?.Type == 'category') {
+			if (params.ID == todoApi?.categoryId) {
+				return '#f0f0f0'
+			}
+		} else if (params.ID == todoApi?.levelId) {
+			return '#f0f0f0'
+		}
+	}
+
 	const MenuDropdown = () => {
 		return (
 			<div className="video-course-header-menu-dropdown">
@@ -352,59 +365,75 @@ const VideoCourseStore = () => {
 
 	// RENDER
 	return (
-		<div className="container-fluid">
-			{userInformation !== null && (
-				<Card
-					style={{ width: '100%' }}
-					loading={isLoading.status}
-					title={<div className="m-2 video-course-header-extra">{Extra()}</div>}
-					extra={
-						userInformation?.RoleID !== 1 ? null : (
-							<>
-								<div className="video-course-header-extra-btn-add-new">
-									<ModalCreateVideoCourse
-										dataTeacher={dataTeacher}
-										_onSubmit={(data: any) => createNewCourse(data)}
-										dataLevel={categoryLevel}
-										dataCategory={category}
-										dataCurriculum={dataCurriculum}
-										showAdd={false}
-										isLoading={false}
-										refeshData={() => getAllArea()}
-										tags={tags}
-										onRefeshTags={() => getTags()}
-									/>
-								</div>
-								<div className="video-course-header-extra-btn-dropdown">
-									<div className="d-flex video-course-header-extra-search">
-										<FilterVideoCourses
-											handleReset={handleReset}
-											dataLevel={categoryLevel}
-											dataCategory={category}
-											handleFilter={(value: any) => handleFilter(value)}
-										/>
+		<Card
+			// className="container-fluid"
+			className="container-fluid"
+			title={<div className="m-2 video-course-header-extra">{Extra()}</div>}
+			extra={
+				userInformation?.RoleID !== 1 ? null : (
+					<>
+						<div className="video-course-header-extra-btn-add-new">
+							<ModalCreateVideoCourse
+								dataTeacher={dataTeacher}
+								_onSubmit={(data: any) => createNewCourse(data)}
+								dataLevel={categoryLevel}
+								dataCategory={category}
+								dataCurriculum={dataCurriculum}
+								showAdd={false}
+								isLoading={false}
+								refeshData={() => getAllArea()}
+								tags={tags}
+								onRefeshTags={() => getTags()}
+							/>
+						</div>
+						<div className="video-course-header-extra-btn-dropdown">
+							<div className="d-flex video-course-header-extra-search">
+								<FilterVideoCourses
+									handleReset={handleReset}
+									dataLevel={categoryLevel}
+									dataCategory={category}
+									handleFilter={(value: any) => handleFilter(value)}
+								/>
 
-										<Search className="" size="large" placeholder="Tìm kiếm" onSearch={(e) => handleSearch(e)} style={{ flex: 1 }} />
-									</div>
-									<Dropdown overlay={MenuDropdown}>
-										<a onClick={(e) => e.preventDefault()}>
-											<Space>
-												<MoreVertical />
-											</Space>
-										</a>
-									</Dropdown>
-								</div>
-							</>
-						)
-					}
-				>
-					<div className="row ml-2 mr-2 w-100">
-						{getTop5().map((value: any, index: number) => (
-							<div onClick={() => _clickMiniFilter(value)} className="mb-3 btn-recommend none-selection">
-								{value?.Title}
+								<Search className="" size="large" placeholder="Tìm kiếm" onSearch={(e) => handleSearch(e)} style={{ flex: 1 }} />
 							</div>
-						))}
-					</div>
+							<Dropdown overlay={MenuDropdown}>
+								<a onClick={(e) => e.preventDefault()}>
+									<Space>
+										<MoreVertical />
+									</Space>
+								</a>
+							</Dropdown>
+						</div>
+					</>
+				)
+			}
+		>
+			<div className="row ml-2 mr-2 w-100">
+				{getTop5().length > 1 &&
+					getTop5().map((value: any, index: number) => (
+						<div
+							onClick={() => _clickMiniFilter(value)}
+							className={`mb-3 btn-recommend none-selection`}
+							style={{ background: getBackgroundColor(value), cursor: 'pointer' }}
+						>
+							{value?.Title}
+						</div>
+					))}
+
+				{getTop5().length == 1 && (
+					<>
+						<Skeleton.Button style={{ width: 80, borderRadius: 999, marginBottom: 16, marginLeft: -16 }} active />
+						<Skeleton.Button style={{ width: 50, borderRadius: 999, marginLeft: 8, marginBottom: 16 }} active />
+						<Skeleton.Button style={{ width: 30, borderRadius: 999, marginLeft: 8, marginBottom: 16 }} active />
+					</>
+				)}
+			</div>
+
+			{!!isLoading.status && <LoadingVideoCourse />}
+
+			{!isLoading.status && (
+				<>
 					<div className="container-fluid">
 						<List
 							itemLayout="horizontal"
@@ -415,7 +444,6 @@ const VideoCourseStore = () => {
 									loading={addToCardLoading}
 									buyNowLoading={buyNowLoading}
 									activeLoading={activeLoading}
-									// addToCard={addToCard}
 									item={item}
 									dataTeacher={dataTeacher}
 									handleActive={handleActive}
@@ -469,9 +497,9 @@ const VideoCourseStore = () => {
 							</div>
 						</Modal>
 					</div>
-				</Card>
+				</>
 			)}
-		</div>
+		</Card>
 	)
 }
 

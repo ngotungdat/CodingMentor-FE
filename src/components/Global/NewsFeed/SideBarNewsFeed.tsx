@@ -91,16 +91,6 @@ function SideBarNewsFeed(props) {
 
 	const SideBar = () => (
 		<>
-			{/* {!!userInformation && userInformation?.RoleID !== 1 && userInformation?.RoleID !== 2 && (
-				<Card className="mb-3" bordered={false}>
-					<div className="card-newsfeed-wrap__label">
-						<Button onClick={() => router.push('/package/package-store/')} className="w-100 btn btn-warning">
-							Kiểm Tra Thử Miễn Phí
-						</Button>
-					</div>
-				</Card>
-			)} */}
-
 			<Card className="card-newsfeed" bordered={false}>
 				<div className="card-newsfeed-wrap__label">
 					<p className="card-newsfeed__label font-weight-black mb-1 font-bold">Khóa học video</p>

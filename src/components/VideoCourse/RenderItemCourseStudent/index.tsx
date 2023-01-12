@@ -99,7 +99,7 @@ const RenderItemCard = (props) => {
 				<div className="vc-store_item">
 					<div className="flip-card-front">
 						<div
-							style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+							style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}
 							className={item.MaxSold == item.TotalVideoCourseSold ? `tagSell best-seller` : `tagSell percent`}
 						>
 							<span>
@@ -120,7 +120,7 @@ const RenderItemCard = (props) => {
 								{item.ImageThumbnails === '' || item.ImageThumbnails === null || item.ImageThumbnails === undefined ? (
 									<img src="/images/logo-thumnailx.jpg" />
 								) : (
-									<img src={item.ImageThumbnails} />
+									<img style={{}} src={item.ImageThumbnails} />
 								)}
 							</Link>
 						</div>

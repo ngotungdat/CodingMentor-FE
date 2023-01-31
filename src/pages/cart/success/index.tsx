@@ -76,8 +76,8 @@ const SuccessCheckout = () => {
 						<>
 							<h3 className="font-weight-green text-center">{statuPayment && statuPayment.StatusName}</h3>
 							<p className="text-center">
-								Mọi thắc mắc xin liên hệ Email: <span>{branchInfo && branchInfo[0].Email}</span> hoặc số điện thoại{' '}
-								<span>{branchInfo && branchInfo[0].Phone}</span>
+								Mọi thắc mắc xin liên hệ Email: <span>admissions@codingmentor.com.au</span> hoặc fanpage
+								<span> https://www.facebook.com/codingmentor.au</span>
 							</p>
 						</>
 					)}
@@ -85,8 +85,8 @@ const SuccessCheckout = () => {
 						<>
 							<h3 className="font-weight-primary text-center">{statuPayment && statuPayment.StatusName}</h3>
 							<p className="text-center">
-								Mọi thắc mắc xin liên hệ Email: <span>{branchInfo && branchInfo[0].Email}</span> hoặc số điện thoại{' '}
-								<span>{branchInfo && branchInfo[0].Phone}</span>
+								Mọi thắc mắc xin liên hệ Email: <span>admissions@codingmentor.com.au</span> hoặc fanpage
+								<span> https://www.facebook.com/codingmentor.au</span>
 							</p>
 						</>
 					)}

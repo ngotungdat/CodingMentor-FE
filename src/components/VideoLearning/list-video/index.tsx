@@ -46,16 +46,16 @@ const VideoList: FC<IProps> = ({ videos, onPress, subVideosByVideo, getSubVideos
 
 	return (
 		<>
-			<div className="video-course-information">
-				<p>Front End w React Native</p>
+			{/* <div className="video-course-information">
+				<p>{router?.query?.name}</p>
 				<p>Use XD to get a job in UI Design, User Interface, User Experience design, UX design and Web Design</p>
 				<div className="mentor">
 					<img src="/images/icons/UserUnknown.svg" alt="user icon" />
-					{router.query.teacherName === '' ? <p>Chưa có mentor</p> : <p>{router.query.teacherName}</p>}
+					{router.query.teacherName == '' ? <p>Chưa có mentor</p> : <p>{router.query.teacherName}</p>}
 				</div>
-			</div>
+			</div> */}
 
-			<hr className="on-desktop" />
+			{/* <hr className="on-desktop" /> */}
 
 			<h4 className="none-selection on-desktop horizontal-video-course">Nội dung khóa học</h4>
 			{watching !== 0 && (

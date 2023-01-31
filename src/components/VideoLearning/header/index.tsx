@@ -162,12 +162,7 @@ const HeaderVideo: FC<hProps> = ({ params, handleShowDrawer }): JSX.Element => {
 	return (
 		<div className="row video-header pl-5 pr-5 video-shadow">
 			<div className="video-header__video-title">
-				<button
-					className="btn"
-					onClick={() => {
-						router.back()
-					}}
-				>
+				<button className="btn" onClick={() => router.back()}>
 					<img src="/images/arrow-left.png" alt="arrow" />
 				</button>
 				<p className="in-1-line course-name">{params.name}</p>

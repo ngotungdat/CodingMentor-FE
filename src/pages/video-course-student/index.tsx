@@ -71,7 +71,7 @@ const VideoCourseStudent = () => {
 	}
 
 	const checkStatus = (vl, ctn) => {
-		const rs = ['yellow', 'green', 'green', 'gray']
+		const rs = ['yellow', 'yellow', 'green', 'gray']
 		return <span className={`tag ${rs[vl - 1]}`}>{ctn}</span>
 	}
 

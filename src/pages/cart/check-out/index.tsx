@@ -405,7 +405,6 @@ const CheckOut = () => {
 	}
 
 	const [inputDiscount, setInputDiscount] = useState<string>('')
-	console.log('🚀 ~ file: index.tsx ~ line 396 ~ CheckOut ~ inputDiscount', inputDiscount)
 
 	const menuDropdown = () => {
 		return (

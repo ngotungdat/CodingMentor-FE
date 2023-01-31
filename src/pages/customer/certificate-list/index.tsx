@@ -42,7 +42,6 @@ function StudentCertificates() {
 			let res = await studentCertificateApi.getAll(todoApi)
 			if (res.status === 200) {
 				setDataSource(res.data.data)
-				console.log('🚀 ~ file: index.tsx ~ line 41 ~ getDataSource ~ res.data.data', res.data.data)
 				setTotalPage(res.data.totalRow)
 			}
 		} catch (err) {
@@ -60,7 +59,6 @@ function StudentCertificates() {
 			let res = await studentCertificateApi.getAll(todoApi)
 			if (res.status === 200) {
 				setDataSource(res.data.data)
-				console.log('🚀 ~ file: index.tsx ~ line 41 ~ getDataSource ~ res.data.data', res.data.data)
 				setTotalPage(res.data.totalRow)
 			}
 		} catch (err) {
@@ -70,7 +68,6 @@ function StudentCertificates() {
 	}
 
 	const changeStatus = async (data) => {
-		console.log('🚀 ~ file: index.tsx ~ line 57 ~ changeStatus ~ data', data)
 		try {
 			let res = await studentCertificateApi.update({ ID: data.ID, Enable: !data.Enable })
 			if (res.status === 200) {

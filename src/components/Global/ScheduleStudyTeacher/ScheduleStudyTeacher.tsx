@@ -73,7 +73,6 @@ const ScheduleStudyTeacher = () => {
 		scheduleID: number
 		CourseID: number
 	}) => {
-		console.log('🚀 ~ file: ScheduleStudyTeacher.tsx ~ line 68 ~ ScheduleStudyTeacher ~ data', data)
 		try {
 			//0 - ,1-Bắt đầu , 2-Vào lớp học, 3-Kết thúc
 			const { idx, btnID, btnName, isOutside, scheduleID, CourseID } = data

@@ -12,7 +12,6 @@ import { billCourseApi } from '~/apiBase/course/bill-course'
 
 const AddTrialStudentForm = (props) => {
 	const { CourseID, onFetchData, coursePrice, ProgramID, typeCourse } = props
-	console.log('🚀 ~ file: AddTrialStudentForm.tsx ~ line 15 ~ AddTrialStudentForm ~ typeCourse', typeCourse)
 	const [visible, setVisible] = useState(false)
 	const [isLoading, setIsLoading] = useState({ type: '', status: false })
 	const [branch, setBranch] = useState<IBranch[]>()
@@ -21,11 +20,7 @@ const AddTrialStudentForm = (props) => {
 	const [filterStudent, setFilterStudent] = useState({ pageindex: 1, pageSize: pageSize })
 	const [students, setStudents] = useState<IStudent[]>(null)
 	const [scheduleList, setScheduleList] = useState(null)
-	const [filtersSchedule, setFiltersSchedule] = useState({
-		pageSize: 10,
-		pageIndex: 1,
-		CourseID: CourseID
-	})
+	const [filtersSchedule, setFiltersSchedule] = useState({ pageSize: 10, pageIndex: 1, CourseID: CourseID })
 	const [userDetail, setUserDetail] = useState<IStudent>()
 	const [isLoadingX, setIsLoadingx] = useState(false)
 	const [isTrial, setIsTrial] = useState(false)

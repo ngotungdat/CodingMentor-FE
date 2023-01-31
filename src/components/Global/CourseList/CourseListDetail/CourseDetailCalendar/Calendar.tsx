@@ -10,7 +10,6 @@ import ZoomRecordModal from '~/components/Global/ManageZoom/ZoomRoom/ZoomRecordM
 import { useWrap } from '~/context/wrap'
 import CourseDetailUploadFile from './CourseDetailUploadFile'
 moment.locale('vi-VN')
-console.log("🚀 ~ file: Calendar.tsx ~ line 13 ~ moment.locale('vi-VN')", moment.locale('vi-VN'))
 const localizer = momentLocalizer(moment)
 
 CDCalendar.propTypes = {

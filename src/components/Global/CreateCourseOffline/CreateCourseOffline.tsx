@@ -552,7 +552,6 @@ const CreateCourseOffline = () => {
 	const changeValueSchedule = async (uid: number, key: 'CaID', vl: number, CaID: any) => {
 		const { rs: newUnavailableScheduleList, date } = await getNewUnavailableScheduleList(uid, key, vl, CaID)
 		const scheduleList = newUnavailableScheduleList.filter((s) => s.date === date)
-		console.log('🚀 ~ file: CreateCourseOffline.tsx ~ line 550 ~ changeValueSchedule ~ scheduleList', scheduleList)
 
 		if (checkDuplicateStudyTimeInDay(scheduleList, vl)) {
 			showNoti('danger', 'Dữ liệu trùng lập')

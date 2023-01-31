@@ -132,7 +132,6 @@ const VideoLearning = () => {
 
 	// // DRAWER VIDEO LIST STATE
 	const [visible, setVisible] = useState(false)
-	console.log('🚀 ~ file: index.tsx ~ line 105 ~ VideoLearning ~ visible', visible)
 
 	function Iframe(props) {
 		const { src } = props

@@ -16,7 +16,6 @@ const HeaderVideo: FC<hProps> = ({ params, handleShowDrawer }): JSX.Element => {
 	const { userInformation } = useWrap()
 	const [dropDownVisible, setDropDownVisible] = useState(false)
 	const router = useRouter()
-	console.log('🚀 ~ file: index.tsx ~ line 19 ~ router', router)
 
 	const moveToLogin = () => {
 		signIn()

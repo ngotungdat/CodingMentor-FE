@@ -211,8 +211,11 @@ const ShoppingCart = () => {
 							</div>
 
 							<div className="price">
-								<p className="">{numberWithCommas(item.Price * item.Quantity)} AUD</p>
-								<p className="">{numberWithCommas(item.OriginalPrice * item.Quantity)} AUD</p>
+								{!!(item.Price * item.Quantity) && <p className="">{numberWithCommas(item.Price * item.Quantity)} AUD</p>}
+								{!(item.Price * item.Quantity) && <p className="">Free</p>}
+
+								{!!(item.OriginalPrice * item.Quantity) && <p className="">{numberWithCommas(item.OriginalPrice * item.Quantity)} AUD</p>}
+								{!(item.OriginalPrice * item.Quantity) && <p className="">Free</p>}
 							</div>
 
 							<div className="cart__item-action-mobile">
@@ -318,8 +321,6 @@ const ShoppingCart = () => {
 								</li>
 							</ul>
 						)}
-						{/* <Popover content={!userInformation ? contentLogin : contentLogout} trigger="click" title="">
-						</Popover> */}
 					</div>
 				</div>
 			</>
@@ -432,9 +433,13 @@ const ShoppingCart = () => {
 
 									<div className="price-item">
 										<p className="">Thanh toán: </p>
-										<p className="price-red">
-											{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))} AUD
-										</p>
+										{!!cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0) && (
+											<p className="price-red">
+												{numberWithCommas(cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0))} AUD
+											</p>
+										)}
+
+										{!cartItems?.reduce((a, b) => Number(a) + Number(b.Price * b.Quantity), 0) && <p className="price-red">Free</p>}
 									</div>
 
 									<Link href="/cart/check-out">

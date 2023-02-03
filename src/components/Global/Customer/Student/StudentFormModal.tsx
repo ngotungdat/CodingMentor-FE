@@ -475,7 +475,6 @@ const StudentFormModal = (props) => {
 				<div className="box-form form-staff">
 					<Form layout="vertical">
 						<div className="row">
-							{/** ==== Thông tin cơ bản  ====*/}
 							<div className="col-12">
 								<div className="info-modal">
 									<div className="info-modal-avatar">
@@ -505,32 +504,10 @@ const StudentFormModal = (props) => {
 							<div className="col-12">
 								<Divider orientation="center">Thông tin cơ bản</Divider>
 							</div>
-							<div className="col-md-6 col-12">
-								<div className="search-box">
-									<InputTextField
-										form={form}
-										name="Email"
-										label="Email"
-										handleChange={(value) => setValueEmail(value)}
-										placeholder="Nhập email"
-										isRequired={true}
-									/>
-									{!dataRow && (
-										<button type="button" className="btn-search" onClick={searchValue}>
-											{isLoading.type == 'SEARCH_EMAIL' && isLoading.status ? (
-												<Spin indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />} />
-											) : (
-												<SearchOutlined />
-											)}
-										</button>
-									)}
-								</div>
-							</div>
 
 							<div className="col-md-6 col-12">
 								<InputTextField form={form} name="FullNameUnicode" label="Họ và tên" placeholder="Nhập họ và tên" isRequired={true} />
 							</div>
-							{/*  */}
 							<div className="col-md-6 col-12">
 								<InputTextField form={form} name="Mobile" label="Số điện thoại" placeholder="Nhập số điện thoại" isRequired={true} />
 							</div>
@@ -555,22 +532,9 @@ const StudentFormModal = (props) => {
 							<div className="col-md-6 col-12">
 								<SelectField form={form} name="TimeZoneId" label="Timezone" optionList={timezone} placeholder="Chọn Timezone" />
 							</div>
-							{/** ==== Địa chỉ  ====*/}
 							<div className="col-12">
 								<Divider orientation="center">Địa chỉ</Divider>
 							</div>
-							{/* <div className="col-md-6 col-12">
-								<SelectField
-									form={form}
-									name="AreaID"
-									label="Tỉnh/TP"
-									optionList={listData.Area}
-									onChangeSelect={
-										(value) => handleChange_select(value, 'DistrictID') // Select Area to load District
-									}
-									placeholder="Chọn tỉnh/tp"
-								/>
-							</div> */}
 							<div className="col-md-6 col-12">
 								<SelectField
 									onChangeSelect={onChangeSelect}
@@ -584,41 +548,6 @@ const StudentFormModal = (props) => {
 							<div className="col-md-6 col-12">
 								<SelectField form={form} name="CityID" label="Thành phố" optionList={cityByCountry} placeholder="Chọn thành phố" />
 							</div>
-							{/* <div className="col-md-6 col-12">
-								<SelectField
-									form={form}
-									name="AreaID"
-									label="Tỉnh/TP"
-									optionList={listData.Area}
-									onChangeSelect={
-										(value) => handleChange_select(value, 'DistrictID') // Select Area to load District
-									}
-									placeholder="Chọn tỉnh/tp"
-								/>
-							</div>
-							<div className="col-md-6 col-12">
-								<SelectField
-									isLoading={loadingSelect.name == 'DistrictID' && loadingSelect.status}
-									form={form}
-									name="DistrictID"
-									label="Quận/Huyện"
-									optionList={listData.DistrictID}
-									onChangeSelect={
-										(value) => handleChange_select(value, 'WardID') // Select District to load Ward
-									}
-									placeholder="Chọn quận/huyện"
-								/>
-							</div>
-							<div className="col-md-6 col-12">
-								<SelectField
-									isLoading={loadingSelect.name == 'WardID' && loadingSelect.status}
-									form={form}
-									name="WardID"
-									label="Phường/Xã"
-									optionList={listData.WardID}
-									placeholder="Chọn phường/xã"
-								/>
-							</div> */}
 							<div className="col-md-6 col-12">
 								<InputTextField form={form} name="Address" label="Mô tả thêm" placeholder="Nhập mô tả thêm" />
 							</div>
@@ -656,7 +585,6 @@ const StudentFormModal = (props) => {
 									</div>
 								</>
 							)}
-							{/** ==== Khác  ====*/}
 							<div className="col-12">
 								<Divider orientation="center">Khác</Divider>
 							</div>

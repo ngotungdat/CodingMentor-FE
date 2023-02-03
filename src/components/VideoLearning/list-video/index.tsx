@@ -2,18 +2,19 @@ import React, { FC, useEffect, useState } from 'react'
 import 'antd/dist/antd.css'
 import { List } from 'antd'
 import RenderItem from '~/components/VideoLearning/list-video/render-item'
-import { useRouter } from 'next/router'
 
 type IProps = {
 	videos: any[]
 	onPress: any
 	subVideosByVideo: any[]
 	getSubVideosByVideo: Function
+	currentVideo?: string
 }
 
 // LIST VIDEOS
-const VideoList: FC<IProps> = ({ videos, onPress, subVideosByVideo, getSubVideosByVideo }) => {
-	const router = useRouter()
+const VideoList: FC<IProps> = (props) => {
+	const { videos, onPress, subVideosByVideo, getSubVideosByVideo, currentVideo } = props
+
 	const [watching, setWatching] = useState(0)
 	const [playing, setPlaying] = useState<any>('')
 
@@ -24,18 +25,11 @@ const VideoList: FC<IProps> = ({ videos, onPress, subVideosByVideo, getSubVideos
 	}, [videos])
 
 	const getWatchingVideo = () => {
-		const indexAPI = videos.findIndex((item: any) => item?.IsWatching == true)
-		if (indexAPI > -1) {
-			setWatching(videos[indexAPI].ID)
-		} else {
-			let flag = 0
-			for (let i = 0; i < videos.length; i++) {
-				const item = videos[i]
-				if (item?.CompleteVsTotalLesson != '0/0') {
-					flag == 0 && setWatching(item?.ID)
-					flag = 1
-				}
-			}
+		const watchingVideo = videos.find((item) => item?.IsWatching === true) || videos.find((item) => item?.CompleteVsTotalLesson !== '0/0')
+
+		if (watchingVideo) {
+			setWatching(watchingVideo.ID)
+			return watchingVideo.ID
 		}
 	}
 
@@ -58,6 +52,7 @@ const VideoList: FC<IProps> = ({ videos, onPress, subVideosByVideo, getSubVideos
 			{/* <hr className="on-desktop" /> */}
 
 			<h4 className="none-selection on-desktop horizontal-video-course">Nội dung khóa học</h4>
+
 			{watching !== 0 && (
 				<List
 					itemLayout="horizontal"
@@ -73,6 +68,7 @@ const VideoList: FC<IProps> = ({ videos, onPress, subVideosByVideo, getSubVideos
 							data={videos}
 							item={item}
 							onPress={_playVideo}
+							currentVideo={currentVideo}
 						/>
 					)}
 				/>

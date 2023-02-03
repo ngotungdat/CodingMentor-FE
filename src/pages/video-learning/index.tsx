@@ -50,7 +50,6 @@ const VideoLearning = () => {
 			videos.map(async (item) => {
 				try {
 					const temp = { SectionID: item.ID, VideoCourseOfStudentID: router.query.course }
-					console.log('Temp: ', temp)
 					const res = await VideoCourses.ListLesson(temp)
 					if (res.status === 200) {
 						return {
@@ -150,6 +149,11 @@ const VideoLearning = () => {
 
 	numberRender = numberRender + 1
 
+	function _clickVideo(event) {
+		setCurrentLession(event)
+		event.Type == 0 ? setCurrentVideo(event.LinkVideo) : setCurrentVideo(event.LinkHtml)
+	}
+
 	// RENDER
 	return (
 		<div className="w-video-learning custom-scroll-bar">
@@ -157,17 +161,19 @@ const VideoLearning = () => {
 			<div className="row w-100 m-0 p-0 pt-3 w-main">
 				<div className="col-xl-9 col-12 scrollable">
 					<Card className="card-main box-shadow">
-						{!!currentVideo ? (
+						{!!currentVideo && (
 							<div className="video">
 								<Iframe src={currentVideo} />
 							</div>
-						) : (
+						)}
+
+						{!currentVideo && (
 							<div className="none-video">
-								{/* @ts-ignore */}
 								<Lottie loop animationData={empty} play className="inner" />
 								<div className="size-16 text">Không có video</div>
 							</div>
 						)}
+
 						<VideoTabs lession={currentLession} />
 					</Card>
 				</div>
@@ -175,13 +181,11 @@ const VideoLearning = () => {
 				<div className="col-xl-3 col-0 scrollable">
 					<Card className="w-100 card-list box-shadow">
 						<VideoList
-							onPress={(p) => {
-								setCurrentLession(p)
-								p.Type === 0 ? setCurrentVideo(p.LinkVideo) : setCurrentVideo(p.LinkHtml)
-							}}
+							onPress={_clickVideo}
 							videos={videos}
 							subVideosByVideo={subVideosByVideo}
 							getSubVideosByVideo={getSubVideosByVideo}
+							currentVideo={currentVideo}
 						/>
 					</Card>
 				</div>
@@ -192,22 +196,15 @@ const VideoLearning = () => {
 				placement="right"
 				onClose={() => setVisible(false)}
 				visible={visible}
-				// className="video-drawer custom-scroll-bar"
-				headerStyle={{
-					paddingTop: 24,
-					paddingBottom: 24,
-					background: '#fff'
-				}}
+				headerStyle={{ paddingTop: 24, paddingBottom: 24, background: '#fff' }}
 			>
-				<div className="wrap-menu-drawer ">
+				<div className="wrap-menu-drawer">
 					<VideoList
-						onPress={(p) => {
-							setCurrentLession(p)
-							setCurrentVideo(p?.LinkVideo)
-						}}
+						onPress={_clickVideo}
 						videos={videos}
 						subVideosByVideo={subVideosByVideo}
 						getSubVideosByVideo={getSubVideosByVideo}
+						currentVideo={currentVideo}
 					/>
 				</div>
 			</Drawer>

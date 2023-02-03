@@ -93,21 +93,38 @@ const RenderItemCard = (props) => {
 	const [deleteVisible, setDeleteVisible] = useState(false)
 	const [deleting, setDeleting] = useState(false)
 
+	const TagContent = () => {
+		if (item.MaxSold == item.TotalVideoCourseSold) {
+			return (
+				<div
+					style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}
+					className={item.MaxSold == item.TotalVideoCourseSold ? `tagSell best-seller` : `tagSell percent`}
+				>
+					<span>Best Seller</span>
+				</div>
+			)
+		}
+
+		if (!!item.OriginalPrice && !!item.SellPrice) {
+			return (
+				<div
+					style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}
+					className={item.MaxSold == item.TotalVideoCourseSold ? `tagSell best-seller` : `tagSell percent`}
+				>
+					<span>`-${(((item.OriginalPrice - item.SellPrice) / item.OriginalPrice) * 100).toFixed(0)}%`</span>
+				</div>
+			)
+		}
+
+		return
+	}
+
 	return (
 		<>
 			<div className="vc-store_container">
 				<div className="vc-store_item">
 					<div className="flip-card-front">
-						<div
-							style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}
-							className={item.MaxSold == item.TotalVideoCourseSold ? `tagSell best-seller` : `tagSell percent`}
-						>
-							<span>
-								{item.MaxSold == item.TotalVideoCourseSold
-									? 'Best Seller'
-									: `-${(((item.OriginalPrice - item.SellPrice) / item.OriginalPrice) * 100).toFixed(0)}%`}
-							</span>
-						</div>
+						<TagContent />
 
 						{userInformation && userInformation.RoleID === 3 && item && item.isBought && (
 							<div className="course-paid-icon">

@@ -27,7 +27,8 @@ const ResetPassword = () => {
 
 		setLoading(true)
 		try {
-			let res = await resetPasswordApi.sendEmail(email)
+			let res = await resetPasswordApi.sendEmail({ UserName: email.Email })
+
 			if (res.status === 200) {
 				showNoti('success', 'Gửi Email thành công')
 				setIsConfirmEmail(false)
@@ -88,17 +89,7 @@ const ResetPassword = () => {
 				{isConfirmEmail ? (
 					<div className="confirm-email mt-4">
 						<Form form={formEmail} name="basic" onFinish={onFinish_Email} layout="vertical">
-							<Form.Item
-								label="Email"
-								name="Email"
-								rules={[
-									{
-										required: true,
-										type: 'email',
-										message: 'Email chưa đúng!'
-									}
-								]}
-							>
+							<Form.Item label="Email" name="Email" rules={[{ required: true, type: 'email', message: 'Email chưa đúng!' }]}>
 								<div className="form-control-input inputIcon">
 									<input name="Email" placeholder="Nhập Email" defaultValue="" />
 									<img src="/icons/icon-email.svg" className="icon" />
@@ -118,29 +109,14 @@ const ResetPassword = () => {
 						{!isSuccess ? (
 							<div className="confirm-password mt-4">
 								<Form form={formConfirm} name="basic" onFinish={onFinish_Update} layout="vertical">
-									<Form.Item
-										label="Email"
-										name="mail"
-										rules={[
-											{
-												required: true,
-												type: 'email',
-												message: 'Email chưa đúng!'
-											}
-										]}
-									>
+									<Form.Item label="Email" name="mail" rules={[{ required: true, type: 'email', message: 'Email chưa đúng!' }]}>
 										<Input className="style-input px-3" value={valueEmail} disabled={true} />
 									</Form.Item>
 									<Form.Item
 										className="mb-1"
 										label="Mã xác nhận"
 										name="verificationUser"
-										rules={[
-											{
-												required: true,
-												message: 'Bạn chưa nhập mã xác nhận'
-											}
-										]}
+										rules={[{ required: true, message: 'Bạn chưa nhập mã xác nhận' }]}
 									>
 										<Input className="none-arrow-input-number style-input px-3" type="number" />
 									</Form.Item>

@@ -23,6 +23,7 @@ interface RegisterInputs {
 	Mobile: Inputs
 	Note: Inputs
 	TimeZoneId: any
+	Password: string
 }
 
 function RegisterForm() {
@@ -58,6 +59,7 @@ function RegisterForm() {
 			showNoti('danger', err.message)
 		}
 	}
+
 	useEffect(() => {
 		getAllTimeZone()
 	}, [])
@@ -182,6 +184,13 @@ function RegisterForm() {
 												{...register('Mobile', { required: true })}
 											/>
 											<img src="/icons/phone.svg" className={styles.icon} />
+										</div>
+									</Form.Item>
+
+									<Form.Item label=" Mật khẩu" name="Password" rules={[{ required: true, message: 'Không được bỏ trống!' }]}>
+										<div className={styles.inputIcon}>
+											<input name="Password" type="Password" {...register('Password', { required: true })} placeholder="Mật khẩu" />
+											<img src="/icons/Lock.png" className={styles.icon} />
 										</div>
 									</Form.Item>
 

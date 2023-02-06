@@ -9,7 +9,7 @@ export const resetPasswordApi = {
 
 	// Xác nhận
 	confirm(data) {
-		return instance.put('/api/ResetPassword/UpdatePass', '', {
+		return instance.post('/api/ResetPassword', '', {
 			params: data
 		})
 	}

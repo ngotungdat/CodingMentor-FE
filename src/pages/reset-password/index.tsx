@@ -1,152 +1,93 @@
-import React, { useEffect, useState } from 'react'
-import { Form, Input, Button, Checkbox, Spin } from 'antd'
-import { resetPasswordApi } from '~/apiBase'
-import { useWrap } from '~/context/wrap'
-import { CheckCircleOutlined } from '@ant-design/icons'
-import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import Router from 'next/router'
+// import { accountApi } from '~/api/user'
+import { Form, Input, Spin } from 'antd'
 import AuthLayout from '~/components/AuthLayout'
+import { useWrap } from '~/context/wrap'
+import { resetPasswordApi } from '~/apiBase'
 
-const ResetPassword = () => {
-	const [loading, setLoading] = useState(false)
+function ResetPasswordPage() {
+	const [form] = Form.useForm()
+
 	const { showNoti } = useWrap()
-	const [isConfirmEmail, setIsConfirmEmail] = useState(true)
-	const [valueEmail, setValueEmail] = useState(null)
-	const [isSuccess, setIsSucess] = useState(false)
-	const router = useRouter()
 
-	const [formConfirm] = Form.useForm()
-	const [formEmail] = Form.useForm()
+	const [textError, setTextError] = useState('')
+	const [loading, setLoading] = useState(false)
 
-	const resendEmail = (e) => {
-		e.preventDefault()
-		setIsConfirmEmail(true)
-	}
-
-	const onFinish_Email = async (email) => {
-		setValueEmail(email.Email)
-
+	const postForgot = async (params) => {
 		setLoading(true)
 		try {
-			let res = await resetPasswordApi.sendEmail({ UserName: email.Email })
-
-			if (res.status === 200) {
-				showNoti('success', 'Gửi Email thành công')
-				setIsConfirmEmail(false)
+			const response = await resetPasswordApi.confirm(params)
+			if (response.status === 200) {
+				showNoti('danger', 'Thành công, vui lòng đăng nhập!')
+				Router.replace('/login')
 			}
 		} catch (error) {
-			showNoti('danger', error.message)
+			showNoti('error', error?.message)
+			setTextError(error?.message)
 		} finally {
 			setLoading(false)
 		}
 	}
 
-	const onFinish_Update = async (dataConfirm) => {
-		dataConfirm.verificationUser = parseInt(dataConfirm.verificationUser)
-
-		setLoading(true)
-		try {
-			let res = await resetPasswordApi.confirm(dataConfirm)
-			if (res.status === 200) {
-				showNoti('success', 'Khôi phục thành công')
-				setIsSucess(true)
-				setTimeout(() => {
-					router.push('/auth/signin')
-				}, 2000)
-			}
-		} catch (error) {
-			showNoti('danger', error.message)
-		} finally {
-			setLoading(false)
-		}
+	function _submit(params) {
+		const SUBMIT_DATA = { ...params, Key: Router.query?.key }
+		console.log('SUBMIT DATA: ', SUBMIT_DATA)
+		postForgot(SUBMIT_DATA)
 	}
-
-	useEffect(() => {
-		if (!isConfirmEmail) {
-			formConfirm.setFieldsValue({ mail: valueEmail })
-		} else {
-			if (valueEmail) {
-				formEmail.setFieldsValue({ Email: valueEmail })
-			}
-		}
-	}, [isConfirmEmail])
 
 	return (
-		<div className="wrap-reset-form">
-			<div className="reset-form">
-				<div onClick={() => router.back()} className="btn-back">
-					<img src="/icons/arrow-left.svg" />
-				</div>
+		<>
+			<div
+				className="w-full scrollable wrap-reset-form"
+				style={{ height: '100vh', alignItems: 'center', display: 'flex', justifyContent: 'center' }}
+			>
+				<Form form={form} onFinish={_submit} style={{ maxWidth: 400, minWidth: 350 }}>
+					<img className="logo-register" src="/images/logo-primary.png" alt="" />
 
-				<h4 className="title">Khôi phục mật khẩu</h4>
+					<h6 className="mt-5 mb-3" style={{ fontSize: 32, textAlign: 'center', color: '#c4203b' }}>
+						Lấy lại mật khẩu
+					</h6>
 
-				<p className="des mt-2">
-					{!isSuccess
-						? isConfirmEmail
-							? 'Vui lòng gửi email của bạn để lấy mã xác nhận'
-							: 'Kiểm tra email của bạn và lấy mã xác nhận để khôi phục mật khẩu'
-						: 'Mật khẩu mới đã được gửi về Email của bạn, vui lòng kiểm tra email'}
-				</p>
-				{isConfirmEmail ? (
-					<div className="confirm-email mt-4">
-						<Form form={formEmail} name="basic" onFinish={onFinish_Email} layout="vertical">
-							<Form.Item label="Email" name="Email" rules={[{ required: true, type: 'email', message: 'Email chưa đúng!' }]}>
-								<div className="form-control-input inputIcon">
-									<input name="Email" placeholder="Nhập Email" defaultValue="" />
-									<img src="/icons/icon-email.svg" className="icon" />
-								</div>
-							</Form.Item>
+					<label style={{ color: '#333', fontWeight: 600 }}>Mật khẩu mới</label>
+					<Form.Item name="NewPassword" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
+						<Input.Password
+							className="input"
+							type="password"
+							prefix={<i className="fa fa-lock" aria-hidden="true" style={{ color: '#c4203b', marginRight: 8 }} />}
+							placeholder="Nhập mật khẩu"
+							style={{ borderRadius: 6 }}
+						/>
+					</Form.Item>
 
-							<Form.Item className="mb-0">
-								<button type="submit" className="btn btn-primary w-100">
-									Gửi mã xác nhận
-									{loading && <Spin className="loading-base" />}
-								</button>
-							</Form.Item>
-						</Form>
+					<label style={{ color: '#333', fontWeight: 600 }}>Nhập lại mật khẩu</label>
+					<Form.Item name="ConfirmNewPassword" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
+						<Input.Password
+							className="input"
+							type="password"
+							prefix={<i className="fa fa-lock" aria-hidden="true" style={{ color: '#c4203b', marginRight: 8 }} />}
+							placeholder="Nhập lại mật khẩu"
+							style={{ borderRadius: 6 }}
+						/>
+					</Form.Item>
+
+					{!!textError && <div style={{ color: 'red', marginBottom: 16 }}>{textError}</div>}
+
+					<button disabled={loading} className="btn btn-primary w-100" type="submit">
+						Gửi thông tin {loading && <Spin className="loading-white" />}
+					</button>
+
+					<div className="mt-4 register" style={{ fontSize: 16, textAlign: 'center' }}>
+						Quay lại trang{' '}
+						<a href="/login" style={{ color: 'blue' }}>
+							Đăng nhập
+						</a>
 					</div>
-				) : (
-					<>
-						{!isSuccess ? (
-							<div className="confirm-password mt-4">
-								<Form form={formConfirm} name="basic" onFinish={onFinish_Update} layout="vertical">
-									<Form.Item label="Email" name="mail" rules={[{ required: true, type: 'email', message: 'Email chưa đúng!' }]}>
-										<Input className="style-input px-3" value={valueEmail} disabled={true} />
-									</Form.Item>
-									<Form.Item
-										className="mb-1"
-										label="Mã xác nhận"
-										name="verificationUser"
-										rules={[{ required: true, message: 'Bạn chưa nhập mã xác nhận' }]}
-									>
-										<Input className="none-arrow-input-number style-input px-3" type="number" />
-									</Form.Item>
-									<div className="text-right mb-4">
-										<a href="" onClick={resendEmail}>
-											Chưa nhận được mã? Gửi lại.
-										</a>
-									</div>
-									<Form.Item className="mb-0">
-										<button type="submit" className="btn btn-primary w-100">
-											Xác nhận
-											{loading && <Spin className="loading-base" />}
-										</button>
-									</Form.Item>
-								</Form>
-							</div>
-						) : (
-							<div className="success-reset mt-3">
-								<CheckCircleOutlined />
-								<p className="success-text">Khôi phục mật khẩu thành công! </p>
-								<p className="move-text">Chuyển đến trang đăng nhập sau 2s...</p>
-							</div>
-						)}
-					</>
-				)}
+				</Form>
 			</div>
-		</div>
+		</>
 	)
 }
 
-ResetPassword.layout = AuthLayout
-
-export default ResetPassword
+ResetPasswordPage.layout = AuthLayout
+export default ResetPasswordPage

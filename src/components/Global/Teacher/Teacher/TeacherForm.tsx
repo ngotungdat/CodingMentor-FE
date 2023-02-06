@@ -243,6 +243,7 @@ const TeacherForm = (props: ITeacherForm) => {
 					Thêm mới
 				</button>
 			)}
+
 			<Modal
 				style={{ top: isUpdate ? 20 : 100 }}
 				title={isUpdate ? 'Cập nhật giáo viên' : 'Thêm giáo viên'}
@@ -306,11 +307,8 @@ const TeacherForm = (props: ITeacherForm) => {
 								<div className="col-12">
 									<Divider orientation="center">Thông tin cơ bản</Divider>
 								</div>
-								<div className="col-12">
+								<div className="col-6">
 									<InputTextField form={form} name="UserName" label="Tên đăng nhập" disabled={true} />
-								</div>
-								<div className="col-md-6 col-12">
-									<InputTextField form={form} name="Email" label="Email" placeholder="Nhập email" isRequired={true} />
 								</div>
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="FullNameUnicode" label="Họ và tên" placeholder="Nhập họ và tên" isRequired={true} />
@@ -490,6 +488,9 @@ const TeacherForm = (props: ITeacherForm) => {
 										isRequired={true}
 									/>
 									<InputTextField form={form} name="LinkFaceBook" label="Link Facebook" placeholder="Nhập link faebook" />
+								</div>
+								<div className="col-md-6 col-12">
+									<InputTextField form={form} name="Password" label="Mật khẩu" placeholder="Nhập mật khẩu" />
 								</div>
 								<div className="col-12 mb-4">
 									<TextAreaField form={form} name="Others" label="Ghi chú" />

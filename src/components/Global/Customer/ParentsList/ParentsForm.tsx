@@ -387,17 +387,6 @@ const ParentsForm = (props) => {
 				</button>
 			)}
 
-			{/* {statusAdd == 'add-staff' ? (
-				<div className="col-12 d-flex justify-content-center">
-					<div className="mt-3">
-						<button type="submit" className="mt-5 btn btn-primary w-100" disabled={isLoading.type === 'ADD_DATA' && isLoading.status}>
-							Lưu phụ huynh
-							{isLoading.type === 'ADD_DATA' && isLoading.status && <Spin className="loading-base" />}
-						</button>
-					</div>
-				</div>
-			) : null} */}
-
 			<Modal
 				style={{ top: 20 }}
 				title={statusAdd == 'add-staff' ? (rowID ? 'Cập nhật phụ huynh' : 'Tạo mới phụ huynh') : 'Thêm lương cho phụ huynh'}
@@ -457,14 +446,12 @@ const ParentsForm = (props) => {
 							<div className="col-12">
 								<Divider orientation="center">Thông tin cơ bản</Divider>
 							</div>
+
 							{rowID && (
-								<div className="col-12">
+								<div className="col-6">
 									<InputTextField form={form} name="UserName" label="Tên đăng nhập" disabled={true} />
 								</div>
 							)}
-							<div className="col-md-6 col-12">
-								<InputTextField form={form} name="Email" label="Email" placeholder="Nhập email" isRequired={true} />
-							</div>
 
 							<div className="col-md-6 col-12">
 								<InputTextField form={form} name="FullNameUnicode" label="Họ và tên" placeholder="Nhập họ và tên" isRequired={true} />

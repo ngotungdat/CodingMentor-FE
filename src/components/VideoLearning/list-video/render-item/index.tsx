@@ -30,11 +30,15 @@ type props = {
 	setPlaying: Function
 	subVideosByVideo: any[]
 	getSubVideosByVideo: Function
+	currentVideo?: string
 }
 
 // RENDER ITEM LIST VIDEOS
-const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlaying, subVideosByVideo, getSubVideosByVideo }) => {
+const RenderItem: FC<props> = (props) => {
+	const { item, onPress, data, watching, playing, setPlaying, subVideosByVideo, getSubVideosByVideo, currentVideo } = props
+
 	const router = useRouter()
+
 	const [isShow, setShow] = useState(false)
 	const [subVideos, setSubVideos] = useState([])
 	const [reRender, setRender] = useState('')
@@ -43,6 +47,38 @@ const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlay
 		if (item.ID == watching) {
 			console.log(`%cCurrent Video Section:` + `%c ${item.Title}`, 'color: yellow;', 'color: #00B0FF; font-weight: bold')
 			handleClick('first')
+		}
+	}, [subVideos])
+
+	const getJsonData = (param) => {
+		return {
+			ID: param.ID,
+			SectionID: item.ID,
+			Description: param.Description,
+			LinkDocument: param.LinkDocument,
+			LinkHtml: param.LinkHtml,
+			LinkVideo: param.LinkVideo,
+			TimeWatched: param.TimeWatched,
+			Second: item.Second,
+			Title: item.Title,
+			Type: 0
+		}
+	}
+
+	// CALL API GET LESSION DETAIL
+	const getLessonDetail = async (param) => {
+		const temp = { VideoCourseOfStudentID: router.query.course, LessonID: param.ID }
+		try {
+			const res = await VideoCourses.LessonDetail(temp)
+			res.status == 200 && _playVideo(getJsonData(res.data.data))
+		} catch (err) {}
+	}
+
+	useEffect(() => {
+		// Auto play first video when screen opend
+		if (!currentVideo && !!subVideos && subVideos.length > 0) {
+			const firstVideo = subVideos[0]
+			getLessonDetail(firstVideo)
 		}
 	}, [subVideos])
 
@@ -57,11 +93,6 @@ const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlay
 		} else {
 			type == 'first' ? setShow(true) : setShow(!isShow)
 		}
-	}
-
-	// GET INDEXT OF ITEM IN LIST
-	const getSectionNumber = () => {
-		return data.indexOf(item) + 1
 	}
 
 	//GET DATA
@@ -81,10 +112,6 @@ const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlay
 		setRender(param.ID)
 		onPress(param)
 		setPlaying(param.ID)
-	}
-
-	const getPercen = () => {
-		//
 	}
 
 	const countVideoSeen = useMemo(() => {
@@ -119,6 +146,7 @@ const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlay
 				</div>
 				<i className={`mr-2 ml-2 far ${isShow ? 'fa-chevron-up' : 'fa-chevron-down'} `} />
 			</div>
+
 			{isShow && (
 				<>
 					{!!item && item?.IsExam && item?.ExamTopicID > 0 && (
@@ -130,12 +158,13 @@ const RenderItem: FC<props> = ({ item, onPress, data, watching, playing, setPlay
 							</div>
 						</>
 					)}
+
 					<List
 						itemLayout="horizontal"
 						dataSource={subVideos || []}
 						renderItem={(i) => (
 							<RenderItemSub
-								onPress={(p) => _playVideo(p)}
+								onPress={(callbackItem) => _playVideo(callbackItem)}
 								fetchData={getVideos}
 								fetchSubVideosByVideo={getSubVideosByVideo}
 								videoWatching={playing}

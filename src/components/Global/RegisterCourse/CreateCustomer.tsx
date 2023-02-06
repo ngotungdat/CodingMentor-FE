@@ -53,15 +53,10 @@ const CreateCustomer = (props) => {
 			setIsLoading({ status: 'CREATE_ACC', loading: false })
 		}
 	}
+
 	return (
 		<>
-			<button
-				type="button"
-				className="btn btn-warning"
-				onClick={() => {
-					setVisible(true)
-				}}
-			>
+			<button type="button" className="btn btn-warning" onClick={() => setVisible(true)}>
 				Tạo Học Viên
 			</button>
 			<Modal title="Thêm Học Viên" footer={null} visible={visible} onCancel={handleCancel}>
@@ -98,6 +93,13 @@ const CreateCustomer = (props) => {
 								</Select>
 							</Form.Item>
 						</div>
+
+						<div className="col-12">
+							<Form.Item label="Mật Khẩu" name="Password" rules={[{ required: true, message: 'Bạn không được để trống' }]}>
+								<Input.Password placeholder="Mật Khẩu" allowClear size="large" className="style-input" />
+							</Form.Item>
+						</div>
+
 						<div className="col-12">
 							<button className="btn btn-primary w-100" type="submit" disabled={isLoading.status == 'CREATE_ACC' && isLoading.loading}>
 								Lưu

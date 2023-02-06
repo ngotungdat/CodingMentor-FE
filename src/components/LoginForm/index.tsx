@@ -93,7 +93,7 @@ function index(props: any) {
 								<input type="checkbox" />
 								<label>Ghi nhớ đăng nhập</label>
 								<label className={styles.forgetPass} style={{ position: 'absolute', right: 0 }}>
-									<a href="/reset-password">Quên mật khẩu?</a>
+									<a href="/fogot-password">Quên mật khẩu?</a>
 								</label>
 							</div>
 

@@ -147,23 +147,20 @@ const WrapProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	}
 
 	const getAllData = () => {
-		// if (userInfo) {
-		// 	if (userInfo.RoleID === 1) {
 		getRoles(0)
 		getRoles(1)
-		// }
 		getNewDataUser()
 		postOnesignalID()
-		// }
 	}
 
-	// useEffect(() => {
-	// 	if (path !== '/baochau' && !!session && path.search('signin') < 1) {
-	// 		getAllData()
-	// 	}
-	// }, [session])
 	useEffect(() => {
-		if (path !== '/baochau' && path.search('signin') < 1 && path.search('course-details') < 1 && path.search('reset-password') < 1) {
+		if (
+			path !== '/baochau' &&
+			path.search('signin') < 1 &&
+			path.search('course-details') < 1 &&
+			path.search('reset-password') < 1 &&
+			path.search('fogot-password') < 1
+		) {
 			getAllData()
 		}
 	}, [])

@@ -492,13 +492,10 @@ const StaffForm = (props) => {
 									<Divider orientation="center">Thông tin cơ bản</Divider>
 								</div>
 								{rowID && (
-									<div className="col-12">
+									<div className="col-6">
 										<InputTextField form={form} name="UserName" label="Tên đăng nhập" disabled={true} />
 									</div>
 								)}
-								<div className="col-md-6 col-12">
-									<InputTextField form={form} name="Email" label="Email" isRequired={true} />
-								</div>
 								<div className="col-md-6 col-12">
 									<InputTextField form={form} name="FullNameUnicode" label="Họ và tên" isRequired={true} />
 								</div>
@@ -565,11 +562,9 @@ const StaffForm = (props) => {
 										isRequired={true}
 									/>
 								</div>
-								{rowID && (
-									<div className="col-md-6 col-12">
-										<InputTextField form={form} name="Password" label="Mật khẩu" />
-									</div>
-								)}
+								<div className="col-md-6 col-12">
+									<InputTextField form={form} name="Password" label="Mật khẩu" isRequired={!rowID} />
+								</div>
 								{/** ==== Địa chỉ  ====*/}
 								<div className="col-12">
 									<Divider orientation="center">Địa chỉ</Divider>

@@ -9,8 +9,6 @@ export const resetPasswordApi = {
 
 	// Xác nhận
 	confirm(data) {
-		return instance.post('/api/ResetPassword', '', {
-			params: data
-		})
+		return instance.post('/api/ResetPassword', data)
 	}
 }

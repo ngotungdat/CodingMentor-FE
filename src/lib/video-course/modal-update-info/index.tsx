@@ -67,10 +67,9 @@ const ModalUpdateInfo = (props) => {
 		console.log('-- onSubmit SUBMIT_DATA: ', params)
 		try {
 			const res = await VideoCourseStoreApi.update(params)
-			res.status == 200 && showNoti('success', res.data.message)
 			if (res.status == 200) {
-				!!onRefesh && onRefesh()
 				showNoti('success', res.data?.message)
+				!!onRefesh && onRefesh()
 			}
 		} catch (error) {
 			showNoti('danger', 'Thêm không thành công')

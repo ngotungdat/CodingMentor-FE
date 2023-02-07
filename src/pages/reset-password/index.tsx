@@ -20,7 +20,7 @@ function ResetPasswordPage() {
 			const response = await resetPasswordApi.confirm(params)
 			if (response.status === 200) {
 				showNoti('danger', 'Thành công, vui lòng đăng nhập!')
-				Router.replace('/login')
+				Router.replace('/auth/signin')
 			}
 		} catch (error) {
 			showNoti('error', error?.message)

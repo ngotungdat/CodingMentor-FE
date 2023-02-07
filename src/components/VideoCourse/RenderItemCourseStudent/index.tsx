@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 import ReactHtmlParser from 'react-html-parser'
 import { VideoCourseStoreApi } from '~/apiBase/video-course-store'
 import { useWrap } from '~/context/wrap'
-import ModalUpdateDetail from '~/lib/video-course/modal-update-details'
 import ModalUpdateInfo from '~/lib/video-course/modal-update-info'
 import { numberWithCommas, parseToMoney } from '~/utils/functions'
 
@@ -96,22 +95,16 @@ const RenderItemCard = (props) => {
 	const TagContent = () => {
 		if (item.MaxSold == item.TotalVideoCourseSold) {
 			return (
-				<div
-					style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}
-					className={item.MaxSold == item.TotalVideoCourseSold ? `tagSell best-seller` : `tagSell percent`}
-				>
-					<span>Best Seller</span>
+				<div style={{ zIndex: 9999 }} className={item?.MaxSold == item?.TotalVideoCourseSold ? `tagSell best-seller` : `tagSell percent`}>
+					<div>Best Seller</div>
 				</div>
 			)
 		}
 
 		if (!!item.OriginalPrice && !!item.SellPrice) {
 			return (
-				<div
-					style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}
-					className={item.MaxSold == item.TotalVideoCourseSold ? `tagSell best-seller` : `tagSell percent`}
-				>
-					<span>`-${(((item.OriginalPrice - item.SellPrice) / item.OriginalPrice) * 100).toFixed(0)}%`</span>
+				<div style={{ zIndex: 9999 }} className={item?.MaxSold == item?.TotalVideoCourseSold ? `tagSell best-seller` : `tagSell percent`}>
+					<div>`-${(((item?.OriginalPrice - item?.SellPrice) / item?.OriginalPrice) * 100).toFixed(0)}%`</div>
 				</div>
 			)
 		}

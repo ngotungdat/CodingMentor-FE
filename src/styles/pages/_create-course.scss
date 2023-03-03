@@ -275,6 +275,52 @@
 	}
 }
 
+.course-edit-mobile {
+	display: none;
+}
+
+.time-desktop {
+	display: block;
+}
+
+.time-tablet {
+	display: none;
+}
+
+@media (max-width: 1023px) {
+	.course-edit-mobile {
+		display: block;
+	}
+	.wrapper-btn-edit-course {
+		flex-direction: column;
+		div,
+		button {
+			width: 100%;
+		}
+	}
+	.course-edit-desktop {
+		display: none;
+	}
+	.rbc-toolbar {
+		flex-direction: column;
+		gap: 8px;
+	}
+	.time-desktop {
+		display: none;
+	}
+
+	.time-tablet {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 16px;
+		padding: 4px;
+		svg {
+			margin-right: 0;
+		}
+	}
+}
+
 .course-dt-event-2 {
 	height: 100%;
 	display: flex;

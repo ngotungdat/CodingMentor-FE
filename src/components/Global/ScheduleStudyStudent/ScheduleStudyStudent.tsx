@@ -9,10 +9,8 @@ import CDCalendar from '../CourseList/CourseListDetail/CourseDetailCalendar/Cale
 
 const ScheduleStudyStudent = () => {
 	const { showNoti, userInformation } = useWrap()
-	const [isLoading, setIsLoading] = useState({
-		type: '',
-		status: false
-	})
+	const [isLoading, setIsLoading] = useState({ type: '', status: false })
+	const [isLoadingCalendar, setIsLoadingCalendar] = useState(false)
 	const [scheduleStudentList, setScheduleStudentList] = useState<IScheduleZoom[]>([])
 	const [filters, setFilters] = useState({
 		startTime: moment().startOf('month').format('YYYY/MM/DD'),
@@ -21,10 +19,8 @@ const ScheduleStudyStudent = () => {
 
 	const fetchScheduleStudyStudent = async () => {
 		try {
-			setIsLoading({
-				type: 'FETCH_SCHEDULE_STUDENT',
-				status: true
-			})
+			setIsLoading({ type: 'FETCH_SCHEDULE_STUDENT', status: true })
+			setIsLoadingCalendar(true)
 			const res = await scheduleZoomApi.getAll(filters)
 			if (res.status === 200) {
 				setScheduleStudentList(res.data.data)
@@ -41,6 +37,7 @@ const ScheduleStudyStudent = () => {
 				type: 'FETCH_SCHEDULE_STUDENT',
 				status: false
 			})
+			setIsLoadingCalendar(false)
 		}
 	}
 
@@ -66,7 +63,7 @@ const ScheduleStudyStudent = () => {
 	}
 	const debounceFetchScheduleList = useDebounce(fetchNewScheduleList, 200, [])
 
-	const onHandleZoom = async (data: { idx: number; btnID: number; btnName?: string; scheduleID: number }) => {
+	const onHandleZoom = async (data: any) => {
 		try {
 			//0 - ,1-Bắt đầu , 2-Vào lớp học, 3-Kết thúc
 			const { idx, btnID, btnName, scheduleID } = data
@@ -82,24 +79,9 @@ const ScheduleStudyStudent = () => {
 	// CALENDAR FORMAT
 	const calendarFm = (calendarArr: IScheduleZoom[]) => {
 		const rs = calendarArr.map((c, idx) => {
-			const {
-				ID,
-				Title,
-				CourseID,
-				BranchName,
-				RoomName,
-				SubjectName,
-				StartTime,
-				EndTime,
-				//
-				ButtonID,
-				ButtonName,
-				//
-				IsExam,
-				ExamTopicID,
-				CurriculumsDetailID,
-				TeacherAttendanceID
-			} = c
+			const { IsExam, ExamTopicID, CurriculumsDetailID, TeacherAttendanceID, IsRoomStart, SignatureStudent, SignatureTeacher } = c
+			const { ID, Title, CourseID, BranchName, RoomName, SubjectName, StartTime, EndTime, ZoomRoomID, ButtonID, ButtonName } = c
+
 			const studyTimeStart = moment(StartTime).format('HH:mm')
 			const studyTimeEnd = moment(EndTime).format('HH:mm')
 			const studyTime = `${studyTimeStart} - ${studyTimeEnd}`
@@ -117,16 +99,18 @@ const ScheduleStudyStudent = () => {
 					RoomName,
 					BranchName,
 					SubjectName,
-					//
 					StudyTimeName: studyTime,
-					//
 					ButtonID,
 					ButtonName,
 					idx,
 					IsExam,
 					ExamTopicID,
 					CurriculumsDetailID,
-					TeacherAttendanceID
+					TeacherAttendanceID,
+					IsRoomStart,
+					ZoomRoomID,
+					SignatureStudent,
+					SignatureTeacher
 				}
 			}
 		})
@@ -144,6 +128,9 @@ const ScheduleStudyStudent = () => {
 						isStudyZoom={true}
 						fetchStudyZoom={debounceFetchScheduleList}
 						handleStudyZoom={onHandleZoom}
+						setIsLoadingCalendar={setIsLoadingCalendar}
+						isLoadingCalendar={isLoadingCalendar}
+						fetchScheduleStudyTeacher={() => fetchScheduleStudyStudent()}
 					/>
 				</Card>
 			</div>

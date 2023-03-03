@@ -9,17 +9,17 @@ import CDCalendar from '../CourseList/CourseListDetail/CourseDetailCalendar/Cale
 
 const ScheduleStudyTeacher = () => {
 	const { showNoti } = useWrap()
-	const [isLoading, setIsLoading] = useState({
-		type: '',
-		status: false
-	})
+	const [isLoading, setIsLoading] = useState({ type: '', status: false })
 	const [scheduleTeacherList, setScheduleTeacherList] = useState<IScheduleZoom[]>([])
 	const [filters, setFilters] = useState({
 		startTime: moment().startOf('month').format('YYYY/MM/DD'),
 		endTime: moment().endOf('month').format('YYYY/MM/DD')
 	})
 
+	const [isLoadingCalendar, setIsLoadingCalendar] = useState(false)
+
 	const fetchScheduleStudyTeacher = async () => {
+		setIsLoadingCalendar(true)
 		try {
 			setIsLoading({
 				type: 'FETCH_SCHEDULE_TEACHER',
@@ -36,10 +36,8 @@ const ScheduleStudyTeacher = () => {
 		} catch (error) {
 			showNoti('danger', error.message)
 		} finally {
-			setIsLoading({
-				type: 'FETCH_SCHEDULE_TEACHER',
-				status: false
-			})
+			setIsLoading({ type: 'FETCH_SCHEDULE_TEACHER', status: false })
+			setIsLoadingCalendar(false)
 		}
 	}
 
@@ -65,20 +63,13 @@ const ScheduleStudyTeacher = () => {
 	}
 	const debounceFetchScheduleList = useDebounce(fetchNewScheduleList, 200, [])
 
-	const onHandleZoom = async (data: {
-		idx: number
-		btnID: number
-		isOutside?: boolean
-		btnName?: string
-		scheduleID: number
-		CourseID: number
-	}) => {
+	const onHandleZoom = async (data: any) => {
 		try {
 			//0 - ,1-Bắt đầu , 2-Vào lớp học, 3-Kết thúc
 			const { idx, btnID, btnName, isOutside, scheduleID, CourseID } = data
 			if (btnID === 1) {
 				if (isOutside) {
-					window.open(`https://school.anhngupea.edu.vn`)
+					window.open(`https://app.codingmentor.com.au`)
 				} else {
 					setIsLoading({
 						type: 'FETCH_SCHEDULE_TEACHER',
@@ -106,7 +97,7 @@ const ScheduleStudyTeacher = () => {
 			}
 			if (btnID === 2 && scheduleID) {
 				if (isOutside) {
-					window.open(`https://school.anhngupea.edu.vn`)
+					window.open(`https://app.codingmentor.com.au`)
 				} else {
 					window.open(`/course/zoom-view/${scheduleID}?CourseID=${CourseID}`)
 				}
@@ -146,22 +137,9 @@ const ScheduleStudyTeacher = () => {
 	// CALENDAR FORMAT
 	const calendarFm = (calendarArr: IScheduleZoom[]) => {
 		const rs = calendarArr.map((c, idx) => {
-			const {
-				ID,
-				Title,
-				CourseID,
-				BranchName,
-				RoomName,
-				SubjectName,
-				StartTime,
-				EndTime,
-				//
-				ButtonID,
-				ButtonName,
-				IsExam,
-				TeacherAttendanceID, // @ts-ignore
-				isOutside
-			} = c
+			const { IsExam, TeacherAttendanceID, isOutside, IsRoomStart, ZoomRoomID, SignatureStudent, SignatureTeacher } = c
+			const { ID, Title, CourseID, BranchName, RoomName, SubjectName, StartTime, EndTime, ButtonID, ButtonName } = c
+
 			const studyTimeStart = moment(StartTime).format('HH:mm')
 			const studyTimeEnd = moment(EndTime).format('HH:mm')
 			const studyTime = `${studyTimeStart} - ${studyTimeEnd}`
@@ -179,9 +157,7 @@ const ScheduleStudyTeacher = () => {
 					RoomName,
 					BranchName,
 					SubjectName,
-					//
 					StudyTimeName: studyTime,
-					//
 					ButtonID,
 					ButtonName,
 					idx,
@@ -204,6 +180,9 @@ const ScheduleStudyTeacher = () => {
 						isStudyZoom={true}
 						fetchStudyZoom={debounceFetchScheduleList}
 						handleStudyZoom={onHandleZoom}
+						setIsLoadingCalendar={setIsLoadingCalendar}
+						isLoadingCalendar={isLoadingCalendar}
+						fetchScheduleStudyTeacher={fetchScheduleStudyTeacher}
 					/>
 				</Card>
 			</div>

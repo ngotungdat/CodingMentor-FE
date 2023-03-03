@@ -9,7 +9,12 @@ import CloseZoomRoom from '~/components/Global/ManageZoom/ZoomRoom/CloseZoomRoom
 import ZoomRecordModal from '~/components/Global/ManageZoom/ZoomRoom/ZoomRecordModal'
 import { useWrap } from '~/context/wrap'
 import CourseDetailUploadFile from './CourseDetailUploadFile'
+import { Cast, LogIn, Power } from 'react-feather'
+import { rollUpApi } from '~/apiBase'
+import { zoomRoomApiNew } from '~/apiBase/zoom/new-zoom'
+
 moment.locale('vi-VN')
+
 const localizer = momentLocalizer(moment)
 
 CDCalendar.propTypes = {
@@ -34,11 +39,15 @@ CDCalendar.propTypes = {
 	fetchStudyZoom: PropTypes.func,
 	handleStudyZoom: PropTypes.func,
 	handleEndStudyZoom: PropTypes.func,
-	isBranch: PropTypes.bool
+	isBranch: PropTypes.bool,
+	fetchScheduleStudyTeacher: PropTypes.func,
+	setIsLoadingCalendar: PropTypes.func,
+	isLoadingCalendar: PropTypes.bool
 }
 
 CDCalendar.defaultProps = {
 	isLoading: { type: '', status: false },
+	isLoadingCalendar: false,
 	eventList: [],
 	isLoaded: false,
 	isUploadDocument: false,
@@ -48,7 +57,8 @@ CDCalendar.defaultProps = {
 	fetchStudyZoom: null,
 	handleStudyZoom: null,
 	handleEndStudyZoom: null,
-	isBranch: false
+	isBranch: false,
+	fetchScheduleStudyTeacher: null
 }
 
 function CDCalendar(props) {
@@ -61,31 +71,23 @@ function CDCalendar(props) {
 		handleUploadDocument,
 		isGetRecordList,
 		isStudyZoom,
-		fetchStudyZoom,
 		handleStudyZoom,
+		fetchStudyZoom,
 		handleEndStudyZoom,
-		isBranch
+		isBranch,
+		fetchScheduleStudyTeacher,
+		setIsLoadingCalendar,
+		isLoadingCalendar
 	} = props
 
 	const [courseScheduleID, setCourseScheduleID] = useState(0)
-	const [isModalVisible, setIsModalVisible] = useState<{
-		type: 'record' | 'document' | ''
-		status: boolean
-	}>({
-		type: '',
-		status: false
-	})
-	const openModal = (type: 'record' | 'document') =>
-		setIsModalVisible({
-			type,
-			status: true
-		})
-	const closeModal = () =>
-		setIsModalVisible({
-			type: '',
-			status: false
-		})
-	const { userInformation } = useWrap()
+	const [isModalVisible, setIsModalVisible] = useState<{ type: 'record' | 'document' | ''; status: boolean }>({ type: '', status: false })
+
+	const openModal = (type: 'record' | 'document') => setIsModalVisible({ type, status: true })
+
+	const closeModal = () => setIsModalVisible({ type: '', status: false })
+
+	const { userInformation, showNoti } = useWrap()
 
 	const middlewareOpenModal = (ID: number, type: 'record' | 'document') => {
 		setCourseScheduleID(ID)
@@ -114,103 +116,103 @@ function CDCalendar(props) {
 		})
 	}
 
-	const checkTypeButtonStudyZoom = (data: { idx: number; btnID: number; btnName: string; scheduleID: number; dataDetail: any }) => {
-		const { btnID, btnName, dataDetail } = data
-		if (!btnID) return
-		// HỌC VIÊN
-		if (userInformation?.RoleID === 3) {
-			if (btnID === 2) {
-				return (
-					<Button
-						size="middle"
-						className="mt-3 btn-success w-100"
-						onClick={() => {
-							checkHandleStudyZoom(data)
-						}}
-					>
-						{btnName}
-					</Button>
-				)
-			}
-			if (btnID === 3) {
-				return (
-					<Button disabled size="middle" className="mt-3 btn-light w-100">
-						{btnName}
-					</Button>
-				)
-			}
-			if (btnID === 4) {
-				return (
-					<Button
-						size="middle"
-						className="mt-3 btn-success w-100"
-						onClick={() => {
-							moveToTest(dataDetail)
-						}}
-					>
-						{btnName}
-					</Button>
-				)
-			}
-		}
-		// GIÁO VIÊN
-		if (userInformation?.RoleID === 2 || userInformation?.RoleID === 5) {
-			if (btnID === 1) {
-				return (
-					<Button
-						size="middle"
-						className="mt-3 btn-warning w-100"
-						onClick={() => {
-							checkHandleStudyZoom(data)
-						}}
-					>
-						{btnName}
-					</Button>
-				)
-			}
-			if (btnID === 2) {
-				return (
-					<>
-						<Button
-							size="middle"
-							className="mt-3 btn-success w-100"
-							onClick={() => {
-								checkHandleStudyZoom(data)
-							}}
-						>
-							{btnName}
-						</Button>
-						<Button
-							size="middle"
-							className="btn-primary w-100"
-							onClick={() => {
-								if (typeof window !== 'undefined') {
-									const url = window.location.origin
-									navigator.clipboard.writeText(`${url}/course/zoom-view/${data.scheduleID}`)
-								}
-							}}
-							style={{ marginTop: 4 }}
-						>
-							Sao chép link zoom
-						</Button>
-						<CloseZoomRoom
-							isIcon={false}
-							handleClose={() => {
-								checkHandleStudyZoom({ ...data, btnID: 3 })
-							}}
-						/>
-					</>
-				)
-			}
-			if (btnID === 3) {
-				return (
-					<Button disabled size="middle" className="mt-3 btn-light w-100">
-						{btnName}
-					</Button>
-				)
-			}
-		}
-	}
+	// const checkTypeButtonStudyZoom = (data: { idx: number; btnID: number; btnName: string; scheduleID: number; dataDetail: any }) => {
+	// 	const { btnID, btnName, dataDetail } = data
+	// 	if (!btnID) return
+	// 	// HỌC VIÊN
+	// 	if (userInformation?.RoleID === 3) {
+	// 		if (btnID === 2) {
+	// 			return (
+	// 				<Button
+	// 					size="middle"
+	// 					className="mt-3 btn-success w-100"
+	// 					onClick={() => {
+	// 						checkHandleStudyZoom(data)
+	// 					}}
+	// 				>
+	// 					{btnName}
+	// 				</Button>
+	// 			)
+	// 		}
+	// 		if (btnID === 3) {
+	// 			return (
+	// 				<Button disabled size="middle" className="mt-3 btn-light w-100">
+	// 					{btnName}
+	// 				</Button>
+	// 			)
+	// 		}
+	// 		if (btnID === 4) {
+	// 			return (
+	// 				<Button
+	// 					size="middle"
+	// 					className="mt-3 btn-success w-100"
+	// 					onClick={() => {
+	// 						moveToTest(dataDetail)
+	// 					}}
+	// 				>
+	// 					{btnName}
+	// 				</Button>
+	// 			)
+	// 		}
+	// 	}
+	// 	// GIÁO VIÊN
+	// 	if (userInformation?.RoleID === 2 || userInformation?.RoleID === 5) {
+	// 		if (btnID === 1) {
+	// 			return (
+	// 				<Button
+	// 					size="middle"
+	// 					className="mt-3 btn-warning w-100"
+	// 					onClick={() => {
+	// 						checkHandleStudyZoom(data)
+	// 					}}
+	// 				>
+	// 					{btnName}
+	// 				</Button>
+	// 			)
+	// 		}
+	// 		if (btnID === 2) {
+	// 			return (
+	// 				<>
+	// 					<Button
+	// 						size="middle"
+	// 						className="mt-3 btn-success w-100"
+	// 						onClick={() => {
+	// 							checkHandleStudyZoom(data)
+	// 						}}
+	// 					>
+	// 						{btnName}
+	// 					</Button>
+	// 					<Button
+	// 						size="middle"
+	// 						className="btn-primary w-100"
+	// 						onClick={() => {
+	// 							if (typeof window !== 'undefined') {
+	// 								const url = window.location.origin
+	// 								navigator.clipboard.writeText(`${url}/course/zoom-view/${data.scheduleID}`)
+	// 							}
+	// 						}}
+	// 						style={{ marginTop: 4 }}
+	// 					>
+	// 						Sao chép link zoom
+	// 					</Button>
+	// 					<CloseZoomRoom
+	// 						isIcon={false}
+	// 						handleClose={() => {
+	// 							checkHandleStudyZoom({ ...data, btnID: 3 })
+	// 						}}
+	// 					/>
+	// 				</>
+	// 			)
+	// 		}
+	// 		if (btnID === 3) {
+	// 			return (
+	// 				<Button disabled size="middle" className="mt-3 btn-light w-100">
+	// 					{btnName}
+	// 				</Button>
+	// 			)
+	// 		}
+	// 	}
+	// }
 
 	const getStrDate = (date) => {
 		const nDate = new Date(date)
@@ -229,28 +231,70 @@ function CDCalendar(props) {
 		const date = new Date()
 		let checkDate = compare(getStrDate(event.start), getStrDate(date)) // -1: qua roi, 0: hom nay, 1: chua qua
 
-		const {
-			ID,
-			CourseID,
-			CourseName,
-			RoomName,
-			BranchName,
-			TeacherName,
-			SubjectName,
-			LinkDocument,
-			//
-			StudyTimeName,
-			// ZOOM
-			ButtonID: btnID,
-			ButtonName: btnName,
-			idx,
-			IsExam,
-			CurriculumDetailID,
-			TeacherAttendanceID,
-			data
-		} = event.resource
+		const studyTimeStart = moment(event.start).add(-15, 'minutes').format('HH:mm')
+		const studyTimeEnd = moment(event.end).add(15, 'minutes').format('HH:mm')
+		const studyTime = moment(date).format('HH:mm')
+
+		const checkCreateZoom = () => {
+			if (studyTimeStart < studyTime && studyTime < studyTimeEnd) {
+				return true
+			} else {
+				return false
+			}
+		}
+
+		const { ButtonID: btnID, ButtonName: btnName, idx, IsExam } = event.resource
+		const { CurriculumDetailID, TeacherAttendanceID, IsRoomStart, ZoomRoomID, SignatureTeacher } = event.resource
+		const { ID, CourseID, CourseName, RoomName, BranchName, TeacherName, SubjectName, LinkDocument, StudyTimeName } = event.resource
 
 		const dataDetail = event.resource
+		const attendZoom = async () => {
+			const DATA_SUBMIT = [
+				{
+					StudentID: userInformation.UserInformationID,
+					CourseID: dataDetail.CourseID,
+					CourseScheduleID: dataDetail.ID,
+					Date: new Date(),
+					Note: '',
+					StatusID: 1,
+					LearningStatusID: 1
+				}
+			]
+			const res = await rollUpApi.add(DATA_SUBMIT)
+			if (res.status === 200) {
+				window.open(dataDetail.SignatureStudent, '_blank')
+			}
+		}
+
+		const createZoom = async (ID) => {
+			setIsLoadingCalendar(true)
+			try {
+				const res = await zoomRoomApiNew.createZoom(ID)
+				if (res.status === 200) {
+					window.open(res.data.data.SignatureTeacher, '_blank')
+					fetchScheduleStudyTeacher()
+				}
+			} catch (err) {
+				showNoti('danger', err.message)
+			} finally {
+				setIsLoadingCalendar(false)
+			}
+		}
+
+		const closeZoom = async (ID) => {
+			setIsLoadingCalendar(true)
+			try {
+				const res = await zoomRoomApiNew.closeZoom(ID)
+				if (res.status === 200) {
+					fetchScheduleStudyTeacher()
+				}
+			} catch (err) {
+				showNoti('danger', err.message)
+			} finally {
+				setIsLoadingCalendar(false)
+			}
+		}
+
 		const content = (
 			<div className="course-dt-event-info" style={{ maxWidth: 300 }}>
 				<ul>
@@ -305,16 +349,55 @@ function CDCalendar(props) {
 							</Button>
 						</li>
 					)}
-					{isStudyZoom && (
-						<li>
-							{checkTypeButtonStudyZoom({
-								idx,
-								btnID,
-								btnName,
-								scheduleID: ID,
-								dataDetail
-							})}
-						</li>
+
+					{!!userInformation && (userInformation?.RoleID === 1 || userInformation?.RoleID === 2) && checkDate === 0 && checkCreateZoom() && (
+						<>
+							<Button
+								size="middle"
+								style={{ marginTop: 8, width: '100%' }}
+								onClick={() => {
+									// checkHandleStudyZoom(data)
+									createZoom(ID)
+								}}
+								className="btn-primary"
+							>
+								<LogIn className="mr-2" />
+								{!!ZoomRoomID ? 'Tạo lại' : 'Tạo phòng'}
+							</Button>
+						</>
+					)}
+
+					{checkDate === 0 && checkCreateZoom() && !!IsRoomStart && (
+						<>
+							<Button
+								size="middle"
+								style={{ marginTop: 8, width: '100%' }}
+								onClick={() => {
+									// checkHandleStudyZoom(data)
+									{
+										!!userInformation && userInformation?.RoleID === 3 ? attendZoom() : window.open(dataDetail.SignatureStudent, '_blank')
+									}
+								}}
+								className="btn-secondary"
+							>
+								<Cast className="mr-2" />
+								Tham gia phòng
+							</Button>
+
+							{!!userInformation && (userInformation?.RoleID === 1 || userInformation?.RoleID === 2) && (
+								<Button
+									size="middle"
+									style={{ marginTop: 8, width: '100%' }}
+									onClick={() => {
+										closeZoom(ID)
+									}}
+									className="btn-danger"
+								>
+									<Power className="mr-2" />
+									Đóng phòng học
+								</Button>
+							)}
+						</>
 					)}
 				</ul>
 			</div>
@@ -419,23 +502,69 @@ function CDCalendar(props) {
 	}
 
 	const styleAgenda = ({ event }) => {
-		const {
-			ID,
-			RoomName,
-			CourseName,
-			BranchName,
-			TeacherName,
-			SubjectName,
-			LinkDocument,
-			//
-			StudyTimeName,
-			// ZOOM
-			ButtonID: btnID,
-			ButtonName: btnName,
-			idx,
-			IsExam,
-			CurriculumsDetailID
-		} = event.resource
+		const { StudyTimeName, ButtonID: btnID, ButtonName: btnName, IsExam, CurriculumsDetailID, ZoomRoomID, IsRoomStart } = event.resource
+		const { ID, RoomName, idx, CourseName, BranchName, TeacherName, SubjectName, LinkDocument } = event.resource
+
+		const date = new Date()
+		let checkDate = compare(getStrDate(event.start), getStrDate(date)) // -1: qua roi, 0: hom nay, 1: chua qua
+
+		const studyTimeStart = moment(event.start).add(-15, 'minutes').format('HH:mm')
+		const studyTimeEnd = moment(event.end).add(15, 'minutes').format('HH:mm')
+		const studyTime = moment(date).format('HH:mm')
+
+		const checkCreateZoom = () => {
+			if (studyTimeStart < studyTime && studyTime < studyTimeEnd) {
+				return true
+			} else {
+				return false
+			}
+		}
+		const attendZoom = async () => {
+			const DATA_SUBMIT = [
+				{
+					StudentID: userInformation.UserInformationID,
+					CourseID: dataDetail.CourseID,
+					CourseScheduleID: dataDetail.ID,
+					Date: new Date(),
+					Note: '',
+					StatusID: 1,
+					LearningStatusID: 1
+				}
+			]
+			const res = await rollUpApi.add(DATA_SUBMIT)
+			if (res.status === 200) {
+				window.open(dataDetail.SignatureStudent, '_blank')
+			}
+		}
+
+		const createZoom = async (ID) => {
+			setIsLoadingCalendar(true)
+			try {
+				const res = await zoomRoomApiNew.createZoom(ID)
+				if (res.status === 200) {
+					window.open(res.data.data.SignatureTeacher, '_blank')
+					fetchScheduleStudyTeacher()
+				}
+			} catch (err) {
+				showNoti('danger', err.message)
+			} finally {
+				setIsLoadingCalendar(false)
+			}
+		}
+
+		const closeZoom = async (ID) => {
+			setIsLoadingCalendar(true)
+			try {
+				const res = await zoomRoomApiNew.closeZoom(ID)
+				if (res.status === 200) {
+					fetchScheduleStudyTeacher()
+				}
+			} catch (err) {
+				showNoti('danger', err.message)
+			} finally {
+				setIsLoadingCalendar(false)
+			}
+		}
 
 		const dataDetail = event.resource
 		return (
@@ -494,16 +623,54 @@ function CDCalendar(props) {
 								</Button>
 							</li>
 						)}
-						{isStudyZoom && (
-							<li>
-								{checkTypeButtonStudyZoom({
-									idx,
-									btnID,
-									btnName,
-									scheduleID: ID,
-									dataDetail
-								})}
-							</li>
+						{!!userInformation && (userInformation?.RoleID === 1 || userInformation?.RoleID === 2) && checkDate === 0 && checkCreateZoom() && (
+							<>
+								<Button
+									size="middle"
+									style={{ marginTop: 8, width: '100%' }}
+									onClick={() => {
+										// checkHandleStudyZoom(data)
+										createZoom(ID)
+									}}
+									className="btn-primary"
+								>
+									<LogIn className="mr-2" />
+									{!!ZoomRoomID ? 'Tạo lại' : 'Tạo phòng'}
+								</Button>
+							</>
+						)}
+
+						{checkDate === 0 && checkCreateZoom() && !!IsRoomStart && (
+							<>
+								<Button
+									size="middle"
+									style={{ marginTop: 8, width: '100%' }}
+									onClick={() => {
+										// checkHandleStudyZoom(data)
+										{
+											!!userInformation && userInformation?.RoleID === 3 ? attendZoom() : window.open(dataDetail.SignatureStudent, '_blank')
+										}
+									}}
+									className="btn-secondary"
+								>
+									<Cast className="mr-2" />
+									Tham gia phòng
+								</Button>
+
+								{!!userInformation && (userInformation?.RoleID === 1 || userInformation?.RoleID === 2) && (
+									<Button
+										size="middle"
+										style={{ marginTop: 8, width: '100%' }}
+										onClick={() => {
+											closeZoom(ID)
+										}}
+										className="btn-danger"
+									>
+										<Power className="mr-2" />
+										Đóng phòng học
+									</Button>
+								)}
+							</>
 						)}
 					</ul>
 				</div>
@@ -515,21 +682,84 @@ function CDCalendar(props) {
 		const dataDetail = event.resource
 
 		const {
-			ID,
-			CourseID,
-			CourseName,
-			RoomName,
-			BranchName,
-			TeacherName,
-			SubjectName,
-			LinkDocument,
 			StudyTimeName,
 			ButtonID: btnID,
 			ButtonName: btnName,
-			idx,
-			IsExam,
-			CurriculumsDetailID
+			CurriculumsDetailID,
+			TeacherAttendanceID,
+			ZoomRoomID,
+			IsRoomStart
 		} = event.resource
+		const { ID, CourseID, LinkDocument, IsExam, idx, CourseName, RoomName, BranchName, TeacherName, SubjectName } = event.resource
+
+		const date = new Date()
+		let checkDate = compare(getStrDate(event.start), getStrDate(date)) // -1: qua roi, 0: hom nay, 1: chua qua
+
+		const studyTimeStart = moment(event.start).add(-15, 'minutes').format('HH:mm')
+		const studyTimeEnd = moment(event.end).add(15, 'minutes').format('HH:mm')
+		const studyTime = moment(date).format('HH:mm')
+
+		console.log('studyTimeStart: ', studyTimeStart)
+		console.log('studyTimeEnd: ', studyTimeEnd)
+		console.log('studyTime: ', studyTime)
+		console.log('checkDate: ', checkDate)
+		console.log('studyTimeStart < studyTime: ', studyTimeStart < studyTime)
+		console.log('studyTime < studyTimeEnd: ', studyTime < studyTimeEnd)
+
+		const checkCreateZoom = () => {
+			if (studyTimeStart < studyTime && studyTime < studyTimeEnd) {
+				return true
+			} else {
+				return false
+			}
+		}
+		const attendZoom = async () => {
+			const DATA_SUBMIT = [
+				{
+					StudentID: userInformation.UserInformationID,
+					CourseID: dataDetail.CourseID,
+					CourseScheduleID: dataDetail.ID,
+					Date: new Date(),
+					Note: '',
+					StatusID: 1,
+					LearningStatusID: 1
+				}
+			]
+			const res = await rollUpApi.add(DATA_SUBMIT)
+			if (res.status === 200) {
+				window.open(dataDetail.SignatureStudent, '_blank')
+			}
+		}
+
+		const createZoom = async (ID) => {
+			setIsLoadingCalendar(true)
+			try {
+				const res = await zoomRoomApiNew.createZoom(ID)
+				if (res.status === 200) {
+					window.open(res.data.data.SignatureTeacher, '_blank')
+					fetchScheduleStudyTeacher()
+				}
+			} catch (err) {
+				showNoti('danger', err.message)
+			} finally {
+				setIsLoadingCalendar(false)
+			}
+		}
+
+		const closeZoom = async (ID) => {
+			setIsLoadingCalendar(true)
+			try {
+				const res = await zoomRoomApiNew.closeZoom(ID)
+				if (res.status === 200) {
+					fetchScheduleStudyTeacher()
+				}
+			} catch (err) {
+				showNoti('danger', err.message)
+			} finally {
+				setIsLoadingCalendar(false)
+			}
+		}
+
 		const content = (
 			<div className="course-dt-event-info" style={{ maxWidth: 300 }}>
 				<ul>
@@ -584,16 +814,51 @@ function CDCalendar(props) {
 							</Button>
 						</li>
 					)}
-					{isStudyZoom && (
-						<li>
-							{checkTypeButtonStudyZoom({
-								idx,
-								btnID,
-								btnName,
-								scheduleID: ID,
-								dataDetail
-							})}
-						</li>
+					{!!userInformation && (userInformation?.RoleID === 1 || userInformation?.RoleID === 2) && checkDate === 0 && checkCreateZoom() && (
+						<>
+							<Button
+								size="middle"
+								style={{ marginTop: 8, width: '100%' }}
+								onClick={() => {
+									// checkHandleStudyZoom(data)
+									createZoom(ID)
+								}}
+								className="btn-primary"
+							>
+								<LogIn className="mr-2" />
+								{!!ZoomRoomID ? 'Tạo lại' : 'Tạo phòng'}
+							</Button>
+						</>
+					)}
+
+					{checkDate === 0 && checkCreateZoom() && !!IsRoomStart && (
+						<>
+							<Button
+								size="middle"
+								style={{ marginTop: 8, width: '100%' }}
+								onClick={() => {
+									!!userInformation && userInformation?.RoleID === 3 ? attendZoom() : window.open(dataDetail.SignatureStudent, '_blank')
+								}}
+								className="btn-secondary"
+							>
+								<Cast className="mr-2" />
+								Tham gia phòng
+							</Button>
+
+							{!!userInformation && (userInformation?.RoleID === 1 || userInformation?.RoleID === 2) && (
+								<Button
+									size="middle"
+									style={{ marginTop: 8, width: '100%' }}
+									onClick={() => {
+										closeZoom(ID)
+									}}
+									className="btn-danger"
+								>
+									<Power className="mr-2" />
+									Đóng phòng học
+								</Button>
+							)}
+						</>
 					)}
 				</ul>
 			</div>
@@ -618,38 +883,135 @@ function CDCalendar(props) {
 		)
 
 		const contentBranch = (
+			// <div className="course-dt-event-info" style={{ maxWidth: 300 }}>
+			// 	<ul>
+			// 		{!!event.resource.data && (
+			// 			<>
+			// 				{event.resource.data.map((e, index) => {
+			// 					return (
+			// 						<li className="mb-1">
+			// 							<div
+			// 								className="calendar-item"
+			// 								onClick={(e) => {
+			// 									e.stopPropagation()
+			// 									e.nativeEvent.stopImmediatePropagation()
+			// 								}}
+			// 								style={{
+			// 									backgroundColor: '#dd4667'
+			// 								}}
+			// 							>
+			// 								<Popover
+			// 									zIndex={999}
+			// 									title={`GV: ${e?.TeacherName}`}
+			// 									content={() => childBranchContent(e)}
+			// 									placement="rightTop"
+			// 									trigger={window.matchMedia('(max-width: 1199px)').matches ? 'click' : 'hover'}
+			// 								>
+			// 									<div className="course-dt-event-2 custom-mouse">
+			// 										<div className="time">GV: {e?.TeacherName}</div>
+			// 									</div>
+			// 								</Popover>
+			// 							</div>
+			// 						</li>
+			// 					)
+			// 				})}
+			// 			</>
+			// 		)}
+			// 	</ul>
+			// </div>
+
 			<div className="course-dt-event-info" style={{ maxWidth: 300 }}>
 				<ul>
-					{!!event.resource.data && (
+					{CourseName && (
+						<li>
+							<span>Khóa học:</span> {CourseName}
+						</li>
+					)}
+					{StudyTimeName && (
+						<li>
+							<span>Ca:</span> {StudyTimeName}
+						</li>
+					)}
+					{SubjectName && (
+						<li>
+							<span>Môn học:</span> {SubjectName}
+						</li>
+					)}
+					{TeacherName && (
+						<li>
+							<span>GV:</span> {TeacherName}
+						</li>
+					)}
+					{LinkDocument && (
+						<li>
+							<span>Tài liệu: </span>
+							{LinkDocument ? (
+								<a href={LinkDocument} target="_blank" download>
+									<i>Click to download</i>
+								</a>
+							) : (
+								'Trống'
+							)}
+						</li>
+					)}
+					{isGetRecordList && (
+						<li>
+							<Button size="middle" className="mt-3 btn-success w-100" onClick={() => middlewareOpenModal(parseInt(ID), 'record')}>
+								Bản ghi buổi học
+							</Button>
+						</li>
+					)}
+					{isUploadDocument && (
+						<li>
+							<Button size="middle" className="mt-2 btn-warning w-100" onClick={() => middlewareOpenModal(parseInt(ID), 'document')}>
+								Thêm tài liệu
+							</Button>
+						</li>
+					)}
+					{!!userInformation && (userInformation?.RoleID === 1 || userInformation?.RoleID === 2) && checkDate === 0 && checkCreateZoom() && (
 						<>
-							{event.resource.data.map((e, index) => {
-								return (
-									<li className="mb-1">
-										<div
-											className="calendar-item"
-											onClick={(e) => {
-												e.stopPropagation()
-												e.nativeEvent.stopImmediatePropagation()
-											}}
-											style={{
-												backgroundColor: '#dd4667'
-											}}
-										>
-											<Popover
-												zIndex={999}
-												title={`GV: ${e?.TeacherName}`}
-												content={childBranchContent(e)}
-												placement="rightTop"
-												trigger={window.matchMedia('(max-width: 1199px)').matches ? 'click' : 'hover'}
-											>
-												<div className="course-dt-event-2 custom-mouse">
-													<div className="time">GV: {e?.TeacherName}</div>
-												</div>
-											</Popover>
-										</div>
-									</li>
-								)
-							})}
+							<Button
+								size="middle"
+								style={{ marginTop: 8, width: '100%' }}
+								onClick={() => {
+									// checkHandleStudyZoom(data)
+									createZoom(ID)
+								}}
+								className="btn-primary"
+							>
+								<LogIn className="mr-2" />
+								{!!ZoomRoomID ? 'Tạo lại' : 'Tạo phòng'}
+							</Button>
+						</>
+					)}
+
+					{checkDate === 0 && checkCreateZoom() && !!IsRoomStart && (
+						<>
+							<Button
+								size="middle"
+								style={{ marginTop: 8, width: '100%' }}
+								onClick={() => {
+									!!userInformation && userInformation?.RoleID === 3 ? attendZoom() : window.open(dataDetail.SignatureStudent, '_blank')
+								}}
+								className="btn-secondary"
+							>
+								<Cast className="mr-2" />
+								Tham gia phòng
+							</Button>
+
+							{!!userInformation && (userInformation?.RoleID === 1 || userInformation?.RoleID === 2) && (
+								<Button
+									size="middle"
+									style={{ marginTop: 8, width: '100%' }}
+									onClick={() => {
+										closeZoom(ID)
+									}}
+									className="btn-danger"
+								>
+									<Power className="mr-2" />
+									Đóng phòng học
+								</Button>
+							)}
 						</>
 					)}
 				</ul>
@@ -658,9 +1020,26 @@ function CDCalendar(props) {
 
 		return (
 			<div
+				className="calendar-item"
 				onClick={(e) => {
 					e.stopPropagation()
 					e.nativeEvent.stopImmediatePropagation()
+				}}
+				style={{
+					backgroundColor:
+						!!TeacherAttendanceID && TeacherAttendanceID !== 0
+							? '#80DEEA'
+							: IsExam !== undefined && IsExam == true
+							? '#FF9800'
+							: checkDate == 0
+							? btnID == undefined || btnID == null || btnID == ''
+								? '#fac10a'
+								: btnID == 3
+								? '#bdbdbd'
+								: '#fac10a'
+							: checkDate == -1
+							? '#bdbdbd'
+							: '#3174ad'
 				}}
 			>
 				<Popover
@@ -696,7 +1075,7 @@ function CDCalendar(props) {
 
 	return (
 		<div className="wrap-calendar">
-			<Spin spinning={!isLoaded} size="large" wrapperClassName="calendar-loading">
+			<Spin spinning={!!isLoadingCalendar} size="large" wrapperClassName="calendar-loading">
 				{/* @ts-ignore */}
 				<Calendar
 					className="custom-calendar"

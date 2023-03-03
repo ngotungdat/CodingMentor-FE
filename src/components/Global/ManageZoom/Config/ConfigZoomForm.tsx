@@ -1,26 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Form, Modal, Spin, Tooltip } from 'antd'
-import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputTextField from '~/components/FormControl/InputTextField'
-
-ConfigZoomForm.propTypes = {
-	isUpdate: PropTypes.bool,
-	updateObj: PropTypes.shape({}),
-	isLoading: PropTypes.shape({
-		type: PropTypes.string.isRequired,
-		status: PropTypes.bool.isRequired
-	}),
-	handleSubmit: PropTypes.func
-}
-ConfigZoomForm.defaultProps = {
-	isUpdate: false,
-	updateObj: {},
-	isLoading: { type: '', status: false },
-	handleSubmit: null
-}
 
 const ImageInstructions = (props) => {
 	const [imageVisible, setImageVisible] = useState(false)
@@ -61,21 +44,6 @@ const MoreInfo = () => (
 					<ImageInstructions step={1} />
 				</span>
 			</li>
-			{/* <li>
-				Tài khoản mail cũng là tài khoản cấu hình cần nhập. Có thể xem
-				<a
-					target="_blank"
-					href="https://zoom.us/signin"
-					style={{
-						paddingLeft: '5px',
-						textDecoration: 'underline',
-						color: 'blue'
-					}}
-				>
-					tại đây
-				</a>
-				. (Chọn show Sign-In Email và Copy)
-			</li> */}
 		</ul>
 		<div>
 			2. Sau khi đăng nhập ➝ Chọn "Develop" góc trên bên trái ➝ Build App ➝ Create App JWT. <ImageInstructions step={2} />
@@ -152,7 +120,7 @@ function ConfigZoomForm(props) {
 			{isUpdate ? (
 				<button className="btn btn-icon edit" onClick={openModal}>
 					<Tooltip title="Cập nhật">
-						<i className="fas fa-edit" style={{ color: '#34c4a4', fontSize: 16, marginBottom: -1 }}></i>
+						<i className="fas fa-edit" style={{ color: '#34c4a4', fontSize: 16 }}></i>
 					</Tooltip>
 				</button>
 			) : (

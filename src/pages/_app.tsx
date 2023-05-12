@@ -6,6 +6,7 @@ import OneSignal from 'react-onesignal'
 import { config } from '@fortawesome/fontawesome-svg-core'
 
 import { SessionProvider } from 'next-auth/react'
+import { GoogleAnalytics } from 'nextjs-google-analytics'
 
 // import css
 import 'bootstrap/dist/css/bootstrap.css'
@@ -72,6 +73,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 
 				<link rel="icon" href="/logo.png" />
 			</Head>
+
+			<GoogleAnalytics trackPageViews gaMeasurementId="G-WW99J0HJ1N" />
 
 			<SessionProvider session={session} refetchInterval={60 * 60 * 24}>
 				<WrapProvider>

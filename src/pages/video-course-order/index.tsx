@@ -100,14 +100,14 @@ const VideoCourseList = () => {
 			title: 'Tên người mua',
 			dataIndex: 'FullNameUnicode',
 			key: 'FullNameUnicode',
-			render: (value, item, index) => <div style={{ width: 200 }}>{value}</div>
+			render: (value, item, index) => <div style={{ width: 200, fontWeight: '600' }}>{value}</div>
 		},
 		{
 			title: 'Tổng thanh toán',
 			dataIndex: 'TotalPayment',
 			key: 'TotalPayment',
 			align: 'left',
-			render: (Action, data, index) => <div>{parseToMoney(data.TotalPayment)} AUD</div>
+			render: (Action, data, index) => !!data?.TotalPayment && <div>{parseToMoney(data.TotalPayment)} AUD</div>
 		},
 		{
 			title: 'Đã thanh toán',
@@ -129,11 +129,7 @@ const VideoCourseList = () => {
 			dataIndex: 'CreatedOn',
 			key: 'CreatedOn',
 			render: (Action, data, index) => (
-				<>
-					{!!data?.CreatedOn && (
-						<div style={{ width: 130 }}>{moment(data?.CreatedOn).format('DD/MM/yyyy') + ' ' + moment(data?.CreatedOn).format('HH:mm')}</div>
-					)}
-				</>
+				<>{!!data?.CreatedOn && <div style={{ width: 130 }}>{moment(data?.CreatedOn).format('DD/MM/YYYY HH:mm')}</div>}</>
 			)
 		},
 		{
@@ -141,13 +137,7 @@ const VideoCourseList = () => {
 			dataIndex: 'PaymentDate',
 			key: 'PaymentDate',
 			render: (Action, data, index) => (
-				<>
-					{data?.PaymentDate == null ? (
-						''
-					) : (
-						<div>{moment(data?.PaymentDate).format('DD/MM/yyyy') + ' ' + moment(data?.PaymentDate).format('HH:mm')}</div>
-					)}
-				</>
+				<>{data?.PaymentDate == null ? '' : <div style={{ width: 130 }}>{moment(data?.PaymentDate).format('DD/MM/YYYY HH:mm')}</div>}</>
 			)
 		},
 		{

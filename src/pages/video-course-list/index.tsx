@@ -268,7 +268,8 @@ const VideoCourseList = () => {
 		{
 			title: 'Người mua',
 			dataIndex: 'StudentName',
-			key: 'StudentName'
+			key: 'StudentName',
+			render: (value, item, index) => <div style={{ width: 200, fontWeight: '600' }}>{value}</div>
 		},
 		{
 			title: 'Điện thoại',
